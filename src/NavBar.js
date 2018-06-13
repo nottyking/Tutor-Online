@@ -6,8 +6,9 @@ import { Register } from './register';
 import { App } from './App';
 import { ContactUs } from './contact_us';
 import { Course } from './course';
+import { Student } from './student';
 
-const pages = ['home', 'course', 'register', 'contact_us'];
+const pages = ['home', 'course', 'register', 'contact_us', 'student'];
 
 export class NavBar extends React.Component {
 
@@ -32,6 +33,7 @@ export class NavBar extends React.Component {
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/contact_us" component={ContactUs} />
                         <Route exact path="/course" component={Course} />
+                        <Route exact path="/student" component ={Student}/>
                         <Route component={App} />
                     </Switch>
                 </BrowserRouter>

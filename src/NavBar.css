@@ -1,0 +1,14 @@
+.NavBar{
+  text-align: center;
+  background-color: lightblue;
+  height: 40px;
+  padding: 10px;
+  font-size: 20px;
+  color: black;
+}
+
+.TableBar{
+    text-align: center;
+    border-collapse: separate;
+    column-width: 100px;
+}

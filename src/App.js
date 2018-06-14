@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import Home from './Frontend/Home'
 import './App.css';
-import './NavBar.css';
+import NavBar from './Frontend/NavBar';
 
 export class App extends Component {
   render() {
     return (
       <div>
-          <Route path="/" render={()=><Home str={`TEST`} />} />
+          <Route path="/" render={()=><NavBar str={`TEST`} />} />
       </div>
     );
   }

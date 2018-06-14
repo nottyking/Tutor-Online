@@ -1,5 +1,5 @@
 import React from 'react';
-// import './NavBar.css';
+import './NavBar.css';
 import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Register } from './register';
@@ -10,7 +10,7 @@ import { Student } from './student';
 
 const pages = ['home', 'course', 'register', 'contact_us', 'student'];
 
-export default class Home extends React.Component {
+export default class NavBar extends React.Component {
 	// constructor(props) {
   //   super(props);
 	// 	this.state = {

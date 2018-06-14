@@ -1,6 +1,5 @@
 import React from 'react';
-import {Card} from 'antd';
-const {Meta} = Card
+import {Carousel} from 'react-bootstrap';
 
 /*
 Carousel Used as Slide Show in Main Window (or others page) by
@@ -10,17 +9,21 @@ get src [ List of {Cname(Coursename),Cimage(Link To CourseBannerImage),Clink(Lin
 export class Carousel extends React.Component{
 //Todo(1) change Antd to React-Bootstrap  
     render(){
-    const ListItems = this.praops.src.map(
-        (item)=><Card cover={<img alt="thumbnail" src={item.Cimage}/>}>
-        <Meta title={item.Cname} description={item.Cdesc}/>
-    />
-        </Card>
+    const ListItems = this.props.src.map(
+        (item)=>
+        <Carousel.Item>
+        <img width={900} height={500} alt="900x500" src={item.Cimage} />
+        <Carousel.Caption>
+          <h3>{item.Cname}</h3>
+          <p>{item.Cdesc}</p>
+        </Carousel.Caption>
+      </Carousel.Item>
     );
 
     return (
-        <div>
+        <Carousel>
         {ListItems}
-        </div>
+        </Carousel>
     );
     }
 }
@@ -31,9 +34,8 @@ Carousel.propType = {
 
 Carousel.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa"},
-        {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa"},
-        {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa"},
-        {Cname : "Math202", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa"}
+        {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
+        {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
+        {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
     ]
 };

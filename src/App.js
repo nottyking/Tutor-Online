@@ -8,7 +8,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-          <Route path="/" render={()=><Home str={`TEST`} />} />
+          <Route path="/" render={()=><Home />} />
       </div>
     );
   }

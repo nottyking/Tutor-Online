@@ -9,18 +9,16 @@ import {
     Button
   } from 'reactstrap';
 
+  import img1 from './Image/trianglify1.png';
+  import img2 from './Image/trianglify2.png';
+
 /*
 Carousel Used as Slide Show in Main Window (or others page) by
 get src [ List of {Cname(Coursename),Cimage(Link To CourseBannerImage),Clink(Link to Course Page),Cdesc(Course Description)}]
 */
 
-//Todo(1) Do an Props propery 
+//Todo(1) Add Link to Each of Slide
 
-const     items= [
-    {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
-    {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
-    {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
-];
 export class CourseCarousel extends React.Component{
 
 constructor(props) {
@@ -43,13 +41,13 @@ constructor(props) {
 
   next() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
+    const nextIndex = this.state.activeIndex === this.props.src.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
+    const nextIndex = this.state.activeIndex === 0 ? this.props.src.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   }
 
@@ -61,8 +59,9 @@ constructor(props) {
   render() {
 
     const { activeIndex } = this.state;
+    const src = this.props.src;
 
-    const slides = items.map((item) => {
+    const slides = src.map((item) => {
       return (
         <CarouselItem
           onExiting={this.onExiting}
@@ -82,7 +81,7 @@ constructor(props) {
         next={this.next}
         previous={this.previous}
       >
-        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+        <CarouselIndicators items={src} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
         {slides}
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
         <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
@@ -93,7 +92,7 @@ constructor(props) {
     
 }
 
-Carousel.propTypes = {
+CourseCarousel.propTypes = {
     src: PropTypes.arrayOf(PropTypes.shape({
         Cname : PropTypes.string.isRequired,
          Cimage : PropTypes.string.isRequired,
@@ -102,10 +101,10 @@ Carousel.propTypes = {
     })).isRequired
 }
 
-Carousel.defaultProps = {
+CourseCarousel.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
-        {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
-        {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
+        {Cname : "Math101", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-3.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
+        {Cname : "Math102", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-2.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
+        {Cname : "Math201", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-3.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
     ]
 };

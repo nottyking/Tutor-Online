@@ -1,15 +1,5 @@
 import React from 'react';
-import './NavBar.css';
-import { Switch, Route } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
-import { Register } from './register';
-import {RegisterForm} from './register';
-import { Content } from './Content';
-import { ContactUs } from './contact_us';
-import { Course } from './course';
-import { Student } from './student';
-import { Learning } from './Learning';
-
+import Proptypes from 'prop-types'
 import {
     Collapse,
     Navbar,
@@ -19,9 +9,13 @@ import {
     NavItem,
     NavLink} from 'reactstrap';
 
-const pages = ['home', 'course', 'register', 'contact_us', 'student','learning'];
+/* SubCourseProgressBar used in learning window like a sidebar to show where this clip is in the All of clips in the Course
+Get prop Now(SCId of this video),Src:[{SCId(Sub Course Id), SCName, SCLink*May Be Not*)}]
+*/
 
-export default class NavBar extends React.Component {
+const pages = ['home', 'course', 'register', 'contact_us', 'student'];
+
+export default class SubCourseProgressBar extends React.Component {
     constructor(props) {
         super(props);
     
@@ -49,7 +43,7 @@ export default class NavBar extends React.Component {
     );
     return (
         < div >
-        <Navbar color="dark" dark expand="md">
+        <Navbar color="light" light expand="md">
           <NavbarBrand href="/">Tutor-Onlinee</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -65,8 +59,6 @@ export default class NavBar extends React.Component {
             <Route exact path="/contact_us" component={ContactUs} />
             <Route exact path="/course" component={Course} />
             <Route exact path="/student" component ={Student}/>
-            <Route exact path="/learning" component ={Learning}/>
-            
             <Route component={Content} />
         </Switch>
     </BrowserRouter>
@@ -75,3 +67,19 @@ export default class NavBar extends React.Component {
     );
 	}
 }
+
+SubCourseProgressBar.propTypes = {
+    now: PropTypes.numbers.isRequired
+    src: PropTypes.arrayOf(PropTypes.shape({
+        SCname : PropTypes.string.isRequired,
+         Clink: PropTypes.string.isRequired,
+    })).isRequired
+}
+
+SubCourseProgressBar.defaultProps = {
+    src: [
+        {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
+        {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
+        {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
+    ]
+};

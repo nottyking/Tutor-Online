@@ -1,4 +1,13 @@
 import React, { Component } from 'react';
+import {Row,
+    Col,
+    Container
+} from 'reactstrap'
+
+/*
+prop 
+
+*/
 
 export class Course extends React.Component {
     render() {

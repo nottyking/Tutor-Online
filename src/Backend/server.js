@@ -4,25 +4,15 @@ const http = require('http');
 const mysql = require('mysql');
 const app = express();
 const bodyParser = require('body-parser');
-// const con = require('./Config/database')
+const con = require('./config/database')
 
-var con = mysql.createConnection({
-  host     : '127.0.0.1',
-  user     : 'root',
-  password : 'root',
-  database : 'tutoronline',
-  port : '3306'
-})
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Database connected at 127.0.0.1:3306!");
-});
-
-// var checkAuthentificate = require('./controller/checkAuthentificate');
-var registerController = require('./controller/register');
-//
-app.use('/register', registerController);
-// app.use('/student' , studentController);
+// All route is in routerList file
+const routerList = require('./routerList');
+for(var i = 0 ; i < routerList.path.length ; i++){
+  var nowPath = routerList.path[i];
+  var nowRouteTo = routerList.routeTo[i];
+  app.use(nowPath, nowRouteTo);
+}
 
 app.use(cors())
 app.use(bodyParser.json());

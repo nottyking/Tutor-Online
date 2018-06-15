@@ -1,7 +1,12 @@
 import React from 'react';
+<<<<<<< HEAD
 import NavBar from '../NavBar';
 import axios from 'axios';
 import ipList from '../../Config/ipConfig'
+=======
+import './register.css';
+
+>>>>>>> e88383234928c8e695c59cc59422f88476b2c4b8
 export class Success extends React.Component {
 
     constructor(props) {
@@ -21,7 +26,7 @@ export class Success extends React.Component {
                     <h1>
                         Success
                     </h1>
-                    <button>Home</button>
+                    <a href = {"./"}>Click here to go back to Home</a>
                 </div>
             );
         }

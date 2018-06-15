@@ -14,6 +14,12 @@
   color: white;
 }
 
+.Register-header {
+  background-color: #222;
+  padding: 30px;
+  color: white;
+}
+
 .App-title {
   font-size: 1.5em;
 }

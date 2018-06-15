@@ -1,73 +1,106 @@
 import React from 'react';
 import './register.css';
+import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export class AccountFields extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {reset : 1};
+        this.state = { passwordModal: false };
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.resetLabel = this.resetLabel.bind(this);
+        this.passwordToggle = this.passwordToggle.bind(this);
     }
 
     render() {
         return (
             <div>
-                <h1>This is Register Page</h1>
-                <label>First Name : </label>
-                <input className='Register-label'
-                    type='text'
-                    ref='fName'
-                    defaultValue={this.props.fieldValues.fName} />
-                <br /><br />
-                <label>Last Name : </label>
-                <input className='Register-label'
-                    type='text'
-                    ref='lName'
-                    defaultValue={this.props.fieldValues.lName} />
-                <br /><br />
-                <label>Password : </label>
-                <input className='Register-label'
-                    type='password'
-                    ref='password'
-                    defaultValue={this.props.fieldValues.password} />
-                <br /><br />
-                <label>Re-Password : </label>
-                <input className='Register-label'
-                    type='password'
-                    ref='rePassword'
-                    defaultValue={this.props.fieldValues.rePassword} />
-                <br /><br />
-                <button className='Register-label' onClick={this.resetLabel}>Reset</button> <t />
-                <button className='Register-label' onClick={this.saveAndContinue}>Save And Continue</button>
+                {/* REGISTER FORM */}
+                <h1>REGISTER</h1>
+                <Form className='Register-form'>
+                    <FormGroup row>
+                        <Label sm={{ size: 1 }}>First Name</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='text' id='fName' defaultValue={this.props.fieldValues.fName} placeholder='Enter your first name' />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={1} >Last Name</Label>
+                        <Col sm={{ size: 4, order: 4 }}>
+                            <Input type='text' id='lName' defaultValue={this.props.fieldValues.lName} placeholder='Enter your Surname' />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={1}>Password</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='password' id='password' defaultValue={this.props.fieldValues.password} placeholder='Enter your password' />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={1}>Re-Password</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='password' id='rePassword' defaultValue={this.props.fieldValues.rePassword} placeholder='Enter password again' />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup align='center'>
+                        <Button onClick={this.resetLabel}>Reset</Button> <t />
+                        <Button onClick={this.saveAndContinue}>Save And Continue</Button>
+                    </FormGroup>
+                </Form>
+
+
+
+                {/* HANDLE WARNING */}
+                <Modal isOpen={this.state.passwordModal} toggle={this.passwordToggle}>
+                    <ModalHeader>WARNING</ModalHeader>
+                    <ModalBody>
+                        Your Password and Re-Password not match!!
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color='danger' onClick={this.passwordToggle}>OK</Button>
+                    </ModalFooter>
+                </Modal>
+
             </div>
         );
+
+    }
+
+    passwordToggle() {
+        this.setState({
+            passwordModal: !this.state.passwordModal
+        })
+        console.log('Toggle');
     }
 
     saveAndContinue(event) {
         event.preventDefault();
         var data = {
-            fName: this.refs.fName.value,
-            lName: this.refs.lName.value,
-            password: this.refs.password.value,
-            rePassword: this.refs.rePassword.value
+            fName: document.getElementById('fName').value,
+            lName: document.getElementById('lName').value,
+            password: document.getElementById('password').value,
+            rePassword: document.getElementById('rePassword').value
         }
 
-        //Chcek ID from database
-        if (data.password != data.rePassword) {//Check Password & re-password
 
+        //Chcek ID from database
+        if (data.password != data.rePassword || data.password == '') {//Check Password & re-password
+            this.passwordToggle();
+            document.getElementById('password').value = ''
+            document.getElementById('rePassword').value = ''
         }
         //Check Email
         //Check ...
-
-        this.props.saveValues(data)
-        this.props.nextStep()
+        else {//Pass Every Condition
+            this.props.saveValues(data)
+            this.props.nextStep()
+        }
     }
 
     resetLabel() {
-        this.refs.fName.value = ''
-        this.refs.lName.value = ''
-        this.refs.password.value =''
-        this.refs.rePassword.value = ''
+        document.getElementById('fName').value = ''
+        document.getElementById('lName').value = ''
+        document.getElementById('password').value = ''
+        document.getElementById('rePassword').value = ''
     }
 }

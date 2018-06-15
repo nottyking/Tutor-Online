@@ -3,6 +3,13 @@
     padding: 30px;
     color: white;
   }
+
+  .Register-form {
+    text-align: left;
+    background-color: lightblue;
+    padding: 30px;
+    color: black;
+  }
   
 .Register-label{
     color: black;

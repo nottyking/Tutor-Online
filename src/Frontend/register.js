@@ -5,8 +5,8 @@ import { Success } from './register/Success';
 import './register/register.css';
 
 var fieldValues = {
-  fName: '',
-  lName: '',
+  username: '',
+  email: '',
   password: '',
   rePassword: '',
 }

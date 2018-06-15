@@ -1,5 +1,6 @@
 import React from 'react';
 import './register.css';
+import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export class Confirmation extends React.Component {
     constructor(props) {
@@ -12,49 +13,44 @@ export class Confirmation extends React.Component {
         return (
             <div>
                 <h1> This is Confirmation </h1>
-                <label>First Name : </label>
-                <input className='Register-label'
-                    type='text'
-                    ref='fName'
-                    disabled
-                    defaultValue={this.props.fieldValues.fName} />
-                <br /><br />
-                <label>Last Name : </label>
-                <input className='Register-label'
-                    type='text'
-                    ref='lName'
-                    disabled
-                    defaultValue={this.props.fieldValues.lName} />
-                <br /><br />
-                <label>Password : </label>
-                <input className='Register-label'
-                    type='password'
-                    ref='password'
-                    disabled
-                    defaultValue={this.props.fieldValues.password} />
-                <br /><br />
-                <button className='Register-label' onClick={this.backToPreviousPage}>Back</button> <t />
-                <button className='Register-label' onClick={this.saveAndContinue}>Save And Continue</button>
+
+                <Form className='Register-form'>
+                    <FormGroup row>
+                        <Label sm={1} >Username</Label>
+                        <Col sm={{ size: 4, order: 4 }}>
+                            <Input type='text' id='username' defaultValue={this.props.fieldValues.username} disabled />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={{ size: 1 }}>E-mail</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='email' id='email' defaultValue={this.props.fieldValues.email} disabled />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label sm={1}>Password</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='password' id='password' defaultValue={this.props.fieldValues.password} disabled />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup align='center'>
+                        <Button onClick={this.backToPreviousPage}>Back</Button> <t />
+                        <Button onClick={this.saveAndContinue}>Save And Continue</Button>
+                    </FormGroup>
+                </Form>
             </div>
         );
     };
 
-    saveAndContinue(event) {
-        event.preventDefault();
-        var data = {
-            fName: this.refs.fName.value,
-            lName: this.refs.lName.value,
-        }
-
-        this.props.saveValues(data)
-        this.props.nextStep()
+    saveAndContinue() {
+        this.props.nextStep();
     }
 
     backToPreviousPage(event) {
         event.preventDefault();
         var data = {
-            fName: this.refs.fName.value,
-            lName: this.refs.lName.value,
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
             password: '',
             rePassword: ''
 

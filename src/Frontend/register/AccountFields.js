@@ -6,10 +6,11 @@ export class AccountFields extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { passwordModal: false };
+        this.state = { Modal: false, ModalMessage: ''};
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.resetLabel = this.resetLabel.bind(this);
-        this.passwordToggle = this.passwordToggle.bind(this);
+        this.modalToggle = this.modalToggle.bind(this);
+        this.checkValidUsername = this.checkValidUsername.bind(this);
     }
 
     render() {
@@ -19,15 +20,15 @@ export class AccountFields extends React.Component {
                 <h1>REGISTER</h1>
                 <Form className='Register-form'>
                     <FormGroup row>
-                        <Label sm={{ size: 1 }}>First Name</Label>
-                        <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='text' id='fName' defaultValue={this.props.fieldValues.fName} placeholder='Enter your first name' />
+                        <Label sm={1} >Username</Label>
+                        <Col sm={{ size: 4, order: 4 }}>
+                            <Input type='text' id='username' defaultValue={this.props.fieldValues.username} placeholder='Enter your Username' />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={1} >Last Name</Label>
-                        <Col sm={{ size: 4, order: 4 }}>
-                            <Input type='text' id='lName' defaultValue={this.props.fieldValues.lName} placeholder='Enter your Surname' />
+                        <Label sm={{ size: 1 }}>E-mail</Label>
+                        <Col sm={{ size: 4, order: 2 }}>
+                            <Input type='email' id='email' defaultValue={this.props.fieldValues.email} placeholder='Enter your email' />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -51,13 +52,13 @@ export class AccountFields extends React.Component {
 
 
                 {/* HANDLE WARNING */}
-                <Modal isOpen={this.state.passwordModal} toggle={this.passwordToggle}>
+                <Modal isOpen={this.state.Modal} toggle={this.modalToggle}>
                     <ModalHeader>WARNING</ModalHeader>
                     <ModalBody>
-                        Your Password and Re-Password not match!!
+                        {this.state.ModalMessage}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color='danger' onClick={this.passwordToggle}>OK</Button>
+                        <Button color='danger' onClick={this.modalToggle}>OK</Button>
                     </ModalFooter>
                 </Modal>
 
@@ -66,26 +67,36 @@ export class AccountFields extends React.Component {
 
     }
 
-    passwordToggle() {
+    modalToggle() {
         this.setState({
-            passwordModal: !this.state.passwordModal
+            Modal: !this.state.Modal
         })
-        console.log('Toggle');
+        document.getElementById('password').value = ''
+        document.getElementById('rePassword').value = ''
     }
 
     saveAndContinue(event) {
         event.preventDefault();
         var data = {
-            fName: document.getElementById('fName').value,
-            lName: document.getElementById('lName').value,
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
             password: document.getElementById('password').value,
             rePassword: document.getElementById('rePassword').value
         }
 
-
-        //Chcek ID from database
-        if (data.password != data.rePassword || data.password == '') {//Check Password & re-password
-            this.passwordToggle();
+        //Check Username
+        if(!this.checkValidUsername()){
+            this.setState({ ModalMessage: 'Your username is not valid' })
+            this.modalToggle();
+        }
+        //Chcek Password from database
+        else if (data.password == '') {//Check Password & re-password
+            this.setState({ ModalMessage: 'Please enter your password' })
+            this.modalToggle();
+        }
+        else if (data.password != data.rePassword) {//Check Password & re-password
+            this.setState({ ModalMessage: 'Your Password and Re-password is not match' })
+            this.modalToggle();
             document.getElementById('password').value = ''
             document.getElementById('rePassword').value = ''
         }
@@ -97,9 +108,15 @@ export class AccountFields extends React.Component {
         }
     }
 
+    checkValidUsername(){
+        if(document.getElementById('username').value.length < 8 || document.getElementById('username').value.length > 20) return false;
+        //check from database
+        return true;
+    }
+
     resetLabel() {
-        document.getElementById('fName').value = ''
-        document.getElementById('lName').value = ''
+        document.getElementById('username').value = ''
+        document.getElementById('email').value = ''
         document.getElementById('password').value = ''
         document.getElementById('rePassword').value = ''
     }

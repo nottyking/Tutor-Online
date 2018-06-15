@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../NavBar';
+import './register.css';
 
 export class Success extends React.Component {
 
@@ -20,7 +20,7 @@ export class Success extends React.Component {
                     <h1>
                         Success
                     </h1>
-                    <button>Home</button>
+                    <a href = {"./"}>Click here to go back to Home</a>
                 </div>
             );
         }

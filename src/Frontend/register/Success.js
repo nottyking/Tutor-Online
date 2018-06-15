@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../NavBar';
-
+import axios from 'axios';
+import ipList from '../../Config/ipConfig'
 export class Success extends React.Component {
 
     constructor(props) {

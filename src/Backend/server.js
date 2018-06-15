@@ -2,9 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const mysql = require('mysql');
-const app = express();
-const bodyParser = require('body-parser');
 const con = require('./config/database')
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
 
 // All route is in routerList file
 const routerList = require('./routerList');
@@ -14,10 +18,7 @@ for(var i = 0 ; i < routerList.path.length ; i++){
   app.use(nowPath, nowRouteTo);
 }
 
-app.use(cors())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.bodyParser());
+
 
 const server = http.createServer(app);
 

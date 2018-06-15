@@ -8,7 +8,7 @@ get src [ List of {Cname(Coursename),Cimage(Link To CourseThumbnailImage),Cdesc(
 */
 
 export class CoursePresent extends React.Component{
-//Todo(1) change Antd to React-Bootstrap  
+//Todo(1) change Antd to React-Bootstrap
     render(){
     const ListItems = this.praops.src.map(
         (item)=><Card cover={<img alt="thumbnail" src={item.Cimage}/>}>

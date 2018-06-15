@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './Image/logo.svg';
-import {Carousel} from './Carousel';
-import {CoursePresent} from './CoursePresent';
+// import {Carousel} from './Carousel';
+// import {CoursePresent} from './CoursePresent';
 // import './App.css';
 
 export class Content extends Component {
@@ -12,8 +12,6 @@ export class Content extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Tutor Online</h1>
         </header>
-        <Carousel/>
-        <CoursePresent/>
         <p className="App-intro">
           This is home page
         </p>
@@ -22,5 +20,7 @@ export class Content extends Component {
   }
 }
 
+// <Carousel/>
+// <CoursePresent/>
 
 export default Content;

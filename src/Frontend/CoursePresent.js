@@ -1,20 +1,33 @@
 import React from 'react';
-import {Card} from 'antd';
-const {Meta} = Card
+import PropTypes from 'prop-types'
+import { Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button } from 'reactstrap';
 
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
 get src [ List of {Cname(Coursename),Cimage(Link To CourseThumbnailImage),Cdesc(Course Description)}]
 */
 
+const src= [
+    {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
+    {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
+    {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
+    {Cname : "Math202", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"}
+];
+
 export class CoursePresent extends React.Component{
 //Todo(1) change Antd to React-Bootstrap  
     render(){
-    const ListItems = this.praops.src.map(
-        (item)=><Card cover={<img alt="thumbnail" src={item.Cimage}/>}>
-        <Meta title={item.Cname} description={item.Cdesc}/>
-    />
-        </Card>
+    //const ListItems = this.props.src.map(
+    const ListItems = src.map(
+        (item,i)=><Card key={i}>
+        <CardImg top width="100%" src={item.Cimage} alt="Card image cap" />
+        <CardBody>
+          <CardTitle>{item.Cname}</CardTitle>
+          <CardText>{item.Cdesc}</CardText>
+          <Button>Button</Button>
+        </CardBody>
+      </Card>
     );
 
     return (
@@ -26,7 +39,7 @@ export class CoursePresent extends React.Component{
 }
 
 CoursePresent.propType = {
-    src: React.PropTypes.array.isRequired
+    src: PropTypes.array.isRequired
 };
 
 CoursePresent.defaultProps = {

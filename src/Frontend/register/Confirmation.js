@@ -1,33 +1,40 @@
 import React from 'react';
+import './register.css';
 
 export class Confirmation extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.backToPreviousPage = this.backToPreviousPage.bind(this);
     }
-    
+
     render() {
         return (
             <div>
                 <h1> This is Confirmation </h1>
                 <label>First Name : </label>
-                <input type='text'
+                <input className='Register-label'
+                    type='text'
                     ref='fName'
+                    disabled
                     defaultValue={this.props.fieldValues.fName} />
                 <br /><br />
                 <label>Last Name : </label>
-                <input type='text'
+                <input className='Register-label'
+                    type='text'
                     ref='lName'
+                    disabled
                     defaultValue={this.props.fieldValues.lName} />
                 <br /><br />
                 <label>Password : </label>
-                <input type='password'
+                <input className='Register-label'
+                    type='password'
                     ref='password'
+                    disabled
                     defaultValue={this.props.fieldValues.password} />
                 <br /><br />
-                <button onClick={this.backToPreviousPage}>Back</button> <t />  
-                <button onClick={this.saveAndContinue}>Save And Continue</button>
+                <button className='Register-label' onClick={this.backToPreviousPage}>Back</button> <t />
+                <button className='Register-label' onClick={this.saveAndContinue}>Save And Continue</button>
             </div>
         );
     };
@@ -50,7 +57,7 @@ export class Confirmation extends React.Component {
             lName: this.refs.lName.value,
             password: '',
             rePassword: ''
-            
+
         }
 
         this.props.saveValues(data)

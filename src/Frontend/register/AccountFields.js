@@ -1,12 +1,13 @@
 import React from 'react';
+import './register.css';
 
 export class AccountFields extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {reset : 1};
         this.saveAndContinue = this.saveAndContinue.bind(this);
-        this.backToPreviousPage = this.backToPreviousPage.bind(this);
-        this.resetLabel = this.resetLabel(this);
+        this.resetLabel = this.resetLabel.bind(this);
     }
 
     render() {
@@ -14,27 +15,31 @@ export class AccountFields extends React.Component {
             <div>
                 <h1>This is Register Page</h1>
                 <label>First Name : </label>
-                <input type='text'
+                <input className='Register-label'
+                    type='text'
                     ref='fName'
                     defaultValue={this.props.fieldValues.fName} />
                 <br /><br />
                 <label>Last Name : </label>
-                <input type='text'
+                <input className='Register-label'
+                    type='text'
                     ref='lName'
                     defaultValue={this.props.fieldValues.lName} />
                 <br /><br />
                 <label>Password : </label>
-                <input type='password'
+                <input className='Register-label'
+                    type='password'
                     ref='password'
                     defaultValue={this.props.fieldValues.password} />
                 <br /><br />
                 <label>Re-Password : </label>
-                <input type='password'
+                <input className='Register-label'
+                    type='password'
                     ref='rePassword'
                     defaultValue={this.props.fieldValues.rePassword} />
                 <br /><br />
-                <button onClick={this.resetLabel}>Reset</button> <t />
-                <button onClick={this.saveAndContinue}>Save And Continue</button>
+                <button className='Register-label' onClick={this.resetLabel}>Reset</button> <t />
+                <button className='Register-label' onClick={this.saveAndContinue}>Save And Continue</button>
             </div>
         );
     }
@@ -48,24 +53,21 @@ export class AccountFields extends React.Component {
             rePassword: this.refs.rePassword.value
         }
 
+        //Chcek ID from database
+        if (data.password != data.rePassword) {//Check Password & re-password
+
+        }
+        //Check Email
+        //Check ...
+
         this.props.saveValues(data)
         this.props.nextStep()
     }
 
-    backToPreviousPage(event) {
-        event.preventDefault();
-        var data = {
-            fName: this.refs.fName.value,
-            lName: this.refs.lName.value,
-            password: this.refs.password.value,
-            rePassword: this.refs.rePassword.value
-        }
-
-        this.props.saveValues(data)
-        this.props.previousStep()
-    }
-
     resetLabel() {
-        this.props.previousStep()
+        this.refs.fName.value = ''
+        this.refs.lName.value = ''
+        this.refs.password.value =''
+        this.refs.rePassword.value = ''
     }
 }

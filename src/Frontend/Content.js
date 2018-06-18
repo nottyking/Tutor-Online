@@ -13,6 +13,7 @@ export class Content extends Component {
         <p className="App-intro">
           This is home page
         </p>
+        <footer>page footer</footer>
       </div>
     );
   }

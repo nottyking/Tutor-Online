@@ -75,7 +75,7 @@ constructor(props) {
     });
 
     return (
-    <div>
+    <div style={{backgroundColor:"#222"}}>
       <Carousel
         activeIndex={activeIndex}
         next={this.next}

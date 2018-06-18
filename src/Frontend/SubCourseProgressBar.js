@@ -38,8 +38,9 @@ export class SubCourseProgressBar extends React.Component {
     const Buttons = src.map(item => {
         if(item.SCid === this.props.now){
         return (
-            <Button color="primary">
-                {item.SCname}
+            <Button color="warning">
+            
+            <i class="fa">&#xf097;</i>  {item.SCname}
             </Button>
         )
     }
@@ -54,7 +55,7 @@ export class SubCourseProgressBar extends React.Component {
 
     );
     return (
-        < div >
+        < div style={{'padding-top':20}}>
         <ButtonGroup vertical>
         {Buttons}
         </ButtonGroup>

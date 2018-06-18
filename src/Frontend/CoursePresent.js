@@ -15,19 +15,19 @@ export class CoursePresent extends React.Component{
     const src= this.props.src;
     const ListItems = src.map(
         (item,i)=><Col>
-        <Card key={i} style={{width:332}}>
+        <Card key={i} style={{width:332,marginTop:20}}>
         <CardImg  src={item.Cimage} alt="Card image cap" />
         <CardBody>
           <CardTitle>{item.Cname}</CardTitle>
           <CardText>{item.Cdesc}</CardText>
-          <Button>Button</Button>
+          <Button>Register</Button>
         </CardBody>
       </Card>
       </Col>
     );
 
     return (
-        <Container>
+        <Container >
         <Row>
         {ListItems}
         </Row>

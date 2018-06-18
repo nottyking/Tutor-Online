@@ -39,7 +39,7 @@ export default class NavBar extends React.Component {
 
 	render() {
     const pageList = pages.map(page => {
-        const link = page == 'home' ? '' : page;
+        const link = page === 'home' ? '' : page;
         return (
             <NavItem>
                 <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>

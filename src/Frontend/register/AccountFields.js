@@ -33,9 +33,10 @@ export class AccountFields extends React.Component {
             <div>
                 {/* REGISTER FORM */}
                 <h1>REGISTER</h1>
+
                 <Form className='Register-form'>
                     <FormGroup row>
-                        <Label sm={1} >Username</Label>
+                        <Label sm={{ size: 2, order: 2, offset: 3 }} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
                             <Input type='text' id='username'
                                 defaultValue={this.props.fieldValues.username} placeholder='Enter your Username'
@@ -47,7 +48,7 @@ export class AccountFields extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={{ size: 1 }}>E-mail</Label>
+                        <Label sm={{ size: 2, order: 2, offset: 3 }}>E-mail</Label>
                         <Col sm={{ size: 4, order: 2 }}>
                             <Input type='email' id='email'
                                 defaultValue={this.props.fieldValues.email} placeholder='Enter your email'
@@ -59,7 +60,7 @@ export class AccountFields extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={1}>Password</Label>
+                        <Label sm={{ size: 2, order: 2, offset: 3 }}>Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
                             <Input type='password' id='password'
                                 defaultValue={this.props.fieldValues.password} placeholder='Enter your password'
@@ -71,7 +72,7 @@ export class AccountFields extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={1}>Re-Password</Label>
+                        <Label sm={{ size: 2, order: 1, offset: 3 }}>Re-Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
                             <Input type='password' id='rePassword'
                                 defaultValue={this.props.fieldValues.rePassword} placeholder='Enter password again'
@@ -88,6 +89,7 @@ export class AccountFields extends React.Component {
                         <Button onClick={this.saveAndContinue}>Save And Continue</Button>
                     </FormGroup>
                 </Form>
+
 
 
 
@@ -225,6 +227,7 @@ export class AccountFields extends React.Component {
 
     //For reset form value
     resetLabel() {
+        this.setState({ defaultUsername: true, defaultEmail: true, defaultPassword: true, defaultRePassword: true })
         document.getElementById('username').value = ''
         document.getElementById('email').value = ''
         document.getElementById('password').value = ''

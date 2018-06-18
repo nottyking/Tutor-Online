@@ -3,7 +3,6 @@ import './NavBar.css';
 import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Register } from './register';
-import {RegisterForm} from './register';
 import { Content } from './Content';
 import { ContactUs } from './contact_us';
 import { Course } from './Course';

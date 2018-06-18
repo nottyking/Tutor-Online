@@ -10,24 +10,31 @@ export class Learning extends React.Component {
   render () {
     return (
       <div className='App'>
-        <header className='App-header'>
-          <h3>Course Name</h3>
-        </header>
-        <Container fluid={true} className='bg-secondary'>
+          
+        <Container fluid className='bg-secondary'>
+        <h3 style={{textAlign:'left',padding:10,textDecoration:'underline',color:'#FFF'}}>    Course Name</h3>
           <Row>
-            <Col xs='10'>
-            <iframe width='100%' height='400' src='https://www.youtube.com/embed/tgbNymZ7vqY'>
+            <Col xs='11'>
+            <iframe width='100%' height='400' 
+            src='https://www.youtube.com/embed/tgbNymZ7vqY' 
+            allowfullscreen="allowfullscreen"
+            mozallowfullscreen="mozallowfullscreen" 
+            msallowfullscreen="msallowfullscreen" 
+            oallowfullscreen="oallowfullscreen" 
+            webkitallowfullscreen="webkitallowfullscreen"
+            style={{borderColor:'#333',borderRadius:8}}
+            title="learnvideo">
             </iframe>
-            <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
+            <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333',padding:10,marginTop:10,marginBottom:20 }}>
               <CardTitle>
                 Course Description
               </CardTitle>
-              <CardText>
+              <CardText >
               he shortcuts will work almost everywhere where it makes sense, and you can combine them, so to make an italic link use [_this_] or _[this]_. Some controls like Paragraph or Label allow you to “unbold” the text via the Property Inspector panel. If you do so, the words you *bolded* will stay bold. A few controls use bold text by default, so bolding text within those controls won’t make a difference. If you want to show these special formatting characters as actual text, you can escape the *, _, -, [ and ] characters with \*, \_, \-, \[ and \], so if you want to write “this [is] some text” and don’t want the “is” to become a link, just type “this \[is\] some text”. Line Breaks Most controls allow you to insert a line break to wrap text from one line to the next. You can do this by writing \r in front of the text you want to start on a new line. See the example below where a line break is used in the second item in a Radio Button control.
               </CardText>
             </Card>
             </Col>
-            <Col xs='2'>
+            <Col xs='1'>
             <SubCourseProgressBar/>
             </Col>
           </Row>

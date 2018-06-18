@@ -38,7 +38,7 @@ export class SubCourseProgressBar extends React.Component {
     const Buttons = src.map(item => {
         if(item.SCid === this.props.now){
         return (
-            <Button color="warning">
+            <Button color="warning" block>
             
             <i class="fa">&#xf097;</i>  {item.SCname}
             </Button>
@@ -46,7 +46,7 @@ export class SubCourseProgressBar extends React.Component {
     }
         else{
             return(
-            <Button color="secondary">
+            <Button color="secondary" block>
                 {item.SCname.toUpperCase()}
             </Button>
             )

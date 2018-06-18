@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './Image/logo.svg';
 import {CourseCarousel} from './CourseCarousel';
 import {CoursePresent} from './CoursePresent';
+import {Footer} from './Footer'
 // import './App.css';
 
 export class Content extends Component {
@@ -10,10 +11,7 @@ export class Content extends Component {
       <div className="App">
         <CourseCarousel/>
         <CoursePresent/> 
-        <p className="App-intro">
-          This is home page
-        </p>
-        <footer>page footer</footer>
+        <Footer/>
       </div>
     );
   }

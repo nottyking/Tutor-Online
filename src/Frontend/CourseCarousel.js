@@ -9,9 +9,6 @@ import {
     Button
   } from 'reactstrap';
 
-  import img1 from './Image/trianglify1.png';
-  import img2 from './Image/trianglify2.png';
-
 /*
 Carousel Used as Slide Show in Main Window (or others page) by
 get src [ List of {Cname(Coursename),Cimage(Link To CourseBannerImage),Clink(Link to Course Page),Cdesc(Course Description)}]

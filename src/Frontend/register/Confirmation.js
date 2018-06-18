@@ -15,7 +15,7 @@ export class Confirmation extends React.Component {
                 <h1> This is Confirmation </h1>
 
                 <Form className='Register-form'>
-                    <FormGroup row>
+                    <FormGroup row >
                         <Label sm={1} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
                             <Input type='text' id='username' defaultValue={this.props.fieldValues.username} disabled />
@@ -38,6 +38,7 @@ export class Confirmation extends React.Component {
                         <Button onClick={this.saveAndContinue}>Save And Continue</Button>
                     </FormGroup>
                 </Form>
+
             </div>
         );
     };

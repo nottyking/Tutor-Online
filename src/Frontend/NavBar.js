@@ -6,7 +6,7 @@ import { Register } from './register';
 import {RegisterForm} from './register';
 import { Content } from './Content';
 import { ContactUs } from './contact_us';
-import { Course } from './course';
+import { Course } from './Course';
 import { Student } from './student';
 import { Learning } from './Learning';
 

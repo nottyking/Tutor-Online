@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {SubCourseProgressBar} from './SubCourseProgressBar'
 import {Row,
     Col,
     Container
@@ -15,7 +16,7 @@ export class Learning extends React.Component {
                 <header className='App-header'>
                     <h1>Course Name</h1>
                 </header>
-                <Container>
+                <Container fluid={true} className="bg-secondary">
                 <Row>
                 <Col xs="10">
                 <iframe width="100%" height="400"
@@ -23,16 +24,8 @@ export class Learning extends React.Component {
                 </iframe>
                 this will be description
                 </Col>
-                <Col xs="2" style={{textalign: 'left'}}>
-                Will Be Progress Bar
-                <p> Like this </p>
-                <p> |Math101: (1) </p>
-                <p> |Math101: (2) </p>
-                <b> |Math101: (3) </b>
-                <p> |Math101: (4) </p>
-                <p> |Math101: (5) </p>
-                <p> |Math101: (6) </p>
-                <p> |Math101: (7) </p>
+                <Col xs="2" >
+                <SubCourseProgressBar style={{margin:'10 0 0 0'}}/>
                 </Col>
                 </Row>
 

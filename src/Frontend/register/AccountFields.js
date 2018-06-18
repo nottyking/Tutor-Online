@@ -167,7 +167,7 @@ export class AccountFields extends React.Component {
             this.setState({ defaultEmail: true });
         }
 
-        if (false) {
+        if (!(/^[a-zA-Z0-9]+([._+-]+[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]*)*(\.[a-zA-Z0-9-]{2,3})+$/.test(document.getElementById('email').value))) {
             this.setState({ validEmail: false, ModalMessage: 'This not a E-mail format' })
             return false;
         }
@@ -180,7 +180,7 @@ export class AccountFields extends React.Component {
     checkValidPassword() {
         if (this.state.defaultPassword) {
             this.setState({ defaultPassword: false });
-        }else if (document.getElementById('password').value == '') {
+        } else if (document.getElementById('password').value == '') {
             this.setState({ defaultPassword: true });
         }
 

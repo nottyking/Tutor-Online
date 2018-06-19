@@ -53,7 +53,7 @@ export class Login extends React.Component {
                                     defaultValue={''} placeholder='Enter your password'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
-                                <FormFeedback tooltip>{this.state.msg}</FormFeedback>
+                                <FormFeedback>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>
                         <hr></hr>

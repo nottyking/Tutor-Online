@@ -1,6 +1,6 @@
 const app = require('express')
 const router = app.Router();
-const con = require('../config/database');
+const con = require('../../Config/database');
 
 router.post('/common', (req, res) => {
   console.log('Enter login common');

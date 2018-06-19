@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Register } from './Register';
 import { Content } from './Content';
 import { ContactUs } from './contact_us';
-import { Course } from './course';
+import { Course } from './Course';
 import { Student } from './student';
 import { Learning } from './Learning';
 import { Payment } from './payment';

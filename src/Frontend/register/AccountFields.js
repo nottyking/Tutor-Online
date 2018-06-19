@@ -221,15 +221,9 @@ export class AccountFields extends React.Component {
 
     //This method for checking necessary field value with database
     async checkDatabaseOnSubmit() {
-<<<<<<< HEAD
         var checkOnSubmit = { isSameUsernameInDB: { result: true } };
         var checkOnSubmit = (await axios.post(ipList.backend + "register/checkUsernameAndEmail", {
             "username": document.getElementById('username').value, "email": document.getElementById('email').value
-=======
-      console.log("!#!@#");
-        var checkOnSubmit = (await axios.post(ipList.backend + "register/checkUsernameAndEmail",{
-          username: document.getElementById('username').value, email: document.getElementById('email').value
->>>>>>> 030e6da0c92ea7fa9b995f166b64a0b777e9c4b6
         })).data
         console.log(checkOnSubmit);
         if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database

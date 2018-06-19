@@ -1,12 +1,15 @@
 import React from 'react';
-import { Form, Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Row, Alert, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 
 export class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { isModal: false }
+        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.toggleModal = this.toggleModal.bind(this);
+        this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
+        this.login = this.login.bind(this);
+        this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
     }
 
     toggleModal() {
@@ -15,11 +18,33 @@ export class Login extends React.Component {
         });
     }
 
+    toDefaultLoginState(){
+        this.setState({
+            loginValid: false, defaultLoginState: true
+        })
+    }
+
 
     render() {
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
+                
+                {/* <For demo of login> */}
+                <Modal isOpen={this.state.loginValid&&!this.state.defaultLoginState}>
+                    <ModalHeader>{this.state.msg}</ModalHeader>
+                    <ModalFooter className='Login_Footer'>
+                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal isOpen={!this.state.loginValid&&!this.state.defaultLoginState}>
+                    <ModalHeader>{this.state.msg}</ModalHeader>
+                    <ModalFooter className='Login_Footer'>
+                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
+                    </ModalFooter>
+                </Modal>
+
+
                 <Modal isOpen={this.state.isModal}>
                     <ModalHeader className='Login_Header'>
                         <Label color='success'>LOG IN</Label>
@@ -49,14 +74,29 @@ export class Login extends React.Component {
                             </Col>
                         </FormGroup>
                     </ModalBody>
-
-
                     <ModalFooter className='Login_Footer'>
                         <Button onClick={this.toggleModal} color='danger'>Cancel</Button>
-                        <Button onClick={this.toggleModal} color='success'>Login</Button>
+                        <Button onClick={this.login} color='success'>Login</Button>
                     </ModalFooter>
                 </Modal>
             </div>
         );
+    }
+
+    login() {
+        this.toggleModal();
+        if (this.checkLoginOnDatabase()) {//Check id/email/password
+            this.setState({ msg: "Success", loginValid: true, defaultLoginState: false })
+        } else {
+            this.setState({ msg: "Your Username or Password is Invalid", loginValid: false, defaultLoginState: false })
+        }
+    }
+
+    checkLoginOnDatabase() {
+        if (true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

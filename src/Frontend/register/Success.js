@@ -20,7 +20,7 @@ export class Success extends React.Component {
                     <h1>
                         Success
                     </h1>
-                    <a href = {"./"}>Click here to go back to Home</a>
+                    <a href={"./"}>Click here to go back to Home</a>
                 </div>
             );
         }
@@ -29,6 +29,7 @@ export class Success extends React.Component {
                 < div >
                     <h1>
                         Not Success
+                        <a href={"./"}>Click here to go back to Home</a>
                     </h1>
                 </div >
             );

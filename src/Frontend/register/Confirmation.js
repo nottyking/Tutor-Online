@@ -16,19 +16,19 @@ export class Confirmation extends React.Component {
 
                 <Form className='Register-form'>
                     <FormGroup row >
-                        <Label sm={1} >Username</Label>
+                        <Label sm={{ size: 2, order: 1, offset: 3 }} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
                             <Input type='text' id='username' defaultValue={this.props.fieldValues.username} disabled />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={{ size: 1 }}>E-mail</Label>
+                        <Label sm={{ size: 2, order: 1, offset: 3 }}>E-mail</Label>
                         <Col sm={{ size: 4, order: 2 }}>
                             <Input type='email' id='email' defaultValue={this.props.fieldValues.email} disabled />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label sm={1}>Password</Label>
+                        <Label sm={{ size: 2, order: 1, offset: 3 }}>Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
                             <Input type='password' id='password' defaultValue={this.props.fieldValues.password} disabled />
                         </Col>

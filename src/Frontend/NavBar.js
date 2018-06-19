@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Register } from './register';
 import { Content } from './Content';
 import { ContactUs } from './contact_us';
-import { Course } from './Course';
+import { Course } from './course';
 import { Student } from './student';
 import { Learning } from './Learning';
 
@@ -23,7 +23,7 @@ const pages = ['home', 'course', 'register', 'contact_us', 'student','learning']
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
-    
+
         this.toggle = this.toggle.bind(this);
         this.state = {
           isOpen: false
@@ -65,12 +65,12 @@ export default class NavBar extends React.Component {
             <Route exact path="/course" component={Course} />
             <Route exact path="/student" component ={Student}/>
             <Route exact path="/learning" component ={Learning}/>
-            
+
             <Route component={Content} />
         </Switch>
     </BrowserRouter>
         </div >
-        
+
     );
 	}
 }

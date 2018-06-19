@@ -1,6 +1,12 @@
 const routerList = {
-  path : ['/register'] ,
-  routeTo : [require('./controller/register')]
+  path : [
+    '/register',
+    '/login'
+  ] ,
+  routeTo : [
+    require('./controller/register'),
+    require('./controller/login')
+  ]
 }
 
 module.exports = routerList ;

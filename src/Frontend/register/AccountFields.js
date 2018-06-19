@@ -1,6 +1,8 @@
 import React from 'react';
 import './register.css';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import axios from 'axios'
+import ipList from '../../config/ipConfig'
 
 export class AccountFields extends React.Component {
 
@@ -215,12 +217,18 @@ export class AccountFields extends React.Component {
     }
 
     //This method for checking necessary field value with database
-    checkDatabaseOnSubmit() {
-        if (false) { //Check username in database
+    async checkDatabaseOnSubmit() {
+        var checkOnSubmit = (await axios.post(ipList.backend + "register/checkUsernameAndEmail",{
+          "username": document.getElementById('username').value, "email": document.getElementById('email').value
+        })).data
+        if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database
+            console.log("Username is same");
             this.setState({ validUsername: false, ModalMessage: 'This username has been used' })
             return false;
-        } else if (false) { // Check Email in database
+        } else if (checkOnSubmit.isSameEmailInDB.result) { // Check Email in database
+            console.log("Email is same");
             this.setState({ validEmail: false, ModalMessage: 'This E-mail has been used' })
+            return false;
         }
         return true;
     }

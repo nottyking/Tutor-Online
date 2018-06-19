@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const mysql = require('mysql');
+const mysql = require('mysql')
 const con = require('./config/database')
 const bodyParser = require('body-parser');
 

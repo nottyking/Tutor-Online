@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 
 export class Login extends React.Component {
@@ -41,7 +41,16 @@ export class Login extends React.Component {
                                 />
                             </Col>
                         </FormGroup>
+                        <FormGroup row align='center'>
+                            <Col>
+                                <Button outline color='danger'>Google Login</Button>
+                                <Label>&nbsp;&nbsp;</Label>
+                                <Button outline color='primary'>Facebook Login</Button>
+                            </Col>
+                        </FormGroup>
                     </ModalBody>
+
+
                     <ModalFooter className='Login_Footer'>
                         <Button onClick={this.toggleModal} color='danger'>Cancel</Button>
                         <Button onClick={this.toggleModal} color='success'>Login</Button>

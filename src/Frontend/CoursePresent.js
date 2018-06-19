@@ -1,52 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button } from 'reactstrap';
+    CardTitle, CardSubtitle, Button,Row,Col,Container } from 'reactstrap';
 
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
-get src [ List of {Cname(Coursename),Cimage(Link To CourseThumbnailImage),Cdesc(Course Description)}]
+get src [ List of {Cname(Coursename),Cimage(Link To CourseThumbnailImage),CLink(Link to Course),Cdesc(Course Description)}]
 */
 
-const src= [
-    {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-    {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-    {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-    {Cname : "Math202", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"}
-];
+//Todo add Link to Course
 
 export class CoursePresent extends React.Component{
-//Todo(1) change Antd to React-Bootstrap
     render(){
-    //const ListItems = this.props.src.map(
+    const src= this.props.src;
     const ListItems = src.map(
-        (item,i)=><Card key={i}>
-        <CardImg top width="100%" src={item.Cimage} alt="Card image cap" />
+        (item,i)=><Col>
+        <Card key={i} style={{width:332,marginTop:20}}>
+        <CardImg  src={item.Cimage} alt="Card image cap" />
         <CardBody>
           <CardTitle>{item.Cname}</CardTitle>
           <CardText>{item.Cdesc}</CardText>
-          <Button>Button</Button>
+          <Button>Register</Button>
         </CardBody>
       </Card>
+      </Col>
     );
 
     return (
-        <div>
+        <Container >
+        <Row>
         {ListItems}
-        </div>
+        </Row>
+        </Container>
     );
     }
 }
 
-CoursePresent.propType = {
-    src: PropTypes.array.isRequired
-};
+CoursePresent.propType =  {
+    src: PropTypes.arrayOf(PropTypes.shape({
+        Cname : PropTypes.string.isRequired,
+        Cimage : PropTypes.string.isRequired,
+         Clink: PropTypes.string.isRequired,
+         Cdesc: PropTypes.string.isRequired
+    })).isRequired
+}
+
+
+
+//Default Prop For Testing
 
 CoursePresent.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-        {Cname : "Math102", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-        {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"},
-        {Cname : "Math202", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Cdesc:"aaaaaaaa"}
-    ]
+        {Cname : "Math101", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
+        {Cname : "Math102", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
+        {Cname : "Math201", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"}
+        ]
 };

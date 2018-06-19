@@ -23,7 +23,7 @@ import {
 } from 'reactstrap';
 
 
-const pages = ['home', 'course', 'register', 'contact_us', 'student', 'learning', 'payment'];
+const pages = ['home', 'course', 'contact_us', 'student', 'learning', 'payment'];
 
 export default class NavBar extends React.Component {
     constructor(props) {

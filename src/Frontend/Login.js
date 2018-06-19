@@ -66,10 +66,18 @@ export class Login extends React.Component {
                                 />
                             </Col>
                         </FormGroup>
+                        <hr></hr>
+
                         <FormGroup row align='center'>
                             <Col>
                                 <Button block outline color='danger'>Google Login</Button>
                                 <Button block outline color='primary'>Facebook Login</Button>
+                            </Col>
+                        </FormGroup>
+                        <hr></hr>
+                        <FormGroup row align='center'>
+                            <Col>
+                                <a href='./Register'>Register</a>
                             </Col>
                         </FormGroup>
                     </ModalBody>

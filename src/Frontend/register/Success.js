@@ -1,5 +1,7 @@
 import React from 'react';
 import './register.css';
+import ipList from '../../Config/ipConfig'
+import axios from 'axios'
 
 export class Success extends React.Component {
 
@@ -8,9 +10,13 @@ export class Success extends React.Component {
         this.sendFormToDatabase = this.sendFormToDatabase.bind(this);
     }
 
-    sendFormToDatabase() {
+    async sendFormToDatabase() {
         //Use for get fieldValues ==> var [fieldName] = this.props.fieldValues.[fieldName];
-        return true;
+        var isSendSuccess = (await axios.post(ipList.backend + 'register/registerAsStudent' , {
+          username:this.props.fieldValues.username, password:this.props.fieldValues.password, email:this.props.fieldValues.email,
+          fname:'-', lname:'-', address:'-', birthday:'-', gender:'-'
+        })).data
+        return isSendSuccess.result;
     }
 
     render() {

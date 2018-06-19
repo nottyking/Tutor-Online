@@ -1,4 +1,3 @@
-const app = require('express')
 const con = require('../../Config/database');
 
 // main function: caller check username and email function

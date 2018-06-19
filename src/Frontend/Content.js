@@ -10,12 +10,14 @@ export class Content extends Component {
     return (
       <div className="App">
         <CourseCarousel/>
-        <CoursePresent/> 
+        <CoursePresent/>
         <Footer/>
       </div>
     );
   }
 }
 
+// <Carousel/>
+// <CoursePresent/>
 
 export default Content;

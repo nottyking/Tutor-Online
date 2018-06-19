@@ -1,33 +1,24 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const mysql = require('mysql');
-const app = express();
+const mysql = require('mysql')
+const con = require('./config/database')
 const bodyParser = require('body-parser');
-// const con = require('./Config/database')
 
-var con = mysql.createConnection({
-  host     : '127.0.0.1',
-  user     : 'root',
-  password : 'root',
-  database : 'tutoronline',
-  port : '3306'
-})
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Database connected at 127.0.0.1:3306!");
-});
-
-// var checkAuthentificate = require('./controller/checkAuthentificate');
-var registerController = require('./controller/register');
-//
-app.use('/register', registerController);
-// app.use('/student' , studentController);
-
-app.use(cors())
+const app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
+
+// All route is in routerList file
+const routerList = require('./routerList');
+for(var i = 0 ; i < routerList.path.length ; i++){
+  var nowPath = routerList.path[i];
+  var nowRouteTo = routerList.routeTo[i];
+  app.use(nowPath, nowRouteTo);
+}
+
+
 
 const server = http.createServer(app);
 

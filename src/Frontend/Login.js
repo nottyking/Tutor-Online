@@ -18,7 +18,7 @@ export class Login extends React.Component {
         });
     }
 
-    toDefaultLoginState(){
+    toDefaultLoginState() {
         this.setState({
             loginValid: false, defaultLoginState: true
         })
@@ -29,15 +29,15 @@ export class Login extends React.Component {
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
-                
+
                 {/* <For demo of login> */}
-                <Modal isOpen={this.state.loginValid&&!this.state.defaultLoginState}>
+                <Modal isOpen={this.state.loginValid && !this.state.defaultLoginState}>
                     <ModalHeader>{this.state.msg}</ModalHeader>
                     <ModalFooter className='Login_Footer'>
                         <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
                     </ModalFooter>
                 </Modal>
-                <Modal isOpen={!this.state.loginValid&&!this.state.defaultLoginState}>
+                <Modal isOpen={!this.state.loginValid && !this.state.defaultLoginState}>
                     <ModalHeader>{this.state.msg}</ModalHeader>
                     <ModalFooter className='Login_Footer'>
                         <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
@@ -68,9 +68,8 @@ export class Login extends React.Component {
                         </FormGroup>
                         <FormGroup row align='center'>
                             <Col>
-                                <Button outline color='danger'>Google Login</Button>
-                                <Label>&nbsp;&nbsp;</Label>
-                                <Button outline color='primary'>Facebook Login</Button>
+                                <Button block outline color='danger'>Google Login</Button>
+                                <Button block outline color='primary'>Facebook Login</Button>
                             </Col>
                         </FormGroup>
                     </ModalBody>

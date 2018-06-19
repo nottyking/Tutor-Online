@@ -5,12 +5,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
-<<<<<<< HEAD
     "cors": "^2.8.4",
     "mysql": "^2.15.0",
-=======
     "fullstack": "0.0.1",
->>>>>>> b245526e0a42fcbad8cade3fdfbb2d0e48a49707
     "react": "^16.4.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",

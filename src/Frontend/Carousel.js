@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // import React from 'react';
 // import {Carousel} from 'react-bootstrap';
 //
@@ -40,7 +39,6 @@
 //         {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
 //     ]
 // };
-=======
 import React from 'react';
 import PropTypes from 'prop-types'
 import {
@@ -57,7 +55,7 @@ Carousel Used as Slide Show in Main Window (or others page) by
 get src [ List of {Cname(Coursename),Cimage(Link To CourseBannerImage),Clink(Link to Course Page),Cdesc(Course Description)}]
 */
 
-//Todo(1) Do an Props propery 
+//Todo(1) Do an Props propery
 
 const     items= [
     {Cname : "Math101", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
@@ -133,7 +131,7 @@ constructor(props) {
       </div>
     );
   }
-    
+
 }
 
 Carousel.propTypes = {
@@ -152,4 +150,3 @@ Carousel.defaultProps = {
         {Cname : "Math201", Cimage : "http://executivelawncare.net/wp-content/themes/xtinguishers/img/video-sample.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
     ]
 };
->>>>>>> e88383234928c8e695c59cc59422f88476b2c4b8

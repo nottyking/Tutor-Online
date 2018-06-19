@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import logo from './Image/logo.svg';
-=======
 import {CourseCarousel} from './Carousel';
 import {CoursePresent} from './CoursePresent';
->>>>>>> e88383234928c8e695c59cc59422f88476b2c4b8
 // import './App.css';
 
 export class Content extends Component {

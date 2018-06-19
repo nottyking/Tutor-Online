@@ -3,6 +3,7 @@ import { Form, Row, Alert, Col, Button, FormGroup, Label, Input, FormText, FormF
 import './Login.css';
 
 export class Login extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
@@ -22,6 +23,7 @@ export class Login extends React.Component {
         this.setState({
             loginValid: false, defaultLoginState: true
         })
+        this.toggleModal();
     }
 
 
@@ -29,21 +31,6 @@ export class Login extends React.Component {
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
-
-                {/* <For demo of login> */}
-                <Modal isOpen={this.state.loginValid && !this.state.defaultLoginState}>
-                    <ModalHeader>{this.state.msg}</ModalHeader>
-                    <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
-                    </ModalFooter>
-                </Modal>
-                <Modal isOpen={!this.state.loginValid && !this.state.defaultLoginState}>
-                    <ModalHeader>{this.state.msg}</ModalHeader>
-                    <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
-                    </ModalFooter>
-                </Modal>
-
 
                 <Modal isOpen={this.state.isModal}>
                     <ModalHeader className='Login_Header'>
@@ -55,6 +42,7 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 4 }}>
                                 <Input type='text' id='username'
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
                             </Col>
                         </FormGroup>
@@ -63,7 +51,9 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 2 }}>
                                 <Input type='password' id='password'
                                     defaultValue={''} placeholder='Enter your password'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
+                                <FormFeedback tooltip>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>
                         <hr></hr>
@@ -82,7 +72,7 @@ export class Login extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toggleModal} color='danger'>Cancel</Button>
+                        <Button onClick={this.toDefaultLoginState} color='danger'>Cancel</Button>
                         <Button onClick={this.login} color='success'>Login</Button>
                     </ModalFooter>
                 </Modal>
@@ -91,7 +81,7 @@ export class Login extends React.Component {
     }
 
     login() {
-        this.toggleModal();
+        //this.toggleModal();
         if (this.checkLoginOnDatabase()) {//Check id/email/password
             this.props.login();
         } else {

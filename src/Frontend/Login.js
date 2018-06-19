@@ -93,7 +93,7 @@ export class Login extends React.Component {
     login() {
         this.toggleModal();
         if (this.checkLoginOnDatabase()) {//Check id/email/password
-            this.setState({ msg: "Success", loginValid: true, defaultLoginState: false })
+            this.props.login();
         } else {
             this.setState({ msg: "Your Username or Password is Invalid", loginValid: false, defaultLoginState: false })
         }

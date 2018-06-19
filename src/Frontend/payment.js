@@ -6,17 +6,14 @@ var cData = {
     cDes : 'Course Description',
     price: 100000, //IN Satang-THB
     d : Date().getDate
-
-
-
 }
 
 export class Payment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.submitPay = this.submitPay.bind(this);
     }
-
 
     render() {
         return (
@@ -25,9 +22,13 @@ export class Payment extends React.Component {
                 <p>Price/Order Pre-receipt
                     <Label color = 'primary'>{cData.d}</Label>
                 </p>
-                <Button outline color='primary'>Pay</Button>
+                <Button onClick={this.submitPay} outline color='primary'>Pay</Button>
 
             </div>
         );
+    }
+
+    submitPay(){
+        
     }
 }

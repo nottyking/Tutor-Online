@@ -222,7 +222,7 @@ export class AccountFields extends React.Component {
         } else if (false) { // Check Email in database
             this.setState({ validEmail: false, ModalMessage: 'This E-mail has been used' })
         }
-        return true;
+        return false;
     }
 
     //For reset form value

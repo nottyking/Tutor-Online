@@ -23,7 +23,6 @@ export class VideoPlayer extends React.Component{
         this.videoRef = React.createRef;
         this.onUnload = this.onUnload.bind(this);
         this.onPause = this.onPause.bind(this);
-        this.onClick1 = this.onClick1.bind(this);
     }
 
     onUnload(event) { // the method that will be used for both add and remove event
@@ -32,6 +31,7 @@ export class VideoPlayer extends React.Component{
 
     componentDidMount() {
         window.addEventListener("beforeunload", this.onUnload)
+        this.videoRef.seekTo(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
      }
  
      componentWillUnmount() {
@@ -41,6 +41,8 @@ export class VideoPlayer extends React.Component{
     onPause = () => {
         console.log('onPause');
     }
+
+    /* Used for Debug
     onClick = () =>{
         console.log('clicking real thing');
         this.videoRef.seekTo(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
@@ -51,6 +53,7 @@ export class VideoPlayer extends React.Component{
         console.log(cookies.getAll());
         
     }
+    */
     
     ref = videoRef => {
         this.videoRef = videoRef;
@@ -61,8 +64,6 @@ export class VideoPlayer extends React.Component{
         <div>
         <ReactPlayer ref={this.ref} width='100%'
         className='react-player' url={this.props.Vlink} playing onPause={this.onPause} onUnload={this.onUnload}/>
-        <Button color='warning' onClick={this.onClick1}>Check</Button>
-        <Button color='primary' onClick={this.onClick}>Seek to Latest</Button>
         </div>
         );
     }

@@ -3,6 +3,7 @@ import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Mod
 import './Login.css';
 
 export class Login extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = { isModal: false }
@@ -15,11 +16,19 @@ export class Login extends React.Component {
         });
     }
 
+    toDefaultLoginState() {
+        this.setState({
+            loginValid: false, defaultLoginState: true
+        })
+        this.toggleModal();
+    }
+
 
     render() {
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
+
                 <Modal isOpen={this.state.isModal}>
                     <ModalHeader className='Login_Header'>
                         <Label color='success'>LOG IN</Label>
@@ -30,6 +39,7 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 4 }}>
                                 <Input type='text' id='username'
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
                             </Col>
                         </FormGroup>
@@ -38,16 +48,35 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 2 }}>
                                 <Input type='password' id='password'
                                     defaultValue={''} placeholder='Enter your password'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
+                                <FormFeedback>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toggleModal} color='danger'>Cancel</Button>
-                        <Button onClick={this.toggleModal} color='success'>Login</Button>
+                        <Button onClick={this.toDefaultLoginState} color='danger'>Cancel</Button>
+                        <Button onClick={this.login} color='success'>Login</Button>
                     </ModalFooter>
                 </Modal>
             </div>
         );
+    }
+
+    login() {
+        //this.toggleModal();
+        if (this.checkLoginOnDatabase()) {//Check id/email/password
+            this.props.login();
+        } else {
+            this.setState({ msg: "Your Username or Password is Invalid", loginValid: false, defaultLoginState: false })
+        }
+    }
+
+    checkLoginOnDatabase() {
+        if (true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import './register.css';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios'
-import ipList from '../../config/ipConfig'
+import ipList from '../../Config/ipConfig'
 
 export class AccountFields extends React.Component {
 

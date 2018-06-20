@@ -8,7 +8,7 @@ import {Footer} from './Footer'
 export class Content extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="App"   >
         <CourseCarousel/>
         <CoursePresent/>
         <Footer/>

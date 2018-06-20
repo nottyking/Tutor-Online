@@ -6,7 +6,7 @@ import { Register } from './Register';
 import { Content } from './Content';
 import { ContactUs } from './Contact_us';
 import { Course } from './Course';
-import { Student } from './student';
+import { Student } from './Student';
 import { Learning } from './Learning';
 import { Payment } from './Payment';
 import { Login } from './Login';
@@ -91,7 +91,7 @@ export default class NavBar extends React.Component {
                             <Route exact path="/course" component={Course} />
                             <Route exact path="/student" component={Student} />
                             <Route exact path="/learning" component={Learning} />
-                            <Route exact path='/Payment' component={Payment} />
+                            <Route exact path='/payment' component={Payment} />
 
                             <Route component={Content} />
                         </Switch>

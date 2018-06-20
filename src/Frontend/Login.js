@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Row, Alert, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import ipList from '../Config/ipConfig';
 import axios from 'axios';
@@ -8,8 +8,11 @@ export class Login extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { isModal: false }
+        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.toggleModal = this.toggleModal.bind(this);
+        this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
+        this.login = this.login.bind(this);
+        this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
     }
 
     toggleModal() {
@@ -53,6 +56,20 @@ export class Login extends React.Component {
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
                                 <FormFeedback>{this.state.msg}</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <hr></hr>
+
+                        <FormGroup row align='center'>
+                            <Col>
+                                <Button block outline color='danger'>Google Login</Button>
+                                <Button block outline color='primary'>Facebook Login</Button>
+                            </Col>
+                        </FormGroup>
+                        <hr></hr>
+                        <FormGroup row align='center'>
+                            <Col>
+                                <a href='./Register'>Register</a>
                             </Col>
                         </FormGroup>
                     </ModalBody>

@@ -12,7 +12,7 @@ export class Success extends React.Component {
 
     async sendFormToDatabase() {
         //Use for get fieldValues ==> var [fieldName] = this.props.fieldValues.[fieldName];
-        var isSendSuccess = (await axios.post(ipList.backend + 'register/registerAsStudent' , {
+        var isSendSuccess = (await axios.post(ipList.backend + '/register/registerAsStudent' , {
           username:this.props.fieldValues.username, password:this.props.fieldValues.password, email:this.props.fieldValues.email,
           fname:'-', lname:'-', address:'-', birthday:'-', gender:'-'
         })).data

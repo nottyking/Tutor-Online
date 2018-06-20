@@ -15,12 +15,12 @@ import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSu
 */
 const defaultValue = {
   UserID: 'EX111',
-  Username: 'Error in Login Process',
+  Username: 'Play_Play',
   FirstName: 'John',
   LastName: 'Doe',
   Email: 'John_doe1234@gg.com',
   ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
-  Birthday: 'yyyy-mm-dd',
+  Birthday: '1550-11-12',
   Address: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
   Gender: 'Male',
   src: [
@@ -106,45 +106,3 @@ export class Student extends React.Component {
     }
   }
 }
-
-//// Set the prop of each class
-
-// ProfileField.propTypes = {
-//   UserID: PropTypes.string.isRequired,
-//   Username: PropTypes.string.isRequired,
-//   FirstName: PropTypes.string.isRequired,
-//   LastName: PropTypes.string.isRequired,
-//   ProfileImg: PropTypes.string.isRequired,
-//   Birthday: PropTypes.string.isRequired,
-//   Address: PropTypes.string.isRequired,
-//   Gender: PropTypes.string.isRequired,
-// }
-
-// ProfileField.defaultProps = {
-//   UserID: 'EX111',
-//   Username: 'Error in Login Process',
-//   FirstName: 'John',
-//   LastName: 'Doe',
-//   ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
-//   Birthday: 'yyyy-mm-dd',
-//   Address: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-//   Gender: 'Male'
-// }
-
-// CourseField.propTypes = {
-//   src: PropTypes.arrayOf(PropTypes.shape({
-//     CourseID: PropTypes.string.isRequired,
-//     CourseName: PropTypes.string.isRequired,
-//     CourseExpDate: PropTypes.string.isRequired,
-//     CourseLink: PropTypes.string.isRequired
-//   })).isRequired
-// }
-
-// CourseField.defaultProps = {
-//   src: [
-//     { CourseID: '10001', CourseName: 'Math for Programmer 0', CourseExpDate: '2018-10-11', CourseLink: '' },
-//     { CourseID: '10002', CourseName: 'Math for Programmer 1', CourseExpDate: '2018-07-11', CourseLink: '' },
-//     { CourseID: '10003', CourseName: 'Math for Programmer 2', CourseExpDate: '2018-06-10', CourseLink: '' },
-//     { CourseID: '10004', CourseName: 'Math for Programmer 3', CourseExpDate: '2018-02-07', CourseLink: '' }
-//   ]
-// }

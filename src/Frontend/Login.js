@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
+import ipList from '../Config/ipConfig';
+import axios from 'axios';
 
 export class Login extends React.Component {
 
@@ -65,18 +67,21 @@ export class Login extends React.Component {
 
     login() {
         //this.toggleModal();
-        if (this.checkLoginOnDatabase()) {//Check id/email/password
+        var isLoginSuccess = this.checkLoginOnDatabase();
+        if (isLoginSuccess.result) {//Check id/email/password
             this.props.login();
         } else {
-            this.setState({ msg: "Your Username or Password is Invalid", loginValid: false, defaultLoginState: false })
+            this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })
         }
     }
 
-    checkLoginOnDatabase() {
-        if (true) {
-            return true;
-        } else {
-            return false;
-        }
+    async checkLoginOnDatabase() {
+        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal',{
+          usernameOrEmail : document.getElementById('username') ,
+          password : document.getElementById('password')
+        })).data
+        console.log(isLoginSuccess);
+        console.log(isLoginSuccess.msg);
+        return isLoginSuccess.result;
     }
 }

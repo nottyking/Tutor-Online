@@ -218,7 +218,7 @@ export class AccountFields extends React.Component {
 
     //This method for checking necessary field value with database
     async checkDatabaseOnSubmit() {
-        var checkOnSubmit = (await axios.post(ipList.backend + "register/checkUsernameAndEmail",{
+        var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",{
           username: document.getElementById('username').value, email: document.getElementById('email').value
         })).data
         console.log(checkOnSubmit);

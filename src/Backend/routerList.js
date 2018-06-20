@@ -1,11 +1,11 @@
 const routerList = {
   path : [
     '/register',
-    // '/login'
+    '/login'
   ] ,
   routeTo : [
     require('./Controller/Register/RegisterRouter'),
-    // require('./Controller/Login/LoginRouter')
+    require('./Controller/Login/LoginRouter')
   ]
 }
 

@@ -82,9 +82,9 @@ export class Login extends React.Component {
         );
     }
 
-    login() {
+    async login() {
         //this.toggleModal();
-        var isLoginSuccess = this.checkLoginOnDatabase();
+        var isLoginSuccess = await this.checkLoginOnDatabase();
         if (isLoginSuccess.result) {//Check id/email/password
             this.props.login();
         } else {
@@ -94,11 +94,9 @@ export class Login extends React.Component {
 
     async checkLoginOnDatabase() {
         var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal',{
-          usernameOrEmail : document.getElementById('username') ,
-          password : document.getElementById('password')
+          usernameOrEmail : document.getElementById('username').value ,
+          password : document.getElementById('password').value
         })).data
-        console.log(isLoginSuccess);
-        console.log(isLoginSuccess.msg);
-        return isLoginSuccess.result;
+        return isLoginSuccess;
     }
 }

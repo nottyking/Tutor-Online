@@ -4,8 +4,8 @@ const routerList = {
     '/login'
   ] ,
   routeTo : [
-    require('./Controller/Register/RegisterController'),
-    require('./Controller/Login/LoginController')
+    require('./Controller/Register/RegisterRouter'),
+    require('./Controller/Login/LoginRouter')
   ]
 }
 

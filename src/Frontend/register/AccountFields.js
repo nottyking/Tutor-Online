@@ -1,5 +1,5 @@
 import React from 'react';
-import './register.css';
+import './Register.css';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios'
 import ipList from '../../Config/ipConfig'
@@ -86,12 +86,9 @@ export class AccountFields extends React.Component {
                             <FormText>Confirm your password here</FormText>
                         </Col>
                     </FormGroup>
-                    <FormGroup Row align='center'>
-                        <Col>
-                            <Button onClick={this.resetLabel}>Reset</Button>
-                            <Label>&nbsp;&nbsp;</Label>
-                            <Button onClick={this.saveAndContinue}>Save And Continue</Button>
-                        </Col>
+                    <FormGroup align='center'>
+                        <Button onClick={this.resetLabel}>Reset</Button> <t />
+                        <Button onClick={this.saveAndContinue}>Save And Continue</Button>
                     </FormGroup>
                 </Form>
 
@@ -221,9 +218,8 @@ export class AccountFields extends React.Component {
 
     //This method for checking necessary field value with database
     async checkDatabaseOnSubmit() {
-        var checkOnSubmit = { isSameUsernameInDB: { result: true } };
-        var checkOnSubmit = (await axios.post(ipList.backend + "register/checkUsernameAndEmail", {
-            "username": document.getElementById('username').value, "email": document.getElementById('email').value
+        var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",{
+          username: document.getElementById('username').value, email: document.getElementById('email').value
         })).data
         console.log(checkOnSubmit);
         if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database

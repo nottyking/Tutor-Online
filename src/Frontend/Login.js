@@ -1,8 +1,11 @@
 import React from 'react';
 import { Form, Row, Alert, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
+import ipList from '../Config/ipConfig';
+import axios from 'axios';
 
 export class Login extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
@@ -22,6 +25,7 @@ export class Login extends React.Component {
         this.setState({
             loginValid: false, defaultLoginState: true
         })
+        this.toggleModal();
     }
 
 
@@ -29,21 +33,6 @@ export class Login extends React.Component {
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
-
-                {/* <For demo of login> */}
-                <Modal isOpen={this.state.loginValid && !this.state.defaultLoginState}>
-                    <ModalHeader>{this.state.msg}</ModalHeader>
-                    <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
-                    </ModalFooter>
-                </Modal>
-                <Modal isOpen={!this.state.loginValid && !this.state.defaultLoginState}>
-                    <ModalHeader>{this.state.msg}</ModalHeader>
-                    <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toDefaultLoginState} color='primary'>OK</Button>
-                    </ModalFooter>
-                </Modal>
-
 
                 <Modal isOpen={this.state.isModal}>
                     <ModalHeader className='Login_Header'>
@@ -55,6 +44,7 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 4 }}>
                                 <Input type='text' id='username'
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
                             </Col>
                         </FormGroup>
@@ -63,7 +53,9 @@ export class Login extends React.Component {
                             <Col sm={{ size: 8, order: 2 }}>
                                 <Input type='password' id='password'
                                     defaultValue={''} placeholder='Enter your password'
+                                    invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
+                                <FormFeedback>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>
                         <hr></hr>
@@ -82,7 +74,7 @@ export class Login extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter className='Login_Footer'>
-                        <Button onClick={this.toggleModal} color='danger'>Cancel</Button>
+                        <Button onClick={this.toDefaultLoginState} color='danger'>Cancel</Button>
                         <Button onClick={this.login} color='success'>Login</Button>
                     </ModalFooter>
                 </Modal>
@@ -90,20 +82,21 @@ export class Login extends React.Component {
         );
     }
 
-    login() {
-        this.toggleModal();
-        if (this.checkLoginOnDatabase()) {//Check id/email/password
+    async login() {
+        //this.toggleModal();
+        var isLoginSuccess = await this.checkLoginOnDatabase();
+        if (isLoginSuccess.result) {//Check id/email/password
             this.props.login();
         } else {
-            this.setState({ msg: "Your Username or Password is Invalid", loginValid: false, defaultLoginState: false })
+            this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })
         }
     }
 
-    checkLoginOnDatabase() {
-        if (true) {
-            return true;
-        } else {
-            return false;
-        }
+    async checkLoginOnDatabase() {
+        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal',{
+          usernameOrEmail : document.getElementById('username').value ,
+          password : document.getElementById('password').value
+        })).data
+        return isLoginSuccess;
     }
 }

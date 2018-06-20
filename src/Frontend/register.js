@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AccountFields } from './register/AccountFields';
 import { Confirmation } from './register/Confirmation';
 import { Success } from './register/Success';
-import './register/register.css';
+import './register/Register.css';
 
 var fieldValues = {
   username: '',

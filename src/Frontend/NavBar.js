@@ -4,11 +4,11 @@ import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Register } from './Register';
 import { Content } from './Content';
-import { ContactUs } from './contact_us';
+import { ContactUs } from './Contact_us';
 import { Course } from './Course';
-import { Student } from './student';
+import { Student } from './Student';
 import { Learning } from './Learning';
-import { Payment } from './payment';
+import { Payment } from './Payment';
 import { Login } from './Login';
 import { Logout } from './Logout';
 

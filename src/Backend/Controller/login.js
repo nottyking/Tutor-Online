@@ -1,8 +1,8 @@
 const app = require('express')
 const router = app.Router();
-const con = require('../../Config/database');
+const con = require('../config/database');
 
-router.post('/common', (req, res) => {
+router.post('/normal', (req, res) => {
   console.log('Enter login common');
   con.query('SELECT * from user WHERE username = ? AND password = ?',[
     req.body.username, req.body.password

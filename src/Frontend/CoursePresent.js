@@ -20,14 +20,14 @@ export class CoursePresent extends React.Component{
         <CardBody>
           <CardTitle>{item.Cname}</CardTitle>
           <CardText>{item.Cdesc}</CardText>
-          <Button>Register</Button>
+          <Button href={item.CLink}>Register</Button>
         </CardBody>
       </Card>
       </Col>
     );
 
     return (
-        <Container >
+        <Container style={{paddingBottom:20}}>
         <Row>
         {ListItems}
         </Row>
@@ -40,7 +40,7 @@ CoursePresent.propType =  {
     src: PropTypes.arrayOf(PropTypes.shape({
         Cname : PropTypes.string.isRequired,
         Cimage : PropTypes.string.isRequired,
-         Clink: PropTypes.string.isRequired,
+         CLink: PropTypes.string.isRequired,
          Cdesc: PropTypes.string.isRequired
     })).isRequired
 }
@@ -51,11 +51,11 @@ CoursePresent.propType =  {
 
 CoursePresent.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
-        {Cname : "Math102", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
-        {Cname : "Math201", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
-        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
-        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"},
-        {Cname : "Math202", Cimage : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180",CLink:"",Cdesc:"aaaaaaaa"}
+        {Cname : "Math101", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math102", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math201", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math202", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"}
         ]
 };

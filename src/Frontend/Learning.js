@@ -3,11 +3,20 @@ import PropTypes from 'prop-types';
 import { SubCourseProgressBar } from './SubCourseProgressBar';
 import { Row, Col, Container, Card, CardTitle, CardText } from 'reactstrap';
 import {VideoPlayer} from './VideoPlayer';
+import {Footer} from './Footer'
 
 // class for video page
 // Prop UseId,CourseName,CourseId,SubCourseName,SubCourseId,CourseDescription)
 
 export class Learning extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        freeUser:true,
+        
+    };
+  }
+
   render () {
     const timeElapsed ='0m5s'
     return (
@@ -15,7 +24,7 @@ export class Learning extends React.Component {
         <Container fluid className='bg-secondary'>
           <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Course Name</h3>
           <Row>
-            <Col xs='11'>>
+            <Col xs='11'>
             <VideoPlayer/>
             <p></p>
             <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333',padding: 10,marginTop: 10,marginBottom: 20 }}>
@@ -38,6 +47,7 @@ export class Learning extends React.Component {
             </Col>
           </Row>
         </Container>
+        <Footer/>
       </div>
     )
   }
@@ -45,6 +55,7 @@ export class Learning extends React.Component {
 
 Learning.propTypes = {
   CourseName: PropTypes.string.isRequired,
+  SubCourseName:PropTypes.string.isRequired,
   src: PropTypes.arrayOf(PropTypes.shape({
     Cname: PropTypes.string.isRequired,
     Cimage: PropTypes.string.isRequired,

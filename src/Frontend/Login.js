@@ -97,6 +97,7 @@ export class Login extends React.Component {
                 + currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
             console.log(datetime);
+            console.log("GIT");
             cookies.set("loginToken",isLoginSuccess.loginToken,{maxAge: maxAge});
             this.props.login();
         } else {

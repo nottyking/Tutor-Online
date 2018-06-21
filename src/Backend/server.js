@@ -33,7 +33,6 @@ app.use(function(req, res, next){
     }
     else{
       req.session.userid = userid ;
-      res.send({Find:userid});
       console.log('session userid:',req.session.userid);
       jwt.sign({
           userid: userid

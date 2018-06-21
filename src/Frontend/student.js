@@ -92,7 +92,7 @@ export class Student extends React.Component {
                 </p>
                 <p>
                   Birthday :
-                  {' ' + new Date(this.props.Birthday)}
+                  {' ' +(new Date(this.props.Birthday)).getFullYear() + '-' + (new Date(this.props.Birthday)).getMonth()+'-'+(new Date(this.props.Birthday)).getDate()}
                 </p>
                 <p>
                   Address :
@@ -163,7 +163,7 @@ Student.defaultProps = {
   LastName: 'Doe',
   ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
   Birthday: '1550-11-12',
-  Address: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  Address: '349, SJ Infinite One Business Complex, 11th Floor, Vibhavadi-Rangsit Road, Chompol, Chatuchak, Bangkok 10900',
   Gender: 'Male',
   src: [
     {CourseID: '10001',CourseName: 'Math for Programmer 0',CourseExpDate: '2018-10-11',CourseLink: ''},

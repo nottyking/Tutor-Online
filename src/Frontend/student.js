@@ -30,7 +30,7 @@ export class Student extends React.Component {
                 <td>{item.CourseName}</td>
                 <td>{item.CourseExpDate}   <Badge color="danger">Expired</Badge></td>
             </tr>
-            ); 
+            );
         }
 
     });

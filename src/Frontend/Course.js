@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Container, Card, CardBody, CardText, CardTitle, Button, Table, Badge, CardSubtitle,Modal,ModalBody,ModalFooter,ModalHeader } from 'reactstrap'
+import { Row, Col, Container, Card,
+   CardBody, CardText, CardTitle, Button,
+    Table, Badge, CardSubtitle,Modal,
+    ModalBody,ModalFooter,ModalHeader,
+    Label,FormGroup,Input } from 'reactstrap'
 import { Footer } from './Footer'
-//yaimport {Rating} from 'react-rating';
 
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
@@ -110,7 +113,19 @@ onClick3 = () =>{
     }
     // '
     var CourseReviewButton = (
-      <Button color='primary' onClick={this.onClickReview}></Button>
+      <div>
+      <FormGroup>
+          <Label for="exampleText">Text Area</Label>
+          <Input type="textarea" name="text" id="exampleText" />
+      </FormGroup>
+      <FormGroup tag="fieldset">
+          <FormGroup>
+          <Label for="formControlRange"><i className='fa fa-star'/> Rate this Course <i className='fa fa-star'/></Label>
+          <Input type="range" name="selectMulti" id="exampleSelectMulti" multiple style={{color:'#000'}}> </Input>
+          </FormGroup>
+        </FormGroup>
+        <Button color='primary' onClick={this.onClickReview}>Submit</Button>
+        </div>
     );
     var CourseReviewPresent;
     if(!this.state.alreadyEnroll||this.state.alreadyReview){
@@ -121,12 +136,11 @@ onClick3 = () =>{
     return (
       <div className='App'>
         <Container fluid style={{backgroundColor: '#555'}}>
-          <Row style={{ justifyContent: 'center',
- alignItems: 'center'}}>
+          <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
             <img src={this.props.courseImage} width={700} alt='error' />
             <Col>
             
-            <Card>
+            <Card style={{marginTop:10}}>
               <CardBody>
                 <CardTitle>
                   {this.props.courseName}
@@ -151,43 +165,39 @@ onClick3 = () =>{
               </Button>
               </CardBody>
             </Card>
-            <Table borderless style={{marginBottom: 10,color: '#FFF'}}>
-              <thead>
-                <tr>
-                  <th>
-                    #
-                  </th>
-                  <th>
-                    SubCourseID
-                  </th>
-                  <th>
-                    SubCourseName
-                  </th>
-                  <th>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {Syllabus}
-              </tbody>
-            </Table>
+            <br/>
+            <Card style={{marginBottom: 60}}>
+            <CardBody>
+              <CardTitle>
+                Student Review
+              </CardTitle>
+              {CourseReviewPresent}
+            </CardBody>
+          </Card>
+            
             </Col>
             <Col>
-            <Card>
-              <CardBody>
-                <CardTitle>
-                  Student Review
-                </CardTitle>
-                {CourseReviewPresent}
-                <br/>
-                alreadyEnroll = {this.state.alreadyEnroll+''}
-                <br/>
-                alreadyReview = {this.state.alreadyReview+''}
-                <br/>
-                alreadyLogin = {this.state.alreadyLogin+''}
-              </CardBody>
-            </Card>
-            <br/>
+            <h2 style={{marginBottom: 10,color: '#FFF'}}>Course Syllabus</h2>
+            <Table borderless style={{marginBottom: 10,color: '#FFF'}}>
+            <thead>
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  SubCourseID
+                </th>
+                <th>
+                  SubCourseName
+                </th>
+                <th>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {Syllabus}
+            </tbody>
+          </Table>
             
             </Col>
           </Row>
@@ -197,7 +207,7 @@ onClick3 = () =>{
 
         <Modal isOpen={this.state.reviewModal} toggle={this.toggleReview}>
           <ModalBody>
-            Thank You for your review.
+            Thank You for your review!
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={this.toggleReview}>Close</Button>
@@ -232,6 +242,11 @@ Course.defaultProps = {
   src: [
     {subCourseName: 'Math101',subCourseId: 'M101',subCourseLink: '/learning'},
     {subCourseName: 'Math102',subCourseId: 'M102',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'}
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
+    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
   ]
 }

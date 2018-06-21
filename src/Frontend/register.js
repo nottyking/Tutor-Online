@@ -16,7 +16,6 @@ export class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { step: 1 };
-
     this.getInitialState = this.getInitialState.bind(this);
     this.saveValues = this.saveValues.bind(this);
     this.nextStep = this.nextStep.bind(this);

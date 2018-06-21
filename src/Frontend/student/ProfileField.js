@@ -35,7 +35,7 @@ export class ProfileField extends React.Component {
                   LastName: {this.props.defaultValue.LastName}
                 </p>
                 <p>
-                  E-mail: {this.props.defaultValue.Email}
+                  E-mail : {this.props.defaultValue.Email}
                 </p>
                 <p>
                   Birthday : {this.props.defaultValue.Birthday}
@@ -47,7 +47,7 @@ export class ProfileField extends React.Component {
                   Gender : {this.props.defaultValue.Gender}
                 </p>
               </CardText>
-              <Button color='primary' onClick={this.props.toEditPage} defaultValue={this.props.defaultValue}>
+              <Button color='primary' onClick={this.props.toNextStep} defaultValue={this.props.defaultValue}>
                 Edit Profile
                   </Button>
             </CardBody>

@@ -9,6 +9,14 @@ import {Footer} from './Footer'
 // Prop UseId,CourseName,CourseId,SubCourseName,SubCourseId,CourseDescription)
 
 export class Learning extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        freeUser:true,
+        
+    };
+  }
+
   render () {
     const timeElapsed ='0m5s'
     return (
@@ -47,6 +55,7 @@ export class Learning extends React.Component {
 
 Learning.propTypes = {
   CourseName: PropTypes.string.isRequired,
+  SubCourseName:PropTypes.string.isRequired,
   src: PropTypes.arrayOf(PropTypes.shape({
     Cname: PropTypes.string.isRequired,
     Cimage: PropTypes.string.isRequired,

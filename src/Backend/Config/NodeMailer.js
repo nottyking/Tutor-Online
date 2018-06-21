@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 const GMAIL_USER = 'tutor.online.play@gmail.com'
 const GMAIL_PASS = 'Playtorium||1'
-const EMAIL_SECRET = "TESTEMAILVERIFICATION"
+const EMAIL_SECRET = "GAPFUINOTT"
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail' ,

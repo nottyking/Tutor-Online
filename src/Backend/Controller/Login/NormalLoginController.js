@@ -1,6 +1,8 @@
 const con = require('../../Config/database')
+const auth = require('../../Config/Auth')
+const jwt = require('jsonwebtoken')
 
-async function LoginByNormal(req){
+async function LoginByNormal(req, res){
   console.log('Enter login normal');
   return await new Promise( (resolve, reject) => {
     con.query('SELECT * from user WHERE (username = ? OR email = ?) AND password = ?',[
@@ -21,15 +23,16 @@ async function LoginByNormal(req){
           result: false ,
           msg : "Your Username or Password is Invalid"
         })
+        return ;
       }
 
       for(let i = 0 ; i < result.length ; i++){
         if(result[i].isConfirm === 1){
           console.log("Login successful:",result);
-          resolve({
-            result: true ,
-            msg: "Login successful"
-          })
+
+          makeAuthentication(result[i].userid, resolve);
+
+          return ;
         }
       }
 
@@ -40,6 +43,29 @@ async function LoginByNormal(req){
       });
     })
   })
+}
+
+function makeAuthentication(userid, resolve){
+  jwt.sign({
+      userid: userid
+    },
+    auth.AUTH_SECRET,{
+      expiresIn: auth.MAX_AGE
+    },
+    (err, loginToken) => {
+      if(err){
+        resolve({
+          result: false,
+          msg: err
+        });
+      }
+      resolve({
+        result: true ,
+        msg: "Login successful",
+        loginToken: loginToken
+      })
+    }
+  )
 }
 
 module.exports = {

@@ -1,4 +1,4 @@
-const con = require('./config/database')
+const con = require('../../Config/database')
 
 const getUser = () => {
   console.log('Enter getUser in getData');
@@ -85,17 +85,19 @@ function prepareSQLQuery(name,atti,value){
   };
 }
 
-const getUserWithWhere = (atti, value) => {
+const getUserWithWhere = async(atti, value) => {
   console.log('Enter getUserWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('User',atti,value);
+  var preparedSQLQuery = await prepareSQLQuery('User',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
+  return await new Promise((resolve, reject) => {
+    con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
+      console.log('result:',result);
+      resolve({
+        'err' : err ,
+        'result' : result
+      });
+    })
   })
 }
 

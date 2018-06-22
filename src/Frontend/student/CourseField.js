@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 
 export class CourseField extends React.Component {
+    handleClick(){
+        
+    }
+
     render() {
         const tablebody = this.props.defaultValue.src.map((item, i) => {
             var today = new Date();

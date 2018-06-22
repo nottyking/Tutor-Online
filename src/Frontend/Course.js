@@ -6,6 +6,8 @@ import { Row, Col, Container, Card,
     ModalBody,ModalFooter,ModalHeader,
     Label,FormGroup,Input } from 'reactstrap'
 import { Footer } from './Footer'
+import Rating from 'react-rating';
+import {Payment} from './Payment'
 
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
@@ -77,7 +79,7 @@ onClick3 = () =>{
           </td>
           <td>
             <Badge href={this.state.alreadyEnroll? item.subCourseLink:''} color={this.state.alreadyEnroll?'primary':'danger'}>
-              {this.state.alreadyEnroll? 'Learn':'Please Enroll To Watch'}
+              {this.state.alreadyEnroll? 'Learn':''}
             </Badge>
           </td>
         </tr>
@@ -115,13 +117,18 @@ onClick3 = () =>{
     var CourseReviewButton = (
       <div>
       <FormGroup>
-          <Label for="exampleText">Text Area</Label>
+          <Label for="exampleText">Please Comment This Course</Label>
           <Input type="textarea" name="text" id="exampleText" />
       </FormGroup>
       <FormGroup tag="fieldset">
           <FormGroup>
-          <Label for="formControlRange"><i className='fa fa-star'/> Rate this Course <i className='fa fa-star'/></Label>
-          <Input type="range" name="selectMulti" id="exampleSelectMulti" multiple style={{color:'#000'}}> </Input>
+          <Label for="formControlRange">Rate this Course</Label>
+          <br/>
+          <Rating
+          emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
+          'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x','fa fa-star-o fa-5x']}
+          fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
+          'fa fa-star fa-3x', 'fa fa-star fa-4x','fa fa-star fa-5x']}/>
           </FormGroup>
         </FormGroup>
         <Button color='primary' onClick={this.onClickReview}>Submit</Button>
@@ -137,8 +144,10 @@ onClick3 = () =>{
       <div className='App'>
         <Container fluid style={{backgroundColor: '#555'}}>
           <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
+          <Col style={{width:700}}>
             <img src={this.props.courseImage} width={700} alt='error' />
-            <Col>
+            </Col>
+            <Col style={{maxWidth:500,marginLeft:10}}>
             
             <Card style={{marginTop:10}}>
               <CardBody>
@@ -154,15 +163,7 @@ onClick3 = () =>{
                   <br />
                   {this.props.courseDesc}
                 </CardText>
-                {!this.state.alreadyEnroll ? <Button color='primary' href='/Payment'>
-                  Enroll This Course
-                </Button> : ''}<br/><br/>
-                <Button color='danger' onClick={this.onClick}>
-                  Admin Enroll
-                </Button>
-                <Button color='warning' onClick={this.onClick3}>
-                Admin Login
-              </Button>
+                {!this.state.alreadyEnroll ? <Payment/> : ''}
               </CardBody>
             </Card>
             <br/>
@@ -176,8 +177,8 @@ onClick3 = () =>{
           </Card>
             
             </Col>
-            <Col>
-            <h2 style={{marginBottom: 10,color: '#FFF'}}>Course Syllabus</h2>
+            <Col style={{maxWidth:400}}>
+            <h2 style={{marginBottom: 10,color: '#FFF'}} onClick={this.onClick}>Course Syllabus</h2>
             <Table borderless style={{marginBottom: 10,color: '#FFF'}}>
             <thead>
               <tr>
@@ -225,6 +226,7 @@ Course.propTypes = {
   courseDesc: PropTypes.string.isRequired,
   courseInstructor: PropTypes.string.isRequired,
   courseReview: PropTypes.number,
+  coursePrice: PropTypes.number,
   subCourses: PropTypes.arrayOf(PropTypes.shape({
     subCourseName: PropTypes.string.isRequired,
     subCourseId: PropTypes.string.isRequired,
@@ -239,6 +241,7 @@ Course.defaultProps = {
   courseDesc: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
   courseInstructor: 'John Doe',
   courseReview: 5,
+  coursePrice: 1555,
   src: [
     {subCourseName: 'Math101',subCourseId: 'M101',subCourseLink: '/learning'},
     {subCourseName: 'Math102',subCourseId: 'M102',subCourseLink: '/learning'},

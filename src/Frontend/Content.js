@@ -3,7 +3,7 @@ import logo from './Image/logo.svg';
 import {CourseCarousel} from './CourseCarousel';
 import {CoursePresent} from './CoursePresent';
 import {Footer} from './Footer'
-import {Rating} from 'react-rating';
+
 // import './App.css';
 
 export class Content extends Component {

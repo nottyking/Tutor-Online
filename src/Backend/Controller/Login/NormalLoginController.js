@@ -2,6 +2,7 @@ const con = require('../../Config/database')
 
 async function LoginByNormal(req){
   console.log('Enter login normal');
+  console.log(req.body);
   return await new Promise( (resolve, reject) => {
     con.query('SELECT * from user WHERE (username = ? OR email = ?) AND password = ?',[
       req.body.usernameOrEmail, req.body.usernameOrEmail, req.body.password

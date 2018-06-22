@@ -20,7 +20,7 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Button, Label, Modal
+    Label
 } from 'reactstrap';
 
 
@@ -59,7 +59,6 @@ export default class NavBar extends React.Component {
                     link = page;
                     break;
             }
-            console.log(link);
             return (
                 <NavItem>
                     <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>
@@ -81,7 +80,6 @@ export default class NavBar extends React.Component {
                     link = page;
                     break;
             }
-            console.log(link);
             return (
                 <NavItem>
                     <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>

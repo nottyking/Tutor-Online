@@ -9,10 +9,7 @@ export class CourseField extends React.Component {
     render() {
         const tablebody = this.props.defaultValue.src.map((item, i) => {
             var today = new Date();
-            console.log(today);
-            console.log((new Date(item.courseexpireddate)));
-            console.log(parseInt(((new Date(item.courseexpireddate)) - today)));
-            console.log(parseInt(((new Date(item.courseexpireddate)) - today)) > 0);
+            console.log(item);
             if (parseInt(((new Date(item.courseexpireddate)) - today)) > 0) {
                 return (<tr>
                     <td scope="row">{i + 1}</td>
@@ -23,6 +20,7 @@ export class CourseField extends React.Component {
                 );
             }
             else {
+              console.log(item.courseexpireddate);
                 return (<tr style={{ color: '#F00' }}>
                     <td scope="row">{i + 1}</td>
                     <td>{item.courseid}</td>

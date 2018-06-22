@@ -22,6 +22,7 @@ import {
     NavLink,
     Label
 } from 'reactstrap';
+import { LoginPage } from './LoginPage';
 
 
 const pages = ['home', 'course', 'about us'];
@@ -40,6 +41,7 @@ export class BrowserRouterManager extends React.Component {
                         <Route exact path="/student" component={Student} />
                         <Route exact path="/learning" component={Learning} />
                         <Route exact path='/payment' component={Payment} />
+                        <Route exact path='/loginPage' component={LoginPage} />
                         <Route component={Content} />
                     </Switch>
                 </BrowserRouter>

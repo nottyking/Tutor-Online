@@ -1,0 +1,41 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "base-64": "^0.1.0",
+    "bootstrap": "^4.1.1",
+    "connect-redis": "^3.3.3",
+    "cookie-parser": "^1.4.3",
+    "cookies": "^0.7.1",
+    "cors": "^2.8.4",
+    "dateformat": "^3.0.3",
+    "express-session": "^1.15.6",
+    "fullstack": "0.0.1",
+    "jsonwebtoken": "^8.3.0",
+    "jwt": "^0.2.0",
+    "mysql": "^2.15.0",
+    "nodemailer": "^4.6.7",
+    "nodemon": "^1.17.5",
+    "omise": "^0.5.4",
+    "react": "^16.4.0",
+    "react-bootstrap": "^0.32.1",
+    "react-cookie": "^2.2.0",
+    "react-dom": "^16.4.0",
+    "react-player": "^1.6.4",
+    "react-popup": "^0.9.3",
+    "react-rating": "^1.1.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "reactstrap": "^6.1.0",
+    "redis": "^2.8.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

@@ -87,17 +87,11 @@ export class Login extends React.Component {
 
     async login() {
         //this.toggleModal();
+        console.log("Login");
         var isLoginSuccess = await this.checkLoginOnDatabase();
+        console.log("After send");
         if (isLoginSuccess.result) {//Check id/email/password
             var currentdate = new Date();
-            var datetime = "Last Sync: " + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/"
-                + currentdate.getFullYear() + " @ "
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes() + ":"
-                + currentdate.getSeconds();
-            console.log(datetime);
-            console.log("GIT");
             cookies.set("loginToken",isLoginSuccess.loginToken,{maxAge: maxAge});
             this.props.login();
         } else {

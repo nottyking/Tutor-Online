@@ -8,7 +8,7 @@ export class MenuTab extends React.Component {
         return (
             <div>
                 <Container fluid style={{ paddingTop: 10 }}>
-                    <Label style={{ fontWeight: "bold" }}>MENU</Label>
+                    <Label style={{ fontWeight: "bold"}} align='left'>MENU</Label>
                     <hr color='#FFF' style={{
                         height: '3px',
                         margin: '0em'

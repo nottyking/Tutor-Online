@@ -1,10 +1,14 @@
 import React from 'react'
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter,Container,Row,Card,CardBody,CardImg } from 'reactstrap';
+import {CreditCardForm} from './CreditCardForm'
+import axios from 'axios';
+
+// Todo Change path to charge omise  & use Prop instead of cData
 
 var cData = {
-    cName : 'CourseName',
+    cName : 'Math for PAT1',
     cDes : 'Course Description',
-    price: 100000, //IN Satang-THB
+    price: 155500, //IN Satang-THB
     d : Date().getDate
 }
 
@@ -15,16 +19,31 @@ export class Payment extends React.Component {
         this.submitPay = this.submitPay.bind(this);
     }
 
-    render() {
-        return (
-            <div align = 'center'>
-                <Label>Course Detail</Label>
-                <p>Price/Order Pre-receipt
-                    <Label color = 'primary'>{cData.d}</Label>
-                </p>
-                <Button onClick={this.submitPay} outline color='primary'>Pay</Button>
+    handleChange = event => {
+        this.setState({ name: event.target.value });
+    }
 
-            </div>
+    componentDidMount(){    
+    const {OmiseCard} =window;
+    OmiseCard.configure({
+        publicKey: 'pkey_test_5cbk0k6swgh9kw4fn6i',
+        amount: cData.price //IN Satang-THB 0.01 ฿
+      });
+    
+      OmiseCard.configureButton('#checkout-button', {
+        frameLabel: 'Tutor Online',
+        submitLabel: 'Pay',
+        frameDescription: 'Enroll '+cData.cName,
+        image:'http://icons.iconarchive.com/icons/martz90/circle/96/books-icon.png'
+      });
+    
+      OmiseCard.attach();
+    }
+    render() {
+        return ( 
+                    <Form action="http://localhost:8888/login/normal" method="POST">
+                     <Input type="submit" value="Pay To Enroll" id="checkout-button" className="btn btn-primary" onChange={this.handleChange} />
+                    </Form>
         );
     }
 

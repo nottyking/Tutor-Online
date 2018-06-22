@@ -118,7 +118,7 @@ export default class NavBar extends React.Component {
                             <Route exact path="/course" component={CourseA} />
                             <Route exact path="/student" component={Student} />
                             <Route exact path="/learning" component={Learning} />
-                            <Route exact path='/payment' component={Payment} />
+                           <Route exact path='/payment' component={Payment} /> 
 
                             <Route component={Content} />
                         </Switch>

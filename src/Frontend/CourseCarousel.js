@@ -65,7 +65,7 @@ constructor(props) {
           onExited={this.onExited}
           key={item.src}
         >
-          <img src={item.Cimage} width={700} alt="error" />
+          <img src={item.Cimage} width={700} height={400} alt="error" />
           <CarouselCaption captionText={item.Cdesc} captionHeader={item.Cname} />
         </CarouselItem>
       );
@@ -100,7 +100,7 @@ CourseCarousel.propTypes = {
 
 CourseCarousel.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-3.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
+        {Cname : "Math101", Cimage : "https://images.unsplash.com/photo-1457904375453-3e1fc2fc76f4?ixlib=rb-0.3.5&s=fa35e008ee5b6d0054ece52f5316b4e8&auto=format&fit=crop&w=1050&q=80",Clink:"aaaaaa",Cdesc:"aaaaaaaa50฿!"},
         {Cname : "Math102", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-2.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa60฿!"},
         {Cname : "Math201", Cimage : "https://69qd1c5qn8u3iv3haytl10c1-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/trianglify-3.png",Clink:"aaaaaa",Cdesc:"aaaaaaaa70฿!"}
     ]

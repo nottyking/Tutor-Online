@@ -46,7 +46,7 @@ export class ContactUsTab extends React.Component {
                             <Label>play@playtorium.co.th</Label>
                         </TabPane>
                         <TabPane tabId='3'>
-                            <Label>9:00AM - 6:00PM</Label>
+                            <Label>Monday-Friday &nbsp;|&nbsp; 9:00AM - 6:00PM</Label>
                         </TabPane>
                     </TabContent>
                 </Container>

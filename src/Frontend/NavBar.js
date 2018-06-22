@@ -23,6 +23,7 @@ import {
     Label
 } from 'reactstrap';
 import { LoginPage } from './LoginPage';
+import { PaymentSuccess } from './payment/PaymentSuccess';
 
 
 const pages = ['home', 'course', 'about us'];
@@ -42,6 +43,7 @@ export class BrowserRouterManager extends React.Component {
                         <Route exact path="/learning" component={Learning} />
                         <Route exact path='/payment' component={Payment} />
                         <Route exact path='/loginPage' component={LoginPage} />
+                        <Route exact path='/paymentSuccess' component={PaymentSuccess} />
                         <Route component={Content} />
                     </Switch>
                 </BrowserRouter>

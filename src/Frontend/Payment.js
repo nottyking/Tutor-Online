@@ -43,7 +43,7 @@ export class Payment extends React.Component {
         return ( 
                     <Form action="http://localhost:8888/login/normal" method="POST">
                      <Input type="submit" value="Pay To Enroll" id="checkout-button" className="btn btn-primary" onChange={this.handleChange} />
-                     <input name="amount" id="amount" value={cData.price} style={{display: 'none'}}/>
+                     <Input name="amount" id="amount" value={cData.price} style={{display:'none'}}/>
                     </Form>
         );
     }

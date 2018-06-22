@@ -91,9 +91,9 @@ const getUserWithWhere = async(atti, value) => {
   console.log('inWhere:', preparedSQLQuery.inWhere);
   return await new Promise((resolve, reject) => {
     con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-      console.log('result:',result);
+      console.log('result:',result[0]);
       resolve({
-        'result' : result,
+        'result' : result[0],
         'err' : err
       });
     })

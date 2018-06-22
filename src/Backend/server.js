@@ -26,21 +26,22 @@ app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   const clientLoginToken = req.body.loginToken;
   if(req.body.loginToken){
-    const { userid: userid } = jwt.verify(req.body.loginToken, auth.AUTH_SECRET);
-    console.log("userid:",userid);
-    if(!userid){
-      return res.redirect(ipList.frontend);
-    }
-    else{
+    try{
+      console.log("Login Token",req.body.loginToken);
+      const { userid: userid } = jwt.verify(req.body.loginToken, auth.AUTH_SECRET);
+      console.log("userid:",userid);
       req.session.userid = userid ;
       console.log('session userid:',req.session.userid);
       jwt.sign({
-          userid: userid
-        },
-        auth.AUTH_SECRET,{
-          expiresIn: auth.MAX_AGE
-        }
-      )
+        userid: userid
+      },
+      auth.AUTH_SECRET,{
+        expiresIn: auth.MAX_AGE
+      }
+    )
+    }catch(err){
+      console.log("Token invalid");
+      return res.redirect(ipList.frontend);
     }
   }
   next();

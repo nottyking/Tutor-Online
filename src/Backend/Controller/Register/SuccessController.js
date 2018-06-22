@@ -70,7 +70,7 @@ function sendConfirmationEmail(userid, email){
       expiresIn: '1d'
     },
     (err, emailToken) => {
-      const url = ipList.backend + `register/confirmation/${emailToken}`;
+      const url = ipList.backend + `/register/confirmation/${emailToken}`;
       console.log("Send to Email:",email);
       transporter.sendMail({
         to: email ,

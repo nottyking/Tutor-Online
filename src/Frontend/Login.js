@@ -3,6 +3,9 @@ import { Form, Row, Alert, Col, Button, FormGroup, Label, Input, FormText, FormF
 import './Login.css';
 import ipList from '../Config/ipConfig';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+const maxAge = 1*31*60*60 ;
 
 export class Login extends React.Component {
 
@@ -86,6 +89,16 @@ export class Login extends React.Component {
         //this.toggleModal();
         var isLoginSuccess = await this.checkLoginOnDatabase();
         if (isLoginSuccess.result) {//Check id/email/password
+            var currentdate = new Date();
+            var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            console.log(datetime);
+            console.log("GIT");
+            cookies.set("loginToken",isLoginSuccess.loginToken,{maxAge: maxAge});
             this.props.login();
         } else {
             this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })

@@ -1,4 +1,4 @@
-const con = require('./config/database')
+const con = require('../../Config/database')
 
 const getUser = () => {
   console.log('Enter getUser in getData');
@@ -72,11 +72,10 @@ const getSubCourse = () => {
 }
 
 function prepareSQLQuery(name,atti,value){
-  var sql = 'SELECT * FROM ' + name + ' WHERE ? = ?'
-  var inWhere = [atti[0], value[0]];
+  var sql = 'SELECT * FROM ' + name + ' WHERE ' + atti[0] + " = " + "?"
+  var inWhere = [value[0]];
   for(var i = 1 ; i < atti.length ; i++){
-    sql = sql + " AND ? = ?";
-    inWhere.push(atti[i]);
+    sql = sql + " AND " + atti[i] + " = ?";
     inWhere.push(value[i]);
   }
   return {
@@ -85,23 +84,25 @@ function prepareSQLQuery(name,atti,value){
   };
 }
 
-const getUserWithWhere = (atti, value) => {
+const getUserWithWhere = async(atti, value) => {
   console.log('Enter getUserWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('User',atti,value);
+  var preparedSQLQuery = await prepareSQLQuery('user',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
+  return await new Promise((resolve, reject) => {
+    con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
+      console.log('result:',result[0]);
+      resolve({
+        'result' : result[0],
+        'err' : err
+      });
+    })
   })
 }
 
 const getAdminWithWhere = (atti, value) => {
   console.log('Enter getAdminWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('Admin',atti,value);
+  var preparedSQLQuery = prepareSQLQuery('admin',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
   con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
@@ -115,7 +116,7 @@ const getAdminWithWhere = (atti, value) => {
 
 const getStudentWithWhere = (atti, value) => {
   console.log('Enter getStudentWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('Student',atti,value);
+  var preparedSQLQuery = prepareSQLQuery('student',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
   con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {

@@ -3,7 +3,7 @@ const router = app.Router();
 const NormalLoginController = require('./NormalLoginController');
 
 router.post('/normal', async(req, res) => {
-  res.send(await NormalLoginController.LoginByNormal(req));
+  res.send(await NormalLoginController.LoginByNormal(req, res));
 })
 
 router.post('/facebook', (req, res) => {

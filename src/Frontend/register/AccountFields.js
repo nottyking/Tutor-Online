@@ -3,6 +3,7 @@ import './Register.css';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios'
 import ipList from '../../Config/ipConfig'
+import capsulation from '../Capsulation/SendData'
 
 export class AccountFields extends React.Component {
 
@@ -218,9 +219,9 @@ export class AccountFields extends React.Component {
 
     //This method for checking necessary field value with database
     async checkDatabaseOnSubmit() {
-        var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",{
-          username: document.getElementById('username').value, email: document.getElementById('email').value
-        })).data
+        var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",
+          capsulation.sendData({username: document.getElementById('username').value, email: document.getElementById('email').value})
+        )).data
         console.log(checkOnSubmit);
         if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database
             console.log("Username is same");

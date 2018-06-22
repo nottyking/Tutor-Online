@@ -15,7 +15,7 @@ prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
 
 */
 
-export class Course extends React.Component {
+export class CourseA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -219,7 +219,7 @@ onClick3 = () =>{
   }
 }
 
-Course.propTypes = {
+CourseA.propTypes = {
   courseName: PropTypes.string.isRequired,
   courseImage: PropTypes.string.isRequired,
   courseLink: PropTypes.string.isRequired,
@@ -234,7 +234,7 @@ Course.propTypes = {
   })).isRequired
 }
 
-Course.defaultProps = {
+CourseA.defaultProps = {
   courseName: 'Math for PAT1',
   courseImage: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
   courseLink: '',

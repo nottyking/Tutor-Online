@@ -1,7 +1,96 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
+import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 
 export class EditProfileField extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ModalMessage: '', isDefaultPassword: true, validPassword: false,
+            isDefaultRePassword: true, validRePassword: false, Modal: false
+        };
+        this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.checkValidPassword = this.checkValidPassword.bind(this);
+        this.checkValidRePassword = this.checkValidRePassword.bind(this);
+        this.checkCurrentPassword = this.checkCurrentPassword.bind(this);
+        this.saveToDatabase = this.saveToDatabase.bind(this);
+        this.modalToggle = this.modalToggle.bind(this);
+    }
+
+    saveToDatabase() {
+        var data = {
+            FirstName: document.getElementById('fName').value,
+            LastName: document.getElementById('lName').value,
+            ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
+            Birthday: document.getElementById('birthDate').value,
+            Address: document.getElementById('address').value,
+            Gender: document.getElementById('gender').value,
+            newPassword: document.getElementById('newPassword').value
+        }
+
+        return true;
+    }
+
+    checkCurrentPassword() {
+        return true;
+    }
+
+    saveAndContinue(event) {
+        event.preventDefault(event);
+
+        if (!this.checkCurrentPassword()) {
+            this.setState({ ModalMessage: 'your password is incorrect' });
+            this.modalToggle();
+        }
+        else {//Pass Every Condition
+            if (this.saveToDatabase()) {
+                this.props.toNextStep();
+            } else {
+                this.setState({ ModalMessage: 'Error: Can\'t sent data to server' });
+                this.modalToggle();
+            }
+        }
+    }
+
+
+    checkValidPassword() {
+        if (this.state.isDefaultPassword) {
+            this.setState({ isDefaultPassword: false });
+        } else if (document.getElementById('newPassword').value == '') {
+            this.setState({ isDefaultPassword: true });
+        }
+
+        if (document.getElementById('newPassword').value.length < 8 ||
+            document.getElementById('newPassword').value.length > 12) {
+            this.setState({ validPassword: false, ModalMessage: 'New password must contain 8-12 characters' })
+            return false;
+        }
+        else {
+            this.setState({ validPassword: true });
+            return true;
+        }
+    }
+
+    checkValidRePassword() {
+        if (this.state.isDefaultRePassword) {
+            this.setState({ isDefaultRePassword: false });
+        } else if (document.getElementById('rePassword').value == '') {
+            this.setState({ isDefaultRePassword: true });
+        }
+
+        if (this.checkValidPassword && document.getElementById('newPassword').value != document.getElementById('rePassword').value) {//Check Password & re-password
+            this.setState({ validRePassword: false, ModalMessage: 'Your Password and Re-password is not match' })
+            return false;
+        }
+        else {
+            this.setState({ validRePassword: true });
+            return true;
+        }
+    }
+
+    modalToggle() {
+        this.setState({ Modal: !this.state.Modal })
+    }
+
     render() {
         return (
             <div>
@@ -23,7 +112,6 @@ export class EditProfileField extends React.Component {
                     <CardBody>
                         <CardText>
                             <Form>
-
                                 <hr></hr>
                                 <FormGroup row>
                                     <Label >Username</Label>
@@ -77,7 +165,7 @@ export class EditProfileField extends React.Component {
                                             </tr>
                                             <tr>
                                                 <td><Input plaintext>Address</Input></td>
-                                                <td><Input type='textarea' /></td>
+                                                <td><Input type='textarea' id='address' defaultValue={this.props.defaultValue.Address} /></td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -90,10 +178,23 @@ export class EditProfileField extends React.Component {
                             <Form>
                                 <FormGroup row>
                                     <Label>New Password</Label>
-                                    <Input type='password' id='password'
-                                        defaultValue={this.props.defaultValue.password} placeholder='Enter your password'
+                                    <Input type='password' id='newPassword'
+                                        defaultValue={this.props.defaultValue.password} placeholder='Enter new password'
+                                        valid={this.state.validPassword}
+                                        invalid={!this.state.validPassword && !this.state.isDefaultPassword}
+                                        onChange={this.checkValidPassword}
                                     />
-                                    <FormText>Type your current password to confirm this session</FormText>
+                                    <FormText>Type here to change your password, New password must contain between 8-12 characters</FormText>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label>Re-Password</Label>
+                                    <Input type='password' id='rePassword'
+                                        defaultValue={this.props.defaultValue.rePassword} placeholder='Enter new password again'
+                                        valid={this.state.validRePassword}
+                                        invalid={!this.state.validRePassword && !this.state.isDefaultRePassword}
+                                        onChange={this.checkValidRePassword}
+                                    />
+                                    <FormText>Confirm your new password here</FormText>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Current Password</Label>
@@ -102,21 +203,26 @@ export class EditProfileField extends React.Component {
                                     />
                                     <FormText>Type your current password to confirm this session</FormText>
                                 </FormGroup>
-                                <FormGroup row>
-                                    <Label>Re: Current Password</Label>
-                                    <Input type='password' id='rePassword'
-                                        defaultValue={this.props.defaultValue.rePassword} placeholder='Enter password again'
-                                    />
-                                    <FormText>Confirm current your password here</FormText>
-                                </FormGroup>
                             </Form>
                         </CardText>
-                        <Button color='success' onClick={this.props.toProfilePage} defaultValue={this.props.defaultValue}>
-                            OK
-                  </Button>
+
+                        <Button color='danger' onClick={this.props.toPreviousStep}>Back</Button>&nbsp;&nbsp;
+                        <Button color='success' onClick={this.saveAndContinue}>OK</Button>
+
                     </CardBody>
                 </Card>
 
+
+                {/* HANDLE WARNING */}
+                <Modal isOpen={this.state.Modal} toggle={this.modalToggle}>
+                    <ModalHeader>WARNING</ModalHeader>
+                    <ModalBody>
+                        {this.state.ModalMessage}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color='danger' onClick={this.modalToggle}>OK</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }

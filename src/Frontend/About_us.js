@@ -3,7 +3,7 @@ import { width, height } from 'window-size'
 import { Container, Row, Col, Card, CardTitle, CardText, CardImg, CardImgOverlay } from 'reactstrap'
 import banner from './Image/apple-businesswoman-communication-6479.jpg'
 
-export class ContactUs extends React.Component {
+export class AboutUs extends React.Component {
   render () {
     return (
       <div className='App'>

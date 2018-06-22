@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
-
+import dateFormat from 'dateformat'
 export class CourseField extends React.Component {
     handleClick(){
         
@@ -9,21 +9,25 @@ export class CourseField extends React.Component {
     render() {
         const tablebody = this.props.defaultValue.src.map((item, i) => {
             var today = new Date();
-            if (new Date(item.CourseExpDate) >= today) {
+            console.log(today);
+            console.log((new Date(item.courseexpireddate)));
+            console.log(parseInt(((new Date(item.courseexpireddate)) - today)));
+            console.log(parseInt(((new Date(item.courseexpireddate)) - today)) > 0);
+            if (parseInt(((new Date(item.courseexpireddate)) - today)) > 0) {
                 return (<tr>
-                    <th scope="row">{i + 1}</th>
-                    <td>{item.CourseID}</td>
-                    <td>{item.CourseName}</td>
-                    <td>{item.CourseExpDate}  <Badge color="primary">{parseInt(((new Date(item.CourseExpDate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
+                    <td scope="row">{i + 1}</td>
+                    <td>{item.courseid}</td>
+                    <td>{item.coursename}</td>
+                    <td>{dateFormat(item.courseexpireddate,"yyyy-mm-dd")}  <Badge color="primary">{parseInt(((new Date(item.courseexpireddate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
                 </tr>
                 );
             }
             else {
                 return (<tr style={{ color: '#F00' }}>
-                    <th scope="row">{i + 1}</th>
-                    <td>{item.CourseID}</td>
-                    <td>{item.CourseName}</td>
-                    <td>{item.CourseExpDate}   <Badge color="danger">Expired</Badge></td>
+                    <td scope="row">{i + 1}</td>
+                    <td>{item.courseid}</td>
+                    <td>{item.coursename}</td>
+                    <td>{dateFormat(item.courseexpireddate,"yyyy-mm-dd")}   <Badge color="danger">Expired</Badge></td>
                 </tr>
                 );
             }

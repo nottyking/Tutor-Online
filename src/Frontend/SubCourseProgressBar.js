@@ -39,14 +39,13 @@ export class SubCourseProgressBar extends React.Component {
         if(item.SCid === this.props.now){
         return (
             <Button color="warning" block>
-            
-            <i class="fa">&#xf097;</i>  {item.SCname}
+            <i class="fa">&#xf097;</i> {item.SCname.toUpperCase()}
             </Button>
         )
     }
         else{
             return(
-            <Button color="secondary" block>
+            <Button outline color="warning" block>
                 {item.SCname.toUpperCase()}
             </Button>
             )

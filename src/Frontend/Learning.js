@@ -22,9 +22,10 @@ export class Learning extends React.Component {
     return (
       <div className='App'>
         <Container fluid className='bg-secondary'>
-          <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Course Name</h3>
           <Row>
-            <Col xs='11'>
+          <Col/>
+            <Col xs='9'>
+            <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Course Name</h3>
             <VideoPlayer/>
             <p></p>
             <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333',padding: 10,marginTop: 10,marginBottom: 20 }}>
@@ -32,17 +33,14 @@ export class Learning extends React.Component {
                 Course Description
               </CardTitle>
               <CardText>
-                he shortcuts will work almost everywhere where it makes sense, and you can combine them, so to make an italic link use [_this_] or _[this]_. Some controls like Paragraph
-                or Label allow you to “unbold” the text via the Property Inspector panel. If you do so, the words you *bolded* will stay bold. A few controls use bold
-                text by default, so bolding text within those controls won’t make a difference. If you want to show these special formatting characters as actual text,
-                you can escape the *, _, -, [ and ] characters with \*, \_, \-, \[ and \], so if you want to write “this [is] some text” and don’t want the “is” to become
-                a link, just type “this \[is\] some text”. Line Breaks Most controls allow you to insert a line break to wrap text from one line to the next. You can do
-                this by writing \r in front of the text you want to start on a new line. See the example below where a line break is used in the second item in a Radio
-                Button control.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non odio congue, feugiat tortor nec, tincidunt dui. Proin nec euismod elit. Aenean quis nunc sit amet eros tincidunt molestie ut sit amet nisi. Nulla facilisi. Mauris nisl magna, posuere in libero eget, dictum condimentum eros. Morbi lacinia pharetra ex sit amet dapibus. Nullam et sodales purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur sed maximus urna. Vivamus et erat sit amet tortor lobortis interdum eget at nibh. Curabitur id pulvinar velit, ut porta sem. Integer sit amet lorem tortor. In gravida pulvinar tempor. Sed tempus porta lacus id gravida.
+
+              Aliquam congue diam mi, quis tempus turpis eleifend vel. Vestibulum porttitor convallis tortor non elementum. Maecenas a egestas turpis, ac cursus neque. Duis vulputate, enim vel facilisis elementum, nibh nulla iaculis nulla, nec fermentum enim purus non quam. Donec imperdiet tincidunt varius. Curabitur tempor purus vel felis commodo placerat. Nulla rutrum in tortor eu cursus. Vivamus vitae porta massa, non finibus ante. Praesent in imperdiet libero, eu pretium elit. Nulla nisl velit, mattis eget lobortis ac, dictum at enim. Fusce sollicitudin consequat imperdiet. Proin ullamcorper enim quam, ac rutrum purus dignissim nec. Phasellus ullamcorper felis vitae arcu semper sodales. Vestibulum eu ante congue, rutrum arcu vel, ullamcorper dui. Nullam posuere pulvinar justo sit amet tristique. Ut sollicitudin bibendum sem, at euismod felis pulvinar nec.
               </CardText>
             </Card>
             </Col>
-            <Col xs='1'>
+            <Col xs='2'>
+            <br/><br/>
             <SubCourseProgressBar/>
             </Col>
           </Row>

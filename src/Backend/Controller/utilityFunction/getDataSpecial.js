@@ -17,8 +17,8 @@ function prepareSQLQuery(select, from, atti, value){
   }
 }
 
-const getRegisteredCourseInformationFromUserid = async(select, from, atti, value) => {
-  console.log('Enter getRegisteredCourseInformationFromUserid in getDataSpecial');
+const getEnrollerCourseInformationFromUserid = async(select, from, atti, value) => {
+  console.log('Enter getEnrolledCourseInformationFromUserid in getDataSpecial');
   var preparedSQLQuery = await prepareSQLQuery(select, from, atti, value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
@@ -34,7 +34,7 @@ const getRegisteredCourseInformationFromUserid = async(select, from, atti, value
 }
 
 const getFunction = {
-  getRegisteredCourseInformationFromUserid : getRegisteredCourseInformationFromUserid ,
+  getEnrollerCourseInformationFromUserid : getEnrollerCourseInformationFromUserid ,
 }
 
 module.exports = getFunction ;

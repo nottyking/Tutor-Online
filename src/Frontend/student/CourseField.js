@@ -3,29 +3,28 @@ import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSu
 import dateFormat from 'dateformat'
 export class CourseField extends React.Component {
     handleClick(){
-        
+
     }
 
     render() {
         const tablebody = this.props.defaultValue.src.map((item, i) => {
             var today = new Date();
-            console.log(item);
-            if (parseInt(((new Date(item.courseexpireddate)) - today)) > 0) {
+            if (parseInt(((new Date(item.expireddate)) - today)) > 0) {
                 return (<tr>
                     <td scope="row">{i + 1}</td>
                     <td>{item.courseid}</td>
                     <td>{item.coursename}</td>
-                    <td>{dateFormat(item.courseexpireddate,"yyyy-mm-dd")}  <Badge color="primary">{parseInt(((new Date(item.courseexpireddate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
+                    <td>{dateFormat(item.expireddate,"yyyy-mm-dd")}  <Badge color="primary">{parseInt(((new Date(item.expireddate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
                 </tr>
                 );
             }
             else {
-              console.log(item.courseexpireddate);
+              console.log(item.expireddate);
                 return (<tr style={{ color: '#F00' }}>
                     <td scope="row">{i + 1}</td>
                     <td>{item.courseid}</td>
                     <td>{item.coursename}</td>
-                    <td>{dateFormat(item.courseexpireddate,"yyyy-mm-dd")}   <Badge color="danger">Expired</Badge></td>
+                    <td>{dateFormat(item.expireddate,"yyyy-mm-dd")}   <Badge color="danger">Expired</Badge></td>
                 </tr>
                 );
             }

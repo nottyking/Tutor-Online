@@ -25,6 +25,7 @@ const jwt = require('jsonwebtoken')
 app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   const clientLoginToken = req.body.loginToken;
+  console.log("After loginToken");
   if(req.body.loginToken){
     try{
       console.log("Login Token",req.body.loginToken);
@@ -38,10 +39,14 @@ app.use(function(req, res, next){
       auth.AUTH_SECRET,{
         expiresIn: auth.MAX_AGE
       }
-    )
+      )
+      console.log("Pass Auth");
     }catch(err){
       console.log("Token invalid");
-      return res.redirect(ipList.frontend);
+      console.log(ipList.frontend);
+      return res.send({
+        redirect: ipList.frontend
+      });
     }
   }
   next();

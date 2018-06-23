@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Route, Redirect } from 'react-router'
 import { width } from 'window-size';
 import PropTypes from 'prop-types';
 import { Success } from './student/Success'
@@ -12,6 +13,8 @@ import axios from 'axios'
 const cookies = new Cookies();
 const ipList = require('../Config/ipConfig')
 
+var isValidToken = true;
+var linkRedirect = '';
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
             and src : List of Course object {Cid Cname Clink Cexpdate}
@@ -28,7 +31,7 @@ const defaultValue = {
   Birthday: '',
   Address: '',
   Gender: '',
-  src: [{CourseID:'',CourseName:'',CourseExpDate:'',CourseLink:''}]
+  src: [{courseid:'',coursename:'',courseexpireddate:'',courselink:''}]
 }
 
 // var testData = {
@@ -64,20 +67,28 @@ export class Student extends React.Component {
       loginToken : cookies.get("loginToken")
     })).data;
     console.log("studentInformationAndError:",studentInformationAndError);
-    var studentInformation = studentInformationAndError.result;
-    var studentError = studentInformationAndError.error;
+    if(studentInformationAndError.redirect){
+      console.log("Redirect");
+      isValidToken = false;
+      linkRedirect = studentInformationAndError.redirect;
+    }
+    else{
+      var studentInformation = studentInformationAndError.result;
+      var studentError = studentInformationAndError.error;
 
-    defaultValue.UserID = studentInformation.userid;
-    defaultValue.Username = studentInformation.username;
-    defaultValue.FirstName = studentInformation.fname;
-    defaultValue.LastName = studentInformation.lname;
-    defaultValue.Email = studentInformation.email;
-    // defaultValue.ProfileImg = studentInformation.profileimg;
-    defaultValue.Birthday = studentInformation.birthday;
-    defaultValue.Address = studentInformation.address;
-    defaultValue.Gender = studentInformation.gender;
-    defaultValue.src = studentInformation.src.result;
+      defaultValue.UserID = studentInformation.userid;
+      defaultValue.Username = studentInformation.username;
+      defaultValue.FirstName = studentInformation.fname;
+      defaultValue.LastName = studentInformation.lname;
+      defaultValue.Email = studentInformation.email;
+      // defaultValue.ProfileImg = studentInformation.profileimg;
+      defaultValue.Birthday = studentInformation.birthday;
+      defaultValue.Address = studentInformation.address;
+      defaultValue.Gender = studentInformation.gender;
+      defaultValue.src = studentInformation.src.result;
+    }
     this.toNextStep()
+    return;
   }
 
   toNextStep() {
@@ -102,6 +113,9 @@ export class Student extends React.Component {
         this.getDatabaseValue();
         console.log("After load");
       case 1:
+        if(!isValidToken){
+          return <Redirect to=""/>
+        }
         return (
           <div className='App'>
             <Container fluid style={{ backgroundColor: '#222', bottom: 0, padding: 20 }}>

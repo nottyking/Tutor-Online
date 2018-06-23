@@ -22,10 +22,35 @@ import {
     NavLink,
     Label
 } from 'reactstrap';
+import { LoginPage } from './LoginPage';
+import { PaymentSuccess } from './payment/PaymentSuccess';
 
 
 const pages = ['home', 'course', 'about us'];
 const loginPages = ['home', 'student', 'course', 'learning', 'payment', 'about us'];
+
+export class BrowserRouterManager extends React.Component {
+    render() {
+        return (
+            <div>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/" component={Content} />
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/about_us" component={AboutUs} />
+                        <Route exact path="/course" component={CourseA} />
+                        <Route exact path="/student" component={Student} />
+                        <Route exact path="/learning" component={Learning} />
+                        <Route exact path='/payment' component={Payment} />
+                        <Route exact path='/loginPage' component={LoginPage} />
+                        <Route exact path='/paymentSuccess' component={PaymentSuccess} />
+                        <Route component={Content} />
+                    </Switch>
+                </BrowserRouter>
+            </div >
+        );
+    }
+}
 
 export default class NavBar extends React.Component {
     constructor(props) {
@@ -110,19 +135,7 @@ export default class NavBar extends React.Component {
                             logout={this.props.logout} />
 
                     </Navbar>
-                    <BrowserRouter>
-                        <Switch>
-                            <Route exact path="/" component={Content} />
-                            <Route exact path="/register" component={Register} />
-                            <Route exact path="/about_us" component={AboutUs} />
-                            <Route exact path="/course" component={CourseA} />
-                            <Route exact path="/student" component={Student} />
-                            <Route exact path="/learning" component={Learning} />
-                           <Route exact path='/payment' component={Payment} /> 
-
-                            <Route component={Content} />
-                        </Switch>
-                    </BrowserRouter>
+                    <BrowserRouterManager />
                 </div >
 
             );
@@ -143,19 +156,7 @@ export default class NavBar extends React.Component {
                             login={this.props.login} />
 
                     </Navbar>
-                    <BrowserRouter>
-                        <Switch>
-                            <Route exact path="/" component={Content} />
-                            <Route exact path="/register" component={Register} />
-                            <Route exact path="/about_us" component={AboutUs} />
-                            <Route exact path="/course" component={CourseA} />
-                            <Route exact path="/student" component={Student} />
-                            <Route exact path="/learning" component={Learning} />
-                            <Route exact path='/payment' component={Payment} />
-
-                            <Route component={Content} />
-                        </Switch>
-                    </BrowserRouter>
+                    <BrowserRouterManager />
                 </div >
 
             );

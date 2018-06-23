@@ -23,6 +23,10 @@ export class ContactUsTab extends React.Component {
             <div>
                 <Container fluid style={{ paddingTop: 10, width: '310px', justifyContent: 'right' }}>
                     <Label style={{ fontWeight: "bold" }}>CONTACT US</Label>
+                    <hr color='#FFF' style={{
+                        height: '3px',
+                        margin: '0em'
+                    }}></hr>
                     <Nav tabs style={{ paddingTop: 10 }}>
                         <NavItem>
                             <NavLink className={classnames({ active: this.state.contactTab === '1' })} onClick={() => { this.toggleContact('1') }}>Tel</NavLink>
@@ -42,7 +46,7 @@ export class ContactUsTab extends React.Component {
                             <Label>play@playtorium.co.th</Label>
                         </TabPane>
                         <TabPane tabId='3'>
-                            <Label>9:00AM - 6:00PM</Label>
+                            <Label>Monday-Friday &nbsp;|&nbsp; 9:00AM - 6:00PM</Label>
                         </TabPane>
                     </TabContent>
                 </Container>

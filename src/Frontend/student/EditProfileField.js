@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
-
+const axios = require('axios')
+const ipList = require('../../Config/ipConfig')
+const capsulation = require('../Capsulation/SendData')
 export class EditProfileField extends React.Component {
     constructor(props) {
         super(props);
@@ -26,18 +28,24 @@ export class EditProfileField extends React.Component {
             Gender: document.getElementById('gender').value,
             newPassword: document.getElementById('newPassword').value
         }
-
+        axios.post(ipList.backend + "/student/editProfile", capsulation.sendData({
+          password: data.newPassword, fname: data.FirstName, lname: data.LastName,
+          address: data.Address, profileimg: data.ProfileImg, birthday: data.Birthday, gender: data.Gender
+        }))
         return true;
     }
 
-    checkCurrentPassword() {
-        return true;
+    async checkCurrentPassword() {
+        var isPasswordCorrect = (await axios.post(ipList.backend + "/student/checkPassword",capsulation.sendData({
+          password: document.getElementById('password').value
+        }))).data
+        return isPasswordCorrect
     }
 
-    saveAndContinue(event) {
+    async saveAndContinue(event) {
         event.preventDefault(event);
 
-        if (!this.checkCurrentPassword()) {
+        if (!await this.checkCurrentPassword()) {
             this.setState({ ModalMessage: 'your password is incorrect' });
             this.modalToggle();
         }

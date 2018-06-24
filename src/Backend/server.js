@@ -25,10 +25,9 @@ const jwt = require('jsonwebtoken')
 app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   const clientLoginToken = req.body.loginToken;
-  console.log("After loginToken");
-  if(req.body.loginToken){
+  console.log("clientLoginToken:",clientLoginToken);
+  if(clientLoginToken){
     try{
-      console.log("Login Token",req.body.loginToken);
       const { userid: userid } = jwt.verify(req.body.loginToken, auth.AUTH_SECRET);
       console.log("userid:",userid);
       req.session.userid = userid ;

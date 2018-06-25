@@ -41,7 +41,7 @@ export class AccountFields extends React.Component {
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 2, offset: 3 }} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
-                            <Input type='text' id='username'
+                            <Input type='text' id='reg-username'
                                 defaultValue={this.props.fieldValues.username} placeholder='Enter your Username'
                                 valid={this.state.validUsername}
                                 invalid={!this.state.validUsername && !this.state.defaultUsername}
@@ -53,7 +53,7 @@ export class AccountFields extends React.Component {
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 2, offset: 3 }}>E-mail</Label>
                         <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='email' id='email'
+                            <Input type='email' id='reg-email'
                                 defaultValue={this.props.fieldValues.email} placeholder='Enter your email'
                                 valid={this.state.validEmail}
                                 invalid={!this.state.validEmail && !this.state.defaultEmail}
@@ -65,7 +65,7 @@ export class AccountFields extends React.Component {
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 2, offset: 3 }}>Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='password' id='password'
+                            <Input type='password' id='reg-password'
                                 defaultValue={this.props.fieldValues.password} placeholder='Enter your password'
                                 valid={this.state.validPassword}
                                 invalid={!this.state.validPassword && !this.state.defaultPassword}
@@ -77,7 +77,7 @@ export class AccountFields extends React.Component {
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 1, offset: 3 }}>Re-Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='password' id='rePassword'
+                            <Input type='password' id='reg-rePassword'
                                 defaultValue={this.props.fieldValues.rePassword} placeholder='Enter password again'
                                 defaultValue={this.props.fieldValues.password} placeholder='Enter your password'
                                 valid={this.state.validRePassword}
@@ -116,17 +116,17 @@ export class AccountFields extends React.Component {
         this.setState({
             Modal: !this.state.Modal
         })
-        document.getElementById('password').value = ''
-        document.getElementById('rePassword').value = ''
+        document.getElementById('reg-password').value = ''
+        document.getElementById('reg-rePassword').value = ''
     }
 
     async saveAndContinue(event) {
         event.preventDefault();
         var data = {
-            username: document.getElementById('username').value,
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value,
-            rePassword: document.getElementById('rePassword').value
+            username: document.getElementById('reg-username').value,
+            email: document.getElementById('reg-email').value,
+            password: document.getElementById('reg-password').value,
+            rePassword: document.getElementById('reg-rePassword').value
         }
 
         //Check Username & Email with database & check valid format of username
@@ -136,8 +136,8 @@ export class AccountFields extends React.Component {
         //Chcek Password & Re-password and Reset if not valid
         else if (!this.checkValidPassword() || !this.checkValidRePassword()) {//Check Password & re-password
             this.modalToggle();
-            document.getElementById('password').value = ''
-            document.getElementById('rePassword').value = ''
+            document.getElementById('reg-password').value = ''
+            document.getElementById('reg-rePassword').value = ''
         }
         //Check ...
         else {//Pass Every Condition
@@ -150,12 +150,12 @@ export class AccountFields extends React.Component {
     checkValidUsername() {
         if (this.state.defaultUsername) {
             this.setState({ defaultUsername: false });
-        } else if (!this.state.defaultUsername && document.getElementById('username').value == '') {
+        } else if (!this.state.defaultUsername && document.getElementById('reg-username').value == '') {
             this.setState({ defaultUsername: true });
         }
 
-        if (document.getElementById('username').value.length < 8 ||
-            document.getElementById('username').value.length > 20) {
+        if (document.getElementById('reg-username').value.length < 8 ||
+            document.getElementById('reg-username').value.length > 20) {
             this.setState({ validUsername: false, ModalMessage: 'Username must contain 8-20 characters' });
             return false;
         }
@@ -168,11 +168,11 @@ export class AccountFields extends React.Component {
     checkValidEmail() {
         if (this.state.defaultEmail) {
             this.setState({ defaultEmail: false });
-        } else if (!this.state.defaultEmail && document.getElementById('email').value == '') {
+        } else if (!this.state.defaultEmail && document.getElementById('reg-email').value == '') {
             this.setState({ defaultEmail: true });
         }
 
-        if (!(/^[a-zA-Z0-9]+([._+-]+[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]*)*(\.[a-zA-Z0-9-]{2,3})+$/.test(document.getElementById('email').value))) {
+        if (!(/^[a-zA-Z0-9]+([._+-]+[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]*)*(\.[a-zA-Z0-9-]{2,3})+$/.test(document.getElementById('reg-email').value))) {
             this.setState({ validEmail: false, ModalMessage: 'This not a E-mail format' })
             return false;
         }
@@ -185,12 +185,12 @@ export class AccountFields extends React.Component {
     checkValidPassword() {
         if (this.state.defaultPassword) {
             this.setState({ defaultPassword: false });
-        } else if (document.getElementById('password').value == '') {
+        } else if (document.getElementById('reg-password').value == '') {
             this.setState({ defaultPassword: true });
         }
 
-        if (document.getElementById('password').value.length < 8 ||
-            document.getElementById('password').value.length > 12) {
+        if (document.getElementById('reg-password').value.length < 8 ||
+            document.getElementById('reg-password').value.length > 12) {
             this.setState({ validPassword: false, ModalMessage: 'Password must contain 8-12 characters' })
             return false;
         }
@@ -203,11 +203,11 @@ export class AccountFields extends React.Component {
     checkValidRePassword() {
         if (this.state.defaultRePassword) {
             this.setState({ defaultRePassword: false });
-        } else if (!this.state.defaultRePassword && document.getElementById('rePassword').value == '') {
+        } else if (!this.state.defaultRePassword && document.getElementById('reg-rePassword').value == '') {
             this.setState({ defaultRePassword: true });
         }
 
-        if (this.checkValidPassword && document.getElementById('password').value != document.getElementById('rePassword').value) {//Check Password & re-password
+        if (this.checkValidPassword && document.getElementById('reg-password').value != document.getElementById('reg-rePassword').value) {//Check Password & re-password
             this.setState({ validRePassword: false, ModalMessage: 'Your Password and Re-password is not match' })
             return false;
         }
@@ -220,7 +220,7 @@ export class AccountFields extends React.Component {
     //This method for checking necessary field value with database
     async checkDatabaseOnSubmit() {
         var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",
-          capsulation.sendData({username: document.getElementById('username').value, email: document.getElementById('email').value})
+          capsulation.sendData({username: document.getElementById('reg-username').value, email: document.getElementById('reg-email').value})
         )).data
         console.log(checkOnSubmit);
         if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database
@@ -238,9 +238,9 @@ export class AccountFields extends React.Component {
     //For reset form value
     resetLabel() {
         this.setState({ defaultUsername: true, defaultEmail: true, defaultPassword: true, defaultRePassword: true })
-        document.getElementById('username').value = ''
-        document.getElementById('email').value = ''
-        document.getElementById('password').value = ''
-        document.getElementById('rePassword').value = ''
+        document.getElementById('reg-username').value = ''
+        document.getElementById('reg-email').value = ''
+        document.getElementById('reg-password').value = ''
+        document.getElementById('reg-rePassword').value = ''
     }
 }

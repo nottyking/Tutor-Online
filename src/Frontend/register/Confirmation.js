@@ -18,19 +18,19 @@ export class Confirmation extends React.Component {
                     <FormGroup row >
                         <Label sm={{ size: 2, order: 1, offset: 3 }} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
-                            <Input type='text' id='username' defaultValue={this.props.fieldValues.username} disabled />
+                            <Input type='text' id='regCon-username' defaultValue={this.props.fieldValues.username} disabled />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 1, offset: 3 }}>E-mail</Label>
                         <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='email' id='email' defaultValue={this.props.fieldValues.email} disabled />
+                            <Input type='email' id='regCon-email' defaultValue={this.props.fieldValues.email} disabled />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 1, offset: 3 }}>Password</Label>
                         <Col sm={{ size: 4, order: 2 }}>
-                            <Input type='password' id='password' defaultValue={this.props.fieldValues.password} disabled />
+                            <Input type='password' id='regCon.password' defaultValue={this.props.fieldValues.password} disabled />
                         </Col>
                     </FormGroup>
                     <FormGroup align='center'>
@@ -50,8 +50,8 @@ export class Confirmation extends React.Component {
     backToPreviousPage(event) {
         event.preventDefault();
         var data = {
-            username: document.getElementById('username').value,
-            email: document.getElementById('email').value,
+            username: document.getElementById('regCon-username').value,
+            email: document.getElementById('regCon-email').value,
             password: '',
             rePassword: ''
 

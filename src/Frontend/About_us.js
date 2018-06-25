@@ -10,7 +10,7 @@ export class AboutUs extends React.Component {
   render () {
     return (
       <div className='App'>
-        <Container fluid style={{backgroundColor: '#555',padding:0}}>
+        <Container fluid style={{backgroundColor: '#222',padding:0}}>
         <Parallax bgImage={banner} blur={{min: -1,max:5}} strength={600} style={{overflow: 'visible'}}>
         <div style={{height: 800}}>
         <div style={insideStyles1}><h1>Tutor-Online</h1></div>

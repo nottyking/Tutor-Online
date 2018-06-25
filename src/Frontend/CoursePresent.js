@@ -7,7 +7,7 @@ import {
 
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
-get src [ List of {Cname(Coursename),Cimage(Link To CourseThumbnailImage),CLink(Link to Course),Cdesc(Course Description)}]
+get src [ List of {courseName(Coursename),courseImage(Link To CourseThumbnailImage),courseLink(Link to Course),courseDesc(Course Description)}]
 */
 
 //Todo add Link to Course
@@ -17,12 +17,12 @@ export class CoursePresent extends React.Component {
         const src = this.props.src;
         const ListItems = src.map(
             (item, i) => <Col>
-                <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
-                    <CardImg src={item.Cimage} alt="Card image cap" />
+                <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',border:'none' }}>
+                    <CardImg src={item.courseImage} alt="Card image cap" />
                     <CardBody>
-                        <CardTitle>{item.Cname}</CardTitle>
-                        <CardText>{item.Cdesc}</CardText>
-                        <Button href={item.CLink}>Register</Button>
+                        <CardTitle>{item.courseName}</CardTitle>
+                        <CardText>{item.courseDesc}</CardText>
+                        <Button href={item.courseLink}>Register</Button>
                     </CardBody>
                 </Card>
             </Col>
@@ -40,10 +40,10 @@ export class CoursePresent extends React.Component {
 
 CoursePresent.propType = {
     src: PropTypes.arrayOf(PropTypes.shape({
-        Cname: PropTypes.string.isRequired,
-        Cimage: PropTypes.string.isRequired,
-        CLink: PropTypes.string.isRequired,
-        Cdesc: PropTypes.string.isRequired
+        courseName : PropTypes.string.isRequired,
+        courseImage : PropTypes.string.isRequired,
+         courseLink: PropTypes.string.isRequired,
+         courseDesc: PropTypes.string.isRequired
     })).isRequired
 }
 
@@ -53,11 +53,11 @@ CoursePresent.propType = {
 
 CoursePresent.defaultProps = {
     src: [
-        { Cname: "Math101", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course" + "/as", Cdesc: "aaaaaaaa" },
-        { Cname: "Math102", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course", Cdesc: "aaaaaaaa" },
-        { Cname: "Math201", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course", Cdesc: "aaaaaaaa" },
-        { Cname: "Math202", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course", Cdesc: "aaaaaaaa" },
-        { Cname: "Math202", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course", Cdesc: "aaaaaaaa" },
-        { Cname: "Math202", Cimage: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG', CLink: "/course", Cdesc: "aaaaaaaa" }
-    ]
+        {courseName : "Math101", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"},
+        {courseName : "Math102", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"},
+        {courseName : "Math201", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"},
+        {courseName : "Math202", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"},
+        {courseName : "Math202", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"},
+        {courseName : "Math202", courseImage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courseLink:"/course",courseDesc:"aaaaaaaa"}
+        ]
 };

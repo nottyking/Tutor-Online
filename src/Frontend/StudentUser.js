@@ -49,7 +49,7 @@ export class Student extends React.Component {
     isValidToken = true;
     linkRedirect = '';
     if (studentInformationAndError.redirect) {
-      console.log("Redirect",studentInformationAndError.redirect);
+      console.log("Redirect", studentInformationAndError.redirect);
       isValidToken = false;
       linkRedirect = studentInformationAndError.redirect;
     }
@@ -99,17 +99,18 @@ export class Student extends React.Component {
         if (!isValidToken) {
           console.log("redirect");
           return <Redirect to={linkRedirect} />
+        } else {
+          return (
+            <div className='App'>
+              <Container fluid style={{ backgroundColor: '#222', bottom: 0, padding: 20 }}>
+                <Col sm="12" md={{ size: 8, offset: 2 }}>
+                  <ProfileField toNextStep={this.toNextStep} defaultValue={defaultValue} />
+                  <CourseField defaultValue={defaultValue} />
+                </Col>
+              </Container>
+            </div>
+          );
         }
-        return (
-          <div className='App'>
-            <Container fluid style={{ backgroundColor: '#222', bottom: 0, padding: 20 }}>
-              <Col sm="12" md={{ size: 8, offset: 2 }}>
-                <ProfileField toNextStep={this.toNextStep} defaultValue={defaultValue} />
-                <CourseField defaultValue={defaultValue} />
-              </Col>
-            </Container>
-          </div>
-        );
       case 2:
         return (
           <div className='App'>

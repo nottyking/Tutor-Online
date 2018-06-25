@@ -31,14 +31,14 @@ export class Learning extends React.Component {
     const timeElapsed ='0m5s'
     return (
       <div className='App'>
-        <Container fluid className='bg-secondary'>
+        <Container fluid>
           <Row>
           <Col/>
             <Col xs='9'>
             <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Coursename</h3>
             <VideoPlayer/>
             <p></p>
-            <Card body inverse style={{ backgroundColor: '#EEE',padding: 10,marginTop: 10,marginBottom: 20 }}>
+            <Card body style={{ backgroundColor: '#EEE',padding: 10,marginTop: 10,marginBottom: 20 }}>
               <CardTitle >
                 Course Description
               </CardTitle>

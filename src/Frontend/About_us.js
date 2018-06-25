@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, CardTitle, CardText, CardImg, CardImgOverlay
 import banner from './Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
 import {CoursePresent} from './CoursePresent'
+import {Footer} from './Footer';
 const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
 const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
 
@@ -11,7 +12,7 @@ export class AboutUs extends React.Component {
   render () {
     return (
       <div className='App'>
-        <Container fluid style={{backgroundColor: '#222',padding:0}}>
+        <Container fluid style={{backgroundColor: '#555',padding:0}}>
         <Parallax bgImage={banner} blur={{min: -1,max:5}} strength={600} style={{overflow: 'visible'}}>
         <div style={{height: 800}}>
         <div style={insideStyles1}><h1>Tutor-Online</h1></div>
@@ -20,11 +21,11 @@ export class AboutUs extends React.Component {
         </div>
         
         </Parallax>
-        <div style={{height: 5000,width: '80%' ,position:'relative',marginTop:'-170px', left: '10%',backgroundColor:'#FFF',padding:20,zIndex:'100'}}><h2>Our Courses</h2>
+        <div style={{width: '80%' ,position:'relative',marginTop:'-170px', left: '10%',backgroundColor:'#FFF',padding:20,zIndex:'100'}}><h2>Our Courses</h2>
         <CoursePresent/>
         </div>
         </Container>
-        
+        <Footer/>
       </div>
     )
   }

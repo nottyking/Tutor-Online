@@ -1,9 +1,18 @@
 const app = require('express')
 const router = app.Router();
-const StudentController = require('./StudentController');
+const studentMainController = require('./StudentMainController');
+const editProfileController = require('./editProfileController')
 
 router.post('/queryInformation', async(req, res) => {
-  res.send(await StudentController.queryInformation(req, res));
+  res.send(await studentMainController.queryInformation(req, res));
+})
+
+router.post('/editProfile', (req, res) => {
+  res.send(editProfileController.updateNewProfile(req, res));
+})
+
+router.post('/checkPassword', async(req, res) => {
+  res.send(await editProfileController.checkPassword(req, res));
 })
 
 module.exports = router ;

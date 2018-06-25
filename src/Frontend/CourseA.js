@@ -28,6 +28,10 @@ export class CourseA extends React.Component {
     this.toggleReview = this.toggleReview.bind(this);
   }
 
+  componentWillMount(){
+
+  }
+
   onClickReview = () =>{
       this.setState({alreadyReview:true});
       this.toggleReview();
@@ -65,6 +69,7 @@ onClick3 = () =>{
 }
 
   render () {
+    console.log(this.props.match.params.courseID);
     let Syllabus = this.props.src.map((item, i) => {
       return (
         <tr>
@@ -152,7 +157,7 @@ onClick3 = () =>{
             <Card style={{marginTop:10}}>
               <CardBody>
                 <CardTitle>
-                  {this.props.courseName}
+                {this.props.match.params.courseID} : {this.props.courseName}
                 </CardTitle>
                 <CardSubtitle>
                   Instructor :

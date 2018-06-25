@@ -7,7 +7,9 @@ import { Row, Col, Container, Card,
     Label,FormGroup,Input } from 'reactstrap'
 import Rating from 'react-rating';
 import {Payment} from './Payment'
-
+const axios = require('axios')
+const capsulation = require('./Capsulation/SendData')
+const ipList = require('../Config/ipConfig')
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
@@ -27,7 +29,12 @@ export class CourseA extends React.Component {
     this.toggleReview = this.toggleReview.bind(this);
   }
 
-  componentWillMount(){
+  async componentWillMount(){
+    var courseInfo = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
+      courseid: this.props.match.params.courseID
+    }))).data;
+    console.log(courseInfo.course);
+    console.log(courseInfo.subCourse);
 
   }
 
@@ -35,7 +42,7 @@ export class CourseA extends React.Component {
       this.setState({alreadyReview:true});
       this.toggleReview();
   }
-    
+
 toggleReview(){
   this.setState({
     reviewModal:!this.state.reviewModal
@@ -94,7 +101,7 @@ onClick3 = () =>{
     if (this.props.courseReview > 4.9) {
       CourseReview = (
         <h1 style={{color: '#ffc107'}}><i className='fa fa-star'style={{fontSize:'2rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'2rem'}}/></h1>
-      
+
       );
     }else if (this.props.courseReview > 3.9) {
       CourseReview = (
@@ -152,7 +159,7 @@ onClick3 = () =>{
             <img src={this.props.courseImage} width={700} alt='error' />
             </Col>
             <Col style={{maxWidth:500,marginLeft:10}}>
-            
+
             <Card style={{marginTop:10}}>
               <CardBody>
                 <CardTitle>
@@ -163,7 +170,7 @@ onClick3 = () =>{
                   {this.props.courseInstructor}
                 </CardSubtitle>
                 <CardText>
-                
+
                   <br />
                   {this.props.courseDesc}
                 </CardText>
@@ -179,7 +186,7 @@ onClick3 = () =>{
               {CourseReviewPresent}
             </CardBody>
           </Card>
-            
+
             </Col>
             <Col style={{maxWidth:400}}>
             <h2 style={{marginBottom: 10,color: '#FFF'}} onClick={this.onClick}>Course Syllabus</h2>
@@ -203,7 +210,7 @@ onClick3 = () =>{
               {Syllabus}
             </tbody>
           </Table>
-            
+
             </Col>
           </Row>
         </Container>

@@ -28,6 +28,7 @@ const pages = ['home', 'course', 'about us'];
 const loginPages = ['home', 'student', 'course', 'learning', 'about us'];
 
 export class BrowserRouterManager extends React.Component {
+
     render() {
         return (
             <div>

@@ -7,8 +7,12 @@ router.post('/queryInformation', async(req, res) => {
   res.send(await studentMainController.queryInformation(req, res));
 })
 
-router.post('/editProfile', (req, res) => {
+router.post('/editProfile/updateNewProfile', (req, res) => {
   res.send(editProfileController.updateNewProfile(req, res));
+})
+
+router.post('/editProfile/uploadProfileImage', (req, res) => {
+  res.send(editProfileController.uploadProfileImage(req, res));
 })
 
 router.post('/checkPassword', async(req, res) => {

@@ -78,7 +78,6 @@ export class LoginPage extends React.Component {
             </div>
         );
     }
-
     async login() {
         //this.toggleModal();
         console.log("Login");

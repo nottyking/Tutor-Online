@@ -29,7 +29,7 @@ app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   console.log("SESSION USERID:",req.session.userid);
   var clientLoginToken = req.body.loginToken;
-  if(!clientLoginToken)
+  if(!clientLoginToken && req.files)
     clientLoginToken = req.files.myFile.name
   console.log("clientLoginToken:",clientLoginToken);
   if(clientLoginToken){

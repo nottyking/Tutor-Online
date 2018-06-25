@@ -14,10 +14,12 @@ export class App extends Component {
 
   login() {
     this.setState({ isLogin: true })
+    console.log('login in app');
   }
-
+  
   logout() {
     this.setState({ isLogin: false })
+    console.log('logout in app');
   }
 
   render() {

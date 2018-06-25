@@ -8,11 +8,9 @@ import { AboutUs } from './About_us';
 import { CourseA } from './CourseA';
 import { Student } from './StudentUser';
 import { Learning } from './Learning';
-import { Payment } from './Payment';
 import { Login } from './Login';
 import { Logout } from './Logout';
 import { LoginPage } from './LoginPage';
-import { PaymentSuccess } from './payment/PaymentSuccess';
 import { Footer } from './Footer';
 
 import {
@@ -35,15 +33,13 @@ export class BrowserRouterManager extends React.Component {
             <div>
                 <Switch>
                     <Route exact path="/" component={Content} />
-                    <Route exact path="/register" component={Register} />
                     <Route exact path="/about_us" component={AboutUs} />
                     <Route exact path="/course" component={CourseA} />
                     <Route exact path="/course/:courseID" component={CourseA} />
-                    <Route exact path="/student" component= {true? Student: ()=>{return(<Redirect to={'/loginPage'} />)}} />
-                    <Route exact path="/learning" component={Learning} />
-                    <Route exact path='/payment' component={Payment} />
-                    <Route exact path='/loginPage' component={LoginPage} />
-                    <Route exact path='/paymentSuccess' component={PaymentSuccess} />
+                    <Route exact path="/student" component={true ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/learning" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/register" component={!false ? Register : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path='/loginPage' component={!false ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />
                 </Switch>
             </div >

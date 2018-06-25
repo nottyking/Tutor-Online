@@ -2,6 +2,8 @@ import React from 'react';
 import './Register.css';
 import ipList from '../../Config/ipConfig'
 import axios from 'axios'
+import {NavLink} from 'reactstrap'
+import {Link} from 'react-router-dom';
 
 export class Success extends React.Component {
 
@@ -26,7 +28,7 @@ export class Success extends React.Component {
                     <h1>
                         Success
                     </h1>
-                    <a href={"./"}>Click here to go back to Home</a>
+                    <NavLink tag={Link} to={'/'} exact>Click here to go back to Home</NavLink>
                 </div>
             );
         }
@@ -35,8 +37,8 @@ export class Success extends React.Component {
                 < div >
                     <h1>
                         Not Success
-                        <a href={"./"}>Click here to go back to Home</a>
                     </h1>
+                        <NavLink tag={Link} to={'/'} exact>Click here to go back to Home</NavLink>
                 </div >
             );
         }

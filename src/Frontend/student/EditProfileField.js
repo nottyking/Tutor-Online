@@ -32,7 +32,6 @@ export class EditProfileField extends React.Component {
     saveToDatabase() {
         const formData = new FormData()
         console.log(this.state.selectedFile === null);
-        formData.append('name','Chris');
         /*
           CHANGE AS FAST AS WE CAN HAHAHA
           send loginToken in req.files.myFile.name         vvvvvvvvvvvvvvvvvvvvvvv

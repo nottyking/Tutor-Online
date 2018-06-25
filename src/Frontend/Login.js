@@ -46,7 +46,7 @@ export class Login extends React.Component {
                         <FormGroup row>
                             <Label sm={{ size: 2, order: 2, offset: 1 }} >Account</Label>
                             <Col sm={{ size: 8, order: 4 }}>
-                                <Input type='text' id='username'
+                                <Input type='text' id='login-username'
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
@@ -55,7 +55,7 @@ export class Login extends React.Component {
                         <FormGroup row>
                             <Label sm={{ size: 2, order: 2, offset: 1 }}>Password</Label>
                             <Col sm={{ size: 8, order: 2 }}>
-                                <Input type='password' id='password'
+                                <Input type='password' id='login-password'
                                     defaultValue={''} placeholder='Enter your password'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />
@@ -102,8 +102,8 @@ export class Login extends React.Component {
 
     async checkLoginOnDatabase() {
         var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal', {
-            usernameOrEmail: document.getElementById('username').value,
-            password: document.getElementById('password').value
+            usernameOrEmail: document.getElementById('login-username').value,
+            password: document.getElementById('login-password').value
         })).data
         return isLoginSuccess;
     }

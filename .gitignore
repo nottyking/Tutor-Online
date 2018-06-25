@@ -64,3 +64,6 @@ docs/api/
 
 # DotEnv
 .env
+
+# Database info
+src/Backend/Config/database.js

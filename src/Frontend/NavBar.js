@@ -1,6 +1,6 @@
 import React from 'react';
 import './NavBar.css';
-import { Switch } from 'react-router';
+import { Redirect, Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { Register } from './Register';
 import { Content } from './Content';
@@ -39,7 +39,7 @@ export class BrowserRouterManager extends React.Component {
                     <Route exact path="/about_us" component={AboutUs} />
                     <Route exact path="/course" component={CourseA} />
                     <Route exact path="/course/:courseID" component={CourseA} />
-                    <Route exact path="/student" component={Student} />
+                    <Route exact path="/student" component= {true? Student: ()=>{return(<Redirect to={'/loginPage'} />)}} />
                     <Route exact path="/learning" component={Learning} />
                     <Route exact path='/payment' component={Payment} />
                     <Route exact path='/loginPage' component={LoginPage} />

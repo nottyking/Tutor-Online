@@ -8,7 +8,8 @@ export class EditProfileField extends React.Component {
         super(props);
         this.state = {
             ModalMessage: '', isDefaultPassword: true, validPassword: false,
-            isDefaultRePassword: true, validRePassword: false, Modal: false
+            isDefaultRePassword: true, validRePassword: false, Modal: false,
+            selectedFile: this.props.defaultValue.ProfileImg
         };
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.checkValidPassword = this.checkValidPassword.bind(this);
@@ -18,16 +19,29 @@ export class EditProfileField extends React.Component {
         this.modalToggle = this.modalToggle.bind(this);
     }
 
+    fileChangedHandler = (event) => {
+        console.log('Uploading');
+        this.setState({selectedFile: event.target.files[0]});
+        console.log(event.target.files[0]);
+        
+      }
+
     saveToDatabase() {
+        const formData = new FormData()
+        console.log(this.state.selectedFile === null);
+        formData.append('myFile', this.state.selectedFile, this.state.selectedFile.name);
+        //axios.post(ipList.backend + "/student/editProfile", formData);
+        console.log('yeeeee');
         var data = {
             FirstName: document.getElementById('fName').value,
             LastName: document.getElementById('lName').value,
-            ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
+            ProfileImg: this.state.selectedFile,
             Birthday: document.getElementById('birthDate').value,
             Address: document.getElementById('address').value,
             Gender: document.getElementById('gender').value,
             newPassword: document.getElementById('newPassword').value
         }
+        console.log(this.state.selectedFile);
         axios.post(ipList.backend + "/student/editProfile", capsulation.sendData({
           password: data.newPassword, fname: data.FirstName, lname: data.LastName,
           address: data.Address, profileimg: data.ProfileImg, birthday: data.Birthday, gender: data.Gender
@@ -44,7 +58,6 @@ export class EditProfileField extends React.Component {
 
     async saveAndContinue(event) {
         event.preventDefault(event);
-
         if (!await this.checkCurrentPassword()) {
             this.setState({ ModalMessage: 'your password is incorrect' });
             this.modalToggle();
@@ -113,10 +126,10 @@ export class EditProfileField extends React.Component {
                     <CardImg
                         top
                         style={{ width: 100, textAlign: "center" }}
-                        src={this.props.defaultValue.ProfileImg}
+                        src={this.state.selectedFile}
                         alt='Card image cap' />
                     <br />
-                    <Input type="file" name="file" id="file" style={{ width: 220, textAlign: "center" }} />
+                    <Input type="file" name="file" id="file" style={{ width: 220, textAlign: "center" }} onChange={this.fileChangedHandler} />
                     <CardBody>
                         <CardText>
                             <Form>

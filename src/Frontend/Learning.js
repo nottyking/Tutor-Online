@@ -38,8 +38,8 @@ export class Learning extends React.Component {
             <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Coursename</h3>
             <VideoPlayer/>
             <p></p>
-            <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333',padding: 10,marginTop: 10,marginBottom: 20 }}>
-              <CardTitle>
+            <Card body inverse style={{ backgroundColor: '#EEE',padding: 10,marginTop: 10,marginBottom: 20 }}>
+              <CardTitle >
                 Course Description
               </CardTitle>
               <CardText>

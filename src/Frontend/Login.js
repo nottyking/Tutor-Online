@@ -1,11 +1,12 @@
 import React from 'react';
-import { Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { NavLink, Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
+import { Link } from 'react-router-dom';
 import ipList from '../Config/ipConfig';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
-const maxAge = 1*31*60*60 ;
+const maxAge = 1 * 31 * 60 * 60;
 
 export class Login extends React.Component {
 
@@ -72,7 +73,7 @@ export class Login extends React.Component {
                         <hr></hr>
                         <FormGroup row align='center'>
                             <Col>
-                                <a href='./Register'>Register</a>
+                                <NavLink tag={Link} to={'/register'} exact onClick={this.toggleModal}>Register</NavLink>
                             </Col>
                         </FormGroup>
                     </ModalBody>
@@ -92,7 +93,7 @@ export class Login extends React.Component {
         console.log("After send");
         if (isLoginSuccess.result) {//Check id/email/password
             var currentdate = new Date();
-            cookies.set("loginToken",isLoginSuccess.loginToken,{maxAge: maxAge});
+            cookies.set("loginToken", isLoginSuccess.loginToken, { maxAge: maxAge });
             this.props.login();
         } else {
             this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })
@@ -100,9 +101,9 @@ export class Login extends React.Component {
     }
 
     async checkLoginOnDatabase() {
-        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal',{
-          usernameOrEmail : document.getElementById('username').value ,
-          password : document.getElementById('password').value
+        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal', {
+            usernameOrEmail: document.getElementById('username').value,
+            password: document.getElementById('password').value
         })).data
         return isLoginSuccess;
     }

@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Row, Col, Container, Nav, NavItem, NavLink, TabContent, TabPane, Label, Card } from 'reactstrap'
+import React from 'react'
+import { Container, Nav, NavItem, NavLink, TabContent, TabPane, Label} from 'reactstrap'
 import classnames from 'classnames';
 
 export class ContactUsTab extends React.Component {

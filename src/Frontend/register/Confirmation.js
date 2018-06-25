@@ -1,6 +1,6 @@
 import React from 'react';
 import './Register.css';
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Col, Button, FormGroup, Label, Input} from 'reactstrap';
 
 export class Confirmation extends React.Component {
     constructor(props) {

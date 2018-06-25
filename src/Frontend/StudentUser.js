@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router'
-import { width } from 'window-size';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { Redirect } from 'react-router'
 import { Success } from './student/Success'
-import { Footer } from './Footer';
 import { ProfileField } from './student/ProfileField';
 import { CourseField } from './student/CourseField';
 import { EditProfileField } from './student/EditProfileField';
-import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
+import { Container, Col } from 'reactstrap'
 import Cookies from 'universal-cookie';
 import axios from 'axios'
 const cookies = new Cookies();
@@ -31,7 +28,7 @@ const defaultValue = {
   Birthday: '',
   Address: '',
   Gender: '',
-  src: [{courseid:'',coursename:'',courseexpireddate:'',courselink:''}]
+  src: [{ courseid: '', coursename: '', courseexpireddate: '', courselink: '' }]
 }
 
 // var testData = {
@@ -63,16 +60,16 @@ export class Student extends React.Component {
 
   async getDatabaseValue() {
     //get Data from database
-    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation" , {
-      loginToken : cookies.get("loginToken")
+    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
+      loginToken: cookies.get("loginToken")
     })).data;
-    console.log("studentInformationAndError:",studentInformationAndError);
-    if(studentInformationAndError.redirect){
+    console.log("studentInformationAndError:", studentInformationAndError);
+    if (studentInformationAndError.redirect) {
       console.log("Redirect");
       isValidToken = false;
       linkRedirect = studentInformationAndError.redirect;
     }
-    else{
+    else {
       var studentInformation = studentInformationAndError.result;
       var studentError = studentInformationAndError.error;
 
@@ -113,8 +110,8 @@ export class Student extends React.Component {
         this.getDatabaseValue();
         console.log("After load");
       case 1:
-        if(!isValidToken){
-          return <Redirect to=""/>
+        if (!isValidToken) {
+          return <Redirect to="" />
         }
         return (
           <div className='App'>
@@ -124,7 +121,6 @@ export class Student extends React.Component {
                 <CourseField defaultValue={defaultValue} />
               </Col>
             </Container>
-            <Footer />
           </div>
         );
       case 2:
@@ -132,10 +128,9 @@ export class Student extends React.Component {
           <div className='App'>
             <Container fluid style={{ backgroundColor: '#222', bottom: 0, padding: 20 }}>
               <Col sm="12" md={{ size: 8, offset: 2 }}>
-                <EditProfileField toPreviousStep={this.toPreviousStep} toNextStep={this.toNextStep} defaultValue={defaultValue}/>
+                <EditProfileField toPreviousStep={this.toPreviousStep} toNextStep={this.toNextStep} defaultValue={defaultValue} />
               </Col>
             </Container>
-            <Footer />
           </div>
         );
       case 3:

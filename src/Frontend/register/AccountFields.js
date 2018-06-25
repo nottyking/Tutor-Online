@@ -1,6 +1,6 @@
 import React from 'react';
 import './Register.css';
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Col, Button, FormGroup, Label, Input, FormText, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios'
 import ipList from '../../Config/ipConfig'
 import capsulation from '../Capsulation/SendData'

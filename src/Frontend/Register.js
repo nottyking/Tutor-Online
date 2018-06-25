@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { AccountFields } from './register/AccountFields';
 import { Confirmation } from './register/Confirmation';
 import { Success } from './register/Success';

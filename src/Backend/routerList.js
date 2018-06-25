@@ -3,13 +3,15 @@ const routerList = {
     '/register',
     '/login',
     '/payment',
-    '/student'
+    '/student',
+    '/course'
   ] ,
   routeTo : [
     require('./Controller/Register/RegisterRouter'),
     require('./Controller/Login/LoginRouter'),
     require('./Controller/Payment/PaymentRouter'),
-    require('./Controller/Student/StudentRouter')
+    require('./Controller/Student/StudentRouter'),
+    require('./Controller/Course/CourseRouter')
   ]
 }
 

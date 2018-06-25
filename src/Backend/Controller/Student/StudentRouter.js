@@ -1,10 +1,10 @@
 const app = require('express')
 const router = app.Router();
-const mainController = require('./MainController');
+const studentMainController = require('./StudentMainController');
 const editProfileController = require('./editProfileController')
 
 router.post('/queryInformation', async(req, res) => {
-  res.send(await mainController.queryInformation(req, res));
+  res.send(await studentMainController.queryInformation(req, res));
 })
 
 router.post('/editProfile', (req, res) => {

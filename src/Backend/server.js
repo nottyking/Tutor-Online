@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
+  secret: 'TUTORSESSION',
+  resave: true,
   saveUninitialized: true,
   cookie: { secure: true }
 }))
@@ -24,6 +24,7 @@ const ipList = require('../Config/ipConfig')
 const jwt = require('jsonwebtoken')
 app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
+  console.log("SESSION USERID:",req.session.userid);
   const clientLoginToken = req.body.loginToken;
   console.log("clientLoginToken:",clientLoginToken);
   if(clientLoginToken){

@@ -39,6 +39,7 @@ export class BrowserRouterManager extends React.Component {
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/about_us" component={AboutUs} />
                         <Route exact path="/course" component={CourseA} />
+                        <Route exact path="/course/:courseID" component={CourseA} />
                         <Route exact path="/student" component={Student} />
                         <Route exact path="/learning" component={Learning} />
                         <Route exact path='/payment' component={Payment} />

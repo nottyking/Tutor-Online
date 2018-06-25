@@ -6,14 +6,25 @@ import {VideoPlayer} from './VideoPlayer';
 import {Footer} from './Footer'
 
 // class for video page
-// Prop UseId,CourseName,CourseId,SubCourseName,SubCourseId,CourseDescription)
+// may be get course id from link 
+// this class might get these variables below \/ from database
+// CourseName: PropTypes.string.isRequired,
+// SubCourseID:PropTypes.string.isRequired,
+//  SubCourseName:PropTypes.string.isRequired,
+//  src: PropTypes.arrayOf(PropTypes.shape({
+//    Cname: PropTypes.string.isRequired,
+//    Cimage: PropTypes.string.isRequired,
+//    Clink: PropTypes.string.isRequired,
+//    Cdesc: PropTypes.string.isRequired})).isRequired}
+
+
+
 
 export class Learning extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         freeUser:true,
-        
     };
   }
 
@@ -25,7 +36,7 @@ export class Learning extends React.Component {
           <Row>
           <Col/>
             <Col xs='9'>
-            <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Course Name</h3>
+            <h3 style={{textAlign: 'left',padding: 10,textDecoration: 'underline',color: '#FFF'}}>Coursename</h3>
             <VideoPlayer/>
             <p></p>
             <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333',padding: 10,marginTop: 10,marginBottom: 20 }}>
@@ -41,7 +52,19 @@ export class Learning extends React.Component {
             </Col>
             <Col xs='2'>
             <br/><br/>
-            <SubCourseProgressBar/>
+            <SubCourseProgressBar now= {6}
+            src={ [
+                {SCname : "Math101", SCid:1,SClink:"aaaaaa"},
+                {SCname : "Math102", SCid:2,SClink:"aaaaaa"},
+                {SCname : "Math201", SCid:3,SClink:"aaaaaa"},
+                {SCname : "Math202", SCid:4,SClink:"aaaaaa"},
+                {SCname : "Math301", SCid:5,SClink:"aaaaaa"},
+                {SCname : "Math302", SCid:6,SClink:"aaaaaa"},
+                {SCname : "Math401", SCid:7,SClink:"aaaaaa"},
+                {SCname : "Math402", SCid:8,SClink:"aaaaaa"},
+                {SCname : "Math501", SCid:9,SClink:"aaaaaa"}
+            ]}
+            />
             </Col>
           </Row>
         </Container>
@@ -53,6 +76,7 @@ export class Learning extends React.Component {
 
 Learning.propTypes = {
   CourseName: PropTypes.string.isRequired,
+  SubCourseID:PropTypes.string.isRequired,
   SubCourseName:PropTypes.string.isRequired,
   src: PropTypes.arrayOf(PropTypes.shape({
     Cname: PropTypes.string.isRequired,

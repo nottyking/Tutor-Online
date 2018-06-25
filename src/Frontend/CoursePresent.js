@@ -15,7 +15,7 @@ export class CoursePresent extends React.Component{
     const src= this.props.src;
     const ListItems = src.map(
         (item,i)=><Col>
-        <Card key={i} style={{width:332,marginTop:20}}>
+        <Card key={i} style={{width:332,marginTop:20,boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}>
         <CardImg  src={item.Cimage} alt="Card image cap" />
         <CardBody>
           <CardTitle>{item.Cname}</CardTitle>
@@ -51,7 +51,7 @@ CoursePresent.propType =  {
 
 CoursePresent.defaultProps = {
     src: [
-        {Cname : "Math101", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
+        {Cname : "Math101", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course"+"/as",Cdesc:"aaaaaaaa"},
         {Cname : "Math102", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
         {Cname : "Math201", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},
         {Cname : "Math202", Cimage : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=Default IMG',CLink:"/course",Cdesc:"aaaaaaaa"},

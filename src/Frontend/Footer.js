@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Row, Col, Container, Nav, NavItem, NavLink, TabContent, TabPane, Label, Card } from 'reactstrap'
+import React from 'react'
+import { Row, Col, Container} from 'reactstrap'
 import { ContactUsTab } from './footer/ContactUsTab';
 import { MenuTab} from './footer/MenuTab';
 
@@ -23,7 +23,7 @@ export class Footer extends React.Component {
                     </Row>
                 </Container>
 
-                <Container fluid style={{ backgroundColor: '#000', color: '#FFF', paddingBottom: 10, paddingTop: 10, bottom: 0 }}>
+                <Container fluid style={{ backgroundColor: '#000', color: '#FFF', paddingBottom: 10, paddingTop: 10, bottom: 0, textAlign: 'center'}}>
                     <h6>© Playtorium Solutions</h6>
                 </Container>
 

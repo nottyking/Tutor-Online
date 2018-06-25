@@ -1,8 +1,5 @@
 import React from 'react'
-import { Form, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter,Container,Row,Card,CardBody,CardImg } from 'reactstrap';
-import {CreditCardForm} from './CreditCardForm'
-import axios from 'axios';
-import ipList from '../Config/ipConfig'
+import { Form, Input} from 'reactstrap';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();

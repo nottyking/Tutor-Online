@@ -1,6 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { Form, Row, Alert, Card, Col,Container, Button, FormGroup, Label, Input, CardTitle, CardBody, CardFooter, CardText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Card, Col, Container, Button, FormGroup, Label, Input, CardTitle, CardBody, CardFooter, CardText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import ipList from '../Config/ipConfig';
 import axios from 'axios';
@@ -21,15 +20,15 @@ export class LoginPage extends React.Component {
         return (
             <div>
                 <Container style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        padding: 20,
-                        marginBottom: 20,
-                        marginTop: 20,
-                        width: '60%'
-                    }}>
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 20,
+                    marginBottom: 20,
+                    marginTop: 20,
+                    width: '60%'
+                }}>
                     <Card style={{
-                        textAlign:'center'
+                        textAlign: 'center'
                     }}>
                         <CardBody>
                             <CardTitle>

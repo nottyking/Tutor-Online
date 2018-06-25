@@ -87,7 +87,7 @@ export default class NavBar extends React.Component {
             }
             return (
                 <NavItem>
-                    <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>
+                    <NavLink href={"/" + link}>{page.toUpperCase()}</NavLink>
                 </NavItem>
             )
         }
@@ -108,12 +108,7 @@ export default class NavBar extends React.Component {
             }
             return (
                 <NavItem>
-                    <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>
-                </NavItem>
-            )
-            return (
-                <NavItem>
-                    <NavLink href={"./" + link}>{page.toUpperCase()}</NavLink>
+                    <NavLink href={"/" + link}>{page.toUpperCase()}</NavLink>
                 </NavItem>
             )
         }

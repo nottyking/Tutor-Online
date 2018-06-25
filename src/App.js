@@ -22,7 +22,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: '#222'}}>
         <Route path='/' render={() => <NavBar
           str={`TEST`}
           loginStatus={this.state.isLogin}

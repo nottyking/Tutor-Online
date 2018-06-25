@@ -1,29 +1,32 @@
 import React from 'react'
-import { Container} from 'reactstrap'
-import banner from './Image/apple-businesswoman-communication-6479.jpg';
-import { Parallax } from 'react-parallax';
-import {CoursePresent} from './CoursePresent'
-const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
-const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
+import ReactDOM from 'react-dom'
+import { Spring, animated } from 'react-spring'
+import { interpolate } from 'flubber'
 
 export class AboutUs extends React.Component {
-  render () {
+  state = {
+    paths: [
+      'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z',
+      'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+      'M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z',
+      'M7 2v11h3v9l7-12h-4l4-8z',
+      'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z'
+    ],
+    index: 0
+  }
+  goNext = () => this.setState(state => ({ index: state.index + 1 >= state.paths.length ? 0 : state.index + 1 }))
+  render() {
+    const { paths, index } = this.state
+    const interpolator = interpolate(paths[index], paths[index + 1] || paths[0], { maxSegmentLength: 0.5 })
     return (
-      <div className='App'>
-        <Container fluid style={{backgroundColor: '#222',padding:0}}>
-        <Parallax bgImage={banner} blur={{min: -1,max:5}} strength={600} style={{overflow: 'visible'}}>
-        <div style={{height: 800}}>
-        <div style={insideStyles1}><h1>Tutor-Online</h1></div>
-        <div style={insideStyles2}><h2>Lorem ipsum t amet, consectetur adipiscing elit.</h2>
-        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non feugiat tortor nec, tincidunt dui. Proin nec euismod elit. Aenean quis nunc sit amet eros tincidunt molestie ut sit amet nisi. Nulla facilisi. Mauris nisl magna, posuere in libero eget, dictum condimentum eros. Morbi lacinia pharetra ex sit amet dapibus. Nullam et sodales purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur sed maximus urna. Vivamus et erat sit amet tortor lobortis interdum eget at nibh. Curabitur id pulvinar velit, ut porta sem. Integer sit amet lorem tortor. In gravida pulvinar tempor. Sed tempus porta lacus id gravida.</h6> </div>
-        </div>
-        
-        </Parallax>
-        <div style={{width: '80%' ,position:'relative',marginTop:'-170px', left: '10%',backgroundColor:'#FFF',padding:20,zIndex:'100'}}><h2>Our Courses</h2>
-        <CoursePresent/>
-        </div>
-        </Container>
-      </div>
+      <svg width="500" viewBox="0 0 22 22">
+        <g fill='#55F'>
+          <Spring reset native from={{ t: 0 }} to={{ t: 1 }} onRest={this.goNext}>
+            {({ t }) => <animated.path d={t.interpolate(interpolator)} />}
+          </Spring>
+        </g>
+      </svg>
     )
   }
 }
+

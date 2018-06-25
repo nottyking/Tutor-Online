@@ -28,7 +28,7 @@ export class CourseA extends React.Component {
   }
 
   componentWillMount(){
-
+    
   }
 
   onClickReview = () =>{
@@ -146,7 +146,7 @@ onClick3 = () =>{
     }
     return (
       <div className='App'>
-        <Container fluid style={{backgroundColor: '#555'}}>
+        <Container fluid>
           <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
           <Col style={{width:700}}>
             <img src={this.props.courseImage} width={700} alt='error' />

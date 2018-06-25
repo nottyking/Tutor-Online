@@ -31,13 +31,16 @@ const getStudent = () => {
   })
 }
 
-const getCourse = () => {
+const getCourse = async() => {
   console.log('Enter getCourse in getData');
-  con.query('SELECT * FROM course', (err, result) => {
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
+  return await new Promise((resolve, reject) => {
+    con.query('SELECT * FROM course', (err, result) => {
+      console.log("Course result:",result);
+      resolve ({
+        'err' : err ,
+        'result' : result
+      }) ;
+    })
   })
 }
 

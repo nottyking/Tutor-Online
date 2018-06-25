@@ -65,36 +65,9 @@ export default class NavBar extends React.Component {
         });
     }
 
-<<<<<<< HEAD
-    render() {
-        const pageList = pages.map(page => {
-            var link = page;
-            switch (page) {
-                case 'home':
-                    link = '';
-                    break;
-                case 'about us':
-                    link = "about_us";
-                    break;
-                default:
-                    link = page;
-                    break;
-            }
-            return (
-                <NavItem>
-                    <NavLink href={"/" + link}>{page.toUpperCase()}</NavLink>
-                </NavItem>
-            )
-        }
-        );
-
-        const LoginPageList = loginPages.map(page => {
-            var link = page;
-=======
     createPage(contents) {
         const listPage = contents.map(page => {
             var link;
->>>>>>> 58eb24d660e2d77d6b1ef0570a3cc6221434c4bc
             switch (page) {
                 case 'home':
                     link = '';
@@ -108,11 +81,7 @@ export default class NavBar extends React.Component {
             }
             return (
                 <NavItem>
-<<<<<<< HEAD
-                    <NavLink href={"/" + link}>{page.toUpperCase()}</NavLink>
-=======
                     <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
->>>>>>> 58eb24d660e2d77d6b1ef0570a3cc6221434c4bc
                 </NavItem>
             );
         }

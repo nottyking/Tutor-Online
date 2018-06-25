@@ -84,13 +84,9 @@ function prepareSQLQuery(name,atti,value){
   };
 }
 
-const getUserWithWhere = async(atti, value) => {
-  console.log('Enter getUserWithWhere in getData');
-  var preparedSQLQuery = await prepareSQLQuery('user',atti,value);
-  console.log('sql:', preparedSQLQuery.sql);
-  console.log('inWhere:', preparedSQLQuery.inWhere);
+async function doQuerySQL(sql, inList){
   return await new Promise((resolve, reject) => {
-    con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
+    con.query(sql, inList, (err, result) => {
       console.log('result:',result[0]);
       resolve({
         'result' : result[0],
@@ -100,88 +96,60 @@ const getUserWithWhere = async(atti, value) => {
   })
 }
 
-const getAdminWithWhere = (atti, value) => {
+const getUserWithWhere = async(atti, value) => {
+  console.log('Enter getUserWithWhere in getData');
+  var preparedSQLQuery = await prepareSQLQuery('user',atti,value);
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inWhere:', preparedSQLQuery.inWhere);
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
+}
+
+const getAdminWithWhere = async(atti, value) => {
   console.log('Enter getAdminWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('admin',atti,value);
+  var preparedSQLQuery = await prepareSQLQuery('admin',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
-const getStudentWithWhere = (atti, value) => {
+const getStudentWithWhere = async(atti, value) => {
   console.log('Enter getStudentWithWhere in getData');
-  var preparedSQLQuery = prepareSQLQuery('student',atti,value);
+  var preparedSQLQuery = await prepareSQLQuery('student',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
-const getCourseWithWhere = (atti, value) => {
+const getCourseWithWhere = async(atti, value) => {
   console.log('Enter getCourseWithWhere in getData');
   var preparedSQLQuery = prepareSQLQuery('course',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
-const getRegisteredCourseWithWhere = (atti, value) => {
+const getRegisteredCourseWithWhere = async(atti, value) => {
   console.log('Enter getRegisteredCourseWithWhere in getData');
   var preparedSQLQuery = prepareSQLQuery('registeredcourse',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
-const getPaymentWithWhere = (atti, value) => {
+const getPaymentWithWhere = async(atti, value) => {
   console.log('Enter getPaymentWithWhere in getData');
   var preparedSQLQuery = prepareSQLQuery('payment',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
-const getSubCourseWithWhere = (atti, value) => {
+const getSubCourseWithWhere = async(atti, value) => {
   console.log('Enter getSubCourseWithWhere in getData');
   var preparedSQLQuery = prepareSQLQuery('subcourse',atti,value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
-  con.query(preparedSQLQuery.sql, preparedSQLQuery.inWhere, (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
-  })
+  return await doQuerySQL(preparedSQLQuery.sql, preparedSQLQuery.inWhere)
 }
 
 const getFunction = {

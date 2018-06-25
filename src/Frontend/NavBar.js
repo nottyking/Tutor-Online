@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavBar.css';
 import { Switch } from 'react-router';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { Register } from './Register';
 import { Content } from './Content';
 import { AboutUs } from './About_us';
@@ -13,6 +13,7 @@ import { Login } from './Login';
 import { Logout } from './Logout';
 import { LoginPage } from './LoginPage';
 import { PaymentSuccess } from './payment/PaymentSuccess';
+import { Footer } from './Footer';
 
 import {
     Collapse,
@@ -26,25 +27,25 @@ import {
 } from 'reactstrap';
 
 const pages = ['home', 'course', 'about us'];
-const loginPages = ['home', 'student', 'course', 'learning', 'payment', 'about us'];
+const loginPages = ['home', 'student', 'course', 'learning', 'about us'];
 
 export class BrowserRouterManager extends React.Component {
     render() {
         return (
             <div>
-                    <Switch>
-                        <Route exact path="/" component={Content} />
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/about_us" component={AboutUs} />
-                        <Route exact path="/course" component={CourseA} />
-                        <Route exact path="/course/:courseID" component={CourseA} />
-                        <Route exact path="/student" component={Student} />
-                        <Route exact path="/learning" component={Learning} />
-                        <Route exact path='/payment' component={Payment} />
-                        <Route exact path='/loginPage' component={LoginPage} />
-                        <Route exact path='/paymentSuccess' component={PaymentSuccess} />
-                        <Route component={Content} />
-                    </Switch>
+                <Switch>
+                    <Route exact path="/" component={Content} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/about_us" component={AboutUs} />
+                    <Route exact path="/course" component={CourseA} />
+                    <Route exact path="/course/:courseID" component={CourseA} />
+                    <Route exact path="/student" component={Student} />
+                    <Route exact path="/learning" component={Learning} />
+                    <Route exact path='/payment' component={Payment} />
+                    <Route exact path='/loginPage' component={LoginPage} />
+                    <Route exact path='/paymentSuccess' component={PaymentSuccess} />
+                    <Route component={Content} />
+                </Switch>
             </div >
         );
     }
@@ -53,7 +54,7 @@ export class BrowserRouterManager extends React.Component {
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isOpen: false,};
+        this.state = { isOpen: false, };
         this.toggle = this.toggle.bind(this);
         this.createPage = this.createPage.bind(this);
     }
@@ -118,6 +119,7 @@ export default class NavBar extends React.Component {
 
                 </Navbar>
                 <BrowserRouterManager />
+                <Footer />
             </div >
         );
     }

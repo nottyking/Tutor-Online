@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 import PropTypes from 'prop-types';
-import { CookiesProvider} from 'react-cookie';
-import {Button} from 'reactstrap';
 import Cookies from 'universal-cookie';
 
 /*

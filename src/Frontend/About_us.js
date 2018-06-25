@@ -1,10 +1,8 @@
 import React from 'react'
-import { width, height } from 'window-size'
-import { Container, Row, Col, Card, CardTitle, CardText, CardImg, CardImgOverlay } from 'reactstrap'
+import { Container} from 'reactstrap'
 import banner from './Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
 import {CoursePresent} from './CoursePresent'
-import {Footer} from './Footer';
 const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
 const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
 
@@ -25,7 +23,6 @@ export class AboutUs extends React.Component {
         <CoursePresent/>
         </div>
         </Container>
-        <Footer/>
       </div>
     )
   }

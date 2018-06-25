@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Container, Card,
    CardBody, CardText, CardTitle, Button,
     Table, Badge, CardSubtitle,Modal,
     ModalBody,ModalFooter,ModalHeader,
     Label,FormGroup,Input } from 'reactstrap'
-import { Footer } from './Footer'
 import Rating from 'react-rating';
 import {Payment} from './Payment'
 
@@ -208,8 +207,6 @@ onClick3 = () =>{
             </Col>
           </Row>
         </Container>
-        <Footer/>
-
 
         <Modal isOpen={this.state.reviewModal} toggle={this.toggleReview}>
           <ModalBody>

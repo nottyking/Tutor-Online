@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { SubCourseProgressBar } from './SubCourseProgressBar';
 import { Row, Col, Container, Card, CardTitle, CardText } from 'reactstrap';
 import {VideoPlayer} from './VideoPlayer';
-import {Footer} from './Footer'
 
 // class for video page
 // may be get course id from link 
@@ -68,7 +67,6 @@ export class Learning extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Footer/>
       </div>
     )
   }

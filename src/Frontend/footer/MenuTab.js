@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Row, Col, Input, Container, Nav, Navbar, NavItem, NavLink, Label, Card } from 'reactstrap'
+import React from 'react'
+import { Input, Container, Nav, Navbar, NavItem, NavLink, Label} from 'reactstrap'
 
 
 export class MenuTab extends React.Component {

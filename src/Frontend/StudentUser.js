@@ -10,8 +10,8 @@ import axios from 'axios'
 const cookies = new Cookies();
 const ipList = require('../Config/ipConfig')
 
-var isValidToken = true;
-var linkRedirect = '';
+var isValidToken;
+var linkRedirect;
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
             and src : List of Course object {Cid Cname Clink Cexpdate}
@@ -31,24 +31,6 @@ const defaultValue = {
   src: [{ courseid: '', coursename: '', courseexpireddate: '', courselink: '' }]
 }
 
-// var testData = {
-//   UserID: 'Success111',
-//   Username: 'Loggin in',
-//   FirstName: 'Jonathan',
-//   LastName: 'Boooo',
-//   Email: 'Jonathan_Boo0000@kk.co.th',
-//   ProfileImg: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
-//   Birthday: '1999-05-22',
-//   Address: '123456 abcdef 543210 ijklmnop',
-//   Gender: 'Female',
-//   src: [
-//     { CourseID: '10001', CourseName: 'Math for Programmer 0', CourseExpDate: '2018-10-11', CourseLink: '' },
-//     { CourseID: '10002', CourseName: 'Math for Programmer 1', CourseExpDate: '2018-07-11', CourseLink: '' },
-//     { CourseID: '10003', CourseName: 'Math for Programmer 2', CourseExpDate: '2018-06-10', CourseLink: '' },
-//     { CourseID: '10004', CourseName: 'Math for Programmer 3', CourseExpDate: '2018-02-07', CourseLink: '' }
-//   ]
-// }
-
 export class Student extends React.Component {
   constructor(props) {
     super(props);
@@ -64,8 +46,10 @@ export class Student extends React.Component {
       loginToken: cookies.get("loginToken")
     })).data;
     console.log("studentInformationAndError:", studentInformationAndError);
+    isValidToken = true;
+    linkRedirect = '';
     if (studentInformationAndError.redirect) {
-      console.log("Redirect");
+      console.log("Redirect",studentInformationAndError.redirect);
       isValidToken = false;
       linkRedirect = studentInformationAndError.redirect;
     }
@@ -111,7 +95,8 @@ export class Student extends React.Component {
         console.log("After load");
       case 1:
         if (!isValidToken) {
-          return <Redirect to="" />
+          console.log("redirect");
+          return <Redirect to={linkRedirect} />
         }
         return (
           <div className='App'>

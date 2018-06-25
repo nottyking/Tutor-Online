@@ -5,12 +5,14 @@ const mysql = require('mysql')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const fileUpload = require('express-fileupload');
 
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
+app.use(fileUpload())
 
 app.use(session({
   secret: 'TUTORSESSION',
@@ -22,14 +24,17 @@ app.use(session({
 const auth = require('./Config/Auth')
 const ipList = require('../Config/ipConfig')
 const jwt = require('jsonwebtoken')
+
 app.use(function(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   console.log("SESSION USERID:",req.session.userid);
-  const clientLoginToken = req.body.loginToken;
+  var clientLoginToken = req.body.loginToken;
+  if(!clientLoginToken)
+    clientLoginToken = req.files.myFile.name
   console.log("clientLoginToken:",clientLoginToken);
   if(clientLoginToken){
     try{
-      const { userid: userid } = jwt.verify(req.body.loginToken, auth.AUTH_SECRET);
+      const { userid: userid } = jwt.verify(clientLoginToken, auth.AUTH_SECRET);
       console.log("userid:",userid);
       req.session.userid = userid ;
       console.log('session userid:',req.session.userid);
@@ -45,7 +50,7 @@ app.use(function(req, res, next){
       console.log("Token invalid");
       console.log(ipList.frontend);
       return res.send({
-        redirect: ipList.frontend
+        redirect: "/loginpage"
       });
     }
   }

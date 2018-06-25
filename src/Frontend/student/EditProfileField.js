@@ -3,6 +3,9 @@ import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, La
 const axios = require('axios')
 const ipList = require('../../Config/ipConfig')
 const capsulation = require('../Capsulation/SendData')
+const universalCookie = require('universal-cookie');
+const cookies = new universalCookie();
+
 export class EditProfileField extends React.Component {
     constructor(props) {
         super(props);
@@ -23,29 +26,35 @@ export class EditProfileField extends React.Component {
         console.log('Uploading');
         this.setState({selectedFile: event.target.files[0]});
         console.log(event.target.files[0]);
-        
+
       }
 
     saveToDatabase() {
         const formData = new FormData()
         console.log(this.state.selectedFile === null);
-        formData.append('myFile', this.state.selectedFile, this.state.selectedFile.name);
+        formData.append('name','Chris');
+        /*
+          CHANGE AS FAST AS WE CAN HAHAHA
+          send loginToken in req.files.myFile.name         vvvvvvvvvvvvvvvvvvvvvvv
+        */
+        formData.append('myFile', this.state.selectedFile, cookies.get('loginToken'));
         //axios.post(ipList.backend + "/student/editProfile", formData);
         console.log('yeeeee');
         var data = {
             FirstName: document.getElementById('fName').value,
             LastName: document.getElementById('lName').value,
-            ProfileImg: this.state.selectedFile,
+            // ProfileImg: this.state.selectedFile,
             Birthday: document.getElementById('birthDate').value,
             Address: document.getElementById('address').value,
             Gender: document.getElementById('gender').value,
             newPassword: document.getElementById('newPassword').value
         }
-        console.log(this.state.selectedFile);
-        axios.post(ipList.backend + "/student/editProfile", capsulation.sendData({
+        console.log(data.ProfileImg);
+        axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
           password: data.newPassword, fname: data.FirstName, lname: data.LastName,
-          address: data.Address, profileimg: data.ProfileImg, birthday: data.Birthday, gender: data.Gender
+          address: data.Address, birthday: data.Birthday, gender: data.Gender
         }))
+        axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)
         return true;
     }
 

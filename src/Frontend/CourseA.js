@@ -22,7 +22,7 @@ var courseInfo = {
   description: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
   instructor: 'John Doe',
   rating: 5,
-  price: 1555,
+  price: 20000,
   subCourse: [
     {subcourseid:1,courseid:1,subcoursename: 'Math101',videolink: '/learning'},
     {subcourseid:2,courseid:1,subcoursename: 'Math102',videolink: '/learning'},
@@ -117,7 +117,7 @@ onClick3 = () =>{
     });
 
     var CourseReview
-    if (courseInfo.courseReview > 4.9) {
+    if (courseInfo.rating > 4.9) {
       CourseReview = (
         <h1 style={{color: '#ffc107'}}><i className='fa fa-star'style={{fontSize:'2rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'2rem'}}/></h1>
 
@@ -193,7 +193,7 @@ onClick3 = () =>{
                   <br />
                   {courseInfo.description}
                 </CardText>
-                {!this.state.alreadyEnroll ? <Payment/> : ''}
+                {!this.state.alreadyEnroll ? <Payment coursePrice={courseInfo.price}/> : ''}
               </CardBody>
             </Card>
             <br/>

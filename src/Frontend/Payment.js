@@ -65,5 +65,6 @@ Payment.propType =  {
 Payment.defaultProps = {
     courseID : 'Error',
     courseName : 'Math for PAT1',
-    courseDesc: ''
+    courseDesc: '',
+    coursePrice: 12344
 };

@@ -17,10 +17,10 @@ export class AboutUs extends React.Component {
   goNext = () => this.setState(state => ({ index: state.index + 1 >= state.paths.length ? 0 : state.index + 1 }))
   render() {
     const { paths, index } = this.state
-    const interpolator = interpolate(paths[index], paths[index + 1] || paths[0], { maxSegmentLength: 0.5 })
+    const interpolator = interpolate(paths[index], paths[index + 1] || paths[0], { maxSegmentLength: 0.1 })
     return (
       <svg width="500" viewBox="0 0 22 22">
-        <g fill='#55F'>
+        <g fill='#FFF'>
           <Spring reset native from={{ t: 0 }} to={{ t: 1 }} onRest={this.goNext}>
             {({ t }) => <animated.path d={t.interpolate(interpolator)} />}
           </Spring>

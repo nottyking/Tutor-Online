@@ -19,25 +19,23 @@ export class VideoPlayer extends React.Component{
     constructor(props){
         super(props);
         this.videoRef = React.createRef;
-        this.onUnload = this.onUnload.bind(this);
         this.onPause = this.onPause.bind(this);
-    }
-
-    onUnload(event) { // the method that will be used for both add and remove event
-        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
     }
 
     componentDidMount() {
         window.addEventListener("beforeunload", this.onUnload)
+        console.log(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
         this.videoRef.seekTo(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
      }
  
      componentWillUnmount() {
-         window.removeEventListener("beforeunload", this.onUnload)
+        console.log('unmount');
+        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
      }
 
     onPause = () => {
         console.log('onPause');
+        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
     }
 
     /* Used for Debug

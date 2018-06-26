@@ -90,9 +90,9 @@ function prepareSQLQuery(name,atti,value){
 async function doQuerySQL(sql, inList){
   return await new Promise((resolve, reject) => {
     con.query(sql, inList, (err, result) => {
-      console.log('result:',result[0]);
+      console.log('result:',result);
       resolve({
-        'result' : result[0],
+        'result' : result,
         'err' : err
       });
     })

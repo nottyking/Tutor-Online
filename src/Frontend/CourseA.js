@@ -7,12 +7,33 @@ import { Row, Col, Container, Card,
     Label,FormGroup,Input } from 'reactstrap'
 import Rating from 'react-rating';
 import {Payment} from './Payment'
-
+const axios = require('axios')
+const capsulation = require('./Capsulation/SendData')
+const ipList = require('../Config/ipConfig')
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
 
 */
+
+var courseInfo = {
+  courseName: 'Math for PAT1',
+  banner: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
+  description: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
+  instructor: 'John Doe',
+  rating: 5,
+  price: 1555,
+  subCourse: [
+    {subcourseid:1,courseid:1,subcoursename: 'Math101',videolink: '/learning'},
+    {subcourseid:2,courseid:1,subcoursename: 'Math102',videolink: '/learning'},
+    {subcourseid:3,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+    {subcourseid:4,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+    {subcourseid:5,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+    {subcourseid:6,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+    {subcourseid:7,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+    {subcourseid:8,courseid:1,subcoursename: 'Math103',videolink: '/learning'},
+  ]
+};
 
 export class CourseA extends React.Component {
   constructor(props) {
@@ -27,15 +48,20 @@ export class CourseA extends React.Component {
     this.toggleReview = this.toggleReview.bind(this);
   }
 
-  componentWillMount(){
-    
+  async componentDidMount(){
+    courseInfo = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
+      courseid: this.props.match.params.courseID
+    }))).data;
+    console.log(courseInfo.course);
+    console.log(courseInfo.subCourse);
+
   }
 
   onClickReview = () =>{
       this.setState({alreadyReview:true});
       this.toggleReview();
   }
-    
+
 toggleReview(){
   this.setState({
     reviewModal:!this.state.reviewModal
@@ -69,20 +95,20 @@ onClick3 = () =>{
 
   render () {
     console.log(this.props.match.params.courseID);
-    let Syllabus = this.props.src.map((item, i) => {
+    let Syllabus = courseInfo.subCourse.map((item, i) => {
       return (
         <tr>
           <th scope='row'>
             {i + 1}
           </th>
           <td>
-            {item.subCourseId}
+            {item.subcourseid}
           </td>
           <td>
-            {item.subCourseName}
+            {item.subcoursename}
           </td>
           <td>
-            <Badge href={this.state.alreadyEnroll? item.subCourseLink:''} color={this.state.alreadyEnroll?'primary':'danger'}>
+            <Badge href={this.state.alreadyEnroll? item.videolink:''} color={this.state.alreadyEnroll?'primary':'danger'}>
               {this.state.alreadyEnroll? 'Learn':''}
             </Badge>
           </td>
@@ -91,24 +117,24 @@ onClick3 = () =>{
     });
 
     var CourseReview
-    if (this.props.courseReview > 4.9) {
+    if (courseInfo.courseReview > 4.9) {
       CourseReview = (
         <h1 style={{color: '#ffc107'}}><i className='fa fa-star'style={{fontSize:'2rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'2rem'}}/></h1>
-      
+
       );
-    }else if (this.props.courseReview > 3.9) {
+    }else if (courseInfo.rating > 3.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star' style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (this.props.courseReview > 2.9) {
+    }else if (courseInfo.rating > 2.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star' style={{fontSize:'3rem'}} /> <i className='fa fa-star' style={{fontSize:'5rem'}}/> <i className='fa fa-star' style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (this.props.courseReview > 1.9) {
+    }else if (courseInfo.rating > 1.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (this.props.courseReview > 0.9) {
+    }else if (courseInfo.rating > 0.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
@@ -147,25 +173,25 @@ onClick3 = () =>{
     return (
       <div className='App'>
         <Container fluid>
-          <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
-          <Col style={{width:700}}>
-            <img src={this.props.courseImage} width={700} alt='error' />
+          <Row>
+          <Col style={{width:700,paddingLeft:0}}>
+            <img src={courseInfo.banner} width={700} style={{left:0,align:'left'}} alt='error' />
             </Col>
-            <Col style={{maxWidth:500,marginLeft:10}}>
-            
+            <Col style={{maxWidth:500,marginLeft:10,top:10}}>
+
             <Card style={{marginTop:10}}>
               <CardBody>
                 <CardTitle>
-                {this.props.match.params.courseID} : {this.props.courseName}
+                {this.props.match.params.courseID} : {courseInfo.courseName}
                 </CardTitle>
                 <CardSubtitle>
                   Instructor :
-                  {this.props.courseInstructor}
+                  {courseInfo.instructor}
                 </CardSubtitle>
                 <CardText>
-                
+
                   <br />
-                  {this.props.courseDesc}
+                  {courseInfo.description}
                 </CardText>
                 {!this.state.alreadyEnroll ? <Payment/> : ''}
               </CardBody>
@@ -179,10 +205,10 @@ onClick3 = () =>{
               {CourseReviewPresent}
             </CardBody>
           </Card>
-            
+
             </Col>
             <Col style={{maxWidth:400}}>
-            <h2 style={{marginBottom: 10,color: '#FFF'}} onClick={this.onClick}>Course Syllabus</h2>
+            <h3 style={{marginBottom: 10,color: '#FFF'}} onClick={this.onClick}>Course Syllabus</h3>
             <Table borderless style={{marginBottom: 10,color: '#FFF'}}>
             <thead>
               <tr>
@@ -203,7 +229,7 @@ onClick3 = () =>{
               {Syllabus}
             </tbody>
           </Table>
-            
+
             </Col>
           </Row>
         </Container>
@@ -221,37 +247,3 @@ onClick3 = () =>{
   }
 }
 
-CourseA.propTypes = {
-  courseName: PropTypes.string.isRequired,
-  courseImage: PropTypes.string.isRequired,
-  courseLink: PropTypes.string.isRequired,
-  courseDesc: PropTypes.string.isRequired,
-  courseInstructor: PropTypes.string.isRequired,
-  courseReview: PropTypes.number,
-  coursePrice: PropTypes.number,
-  subCourses: PropTypes.arrayOf(PropTypes.shape({
-    subCourseName: PropTypes.string.isRequired,
-    subCourseId: PropTypes.string.isRequired,
-    subCourseLink: PropTypes.string.isRequired
-  })).isRequired
-}
-
-CourseA.defaultProps = {
-  courseName: 'Math for PAT1',
-  courseImage: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
-  courseLink: '',
-  courseDesc: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
-  courseInstructor: 'John Doe',
-  courseReview: 5,
-  coursePrice: 1555,
-  src: [
-    {subCourseName: 'Math101',subCourseId: 'M101',subCourseLink: '/learning'},
-    {subCourseName: 'Math102',subCourseId: 'M102',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-    {subCourseName: 'Math103',subCourseId: 'M103',subCourseLink: '/learning'},
-  ]
-}

@@ -54,7 +54,8 @@ export class Student extends React.Component {
       linkRedirect = studentInformationAndError.redirect;
     }
     else {
-      var studentInformation = studentInformationAndError.result;
+      var studentInformation = studentInformationAndError.result[0]
+      console.log(studentInformation);
       var studentError = studentInformationAndError.error;
 
       defaultValue.UserID = studentInformation.userid;
@@ -66,6 +67,7 @@ export class Student extends React.Component {
       defaultValue.Birthday = studentInformation.birthday;
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;
+      console.log();
       defaultValue.src = studentInformation.src.result;
     }
     this.toNextStep()

@@ -39,7 +39,7 @@ export class CourseA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        alreadyEnroll:true,
+        alreadyEnroll:false,
         alreadyReview:false,
         alreadyLogin:true,
         reviewModal:false,
@@ -196,6 +196,7 @@ onClick3 = () =>{
                   {courseInfo.description}
                 </CardText>
                 {!this.state.alreadyEnroll ? <Payment coursePrice={courseInfo.price}/> : ''}
+                <Button onClick={this.onClick}> admin Enroll </Button>
               </CardBody>
             </Card>
             <br/>
@@ -248,4 +249,3 @@ onClick3 = () =>{
     )
   }
 }
-

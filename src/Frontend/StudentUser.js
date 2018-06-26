@@ -98,7 +98,7 @@ export class Student extends React.Component {
       case 1:
         if (!isValidToken) {
           console.log("redirect");
-          return <Redirect to={'/loginPage'} />
+
         } else {
           return (
             <div className='App'>
@@ -132,3 +132,5 @@ export class Student extends React.Component {
     }
   }
 }
+
+// return <Redirect to={'/loginPage'} />

@@ -7,7 +7,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 export class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { isLogin: true } // For eazy implementation in other href
+    this.state = { isLogin: false } // For eazy implementation in other href
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
   }

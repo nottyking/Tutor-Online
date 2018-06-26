@@ -19,7 +19,7 @@ export class VideoPlayer extends React.Component{
     constructor(props){
         super(props);
         this.videoRef = React.createRef;
-        this.onPause = this.onPause.bind(this);
+        // this.onPause = this.onPause.bind(this);
     }
 
     componentDidMount() {
@@ -27,16 +27,17 @@ export class VideoPlayer extends React.Component{
         console.log(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
         this.videoRef.seekTo(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
      }
- 
+
      componentWillUnmount() {
         console.log('unmount');
-        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        if(this.videoRef.getCurrentTime()!==null)
+          cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
      }
 
-    onPause = () => {
-        console.log('onPause');
-        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
-    }
+    // onPause = () => {
+    //     console.log('onPause');
+    //     cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+    // }
 
     /* Used for Debug
     onClick = () =>{
@@ -47,10 +48,10 @@ export class VideoPlayer extends React.Component{
     onClick1 = () =>{
         console.log('check');
         console.log(cookies.getAll());
-        
+
     }
     */
-    
+
     ref = videoRef => {
         this.videoRef = videoRef;
     }

@@ -60,7 +60,7 @@ async function checkPassword(req, res){
   console.log("Enter checkPassword in EditProfileController");
   var userid = req.session.userid
   console.log("USERID:",userid);
-  var correctedPassword = (await getFunc.getUserWithWhere(['userid'], [userid])).result.password
+  var correctedPassword = (await getFunc.getUserWithWhere(['userid'], [userid])).result[0].password
   var clientPassword = req.body.password;
   console.log("Corrected Password:",correctedPassword);
   console.log("Client Password:",clientPassword);

@@ -17,7 +17,7 @@ prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
 */
 
 var courseInfo = {
-  courseName: 'Math for PAT1',
+  coursename: 'Math for PAT1',
   banner: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
   description: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
   instructor: 'John Doe',
@@ -39,21 +39,23 @@ export class CourseA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        alreadyEnroll:false,
+        alreadyEnroll:true,
         alreadyReview:false,
         alreadyLogin:true,
         reviewModal:false,
-        paymentModal:false
+        paymentModal:false,
+        loaded:false
     };
     this.toggleReview = this.toggleReview.bind(this);
   }
 
-  async componentDidMount(){
+  async componentWillMount(){
     courseInfo = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
     console.log(courseInfo.course);
     console.log(courseInfo.subCourse);
+    this.setState({loaded:true})
 
   }
 
@@ -175,14 +177,14 @@ onClick3 = () =>{
         <Container fluid>
           <Row>
           <Col style={{width:700,paddingLeft:0}}>
-            <img src={courseInfo.banner} width={700} style={{left:0,align:'left'}} alt='error' />
+            <img src={'https://dummyimage.com/600x400/ffffff/000000&text='+courseInfo.coursename} width={700} style={{left:0,align:'left'}} alt='error' />
             </Col>
             <Col style={{maxWidth:500,marginLeft:10,top:10}}>
 
             <Card style={{marginTop:10}}>
               <CardBody>
                 <CardTitle>
-                {this.props.match.params.courseID} : {courseInfo.courseName}
+                {this.props.match.params.courseID} : {courseInfo.coursename}
                 </CardTitle>
                 <CardSubtitle>
                   Instructor :

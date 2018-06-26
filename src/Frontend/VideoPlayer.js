@@ -30,7 +30,8 @@ export class VideoPlayer extends React.Component{
  
      componentWillUnmount() {
         console.log('unmount');
-        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        if(this.videoRef.getCurrentTime()!==null)
+            cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
      }
 
     onPause = () => {

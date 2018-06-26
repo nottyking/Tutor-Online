@@ -11,7 +11,7 @@ const cookies = new Cookies();
 const ipList = require('../Config/ipConfig')
 
 var isValidToken;
-var linkRedirect;
+var linkRedirect = '/loginPage';
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
             and src : List of Course object {Cid Cname Clink Cexpdate}
@@ -98,7 +98,7 @@ export class Student extends React.Component {
       case 1:
         if (!isValidToken) {
           console.log("redirect");
-          return <Redirect to={linkRedirect} />
+          return <Redirect to={'/loginPage'} />
         } else {
           return (
             <div className='App'>

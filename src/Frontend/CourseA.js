@@ -195,7 +195,7 @@ onClick3 = () =>{
                   <br />
                   {courseInfo.description}
                 </CardText>
-                {!this.state.alreadyEnroll ? <Payment coursePrice={courseInfo.price}/> : ''}
+                {!this.state.alreadyEnroll ? <Payment coursePrice={courseInfo.price}/> : ''}<br/>
                 <Button onClick={this.onClick}> admin Enroll </Button>
               </CardBody>
             </Card>

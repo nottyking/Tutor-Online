@@ -14,56 +14,56 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 app.use(fileUpload())
 
-app.use(session({
-  secret: 'TUTORSESSION',
-  resave: true,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+// app.use(session({
+//   secret: 'TUTORSESSION',
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: { secure: true }
+// }))
 
-const auth = require('./Config/Auth')
-const ipList = require('../Config/ipConfig')
-const jwt = require('jsonwebtoken')
+// const auth = require('./Config/Auth')
+// const ipList = require('../Config/ipConfig')
+// const jwt = require('jsonwebtoken')
 
-app.use(function(req, res, next){
-  console.log("CHECK AUTH IN SERVER");
-  console.log("SESSION USERID:",req.session.userid);
-  var clientLoginToken = req.body.loginToken;
-  if(!clientLoginToken && req.files)
-    clientLoginToken = req.files.myFile.name
-  console.log("clientLoginToken:",clientLoginToken);
-  if(clientLoginToken){
-    try{
-      const { userid: userid } = jwt.verify(clientLoginToken, auth.AUTH_SECRET);
-      console.log("userid:",userid);
-      req.session.userid = userid ;
-      console.log('session userid:',req.session.userid);
-      jwt.sign({
-        userid: userid
-      },
-      auth.AUTH_SECRET,{
-        expiresIn: auth.MAX_AGE
-      }
-      )
-      console.log("Pass Auth");
-    }catch(err){
-      console.log("Token invalid");
-      console.log(ipList.frontend);
-      return res.send({
-        redirect: "/loginpage"
-      });
-    }
-  }
-  next();
-})
+// app.use(function(req, res, next){
+//   console.log("CHECK AUTH IN SERVER");
+//   console.log("SESSION USERID:",req.session.userid);
+//   var clientLoginToken = req.body.loginToken;
+//   if(!clientLoginToken && req.files)
+//     clientLoginToken = req.files.myFile.name
+//   console.log("clientLoginToken:",clientLoginToken);
+//   if(clientLoginToken){
+//     try{
+//       const { userid: userid } = jwt.verify(clientLoginToken, auth.AUTH_SECRET);
+//       console.log("userid:",userid);
+//       req.session.userid = userid ;
+//       console.log('session userid:',req.session.userid);
+//       jwt.sign({
+//         userid: userid
+//       },
+//       auth.AUTH_SECRET,{
+//         expiresIn: auth.MAX_AGE
+//       }
+//       )
+//       console.log("Pass Auth");
+//     }catch(err){
+//       console.log("Token invalid");
+//       console.log(ipList.frontend);
+//       return res.send({
+//         redirect: "/loginpage"
+//       });
+//     }
+//   }
+//   next();
+// })
 
 // All route is in routerList file
-const routerList = require('./routerList');
-for(var i = 0 ; i < routerList.path.length ; i++){
-  var nowPath = routerList.path[i];
-  var nowRouteTo = routerList.routeTo[i];
-  app.use(nowPath, nowRouteTo);
-}
+// const routerList = require('./routerList');
+// for(var i = 0 ; i < routerList.path.length ; i++){
+//   var nowPath = routerList.path[i];
+//   var nowRouteTo = routerList.routeTo[i];
+//   app.use(nowPath, nowRouteTo);
+// }
 
 const server = http.createServer(app);
 

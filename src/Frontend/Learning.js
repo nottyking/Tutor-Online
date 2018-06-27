@@ -29,6 +29,8 @@ export class Learning extends React.Component {
 
   render () {
     const timeElapsed ='0m5s'
+    console.log(this.props.match.params.courseID);
+    console.log(this.props.match.params.subcourseID);
     return (
       <div className='App'>
         <Container fluid>

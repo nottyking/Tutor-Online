@@ -5,7 +5,7 @@ import { Row, Col, Container, Card, CardTitle, CardText } from 'reactstrap';
 import {VideoPlayer} from './VideoPlayer';
 
 // class for video page
-// may be get course id from link 
+// may be get course id from link
 // this class might get these variables below \/ from database
 // CourseName: PropTypes.string.isRequired,
 // SubCourseID:PropTypes.string.isRequired,
@@ -24,7 +24,12 @@ export class Learning extends React.Component {
     super(props);
     this.state = {
         freeUser:true,
+        isloaded:true,
     };
+  }
+
+  async componentWillMount(){
+    // var subcourseInfo = (await axios.post())
   }
 
   render () {
@@ -53,7 +58,7 @@ export class Learning extends React.Component {
             </Col>
             <Col xs='2'>
             <br/><br/>
-            <SubCourseProgressBar now= {6}
+            <SubCourseProgressBar now= {1}
             src={ [
                 {SCname : "Math101", SCid:1,SClink:"aaaaaa"},
                 {SCname : "Math102", SCid:2,SClink:"aaaaaa"},

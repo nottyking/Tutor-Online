@@ -6,13 +6,15 @@ const pathFromFrontend = "../Image/ProfileImage/";
 
 async function updateNewProfile(req, res){
   console.log("Enter insertNewProfile in EditProfileController");
-  var fileName = 'ProfileImage' + req.session.userid + '.jpg';
   var userid = req.session.userid
   var password = req.body.password
   var fname = req.body.fname
   var lname = req.body.lname
   var address = req.body.address
+
+  var fileName = 'ProfileImage' + req.session.userid + '.jpg';
   var profileimg = pathFromFrontend + fileName
+
   var birthday = req.body.birthday
   var gender = req.body.gender
   updateFunc.updateUserWithUserID(['password','fname','lname','address','profileimg','birthday','gender'] ,
@@ -23,17 +25,12 @@ async function updateNewProfile(req, res){
 
 async function uploadProfileImage(req, res){
   console.log("Enter uploadProfileImage");
-  console.log("req.files:",req.files);
   if (req.files){
     var userid = req.session.userid;
-    console.log("Userid:",userid);
     var fileName = 'ProfileImage' + userid + '.jpg';
     var profileImage = req.files.myFile;
-    console.log("ProfileImage",profileImage.mv);
     var destinationPath = '../Frontend/Image/ProfileImage/' + fileName;
-    console.log("111111111111111");
     return await new Promise(async(resolve, reject) => {
-      console.log("2222222222222222222222");
       resolve(
         await profileImage.mv(destinationPath, function(err) {
           if (err){

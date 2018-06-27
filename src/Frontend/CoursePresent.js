@@ -17,7 +17,7 @@ export class CoursePresent extends React.Component {
         const src = this.props.src;
         const ListItems = src.map(
             (item, i) =>
-            <Col >
+            <Col>
                 <a href={item.courseLink} style={{color:'black',textDecoration:'none'}}>
                     <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',border:'none' }}>
                             <CardImg src={item.courseImage} alt="Card image cap" />

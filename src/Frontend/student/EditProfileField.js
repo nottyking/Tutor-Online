@@ -137,7 +137,7 @@ export class EditProfileField extends React.Component {
                     <CardImg
                         top
                         style={{ width: 100, textAlign: "center" }}
-                        src={this.state.selectedFile}
+                        src={this.props.defaultValue.ProfileImg}
                         alt='Card image cap' />
                         </label>
 

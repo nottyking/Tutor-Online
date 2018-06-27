@@ -19,7 +19,7 @@ const insertCourse = async(coursename, instructor, price, banner, thumbnail, des
 
   var preparedSQLQuery = prepareSQLQuery(
     "course (coursename, instructor, price, banner, thumbnail, description, limitduration, isAvailable, createdate, limitdurationtype)",
-    "(?,?,?,?,?,?,?,?,?,?,?)",
+    "(?,?,?,?,?,?,?,?,?,?)",
     [coursename, instructor, price, banner, thumbnail, description, limitduration, isAvailable, createdate, limitdurationtype]
   );
 

@@ -1,6 +1,6 @@
 const insertFunc = require('../utilityfunction/InsertData')
 
-function createCourse(req, res){
+async function createCourse(req, res){
   console.log("Enter createCourse in Managecontroller");
   var coursename = req.body.coursename;
   var instructor = req.body.instructor;
@@ -13,8 +13,8 @@ function createCourse(req, res){
   var isavailable = req.body.isavailable;
   var createdate = req.body.createdate;
   var limitdurationtype = req.body.limitdurationtype;
-  insertFunc.insertCourse(coursename, instructor, price, banner, thumbnail, description,
-                          limitduration, isavailable, createdate, limitdurationtype);
+  return await insertFunc.insertCourse(coursename, instructor, price, banner, thumbnail, description,
+                                       limitduration, isavailable, createdate, limitdurationtype);
 }
 module.exports = {
   createCourse : createCourse,

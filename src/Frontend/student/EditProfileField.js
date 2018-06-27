@@ -1,3 +1,4 @@
+import '../student.css';
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 const axios = require('axios')
@@ -131,13 +132,19 @@ export class EditProfileField extends React.Component {
                 }}>
 
                     <br />
+                    <div class="image-upload">
+                        <label for="file-input">
                     <CardImg
                         top
                         style={{ width: 100, textAlign: "center" }}
                         src={this.state.selectedFile}
                         alt='Card image cap' />
+                        </label>
+
+                        <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
+                    </div>
                     <br />
-                    <Input type="file" name="file" id="file" style={{ width: 220, textAlign: "center" }} onChange={this.fileChangedHandler} />
+                    
                     <CardBody>
                         <CardText>
                             <Form>

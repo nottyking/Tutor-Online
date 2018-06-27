@@ -39,6 +39,7 @@ export class BrowserRouterManager extends React.Component {
                     <Route exact path="/course/:courseID" component={CourseA} />
                     <Route exact path="/student" component={true ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
                     <Route exact path="/learning" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/learning/:courseID/:subcourseID" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
                     <Route exact path="/register" component={!false ? Register : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path='/loginPage' component={!false ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />

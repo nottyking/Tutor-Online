@@ -4,7 +4,7 @@ import { Row, Col, Container, Card,
    CardBody, CardText, CardTitle, Button,
     Table, Badge, CardSubtitle,Modal,
     ModalBody,ModalFooter,ModalHeader,
-    Label,FormGroup,Input } from 'reactstrap'
+    Label,FormGroup,Input,CardImgOverlay } from 'reactstrap'
 import Rating from 'react-rating';
 import {Payment} from './Payment'
 const axios = require('axios')
@@ -16,13 +16,13 @@ prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
 
 */
 
-var courseInfo = {
-  coursename: 'Math for PAT1',
+var defaultCourseInfo = {
+  course:{coursename: 'Loading',
   banner: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
   description: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
   instructor: 'John Doe',
   rating: 5,
-  price: 20000,
+  price: 20000},
   subCourse: [
     {subcourseid:1,courseid:1,subcoursename: 'Math101',videolink: '/learning'},
     {subcourseid:2,courseid:1,subcoursename: 'Math102',videolink: '/learning'},
@@ -44,18 +44,22 @@ export class CourseA extends React.Component {
         alreadyLogin:true,
         reviewModal:false,
         paymentModal:false,
-        loaded:false
+        loaded:false,
+        courseInfo:defaultCourseInfo
     };
     this.toggleReview = this.toggleReview.bind(this);
   }
 
   async componentWillMount(){
-    courseInfo = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
+    var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    console.log(courseInfo.course);
-    console.log(courseInfo.subCourse);
-    this.setState({loaded:true})
+    this.setState({courseInfo:temp});
+    this.forceUpdate();
+    console.log('course info state');
+    console.log(this.state.courseInfo);
+    console.log('course info name');
+    console.log(this.state.courseInfo.course.coursename);
 
   }
 
@@ -96,8 +100,8 @@ onClick3 = () =>{
 }
 
   render () {
-    console.log(this.props.match.params.courseID);
-    let Syllabus = courseInfo.subCourse.map((item, i) => {
+    console.log('render');
+    let Syllabus = this.state.courseInfo.subCourse.map((item, i) => {
       return (
         <tr>
           <th scope='row'>
@@ -110,7 +114,7 @@ onClick3 = () =>{
             {item.subcoursename}
           </td>
           <td>
-            <Badge href={this.state.alreadyEnroll? item.videolink:''} color={this.state.alreadyEnroll?'primary':'danger'}>
+            <Badge href={this.state.alreadyEnroll? ipList.frontend + "/learning/"+this.props.match.params.courseID+'/'+item.subcourseid:''} color={this.state.alreadyEnroll?'primary':'danger'}>
               {this.state.alreadyEnroll? 'Learn':''}
             </Badge>
           </td>
@@ -119,24 +123,24 @@ onClick3 = () =>{
     });
 
     var CourseReview
-    if (courseInfo.rating > 4.9) {
+    if (this.state.courseInfo.course.rating > 4.9) {
       CourseReview = (
         <h1 style={{color: '#ffc107'}}><i className='fa fa-star'style={{fontSize:'2rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'2rem'}}/></h1>
 
       );
-    }else if (courseInfo.rating > 3.9) {
+    }else if (this.state.courseInfo.course.rating > 3.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star' style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'5rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (courseInfo.rating > 2.9) {
+    }else if (this.state.courseInfo.course.rating > 2.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star' style={{fontSize:'3rem'}} /> <i className='fa fa-star' style={{fontSize:'5rem'}}/> <i className='fa fa-star' style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (courseInfo.rating > 1.9) {
+    }else if (this.state.courseInfo.course.rating > 1.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/> <i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
-    }else if (courseInfo.rating > 0.9) {
+    }else if (this.state.courseInfo.course.rating > 0.9) {
       CourseReview = (
         <h1 style={{color: '#007bff'}}><i className='fa fa-star'style={{fontSize:'3rem'}}/></h1>
       );
@@ -176,31 +180,31 @@ onClick3 = () =>{
       <div className='App'>
         <Container fluid>
           <Row>
-          <Col style={{width:700,paddingLeft:0}}>
-            <img src={'https://dummyimage.com/600x400/ffffff/000000&text='+courseInfo.coursename} width={700} style={{left:0,align:'left'}} alt='error' />
-            </Col>
-            <Col style={{maxWidth:500,marginLeft:10,top:10}}>
-
-            <Card style={{marginTop:10}}>
+          <Col>
+          </Col>
+            
+            <Col>
+            <img src={'https://dummyimage.com/600x400/ffffff/000000&text='+this.state.courseInfo.course.coursename} width={700} style={{left:0,align:'left'}} alt='error' />
+            <Card>
               <CardBody>
                 <CardTitle>
-                {this.props.match.params.courseID} : {courseInfo.coursename}
+                {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename}
                 </CardTitle>
                 <CardSubtitle>
                   Instructor :
-                  {courseInfo.instructor}
+                  {this.state.courseInfo.course.instructor}
                 </CardSubtitle>
                 <CardText>
 
                   <br />
-                  {courseInfo.description}
+                  {this.state.courseInfo.course.description}
                 </CardText>
-                {!this.state.alreadyEnroll ? <Payment coursePrice={courseInfo.price}/> : ''}<br/>
+                {!this.state.alreadyEnroll ? <Payment coursePrice={this.state.courseInfo.course.price}/> : ''}<br/>
                 <Button onClick={this.onClick}> admin Enroll </Button>
               </CardBody>
             </Card>
             <br/>
-            <Card style={{marginBottom: 60}}>
+            <Card>
             <CardBody>
               <CardTitle>
                 Student Review
@@ -210,9 +214,9 @@ onClick3 = () =>{
           </Card>
 
             </Col>
-            <Col style={{maxWidth:400}}>
-            <h3 style={{marginBottom: 10,color: '#FFF'}} onClick={this.onClick}>Course Syllabus</h3>
-            <Table borderless style={{marginBottom: 10,color: '#FFF'}}>
+            <Col>
+            <h3>Course Syllabus</h3>
+            <Table dark borderless>
             <thead>
               <tr>
                 <th>

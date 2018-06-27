@@ -20,7 +20,7 @@ export class Content extends React.Component {
         
         </Parallax>
         <div style={{width: '80%' ,position:'relative',marginTop:'-170px', left: '10%',backgroundColor:'#FFF',padding:20,zIndex:'100'}}><h2>Our Courses</h2>
-        <CoursePresent/>
+        <CoursePresent />
         </div>
         </Container>
       </div>

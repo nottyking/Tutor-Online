@@ -6,7 +6,29 @@ import {CoursePresent} from './CoursePresent'
 const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
 const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
 
+const ipList = require('../Config/ipConfig')
+const axios = require('axios')
+const capsule = require('./Capsulation/SendData')
 export class Content extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isloaded : true
+    }
+  }
+
+  async componentWillMount() {
+    console.log("ENTER CoursePresent Component");
+    var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
+      // Don't need to add anything, just send only a loginToken with capsule
+    }))).data;
+    this.setState({
+      isloaded: false ,
+      courseInfo: courseInfo
+    })
+    console.log("Course info:",courseInfo);
+  }
+
   render () {
     return (
       <div className='App'>
@@ -17,10 +39,10 @@ export class Content extends React.Component {
         <div style={insideStyles2}><h2>Lorem ipsum t amet, consectetur adipiscing elit.</h2>
         <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non feugiat tortor nec, tincidunt dui</h4> </div>
         </div>
-        
+
         </Parallax>
         <div style={{width: '80%' ,position:'relative',marginTop:'-170px', left: '10%',backgroundColor:'#FFF',padding:20,zIndex:'100'}}><h2>Our Courses</h2>
-        <CoursePresent/>
+        <CoursePresent src={this.state.courseInfo}/>
         </div>
         </Container>
       </div>

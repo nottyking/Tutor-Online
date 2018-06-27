@@ -33,8 +33,10 @@ const getStudent = () => {
 
 const getCourse = async() => {
   console.log('Enter getCourse in getData');
+  console.log("22222");
   return await new Promise((resolve, reject) => {
     con.query('SELECT * FROM course', (err, result) => {
+      console.log("33333");
       console.log("Course result:",result);
       resolve ({
         'err' : err ,

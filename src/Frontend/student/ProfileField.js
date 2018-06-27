@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
-
+// import profilePicture from '../Image/ProfileImage/ProfileImage17.jpg'
 export class ProfileField extends React.Component {
     render() {
+      var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+      try{
+          profilePicture = require('../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+      } catch(err){
+        console.log("ERR:",err);
+      }
       return (
         <div>
           <Card style={{
@@ -14,7 +20,7 @@ export class ProfileField extends React.Component {
             <CardImg
               top
               style={{ width: 100, textAlign: "center" }}
-              src={this.props.defaultValue.ProfileImg}
+              src={profilePicture}
               alt='Card image cap' />
             <CardBody>
               <CardTitle>
@@ -52,7 +58,7 @@ export class ProfileField extends React.Component {
                   </Button>
             </CardBody>
           </Card>
-  
+
         </div>
       );
     }

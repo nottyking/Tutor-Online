@@ -1,5 +1,7 @@
 import React from 'react'
 import {AdminEditCourseModal} from './AdminEditCourseModal';
+import {AdminCreateCourseModal} from './AdminCreateCourseModal';
+import {AdminEditSubCourseModal} from './AdminEditSubCourseModal';
 import { Loading } from './Loading'
 import { Container, Col,Table,Badge,Modal,ModalBody,Button,ModalFooter,ModalHeader } from 'reactstrap'
 import Cookies from 'universal-cookie';
@@ -26,10 +28,13 @@ export class Admin extends React.Component {
     this.state = { 
         isloaded: false,
         modalOpen:false,
-        courseInfo:{}
+        courseInfo:{},
+        modalHeader:''
     }
     this.getDatabaseValue = this.getDatabaseValue.bind(this);
-    this.toggle = this.toggle.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.toggleCreate = this.toggleCreate.bind(this);
+    this.toggleSubcourse = this.toggleSubcourse.bind(this);
   }
 
 
@@ -67,14 +72,38 @@ export class Admin extends React.Component {
     return;
   }
 
-toggle(x) {
+toggleEdit(x) {
   console.log(this.state.modalOpen);
 this.setState({
+    modalHeader: 'Edit Course',
     modalOpen: !this.state.modalOpen
 });
-modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.courseInfo[x]}/>);
+modalComponent = (x===-1)? '':(<AdminEditCourseModal src={this.state.courseInfo[x]}/>);
 }
 
+toggleCreate() {
+  console.log(this.state.modalOpen);
+this.setState({
+    modalHeader: 'Create Course',
+    modalOpen: !this.state.modalOpen
+});
+modalComponent =<AdminCreateCourseModal/>;
+}
+
+toggleSubcourse(x) {
+  console.log(this.state.modalOpen);
+this.setState({
+    modalHeader: 'Edit Sub Course',
+    modalOpen: !this.state.modalOpen
+});
+modalComponent = (x===-1)? '':(<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid}/>);
+}
+
+closeModal=()=> {
+  this.setState({
+    modalOpen: false
+});
+}
 
 
   render() {
@@ -86,8 +115,8 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
                 <td>{item.coursename}</td>
                 <td>{item.instructor}</td>
                 <td>{item.price/100} ฿</td>
-                <td><Badge color='primary' onClick={()=>{this.toggle(i)}}>click</Badge></td>
-                <td><Badge color='primary' onClick={()=>{this.toggle(i)}}>click</Badge></td>
+                <td><Button color='primary' onClick={()=>{this.toggleEdit(i)}}><i class="fa fa-edit"/></Button></td>
+                <td><Button color='primary' onClick={()=>{this.toggleSubcourse(i)}}><i class="fa fa-edit"/></Button></td>
         </tr>
 
             
@@ -95,10 +124,10 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
     
         return(
             <Container fluid>
-            <Modal isOpen={this.state.modalOpen}  toggle={()=>{this.toggle(-1)}} className={this.props.className}>
-            <ModalHeader toggle={()=>{this.toggle(-1)}}>Edit Course</ModalHeader>
+            <Modal isOpen={this.state.modalOpen}  toggle={this.closeModal} className={this.props.className}>
+            <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
             {modalComponent}
-            <ModalFooter><Button color="secondary" onClick={()=>{this.toggle(-1)}}>Cancel</Button></ModalFooter>
+            <ModalFooter><Button color="secondary" onClick={this.closeModal}>Cancel</Button></ModalFooter>
             </Modal>);
             <Col>
             <Table inverse striped hover>
@@ -113,7 +142,7 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
             <th>Edit Subcourse</th>
           </tr>
           <tr>
-          <Button color='primary' fluid width='100%'> +</Button>
+          <Button color='primary' outline left='50%' onClick={this.toggleCreate}> +</Button>
       </tr>
           {courseTableBody}
         </thead>

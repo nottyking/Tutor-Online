@@ -10,12 +10,6 @@ const capsule = require('./Capsulation/SendData')
 var isValidToken
 var linkRedirect = '/loginPage'
 
-/*
-    Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
-            and src : List of Course object {Cid Cname Clink Cexpdate}
-
-    Prop src must be qu
-*/
 
 export class AdminEditCourseModal extends React.Component {
   constructor (props) {
@@ -131,51 +125,6 @@ export class AdminEditCourseModal extends React.Component {
 
                </FormGroup>
                <hr/>
-               <FormGroup row>
-              <Input plaintext> Expire Type
-              </Input>
-              <Input
-                type='select'
-                name='limitdurationtype'
-                id='limitdurationtype'
-                defaultValue='0'
-                onChange={this.toggletype}>
-              <option value='0'>
-                Will Not Expire
-              </option>
-              <option value='1'>
-                Expire in a range of time
-              </option>
-              <option value='2'>
-                Expire on exact date
-              </option>
-              </Input>
-
-              <Collapse isOpen={this.state.expireType==='1'}>
-                <Card>
-                  <CardBody>
-                  choose type 1 : Expire in a range of time
-                  </CardBody>
-                </Card>
-              </Collapse>
-                            <br/>
-                            <Collapse isOpen={this.state.expireType==='2'}>
-                            <Card>
-                              <CardBody>
-                              choose type 2 : Expire on exact date
-                                <Label>Choose Exact Expiry Date</Label>
-                              <Input
-                              type='date'
-                              id='expiredate'
-                            />
-                              </CardBody>
-                            </Card>
-                          </Collapse>
-
-
-
-
-            </FormGroup>
           </Form>
           <Button color='primary' onClick={this.toggle}>
             Do Something

@@ -1,5 +1,5 @@
-const getFunc = require('../utilityfunction/getDataNormal')
-const getFuncSpecial = require('../utilityfunction/getDataSpecial')
+const getFunc = require('../utilityfunction/GetData')
+const getFuncSpecial = require('../utilityfunction/GetDataSpecial')
 
 async function queryInformation(req, res){
   console.log("Enter queryInformation in Studentcontroller");

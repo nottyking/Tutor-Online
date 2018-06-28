@@ -1,5 +1,19 @@
 const con = require('../../Config/database')
 
+const insertUser = async(username,password,email,fname,lname,address,profileimage,birthday,gender) => {
+  console.log('Enter InsertEnrolledCourse in insertData');
+
+  var preparedSQLQuery = prepareSQLQuery(
+    "user (username,password,email,fname,lname,address,profileimage,birthday,gender)",
+    "(?,?,?,?,?,?,?,?,?)",
+    [username,password,email,fname,lname,address,profileimage,birthday,gender]
+  );
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('valueList:', preparedSQLQuery.valueList);
+  return await doQuerySQL("user",preparedSQLQuery.sql,preparedSQLQuery.valueList);
+}
+
 const insertEnrolledCourse = async(userid, courseid, expireddate) => {
   console.log('Enter InsertEnrolledCourse in insertData');
 
@@ -62,13 +76,15 @@ function doQuerySQL(table, sql, valueList){
       console.log('result:',result);
       console.log('Insert ' + table + ' Success!');
       resolve({
-        result: "success"
+        result: result ,
+        msg : "success"
       });
     })
   })
 }
 
 const insertFunction = {
+  insertUser : insertUser ,
   insertEnrolledCourse : insertEnrolledCourse ,
   insertCourse : insertCourse,
   insertSubCourse : insertSubCourse,

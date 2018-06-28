@@ -7,6 +7,7 @@ import { Row, Col, Container, Card,
     Label,FormGroup,Input,CardImgOverlay } from 'reactstrap'
 import Rating from 'react-rating';
 import {Payment} from './Payment'
+import {Loading} from './Loading';
 const axios = require('axios')
 const capsulation = require('./Capsulation/SendData')
 const ipList = require('../Config/ipConfig')
@@ -44,7 +45,7 @@ export class CourseA extends React.Component {
         alreadyLogin:true,
         reviewModal:false,
         paymentModal:false,
-        loaded:false,
+        isLoaded:false,
         courseInfo:defaultCourseInfo
     };
     this.toggleReview = this.toggleReview.bind(this);
@@ -54,8 +55,7 @@ export class CourseA extends React.Component {
     var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    this.setState({courseInfo:temp});
-    this.forceUpdate();
+    this.setState({courseInfo:temp,isLoaded:true});
     console.log('course info state');
     console.log(this.state.courseInfo);
     console.log('course info name');
@@ -176,6 +176,8 @@ onClick3 = () =>{
     }else{
       CourseReviewPresent = CourseReviewButton
     }
+
+    if(this.state.isLoaded){
     return (
       <div className='App'>
         <Container fluid>
@@ -250,6 +252,10 @@ onClick3 = () =>{
           </ModalFooter>
         </Modal>
       </div>
-    )
+    );
+  }
+  else{
+    return(<Loading/>);
+  }
   }
 }

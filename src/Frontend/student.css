@@ -2,3 +2,55 @@
 {
     display: none;
 }
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  .overlay {
+    position: absolute;
+    right: 0; 
+  bottom: 23px !important; 
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1; 
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+  }
+  
+  .imageContainer:hover .overlay {
+    opacity: 1 ;
+  }
+  
+  .icon {
+    color: white;
+    font-size: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+  }
+  .avatar {
+    vertical-align: middle;
+    width: 200px !important;
+    height: 200px !important;
+    display: block;
+    height: auto;
+}
+  

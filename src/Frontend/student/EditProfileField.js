@@ -13,7 +13,8 @@ export class EditProfileField extends React.Component {
         this.state = {
             ModalMessage: '', isDefaultPassword: true, validPassword: false,
             isDefaultRePassword: true, validRePassword: false, Modal: false,
-            selectedFile: this.props.defaultValue.ProfileImg
+            selectedFile: [],
+            showProfilePicture: this.props.defaultValue.ProfileImg
         };
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.checkValidPassword = this.checkValidPassword.bind(this);
@@ -26,8 +27,15 @@ export class EditProfileField extends React.Component {
     fileChangedHandler = (event) => {
         console.log('Uploading');
         this.setState({selectedFile: event.target.files[0]});
-        console.log(event.target.files[0]);
-
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(file);
+        reader.onloadend = function (e) {
+        this.setState({
+            showProfilePicture:[reader.result]
+            })
+        }.bind(this);
+        console.log(url)
       }
 
     saveToDatabase() {
@@ -39,7 +47,6 @@ export class EditProfileField extends React.Component {
         */
         formData.append('myFile', this.state.selectedFile, cookies.get('loginToken'));
         //axios.post(ipList.backend + "/student/editProfile", formData);
-        console.log('yeeeee');
         var data = {
             FirstName: document.getElementById('fName').value,
             LastName: document.getElementById('lName').value,
@@ -122,6 +129,12 @@ export class EditProfileField extends React.Component {
     }
 
     render() {
+        var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+      try{
+          profilePicture = require('../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+      } catch(err){
+        console.log("ERR:",err);
+      }
         return (
             <div>
                 <Card style={{
@@ -132,23 +145,30 @@ export class EditProfileField extends React.Component {
                 }}>
 
                     <br />
-                    <div class="image-upload">
-                        <label for="file-input">
-                    <CardImg
+                    
+                    <div class="image-upload imageContainer">
+                        
+                    <CardImg className='avatar'
                         top
-                        style={{ width: 100, textAlign: "center" }}
-                        src={this.props.defaultValue.ProfileImg}
-                        alt='Card image cap' />
-                        </label>
+                        src={this.state.showProfilePicture}
 
-                        <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
+                        alt='Card image cap' />
+                        
+
+                        <label for="file-input">
+                        <div class="overlay">
+                        
+                        Click to Change
+                      </div>
+                      </label>
+                      
+                      <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
                     </div>
                     <br />
                     
                     <CardBody>
                         <CardText>
                             <Form>
-                                <hr></hr>
                                 <FormGroup row>
                                     <Label >Username</Label>
                                     <Input disabled type='text' id='username'

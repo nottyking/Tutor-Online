@@ -1,3 +1,4 @@
+import '../student.css';
 import React, { Component } from 'react'
 import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 // import profilePicture from '../Image/ProfileImage/ProfileImage17.jpg'
@@ -19,7 +20,7 @@ export class ProfileField extends React.Component {
           }}>
             <CardImg
               top
-              style={{ width: 100, textAlign: "center" }}
+              className='avatar'
               src={profilePicture}
               alt='Card image cap' />
             <CardBody>

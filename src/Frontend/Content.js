@@ -20,6 +20,9 @@ export class Content extends React.Component {
 
   async componentWillMount() {
     console.log("ENTER CoursePresent Component");
+    console.log(capsule.sendData({
+      // Don't need to add anything, just send only a loginToken with capsule
+    }));
     var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
@@ -27,7 +30,6 @@ export class Content extends React.Component {
       isloaded: true ,
       courseInfo: courseInfo
     })
-    console.log("Course info:",courseInfo);
   }
 
   render () {

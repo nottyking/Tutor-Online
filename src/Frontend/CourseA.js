@@ -58,7 +58,6 @@ export class CourseA extends React.Component {
     this.setState({courseInfo:temp,isLoaded:true});
     console.log('course info state');
     console.log(this.state.courseInfo);
-    console.log('course info name');
     console.log(this.state.courseInfo.course.coursename);
 
   }
@@ -100,7 +99,6 @@ onClick3 = () =>{
 }
 
   render () {
-    console.log('render');
     let Syllabus = this.state.courseInfo.subCourse.map((item, i) => {
       return (
         <tr>
@@ -184,7 +182,7 @@ onClick3 = () =>{
           <Row>
           <Col>
           </Col>
-            
+
             <Col>
             <img src={'https://dummyimage.com/600x400/ffffff/000000&text='+this.state.courseInfo.course.coursename} width={700} style={{left:0,align:'left'}} alt='error' />
             <Card>

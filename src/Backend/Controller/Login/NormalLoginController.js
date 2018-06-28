@@ -1,6 +1,8 @@
 const con = require('../../Config/database')
 const auth = require('../../Config/Auth')
 const jwt = require('jsonwebtoken')
+const LocalStorage = require('node-localstorage').LocalStorage;
+const localStorage = new LocalStorage('./scratch');
 
 async function LoginByNormal(req, res){
   console.log('Enter login normal');
@@ -8,7 +10,7 @@ async function LoginByNormal(req, res){
   return await new Promise( (resolve, reject) => {
     con.query('SELECT * from user WHERE (username = ? OR email = ?) AND password = ?',[
       req.body.usernameOrEmail, req.body.usernameOrEmail, req.body.password
-    ], (err, result) => {
+    ], async(err, result) => {
       console.log("ENTER QUERY");
       if(err){
         console.log("Error SQL Query in login:",err);
@@ -30,10 +32,29 @@ async function LoginByNormal(req, res){
       for(let i = 0 ; i < result.length ; i++){
         if(result[i].isConfirm === 1){
           console.log("Login successful:",result);
+          var userid = result[i].userid;
 
-          makeAuthentication(result[i].userid, resolve);
+          var loginToken = localStorage.getItem(userid);
+          console.log("Login token in storage:",loginToken);
+          if(loginToken!=null){
+            console.log("There is this user in server");
+            return resolve({
+              result: true ,
+              msg: "Login successful",
+              loginToken: loginToken
+            }) ;
+          }
 
-          return ;
+          var loginToken = (await makeAuthentication(userid));
+          console.log("Login Token:",loginToken);
+          storeThisIDInLocalStorage(userid, loginToken);
+
+          return resolve({
+            result: true ,
+            msg: "Login successful",
+            loginToken: loginToken
+          }) ;
+
         }
       }
 
@@ -46,8 +67,10 @@ async function LoginByNormal(req, res){
   })
 }
 
-function makeAuthentication(userid, resolve){
-  jwt.sign({
+async function makeAuthentication(userid){
+  console.log("makeAuthentication with JWT");
+  return new Promise((resolve, reject) => {
+    jwt.sign({
       userid: userid
     },
     auth.AUTH_SECRET,{
@@ -55,18 +78,17 @@ function makeAuthentication(userid, resolve){
     },
     (err, loginToken) => {
       if(err){
-        resolve({
-          result: false,
-          msg: err
-        });
+        console.log("JWT ERR:",err);
       }
-      resolve({
-        result: true ,
-        msg: "Login successful",
-        loginToken: loginToken
-      })
-    }
-  )
+      console.log("Get logintoken:",loginToken);
+      resolve (loginToken);
+    })
+  })
+}
+
+function storeThisIDInLocalStorage(userid, loginToken){
+  console.log("storeThisIDInLocalStorage");
+  localStorage.setItem(userid, loginToken);
 }
 
 module.exports = {

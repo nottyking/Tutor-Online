@@ -21,17 +21,18 @@ function payByCreditCard(req, res){
     'currency': 'thb',
     'capture': true,
     'card': paymentTokenID
-  }, function(err, resp) {
+  }, async function(err, resp) {
     console.log("Charge res:",resp);
     console.log("Charge err:",err);
     if (!resp.failure_message) {
+      //Success
       console.log("Payment Success");
 
-      storeEnrolledCourse(req.session.userid,req.body.courseid);
+      var result = await storeEnrolledCourse(req.session.userid,req.body.courseid);
 
-      return res.redirect(ipList.frontend)
-      // return res.redirect()
-      //Success
+      res.redirect(ipList.frontend)
+      return result;
+
     } else {
       console.log("Payment error");
       //Handle failure
@@ -40,7 +41,7 @@ function payByCreditCard(req, res){
   });
 }
 
-function storeEnrolledCourse(userid, courseid){
+async function storeEnrolledCourse(userid, courseid){
   // console.log();
   // console.log("req.session:",req.session);
   var d = new Date();
@@ -48,7 +49,7 @@ function storeEnrolledCourse(userid, courseid){
   console.log("userid:",userid);
   console.log("courseid:",courseid);
   console.log("expired date:",expireddate);
-  insertFunc.InsertEnrolledCourse(userid,courseid,expireddate);
+  return await insertFunc.insertEnrolledCourse(userid,courseid,expireddate);
 }
 
 module.exports = {

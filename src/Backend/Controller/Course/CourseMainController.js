@@ -1,4 +1,4 @@
-const getFunc = require('../utilityfunction/getDataNormal')
+const getFunc = require('../utilityfunction/GetData')
 
 async function queryInformation(req, res){
   console.log("Enter queryInformation in Coursecontroller");

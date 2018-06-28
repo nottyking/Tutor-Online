@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
+import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import ipList from '../Config/ipConfig';
 import axios from 'axios';
@@ -17,6 +18,9 @@ export class Login extends React.Component {
         this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
         this.login = this.login.bind(this);
         this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
+        this.state = {
+          redirect : ""
+        }
     }
 
     toggleModal() {
@@ -34,6 +38,10 @@ export class Login extends React.Component {
 
 
     render() {
+        if(this.state.redirect !== ""){
+          return <Redirect to={this.state.redirect}/>;
+        }
+
         return (
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
@@ -105,6 +113,12 @@ export class Login extends React.Component {
             usernameOrEmail: document.getElementById('login-username').value,
             password: document.getElementById('login-password').value
         })).data
-        return isLoginSuccess;
+        if(isLoginSuccess.redirect){
+          this.setState({
+            redirect:isLoginSuccess.redirect
+          })
+        }
+        else
+          return isLoginSuccess;
     }
 }

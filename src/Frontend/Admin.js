@@ -23,7 +23,7 @@ var modalComponent;
 export class Admin extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
         isloaded: false,
         modalOpen:false,
         courseInfo:{}
@@ -90,9 +90,9 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
                 <td><Badge color='primary' onClick={()=>{this.toggle(i)}}>click</Badge></td>
         </tr>
 
-            
+
         );
-    
+
         return(
             <Container fluid>
             <Modal isOpen={this.state.modalOpen}  toggle={()=>{this.toggle(-1)}} className={this.props.className}>
@@ -118,7 +118,7 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
           {courseTableBody}
         </thead>
         <tbody>
-          
+
         </tbody>
       </Table>
       </Col>
@@ -133,4 +133,3 @@ modalComponent = (x===-1)? 'Error':(<AdminEditCourseModal src={this.state.course
     }
   }
 }
-

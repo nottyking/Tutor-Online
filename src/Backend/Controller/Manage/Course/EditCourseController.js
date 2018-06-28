@@ -1,4 +1,4 @@
-const updateFunc = require('../utilityfunction/UpdateData')
+const updateFunc = require('../../utilityfunction/UpdateData')
 
 async function editCourseAndSubCourse(req, res){
   console.log("Enter updateCourseAndSubCourse in Managecontroller");

@@ -12,14 +12,14 @@ export class LoginPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true, redirect: false }
+        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true, redirect: "" }
         this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
         this.login = this.login.bind(this);
     }
 
     render() {
-        if(this.state.redirect) {
-            return (<Redirect to='/' />);
+        if(this.state.redirect !== ""){
+          return <Redirect to={this.state.redirect}/>;
         }
         else {
             return (
@@ -103,6 +103,12 @@ export class LoginPage extends React.Component {
             usernameOrEmail: document.getElementById('loginpage-username').value,
             password: document.getElementById('loginpage-password').value
         })).data
-        return isLoginSuccess;
+        if(isLoginSuccess.redirect){
+          this.setState({
+            redirect:isLoginSuccess.redirect
+          })
+        }
+        else
+          return isLoginSuccess;
     }
 }

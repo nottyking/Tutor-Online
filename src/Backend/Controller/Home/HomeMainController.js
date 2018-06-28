@@ -1,4 +1,4 @@
-const getFunc = require('../utilityfunction/getDataNormal')
+const getFunc = require('../utilityfunction/GetData')
 
 async function addCourseLink(courseInfomation){
   for(var i = 0 ; i < courseInfomation.length ; i++){

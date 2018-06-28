@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router'
 import { Container} from 'reactstrap'
 import banner from './Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
@@ -14,7 +15,8 @@ export class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isloaded : false
+      isloaded : false ,
+      redirect : ""
     }
   }
 
@@ -26,17 +28,27 @@ export class Content extends React.Component {
     var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
-    this.setState({
-      isloaded: true ,
-      courseInfo: courseInfo
-    })
+    if(courseInfo.redirect){
+      this.setState({
+        redirect:courseInfo.redirect
+      })
+    }
+    else{
+      this.setState({
+        isloaded: true ,
+        courseInfo: courseInfo
+      })
+    }
   }
 
   render () {
+    if(this.state.redirect !== ""){
+      return <Redirect to={this.state.redirect}/>;
+    }
 
     if(this.state.isloaded)
     return (
-      
+
       <div className='App'>
         <Container fluid style={{paddingBottom:20}}>
         <Parallax bgImage={banner} blur={{min: -1,max:5}} strength={600} style={{overflow: 'visible'}}>
@@ -57,6 +69,6 @@ export class Content extends React.Component {
       return (
         <Loading/>
       );
-    } 
+    }
   }
 }

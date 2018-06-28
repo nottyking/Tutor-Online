@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom'
+
 import './App.css'
 import NavBar from './Frontend/components/bar/NavBar'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -24,6 +25,7 @@ export class App extends Component {
 
   render() {
     return (
+      <BrowserRouter>
       <div style={{backgroundColor: '#222'}}>
         <Route path='/' render={() => <NavBar
           str={`TEST`}
@@ -31,6 +33,7 @@ export class App extends Component {
           login={this.login}
           logout={this.logout} />} />
       </div>
+          </BrowserRouter>
     )
   }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.6.4",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bootstrap": "^4.1.1",
@@ -35,12 +36,16 @@
     "react-player": "^1.6.4",
     "react-popup": "^0.9.3",
     "react-rating": "^1.1.2",
+    "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-spring": "^5.3.18",
     "reactstrap": "^6.1.0",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "redux": "^4.0.0",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

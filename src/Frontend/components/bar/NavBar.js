@@ -27,28 +27,6 @@ import {
 const pages = ['home', 'course', 'about us', 'Register'];
 const loginPages = ['home', 'student', 'course', 'learning', 'about us'];
 
-export class BrowserRouterManager extends React.Component {
-
-    render() {
-        return (
-            <div>
-                <Switch>
-                    <Route exact path="/" component={Content} />
-                    <Route exact path="/about_us" component={AboutUs} />
-                    <Route exact path="/course" component={CourseA} />
-                    <Route exact path="/course/:courseID" component={CourseA} />
-                    <Route exact path="/student" component={true ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/learning" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/learning/:courseID/:subcourseID" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/register" component={!false ? Register : () => { return (<Redirect to={'/'} />) }} />
-                    <Route exact path='/loginPage' component={!false ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
-                    <Route component={Content} />
-                </Switch>
-            </div >
-        );
-    }
-}
-
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
@@ -112,12 +90,8 @@ export default class NavBar extends React.Component {
                         </Nav>
                         <Label>&nbsp;&nbsp;&nbsp;</Label>
                     </Collapse>
-
                     {actionButton}
-
                 </Navbar>
-                <BrowserRouterManager />
-                <Footer />
             </div >
         );
     }

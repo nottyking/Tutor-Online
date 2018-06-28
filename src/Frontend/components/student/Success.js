@@ -1,5 +1,5 @@
 import React from 'react';
-import ipList from '../../Config/ipConfig'
+import ipList from '../../../Config/ipConfig'
 import axios from 'axios'
 import { Button, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 

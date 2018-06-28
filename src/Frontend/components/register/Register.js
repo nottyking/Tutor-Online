@@ -1,8 +1,8 @@
 import React from 'react';
-import { AccountFields } from './register/AccountFields';
-import { Confirmation } from './register/Confirmation';
-import { Success } from './register/Success';
-import './register/Register.css';
+import { AccountFields } from './AccountFields';
+import { Confirmation } from './Confirmation';
+import { Success } from './Success';
+import './Register.css';
 
 var fieldValues = {
   username: '',

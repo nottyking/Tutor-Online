@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Col, Container, Button, FormGroup, Label, Input, CardTitle, CardBody, CardFooter, CardText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
-import ipList from '../Config/ipConfig';
+import ipList from '../../../Config/ipConfig';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { Redirect } from 'react-router';

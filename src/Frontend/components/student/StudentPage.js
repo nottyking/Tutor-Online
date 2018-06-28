@@ -1,14 +1,14 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { Success } from './student/Success'
-import { ProfileField } from './student/ProfileField';
-import { CourseField } from './student/CourseField';
-import { EditProfileField } from './student/EditProfileField';
+import { Success } from './Success'
+import { ProfileField } from './ProfileField';
+import { CourseField } from './CourseField';
+import { EditProfileField } from './EditProfileField';
 import { Container, Col } from 'reactstrap'
 import Cookies from 'universal-cookie';
 import axios from 'axios'
 const cookies = new Cookies();
-const ipList = require('../Config/ipConfig')
+const ipList = require('../../../Config/ipConfig')
 
 var isValidToken;
 var linkRedirect = '/loginPage';

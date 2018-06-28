@@ -6,10 +6,10 @@ import { Row, Col, Container, Card,
     ModalBody,ModalFooter,ModalHeader,
     Label,FormGroup,Input,CardImgOverlay } from 'reactstrap'
 import Rating from 'react-rating';
-import {Payment} from './Payment'
+import {Payment} from '../payment/Payment'
 const axios = require('axios')
-const capsulation = require('./Capsulation/SendData')
-const ipList = require('../Config/ipConfig')
+const capsulation = require('../../capsulation/SendData')
+const ipList = require('../../../Config/ipConfig')
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs

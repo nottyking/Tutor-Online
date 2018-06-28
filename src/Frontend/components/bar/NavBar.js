@@ -2,16 +2,16 @@ import React from 'react';
 import './NavBar.css';
 import { Redirect, Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { Register } from './Register';
-import { Content } from './Content';
-import { AboutUs } from './About_us';
-import { CourseA } from './CourseA';
-import { Student } from './StudentUser';
-import { Learning } from './Learning';
-import { Login } from './Login';
-import { Logout } from './Logout';
-import { LoginPage } from './LoginPage';
-import { Footer } from './Footer';
+import { AboutUs } from '../content/About_us';
+import { Content } from '../content/Content';
+import { Student } from '../student/StudentPage';
+import { CourseA } from '../course/CourseA';
+import { Learning } from '../course/Learning';
+import { Login } from '../loginPanel/Login';
+import { Logout } from '../loginPanel/Logout';
+import { LoginPage } from '../loginPanel/LoginPage';
+import { Register } from '../register/Register';
+import { Footer } from '../footer/Footer';
 
 import {
     Collapse,

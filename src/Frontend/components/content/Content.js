@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container} from 'reactstrap'
-import banner from './Image/apple-businesswoman-communication-6479.jpg';
+import banner from '../../Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
-import {CoursePresent} from './CoursePresent'
+import {CoursePresent} from '../course/CoursePresent'
 const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
 const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
 
-const ipList = require('../Config/ipConfig')
+const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
-const capsule = require('./Capsulation/SendData')
+const capsule = require('../../capsulation/SendData')
 export class Content extends React.Component {
   constructor(props) {
     super(props);

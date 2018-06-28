@@ -1,9 +1,9 @@
-import '../student.css';
+import './student.css';
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 const axios = require('axios')
-const ipList = require('../../Config/ipConfig')
-const capsulation = require('../Capsulation/SendData')
+const ipList = require('../../../Config/ipConfig')
+const capsulation = require('../../capsulation/SendData')
 const universalCookie = require('universal-cookie');
 const cookies = new universalCookie();
 

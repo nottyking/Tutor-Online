@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Container} from 'reactstrap'
-import { ContactUsTab } from './footer/ContactUsTab';
-import { MenuTab} from './footer/MenuTab';
+import { ContactUsTab } from './ContactUsTab';
+import { MenuTab} from './MenuTab';
 
 export class Footer extends React.Component {
 

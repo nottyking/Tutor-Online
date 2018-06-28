@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import ipList from '../Config/ipConfig';
+import ipList from '../../../Config/ipConfig';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Register.css';
-import ipList from '../../Config/ipConfig'
+import ipList from '../../../Config/ipConfig'
 import axios from 'axios'
 import {NavLink} from 'reactstrap'
 import {Link} from 'react-router-dom';

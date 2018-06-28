@@ -1,6 +1,6 @@
 const con = require('../../Config/database')
 const updateFunc = require('../utilityFunction/UpdateData')
-const getFunc = require('../utilityFunction/getDataNormal')
+const getFunc = require('../utilityFunction/GetData')
 const fileUpload = require('express-fileupload');
 const pathFromFrontend = "../Image/ProfileImage/";
 
@@ -11,16 +11,26 @@ async function updateNewProfile(req, res){
   var fname = req.body.fname
   var lname = req.body.lname
   var address = req.body.address
-
-  var fileName = 'ProfileImage' + req.session.userid + '.jpg';
-  var profileimg = pathFromFrontend + fileName
-
   var birthday = req.body.birthday
   var gender = req.body.gender
-  updateFunc.updateUserWithUserID(['password','fname','lname','address','profileimg','birthday','gender'] ,
-                                  [password,fname,lname,address,profileimg,birthday,gender] ,
-                                  ['userid'] ,
-                                  [userid]);
+  var fileName = 'ProfileImage' + req.session.userid + '.jpg';
+  var isbanned = req.body.isbanned
+  var profileimg = pathFromFrontend + fileName
+
+  var updateKeyList = ['password','fname','lname','address','profileimage','birthday','gender']
+  var updateValueList = [password,fname,lname,address,profileimage,birthday,gender]
+  if(!password){
+    updateKeyList.shift();
+    updateValueList.shift();
+  }
+  if(isbanned){
+    updateKeyList.push('isbanned');
+    updateValueList.push(isbanned);
+  }
+  var whereKeyList = ['userid']
+  var whereValueList = [userid]
+
+  updateFunc.updateUserWithUserID(updateKeyList, updateValueList, whereKeyList, whereValueList);
 }
 
 async function uploadProfileImage(req, res){

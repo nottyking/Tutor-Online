@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router'
 import PropTypes from 'prop-types'
 import { Row, Col, Container, Card,
    CardBody, CardText, CardTitle, Button,
@@ -46,7 +47,8 @@ export class CourseA extends React.Component {
         reviewModal:false,
         paymentModal:false,
         isLoaded:false,
-        courseInfo:defaultCourseInfo
+        courseInfo:defaultCourseInfo,
+        redirect: ""
     };
     this.toggleReview = this.toggleReview.bind(this);
   }
@@ -55,11 +57,17 @@ export class CourseA extends React.Component {
     var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    this.setState({courseInfo:temp,isLoaded:true});
-    console.log('course info state');
-    console.log(this.state.courseInfo);
-    console.log(this.state.courseInfo.course.coursename);
-
+    if(temp.redirect){
+      this.setState({
+        redirect:temp.redirect
+      })
+    }
+    else{
+      this.setState({courseInfo:temp,isLoaded:true});
+      console.log('course info state');
+      console.log(this.state.courseInfo);
+      console.log(this.state.courseInfo.course.coursename);
+    }
   }
 
   onClickReview = () =>{
@@ -99,6 +107,10 @@ onClick3 = () =>{
 }
 
   render () {
+    if(this.state.redirect !== ""){
+      return <Redirect to={this.state.redirect}/>;
+    }
+
     let Syllabus = this.state.courseInfo.subCourse.map((item, i) => {
       return (
         <tr>

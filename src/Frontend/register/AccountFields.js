@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import './Register.css';
 import { Form, Col, Button, FormGroup, Label, Input, FormText, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios'
@@ -19,7 +20,8 @@ export class AccountFields extends React.Component {
             defaultUsername: true,
             defaultEmail: true,
             defaultPassword: true,
-            defaultRePassword: true
+            defaultRePassword: true,
+            redirect: ""
         };
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.resetLabel = this.resetLabel.bind(this);
@@ -32,6 +34,10 @@ export class AccountFields extends React.Component {
     }
 
     render() {
+        if(this.state.redirect !== ""){
+          return <Redirect to={this.state.redirect}/>;
+        }
+
         return (
             <div>
                 {/* REGISTER FORM */}
@@ -222,17 +228,24 @@ export class AccountFields extends React.Component {
         var checkOnSubmit = (await axios.post(ipList.backend + "/register/checkUsernameAndEmail",
           capsulation.sendData({username: document.getElementById('reg-username').value, email: document.getElementById('reg-email').value})
         )).data
-        console.log(checkOnSubmit);
-        if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database
-            console.log("Username is same");
-            this.setState({ validUsername: false, ModalMessage: 'This username has been used' })
-            return false;
-        } else if (checkOnSubmit.isSameEmailInDB.result) { // Check Email in database
-            console.log("Email is same");
-            this.setState({ validEmail: false, ModalMessage: 'This E-mail has been used' })
-            return false;
+        if(checkOnSubmit.redirect){
+          this.setState({
+            redirect:checkOnSubmit.redirect
+          })
         }
-        return true;
+        else{
+          console.log(checkOnSubmit);
+          if (checkOnSubmit.isSameUsernameInDB.result) { //Check username in database
+              console.log("Username is same");
+              this.setState({ validUsername: false, ModalMessage: 'This username has been used' })
+              return false;
+          } else if (checkOnSubmit.isSameEmailInDB.result) { // Check Email in database
+              console.log("Email is same");
+              this.setState({ validEmail: false, ModalMessage: 'This E-mail has been used' })
+              return false;
+          }
+          return true;
+        }
     }
 
     //For reset form value

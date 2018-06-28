@@ -25,7 +25,7 @@ var modalComponent;
 export class Admin extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
         isloaded: false,
         modalOpen:false,
         courseInfo:{},
@@ -119,9 +119,9 @@ closeModal=()=> {
                 <td><Button color='primary' onClick={()=>{this.toggleSubcourse(i)}}><i class="fa fa-edit"/></Button></td>
         </tr>
 
-            
+
         );
-    
+
         return(
             <Container fluid>
             <Modal isOpen={this.state.modalOpen}  toggle={this.closeModal} className={this.props.className}>
@@ -147,7 +147,7 @@ closeModal=()=> {
           {courseTableBody}
         </thead>
         <tbody>
-          
+
         </tbody>
       </Table>
       </Col>
@@ -162,4 +162,3 @@ closeModal=()=> {
     }
   }
 }
-

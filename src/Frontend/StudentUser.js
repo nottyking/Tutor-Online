@@ -34,7 +34,10 @@ const defaultValue = {
 export class Student extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { step: 0 }
+    this.state = {
+      step: 0 ,
+      redirect : ""
+    }
     this.toNextStep = this.toNextStep.bind(this);
     this.toPreviousStep = this.toPreviousStep.bind(this);
     this.getDatabaseValue = this.getDatabaseValue.bind(this);
@@ -45,15 +48,21 @@ export class Student extends React.Component {
     var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
       loginToken: cookies.get("loginToken")
     })).data;
-    console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
-    linkRedirect = '';
-    if (studentInformationAndError.redirect) {
-      console.log("Redirect", studentInformationAndError.redirect);
-      isValidToken = false;
-      linkRedirect = studentInformationAndError.redirect;
+    console.log(studentInformationAndError);
+    if(studentInformationAndError.redirect){
+      this.setState({
+        redirect:studentInformationAndError.redirect
+      })
     }
-    else {
+    else{
+      console.log("studentInformationAndError:", studentInformationAndError);
+      isValidToken = true;
+      linkRedirect = '';
+      if (studentInformationAndError.redirect) {
+        console.log("Redirect", studentInformationAndError.redirect);
+        isValidToken = false;
+        linkRedirect = studentInformationAndError.redirect;
+      }
       var studentInformation = studentInformationAndError.result[0]
       console.log(studentInformation);
       var studentError = studentInformationAndError.error;
@@ -69,9 +78,9 @@ export class Student extends React.Component {
       defaultValue.Gender = studentInformation.gender;
       console.log();
       defaultValue.src = studentInformation.src.result;
+      this.toNextStep()
+      return;
     }
-    this.toNextStep()
-    return;
   }
 
   toNextStep() {
@@ -91,10 +100,15 @@ export class Student extends React.Component {
   }
 
   render() {
+    if(this.state.redirect !== ""){
+      return <Redirect to={this.state.redirect}/>;
+    }
+
     switch (this.state.step) {
       case 0:
         this.getDatabaseValue();
         console.log("After load");
+        
       case 1:
         if (!isValidToken) {
           console.log("redirect");

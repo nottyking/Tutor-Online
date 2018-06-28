@@ -1,4 +1,4 @@
-const insertFunc = require('../utilityfunction/InsertData')
+const insertFunc = require('../../utilityfunction/InsertData')
 
 async function createCourse(req, res){
   console.log("Enter createCourse in Managecontroller");

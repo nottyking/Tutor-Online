@@ -8,7 +8,7 @@ import { CourseA } from './Frontend/components/course/CourseA';
 import { Student } from './Frontend/components/student/StudentPage';
 import { Learning } from './Frontend/components/course/Learning';
 import { LoginPage } from './Frontend/components/loginPanel/LoginPage';
-import { Register } from './Frontend/components/register/Register';
+import { RegisterPage } from './Frontend/components/register/Register';
 import { Footer } from './Frontend/components/footer/Footer';
 import browserHistory from './Frontend/redux/helpers/history'
 
@@ -30,7 +30,7 @@ class BrowserRouterManager extends React.Component {
           <Route exact path="/student" component={true ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
           <Route exact path="/learning" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
           <Route exact path="/learning/:courseID/:subcourseID" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
-          <Route exact path="/register" component={!false ? Register : () => { return (<Redirect to={'/'} />) }} />
+          <Route exact path="/register" component={!false ? RegisterPage : () => { return (<Redirect to={'/'} />) }} />
           <Route exact path='/loginPage' component={!false ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
           <Route component={Content} />
         </Switch>

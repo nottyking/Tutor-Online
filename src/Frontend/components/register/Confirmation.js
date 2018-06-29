@@ -1,6 +1,6 @@
 import React from 'react';
 import './Register.css';
-import { Form, Col, Button, FormGroup, Label, Input} from 'reactstrap';
+import { Form, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 
 export class Confirmation extends React.Component {
     constructor(props) {
@@ -44,6 +44,7 @@ export class Confirmation extends React.Component {
     };
 
     saveAndContinue() {
+        this.props.register(this.props.fieldValues.username, this.props.fieldValues.email, this.props.fieldValues.password, 'user')
         this.props.nextStep();
     }
 
@@ -61,3 +62,4 @@ export class Confirmation extends React.Component {
         this.props.previousStep()
     }
 }
+

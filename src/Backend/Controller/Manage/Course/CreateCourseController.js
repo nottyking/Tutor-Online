@@ -1,21 +1,34 @@
 const insertFunc = require('../../utilityfunction/InsertData')
+const getFuncSpecial = require('../../utilityfunction/getDataSpecial')
 
 async function createCourse(req, res){
   console.log("Enter createCourse in Managecontroller");
+  var courseid = (await getCourseID());
   var coursename = req.body.coursename;
   var instructor = req.body.instructor;
   var price = req.body.price;
-  var banner = req.body.banner;
-  var thumbnail = req.body.thumbnail;
+  var banner = './Image/Course/Banner' + courseid;
+  var thumbnail = './Image/Course/Thumbnail' + courseid;
   var description = req.body.description;
-  var rating = req.body.rating;
   var limitduration = req.body.limitduration;
-  var isavailable = req.body.isavailable;
-  var createdate = req.body.createdate;
+  var createdate = new Date();
   var limitdurationtype = req.body.limitdurationtype;
   return await insertFunc.insertCourse(coursename, instructor, price, banner, thumbnail, description,
-                                       limitduration, isavailable, createdate, limitdurationtype);
+                                       limitduration, createdate, limitdurationtype);
 }
+
+function getCourseID(){
+  return new Promise(async(resolve, reject) => {
+    var select = 'max(courseid)'
+    var from = 'course'
+    var atti = []
+    var value = []
+    var courseid = (await getFuncSpecial.getFunction(select,from,atti,value)).result[0][select] + 1;
+    console.log("courseID:",courseid);
+    resolve(courseid)
+  })
+}
+
 module.exports = {
   createCourse : createCourse,
 }

@@ -1,23 +1,6 @@
 const con = require('../../Config/database')
 
-function prepareSQLQuery(select, from, atti, value){
-  var sql = 'SELECT ' + select + ' FROM ' + from
-  var inWhere = []
-  if(atti.length > 0){
-    sql = sql + ' WHERE ' + atti[0] + " = " + "?";
-    inWhere = [value[0]];
-    for(var i = 1 ; i < atti.length ; i++){
-      sql = sql + " AND " + atti[i] + " = ?";
-      inWhere.push(value[i]);
-    }
-    return {
-      'sql' : sql ,
-      'inWhere' : inWhere
-    };
-  }
-}
-
-const getEnrollerCourseInformationFromUserid = async(select, from, atti, value) => {
+const getFunction = async(select, from, atti, value) => {
   console.log('Enter getEnrolledCourseInformationFromUserid in getDataSpecial');
   var preparedSQLQuery = await prepareSQLQuery(select, from, atti, value);
   console.log('sql:', preparedSQLQuery.sql);
@@ -33,8 +16,25 @@ const getEnrollerCourseInformationFromUserid = async(select, from, atti, value) 
   })
 }
 
-const getFunction = {
-  getEnrollerCourseInformationFromUserid : getEnrollerCourseInformationFromUserid ,
+function prepareSQLQuery(select, from, atti, value){
+  var sql = 'SELECT ' + select + ' FROM ' + from
+  var inWhere = []
+  if(atti.length > 0){
+    sql = sql + ' WHERE ' + atti[0] + " = ?";
+    inWhere = [value[0]];
+    for(var i = 1 ; i < atti.length ; i++){
+      sql = sql + " AND " + atti[i] + " = ?";
+      inWhere.push(value[i]);
+    }
+  }
+  return {
+    'sql' : sql ,
+    'inWhere' : inWhere
+  };
 }
 
-module.exports = getFunction ;
+const getFunctionObj = {
+  getFunction : getFunction ,
+}
+
+module.exports = getFunctionObj ;

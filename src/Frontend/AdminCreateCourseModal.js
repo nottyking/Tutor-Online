@@ -6,9 +6,10 @@ import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 const ipList = require('../Config/ipConfig')
 const axios = require('axios')
-const capsule = require('./Capsulation/SendData')
 var isValidToken
 var linkRedirect = '/loginPage'
+const capsulation = require('./Capsulation/SendData')
+var exitfx;
 
 
 export class AdminCreateCourseModal extends React.Component {
@@ -22,7 +23,57 @@ export class AdminCreateCourseModal extends React.Component {
         this.toggletype=this.toggletype.bind(this);
         this.showBanner=this.bannerChange.bind(this);
         this.showThumbnail=this.thumbnailChange.bind(this);
+        exitfx=this.props.closeModal;
       }
+
+      async saveToDatabase() {
+        const bannerFormData = new FormData()
+        const thumbnailFormData = new FormData()
+        //console.log(this.state.selectedFile === null);
+        //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+        var temp;
+        if(document.getElementById('limitdurationtype').value==='0'){
+          console.log('asdasdad');
+          temp = 0;  }
+        else if(document.getElementById('limitdurationtype').value==='1'){
+          temp = document.getElementById('limitduration').value; }
+        else{
+          var today = new Date();
+          today.setHours(0,0,0,0);
+          temp = parseInt((new Date(document.getElementById('expiredate').value)) - today)/ (24 * 3600 * 1000);}
+        console.log(parseInt(((new Date(document.getElementById('expiredate').value)) - today)/ (24 * 3600 * 1000)));
+        var data = {
+          coursename: document.getElementById('coursename').value,
+          instructor: document.getElementById('instructor').value,
+          price: document.getElementById('price').value*100,
+          description: document.getElementById('description').value,
+          limitdurationtype:document.getElementById('limitdurationtype').value,
+          limitduration: temp
+        }
+        console.log(data);
+        var temp =  (await axios.post(ipList.backend + "/manage/createcourse", capsulation.sendData({
+          coursename: data.coursename,
+          instructor: data.instructor,
+          price: data.price,
+          description: data.description,
+          limitdurationtype:data.limitdurationtype,
+          limitduration: data.limitduration
+        }))).data
+
+        /*if(temp.redirect){
+          this.setState({
+            redirect:temp.redirect
+          })
+        }*/
+        /*var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
+        if(temp2.redirect){
+          this.setState({
+            redirect:temp2.redirect
+          })
+        }*/
+        exitfx();
+        return true;
+    }
 
       
     
@@ -70,7 +121,6 @@ export class AdminCreateCourseModal extends React.Component {
                   <Input
                     type='text'
                     id='coursename'
-                    defaultValue='Course Name'
                     placeholder='Enter Course Name' />
                 </FormGroup>
                 <FormGroup row>
@@ -80,7 +130,6 @@ export class AdminCreateCourseModal extends React.Component {
                   <Input
                     type='instructor'
                     id='instructor'
-                    defaultValue='Instructor Name'
                     placeholder='Enter Instructor' />
                 </FormGroup>
                 <FormGroup row>
@@ -96,7 +145,7 @@ export class AdminCreateCourseModal extends React.Component {
                 <FormGroup row>
                 <Input plaintext> Description
                 </Input>
-                <Input type='textarea' id='description' defaultValue='Describe the Course' />
+                <Input type='textarea' id='description' placeholder='Describe the Course' />
                 </FormGroup>
                 <hr></hr>
                 <FormGroup row>
@@ -150,6 +199,15 @@ export class AdminCreateCourseModal extends React.Component {
                     <Card>
                       <CardBody>
                       choose type 1 : Expire in a range of time
+                      <FormGroup row>
+                  <Label>
+                    Course Name
+                  </Label>
+                  <Input
+                    type='text'
+                    id='limitduration'
+                    placeholder='Enter range of expire in days ex. 365' />
+                </FormGroup>
                       </CardBody>
                     </Card>
                   </Collapse>
@@ -166,16 +224,14 @@ export class AdminCreateCourseModal extends React.Component {
                                   </CardBody>
                                 </Card>
                               </Collapse>
-    
-    
-    
-    
                 </FormGroup>
               </Form>
-              <Button color='primary' onClick={this.toggle}>
+              <Button color='primary' onClick={this.saveToDatabase}>
                 Do Something
-              </Button>
+              </Button>{' '}
+              <Button color='secondary' onClick={this.props.closeModal}>Cancel</Button>
             </Container>
+            
           </ModalBody>
         )
     }

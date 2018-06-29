@@ -8,7 +8,11 @@ export class Loading extends React.Component {
 
     render() {
         return (
-            <div className="loadingModal"><img src={loading} className='middle'/></div>
+            <div className="loadingModal" style={{backgroundColor: this.props.background}}><img src={loading} className='middle'/></div>
         );
     }
 }
+
+Loading.defaultProps = {
+    background:'black'
+};

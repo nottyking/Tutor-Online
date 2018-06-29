@@ -1,14 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Loading} from './Loading'
 import { Collapse, Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 import Cookies from 'universal-cookie'
 
-const cookies = new Cookies()
-const ipList = require('../Config/ipConfig')
-const axios = require('axios')
-const capsulation = require('./Capsulation/SendData')
-var isValidToken
-var linkRedirect = '/loginPage'
+
+const ipList = require('../Config/ipConfig');
+const axios = require('axios');
+const capsulation = require('./Capsulation/SendData');
+
+var exitfx;
+var tempSubcourseInfo;
+
 
 
 export class AdminEditSubCourseModal extends React.Component {
@@ -16,177 +19,116 @@ export class AdminEditSubCourseModal extends React.Component {
         super(props)
         this.state = {
             expireType:0,
-            showThumbnail:'',
-            showBanner:''
+            subcourseinfo:'',
+            isLoaded:false,
+            warnModal:false,
+            editModal:false
         }
-        this.toggletype=this.toggletype.bind(this);
-        this.showBanner=this.bannerChange.bind(this);
-        this.showThumbnail=this.thumbnailChange.bind(this);
+        this.updateSubcourse = this.updateSubcourse.bind(this);
+        exitfx = this.props.closeModal;
       }
 
-      async componentWillMount(){
+      async componentDidMount(){
         var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
           courseid: this.props.courseid
         }))).data;
-        this.setState({courseInfo:temp,isLoaded:true});
-        console.log('course info state');
-        console.log(this.state.courseInfo);
-        console.log(this.state.courseInfo.course.coursename);
-    
+        
+        console.log('subcourse info state asdasdsa');
+        this.setState({subcourseinfo:temp.subCourse,isLoaded:true});
+        tempSubcourseInfo = temp.subCourse;
+        console.log(this.state.isLoaded);
+        console.log(temp.subCourse);
+        console.log(this.state.subcourseinfo);
+      }
+
+      async updateSubcourse(){
+        var temp = await (axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
+          subcourse:tempSubcourseInfo
+        }))).data
+      }
+
+      async delete(x){
+        tempSubcourseInfo.splice(x,1);
+        this.updateSubcourse();
+      }
+
+      async edit(x){
+        tempSubcourseInfo.splice(x,1);
+        this.updateSubcourse();
       }
     
-      toggletype=event=>{
-          console.log(document.getElementById('limitdurationtype').value);
-          this.setState({expireType:document.getElementById('limitdurationtype').value
-        });
-      }
-    
-      bannerChange=event=>{
-        var file = document.getElementById('banner').files[0];
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
-        reader.onloadend = function (e) {
-            this.setState({
-                showBanner:[reader.result]
-            })
-          }.bind(this);
-          console.log(url)
-      }
-      thumbnailChange=event=>{
-        var file = document.getElementById('thumbnail').files[0];
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
-        reader.onloadend = function (e) {
-            this.setState({
-                showThumbnail:[reader.result]
-            })
-          }.bind(this);
-          console.log(url)
-      }
     
       render () {
         console.log('modal render')
+        if(this.state.isLoaded){
+
+            var courseTableBody = this.state.subcourseinfo.map((item,i)=>
+            <tr>
+                    <td scope="row"><b>{i+1}</b></td>
+                    <td>{item.subcourseid}</td>
+                    <td>{item.subcoursename}</td>
+                    <td><Button href={item.videolink} target='_blank'><i class="fa fa-film"/></Button></td>
+                    <td><Button color='primary' onClick={()=>{this.edit(i)}}><i class="fa fa-edit"/></Button>{' '}
+                    <Button color='danger' onClick={()=>{this.delete(i)}}><i class="fa fa-trash-o"/></Button>
+                    </td>
+            </tr>
+    
+    
+            );
         return (
           <ModalBody>
-            <Container fluid>
-              {' '}
-              <Form>
-                <hr></hr>
-                <FormGroup row>
-                  <Label>
-                    Course Name
-                  </Label>
-                  <Input
-                    type='text'
-                    id='coursename'
-                    defaultValue='Course Name'
-                    placeholder='Enter Course Name' />
-                </FormGroup>
-                <FormGroup row>
-                  <Label>
-                    Instructor
-                  </Label>
-                  <Input
-                    type='instructor'
-                    id='instructor'
-                    defaultValue='Instructor Name'
-                    placeholder='Enter Instructor' />
-                </FormGroup>
-                <FormGroup row>
-                  <Label>
-                    Price (Thai Baht)
-                  </Label>
-                  <Input
-                    type='price'
-                    id='price'
-                    placeholder='Enter Course price in Thai Baht' />
-                </FormGroup>
-                
-                <FormGroup row>
-                <Input plaintext> Description
-                </Input>
-                <Input type='textarea' id='description' defaultValue='Describe the Course' />
-                </FormGroup>
-                <hr></hr>
-                <FormGroup row>
-                  <Input plaintext> Thumbnail<br/>
-                  <img src={this.state.showThumbnail} className='img-fluid'></img>
-                  </Input>
-                  <Input
-                    block
-                    type='file'
-                    id='thumbnail'
-                    ref='thumbnail'
-                    onChange={this.thumbnailChange}
-                    />
-                    </FormGroup>
-                    <hr></hr>
-                    <FormGroup row>  
-                  <Input plaintext> Banner
-                  <img src={this.state.showBanner} className='img-fluid'></img>
-                  </Input>
-                  <Input
-                    block
-                    type='file'
-                    id='banner'
-                    thumbnail='banner'
-                    onChange={this.bannerChange}
-                    /> 
-    
-                   </FormGroup>
-                   <hr/>
-                   <FormGroup row>
-                  <Input plaintext> Expire Type
-                  </Input>
-                  <Input
-                    type='select'
-                    name='limitdurationtype'
-                    id='limitdurationtype'
-                    defaultValue='0'
-                    onChange={this.toggletype}>
-                  <option value='0'>
-                    Will Not Expire
-                  </option>
-                  <option value='1'>
-                    Expire in a range of time
-                  </option>
-                  <option value='2'>
-                    Expire on exact date
-                  </option>
-                  </Input>
-    
-                  <Collapse isOpen={this.state.expireType==='1'}>
-                    <Card>
-                      <CardBody>
-                      choose type 1 : Expire in a range of time
-                      </CardBody>
-                    </Card>
-                  </Collapse>
-                                <br/>
-                                <Collapse isOpen={this.state.expireType==='2'}>
-                                <Card>
-                                  <CardBody>
-                                  choose type 2 : Expire on exact date
-                                    <Label>Choose Exact Expiry Date</Label>
-                                  <Input
-                                  type='date'
-                                  id='expiredate'
-                                />
-                                  </CardBody>
-                                </Card>
-                              </Collapse>
-    
-    
-    
-    
-                </FormGroup>
-              </Form>
-              <Button color='primary' onClick={this.toggle}>
-                Do Something
-              </Button>
-            </Container>
+
+          <Modal isOpen={this.state.warnModal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.togglel}>Modal title</ModalHeader>
+          <ModalBody>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </ModalBody>
-        )
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={this.editModal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <ModalBody>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+
+          <Container style={{width:'100%'}}>
+          <Table striped>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>SubCourse id</th>
+              <th>SubCourse Name</th>
+              <th>videolink</th>
+              <th></th>
+            </tr>
+            <tr>
+            <td colspan="10">
+            <Button color='info' outline style={{width:'100%',height:'100%'}} onClick={this.toggleCreate}><i class="fa fa-plus"/></Button></td>
+        </tr>
+            
+          </thead>
+          <tbody>
+          {courseTableBody}
+          </tbody>
+        </Table>
+        </Container>
+          </ModalBody>
+        );
+    }else{
+        return (
+            <ModalBody>
+            <Loading background='white'/>
+        </ModalBody>);
+    }
     }
 }
 

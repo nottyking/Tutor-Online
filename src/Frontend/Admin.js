@@ -2,6 +2,7 @@ import React from 'react'
 import {AdminEditCourseModal} from './AdminEditCourseModal';
 import {AdminCreateCourseModal} from './AdminCreateCourseModal';
 import {AdminEditSubCourseModal} from './AdminEditSubCourseModal';
+import {AdminDeleteCourseModal} from './AdminDeleteCourseModal';
 import { Loading } from './Loading'
 import { Container, Col,Table,Badge,Modal,ModalBody,Button,ModalFooter,ModalHeader } from 'reactstrap'
 import Cookies from 'universal-cookie';
@@ -31,26 +32,35 @@ export class Admin extends React.Component {
         courseInfo:{},
         modalHeader:''
     }
-    this.getDatabaseValue = this.getDatabaseValue.bind(this);
+    //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
   }
-
 
   async componentWillMount() {
-    console.log("ENTER CoursePresent Component");
-    var temp1 = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
-      // Don't need to add anything, just send only a loginToken with capsule
-    }))).data;
-    this.setState({
-      isloaded: true ,
-      courseInfo: temp1,
-    })
-    console.log("Course info:",this.state.courseInfo);
+    return this.getData();
   }
 
-  async getDatabaseValue() {
+ async getData(){
+  this.setState({
+    isloaded: false
+  });
+  console.log("GetIt");
+  var temp1 = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
+    // Don't need to add anything, just send only a loginToken with capsule
+  }))).data;
+  this.setState({
+    isloaded: true ,
+    courseInfo: temp1,
+    isChanged:false
+  });
+  console.log("Course info:",this.state.courseInfo);
+  return true;
+ }
+
+  /*async getDatabaseValue() {
     //get Data from database
     var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
       loginToken: cookies.get("loginToken")
@@ -70,7 +80,7 @@ export class Admin extends React.Component {
       console.log();
     }
     return;
-  }
+  }*/
 
 toggleEdit(x) {
   console.log(this.state.modalOpen);
@@ -78,7 +88,7 @@ this.setState({
     modalHeader: 'Edit Course',
     modalOpen: !this.state.modalOpen
 });
-modalComponent = (x===-1)? '':(<AdminEditCourseModal src={this.state.courseInfo[x]}/>);
+modalComponent = (x<0)? '':(<AdminEditCourseModal src={this.state.courseInfo[x]}  closeModal={this.closeModal}/>);
 }
 
 toggleCreate() {
@@ -87,7 +97,7 @@ this.setState({
     modalHeader: 'Create Course',
     modalOpen: !this.state.modalOpen
 });
-modalComponent =<AdminCreateCourseModal/>;
+modalComponent =<AdminCreateCourseModal  closeModal={this.closeModal}/>;
 }
 
 toggleSubcourse(x) {
@@ -96,10 +106,21 @@ this.setState({
     modalHeader: 'Edit Sub Course',
     modalOpen: !this.state.modalOpen
 });
-modalComponent = (x===-1)? '':(<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid}/>);
+modalComponent = (x<0)? '':(<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid} closeModal={this.closeModal}/>);
+}
+
+toggleDelete(x) {
+  console.log(this.state.modalOpen);
+this.setState({
+    modalHeader: 'Delete Course',
+    modalOpen: !this.state.modalOpen
+});
+modalComponent = (x<0)? '':(<AdminDeleteCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal}/>);
 }
 
 closeModal=()=> {
+  console.log('closemodal by fx')
+  this.getData();
   this.setState({
     modalOpen: false
 });
@@ -107,16 +128,18 @@ closeModal=()=> {
 
 
   render() {
+    console.log('renderrrrrr');
     if(this.state.isloaded){
         var courseTableBody = this.state.courseInfo.map((item,i)=>
-        <tr>
-                <th scope="row">{i+1}</th>
+        <tr style={{color : (item.isavailable == '1') ? '#FFF': '#555'}}>
+                <td><b>{i+1}</b></td>
                 <td>{item.courseid}</td>
                 <td>{item.coursename}</td>
                 <td>{item.instructor}</td>
                 <td>{item.price/100} ฿</td>
-                <td><Button color='primary' onClick={()=>{this.toggleEdit(i)}}><i class="fa fa-edit"/></Button></td>
-                <td><Button color='primary' onClick={()=>{this.toggleSubcourse(i)}}><i class="fa fa-edit"/></Button></td>
+                <td><Button color='primary' outline onClick={()=>{this.toggleEdit(i)}}><i class="fa fa-edit"/></Button>{' '}
+                <Button color='primary' outline onClick={()=>{this.toggleSubcourse(i)}}><i class="fa fa-reorder"/></Button>{' '}
+                <Button color='danger' outline onClick={()=>{this.toggleDelete(i)}}><i class="fa fa-trash-o"/></Button></td>
         </tr>
 
 
@@ -124,13 +147,14 @@ closeModal=()=> {
 
         return(
             <Container fluid>
-            <Modal isOpen={this.state.modalOpen}  toggle={this.closeModal} className={this.props.className}>
+            <Modal size="lg" isOpen={this.state.modalOpen}  toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
+
             {modalComponent}
-            <ModalFooter><Button color="secondary" onClick={this.closeModal}>Cancel</Button></ModalFooter>
+            <ModalFooter></ModalFooter>
             </Modal>);
             <Col>
-            <Table inverse striped hover>
+            <Table inverse striped>
         <thead>
           <tr>
             <th>#</th>
@@ -138,15 +162,18 @@ closeModal=()=> {
             <th>Course Name</th>
             <th>Instructor</th>
             <th>Price</th>
-            <th>Edit Info</th>
-            <th>Edit Subcourse</th>
+            <th></th>
           </tr>
+          </thead>
+          <tbody>
           <tr>
-          <Button color='primary' outline left='50%' onClick={this.toggleCreate}> +</Button>
+          <td colspan="10">
+          <Button color='info' outline style={{width:'100%',height:'100%'}} onClick={this.toggleCreate}><i class="fa fa-plus"/></Button></td>
+          
       </tr>
           {courseTableBody}
-        </thead>
-        <tbody>
+        
+        
 
         </tbody>
       </Table>

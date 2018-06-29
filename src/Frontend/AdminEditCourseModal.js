@@ -6,9 +6,10 @@ import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 const ipList = require('../Config/ipConfig')
 const axios = require('axios')
-const capsule = require('./Capsulation/SendData')
 var isValidToken
 var linkRedirect = '/loginPage'
+const capsulation = require('./Capsulation/SendData');
+var id; var exitfx;
 
 
 export class AdminEditCourseModal extends React.Component {
@@ -16,13 +17,56 @@ export class AdminEditCourseModal extends React.Component {
     super(props)
     this.state = {
         expireType:0,
-        showThumbnail:this.props.src.thumbnail,
-        showBanner:this.props.src.banner
+        showThumbnail: this.props.src.thumbnail,
+        showBanner:this.props.src.banner,
+        redirect:''
     }
     this.toggletype=this.toggletype.bind(this);
     this.showBanner=this.bannerChange.bind(this);
     this.showThumbnail=this.thumbnailChange.bind(this);
+    id = this.props.src.courseid;
+    exitfx = this.props.closeModal;
   }
+
+  async saveToDatabase() {
+    const bannerFormData = new FormData()
+    const thumbnailFormData = new FormData()
+    //console.log(this.state.selectedFile === null);
+    //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+    var data = {
+        courseid: id,
+        coursename: document.getElementById('coursename').value,
+        instructor: document.getElementById('instructor').value,
+        price: document.getElementById('price').value*100,
+        description: document.getElementById('description').value,
+        isavailable: (document.getElementById('isavailable').checked)? '1':'0'
+    }
+    console.log(data);
+    console.log((document.getElementById('isavailable').checked));
+    var temp = await (axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
+      course:{
+        courseid: data.courseid,
+        coursename: data.coursename,
+        instructor: data.instructor,
+        price: data.price,
+        description: data.description,
+        isavailable: data.isavailable
+      }
+    }))).data
+    /*if(temp.redirect){
+      this.setState({
+        redirect:temp.redirect
+      })
+    }*/
+    /*var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
+    if(temp2.redirect){
+      this.setState({
+        redirect:temp2.redirect
+      })
+    }*/
+    exitfx();
+    return true;
+}
 
   toggletype=event=>{
       console.log(document.getElementById('limitdurationtype').value);
@@ -54,9 +98,10 @@ export class AdminEditCourseModal extends React.Component {
   }
 
   render () {
+    
     console.log('modal render')
     return (
-      <ModalBody>
+      <ModalBody >
         <Container fluid>
           <h3>{this.props.src.coursename}</h3>
           {' '}
@@ -89,6 +134,7 @@ export class AdminEditCourseModal extends React.Component {
               <Input
                 type='price'
                 id='price'
+                defaultValue={this.props.src.price/100}
                 placeholder='Enter Course price in Thai Baht' />
             </FormGroup>
             
@@ -112,7 +158,7 @@ export class AdminEditCourseModal extends React.Component {
                 </FormGroup>
                 <hr></hr>
                 <FormGroup row>  
-              <Input plaintext> Banner
+              <Input plaintext> Banner<br/>
               <img src={this.state.showBanner} className='img-fluid'></img>
               </Input>
               <Input
@@ -125,11 +171,19 @@ export class AdminEditCourseModal extends React.Component {
 
                </FormGroup>
                <hr/>
+               <FormGroup>
+          <Label>
+            <Input type="checkbox" defaultChecked={this.props.src.isavailable=='1'? true:false} onChange={()=>{console.log(document.getElementById('isavailable').value)}} id='isavailable'/>{' '}
+            Available This Course?
+          </Label>
+        </FormGroup>
           </Form>
-          <Button color='primary' onClick={this.toggle}>
-            Do Something
-          </Button>
+          <hr/>
+          <Button color='primary' onClick={this.saveToDatabase} style={{float:'right'}}>
+            Save
+          </Button><p style={{float:'right'}}> </p><Button color='secondary' onClick={this.props.closeModal} style={{float:'right'}}>Cancel</Button>
         </Container>
+        
       </ModalBody>
     )
   }
@@ -137,6 +191,7 @@ export class AdminEditCourseModal extends React.Component {
 
 AdminEditCourseModal.propTypes = {
   src: PropTypes.shape({
+    courseid:PropTypes.string.isRequired,
     coursename: PropTypes.string.isRequired,
     instructor: PropTypes.number.isRequired,
     price: PropTypes.string.isRequired,

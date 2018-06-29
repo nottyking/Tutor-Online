@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter } from 'react-router-dom'
-import { Redirect, Switch } from 'react-router';
+import { Redirect, Switch,Router } from 'react-router';
 
 import { AboutUs } from './Frontend/components/content/About_us';
 import { Content } from './Frontend/components/content/Content';
@@ -8,7 +8,7 @@ import { CourseA } from './Frontend/components/course/CourseA';
 import { Student } from './Frontend/components/student/StudentPage';
 import { Learning } from './Frontend/components/course/Learning';
 import { LoginPage } from './Frontend/components/loginPanel/LoginPage';
-import { RegisterPage } from './Frontend/components/register/Register';
+import { RegisterPage } from './Frontend/components/register/RegisterPage';
 import { Footer } from './Frontend/components/footer/Footer';
 import browserHistory from './Frontend/redux/helpers/history'
 
@@ -61,7 +61,7 @@ export class App extends Component {
 
     return (
       <div>
-        <BrowserRouter history={browserHistory}>
+        <Router history={browserHistory}>
           <div style={{ backgroundColor: '#222' }}>
             <Route path='/' render={() => <NavBar
               str={`TEST`}
@@ -70,7 +70,7 @@ export class App extends Component {
               logout={this.logout} />} />
             <BrowserRouterManager />
           </div>
-        </BrowserRouter>
+        </Router>
         <Footer />
       </div>
     )

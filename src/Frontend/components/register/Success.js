@@ -10,11 +10,12 @@ export class Success extends React.Component {
     }
 
     render() {
-        if (true) {
+        this.props.initializeValue();
+        if (localStorage.getItem('user') === JSON.stringify('RegisterComplete')) {
             return (
                 <div>
                     <h1>
-                        Success
+                        Success, Please confirm your account on your E-mail
                     </h1>
                     <NavLink tag={Link} to={'/'} exact>Click here to go back to Home</NavLink>
                 </div>

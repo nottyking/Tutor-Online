@@ -8,14 +8,14 @@ async function editCourseAndSubCourse(req, res){
   console.log();
   if(course){
     var promise1 = new Promise(async(resolve, reject) => {
-      resolve(await editCourse(course))
+      resolve(await editCourse(course, req, res))
     })
     Promises.push(promise1);
   }
   if(subcourse){
     console.log("subcourse",subcourse);
     var promise2 = new Promise(async(resolve, reject) => {
-      resolve(await editSubCourse(subcourse))
+      resolve(await editSubCourse(subcourse, req, res))
     })
     Promises.push(promise2);
   }
@@ -32,25 +32,51 @@ async function editCourseAndSubCourse(req, res){
   })
 }
 
-async function editCourse(course){
+async function editCourse(course, req, res){
   console.log("Enter editCourse in EditCourseController");
   var coursename = course.coursename;
   var instructor = course.instructor;
   var price = course.price;
-  var banner = course.banner;
-  var thumbnail = course.thumbnail;
+  // var banner = course.banner;
+  // var thumbnail = course.thumbnail;
   var description = course.description;
-  var limitduration = course.limitduration;
-  var limitdurationtype = course.limitdurationtype;
   var isavailable = course.isavailable;
 
   var courseid = course.courseid;
-  return await updateFunc.updateCourseWithCourseID(['coursename','instructor','price','banner','thumbnail','description',
-                                                      'limitduration','limitdurationtype','isavailable'] ,
-                                                     [coursename,instructor,price,banner,thumbnail,description,
-                                                       limitduration,limitdurationtype,isavailable] ,
+  return await updateFunc.updateCourseWithCourseID(['coursename','instructor','price','description','isavailable'] ,
+                                                     [coursename,instructor,price,description,isavailable] ,
                                                      ['courseid'] ,
                                                      [courseid])
+}
+
+async function uploadPicture(type, req, res){
+  console.log("Enter uploadPicture");
+  if (req.files){
+    var courseid = req.body.courseid;
+    var fileName = type + courseid + '.jpg';
+    var profileImage = req.files.myFile;
+    var destinationPath = '../Frontend/Image/ProfileImage/' + fileName;
+    return await new Promise(async(resolve, reject) => {
+      resolve(
+        await profileImage.mv(destinationPath, function(err) {
+          if (err){
+            console.log("Move imageprofile ERROR:",err);
+            return{
+              result: false,
+              err: err
+            }
+          }
+          console.log("Move imageprofile SUCCESS");
+          return{
+            result: true,
+            err: null
+          }
+        })
+      )
+    })
+  }
+  else
+    return true;
 }
 
 async function editSubCourse(subCourseList){

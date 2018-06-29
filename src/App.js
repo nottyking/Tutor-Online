@@ -10,6 +10,7 @@ import { Learning } from './Frontend/components/course/Learning';
 import { LoginPage } from './Frontend/components/loginPanel/LoginPage';
 import { Register } from './Frontend/components/register/Register';
 import { Footer } from './Frontend/components/footer/Footer';
+import browserHistory from './Frontend/redux/helpers/history'
 
 import './App.css'
 import NavBar from './Frontend/components/bar/NavBar'
@@ -17,6 +18,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 class BrowserRouterManager extends React.Component {
   render() {
+    const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
     return (
       <div>
         <Switch>
@@ -55,9 +58,10 @@ export class App extends Component {
   }
 
   render() {
+
     return (
       <div>
-        <BrowserRouter>
+        <BrowserRouter history={browserHistory}>
           <div style={{ backgroundColor: '#222' }}>
             <Route path='/' render={() => <NavBar
               str={`TEST`}

@@ -31,8 +31,6 @@ export class AdminEditCourseModal extends React.Component {
   async saveToDatabase() {
     const bannerFormData = new FormData()
     const thumbnailFormData = new FormData()
-    bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
-    thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
     //console.log(this.state.selectedFile === null);
     //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
     var data = {
@@ -55,16 +53,6 @@ export class AdminEditCourseModal extends React.Component {
         isavailable: data.isavailable
       }
     }))).data
-    if(bannerFormData){
-      console.log("send bannerFormData");
-      var temp2 =  (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
-      console.log(temp2);
-    }
-    if(thumbnailFormData){
-      console.log("send thumbnailFormData");
-      var temp3 =  (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
-      console.log(temp3);
-    }
     /*if(temp.redirect){
       this.setState({
         redirect:temp.redirect
@@ -110,7 +98,7 @@ export class AdminEditCourseModal extends React.Component {
   }
 
   render () {
-
+    
     console.log('modal render')
     return (
       <ModalBody >
@@ -149,7 +137,7 @@ export class AdminEditCourseModal extends React.Component {
                 defaultValue={this.props.src.price/100}
                 placeholder='Enter Course price in Thai Baht' />
             </FormGroup>
-
+            
             <FormGroup row>
             <Input plaintext> Description
             </Input>
@@ -169,7 +157,7 @@ export class AdminEditCourseModal extends React.Component {
                 />
                 </FormGroup>
                 <hr></hr>
-                <FormGroup row>
+                <FormGroup row>  
               <Input plaintext> Banner<br/>
               <img src={this.state.showBanner} className='img-fluid'></img>
               </Input>
@@ -179,7 +167,7 @@ export class AdminEditCourseModal extends React.Component {
                 id='banner'
                 thumbnail='banner'
                 onChange={this.bannerChange}
-                />
+                /> 
 
                </FormGroup>
                <hr/>
@@ -195,7 +183,7 @@ export class AdminEditCourseModal extends React.Component {
             Save
           </Button><p style={{float:'right'}}> </p><Button color='secondary' onClick={this.props.closeModal} style={{float:'right'}}>Cancel</Button>
         </Container>
-
+        
       </ModalBody>
     )
   }

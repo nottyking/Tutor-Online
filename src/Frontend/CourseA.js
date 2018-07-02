@@ -190,7 +190,7 @@ onClick3 = () =>{
     if(this.state.isLoaded){
     return (
       <div className='App'>
-        <Container fluid>
+        <Container>
           <Row>
           <Col>
           </Col>
@@ -225,8 +225,7 @@ onClick3 = () =>{
             </CardBody>
           </Card>
 
-            </Col>
-            <Col>
+            
             <h3>Course Syllabus</h3>
             <Table dark borderless>
             <thead>
@@ -248,6 +247,8 @@ onClick3 = () =>{
               {Syllabus}
             </tbody>
           </Table>
+          </Col>
+            <Col>
 
             </Col>
           </Row>

@@ -227,7 +227,7 @@ export class AdminCreateCourseModal extends React.Component {
                 </FormGroup>
               </Form>
               <Button color='primary' onClick={this.saveToDatabase}>
-                Do Something
+                Create
               </Button>{' '}
               <Button color='secondary' onClick={this.props.closeModal}>Cancel</Button>
             </Container>

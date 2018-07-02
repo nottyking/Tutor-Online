@@ -31,8 +31,11 @@ export class AdminEditCourseModal extends React.Component {
   async saveToDatabase() {
     const bannerFormData = new FormData()
     const thumbnailFormData = new FormData()
-    //console.log(this.state.selectedFile === null);
-    //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+    bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+    bannerFormData.append('courseid', document.getElementById('banner').files[0], id);
+    thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
+    thumbnailFormData.append('courseid', document.getElementById('thumbnail').files[0], id);
+
     var data = {
         courseid: id,
         coursename: document.getElementById('coursename').value,
@@ -98,7 +101,7 @@ export class AdminEditCourseModal extends React.Component {
   }
 
   render () {
-    
+
     console.log('modal render')
     return (
       <ModalBody >
@@ -137,7 +140,7 @@ export class AdminEditCourseModal extends React.Component {
                 defaultValue={this.props.src.price/100}
                 placeholder='Enter Course price in Thai Baht' />
             </FormGroup>
-            
+
             <FormGroup row>
             <Input plaintext> Description
             </Input>
@@ -157,7 +160,7 @@ export class AdminEditCourseModal extends React.Component {
                 />
                 </FormGroup>
                 <hr></hr>
-                <FormGroup row>  
+                <FormGroup row>
               <Input plaintext> Banner<br/>
               <img src={this.state.showBanner} className='img-fluid'></img>
               </Input>
@@ -167,7 +170,7 @@ export class AdminEditCourseModal extends React.Component {
                 id='banner'
                 thumbnail='banner'
                 onChange={this.bannerChange}
-                /> 
+                />
 
                </FormGroup>
                <hr/>
@@ -183,7 +186,7 @@ export class AdminEditCourseModal extends React.Component {
             Save
           </Button><p style={{float:'right'}}> </p><Button color='secondary' onClick={this.props.closeModal} style={{float:'right'}}>Cancel</Button>
         </Container>
-        
+
       </ModalBody>
     )
   }

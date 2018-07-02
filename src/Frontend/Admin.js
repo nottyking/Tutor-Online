@@ -48,9 +48,21 @@ export class Admin extends React.Component {
     isloaded: false
   });
   console.log("GetIt");
-  var temp1 = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
+  var temp1 = (await axios.post(ipList.backend + "/manage/queryInformation", capsule.sendData({
     // Don't need to add anything, just send only a loginToken with capsule
   }))).data;
+  console.log(temp1);
+  for(var i = 0 ; i < temp1.length ; i++){
+    // console.log(courseInfo[i].thumbnail);
+    try{
+      temp1[i].thumbnail = require('./Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
+      temp1[i].banner = require('./Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
+    } catch(err){
+
+    }
+    // console.log(courseInfo[i].thumbnail);
+  }
+  console.log(temp1);
   this.setState({
     isloaded: true ,
     courseInfo: temp1,
@@ -170,11 +182,11 @@ closeModal=()=> {
           <tr>
           <td colspan="10">
           <Button color='info' outline style={{width:'100%',height:'100%'}} onClick={this.toggleCreate}><i class="fa fa-plus"/></Button></td>
-          
+
       </tr>
           {courseTableBody}
-        
-        
+
+
 
         </tbody>
       </Table>

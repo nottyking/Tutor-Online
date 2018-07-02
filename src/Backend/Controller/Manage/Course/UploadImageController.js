@@ -5,6 +5,8 @@ async function uploadImage(type, req, res){
   console.log("Enter upload " + type +  " in Managecontroller");
   if (req.files){
     var courseid = (await getLastestCourseID());
+    if(req.files.courseid)
+      courseid = req.files.courseid.name;
     var fileName = type + courseid + '.jpg';
     var profileImage = req.files.myFile;
     var destinationPath = '../Frontend/Image/Course/' + type + '/' + fileName;
@@ -37,7 +39,7 @@ function getLastestCourseID(){
     var from = 'course'
     var atti = []
     var value = []
-    var courseid = (await getFuncSpecial.getFunction(select,from,atti,value)).result[0]['max(courseid)'] + 1 ;
+    var courseid = (await getFuncSpecial.getFunction(select,from,atti,value)).result[0]['max(courseid)'] ;
     console.log("CourseID:",courseid);
     resolve(courseid)
   })

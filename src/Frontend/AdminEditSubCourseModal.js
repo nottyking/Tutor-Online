@@ -79,15 +79,19 @@ export class AdminEditSubCourseModal extends React.Component {
   async create() {
     var subcourseWillBeAdded = {
       courseid: this.props.courseid,
-      subcourseid: scidofcreate,
+      subcourseid: 0,
       subcoursename: document.getElementById('subcoursename').value,
       subcourseinfo: document.getElementById('subcourseinfo').value,
       videolink: document.getElementById('videolink').value,
       isavailable: '1',
     }
-    var scidofcreate = this.state.create ? (this.state.subcourseinfo[this.state.subcourseinfo.length-1].subcourseid)+1 : scid;
     if(this.state.create){
+      if(this.state.subcourseinfo.length>0){
       subcourseWillBeAdded.subcourseid = (this.state.subcourseinfo[this.state.subcourseinfo.length-1].subcourseid)+1 ;
+      }
+      else{
+        subcourseWillBeAdded.subcourseid = 1 ;
+      }
     }
     else{
       subcourseWillBeAdded.subcourseid = scid ;

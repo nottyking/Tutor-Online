@@ -136,7 +136,7 @@ closeModal=()=> {
                 <td>{item.courseid}</td>
                 <td>{item.coursename}</td>
                 <td>{item.instructor}</td>
-                <td>{item.price/100} ฿</td>
+                <td>{(item.price/100).toLocaleString('en')} ฿</td>
                 <td><Button color='primary' outline onClick={()=>{this.toggleEdit(i)}}><i class="fa fa-edit"/></Button>{' '}
                 <Button color='primary' outline onClick={()=>{this.toggleSubcourse(i)}}><i class="fa fa-reorder"/></Button>{' '}
                 <Button color='danger' outline onClick={()=>{this.toggleDelete(i)}}><i class="fa fa-trash-o"/></Button></td>

@@ -11,6 +11,8 @@ const capsulation = require('./Capsulation/SendData');
 
 var exitfx;
 var tempSubcourseInfo;
+var scid;
+var editsubcourse;
 
 
 
@@ -23,7 +25,8 @@ export class AdminEditSubCourseModal extends React.Component {
       isLoaded: false,
       warnModal: false,
       editModal: false,
-      nestedModal: false
+      nestedModal: false,
+      create: false,
     }
     this.updateSubcourse = this.updateSubcourse.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -36,20 +39,23 @@ export class AdminEditSubCourseModal extends React.Component {
   }
 
   async refresh() {
-    var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
+    this.setState({  isLoaded: false });
+    var temp1 = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
       courseid: this.props.courseid
     }))).data;
 
-    console.log('subcourse info state asdasdsa');
-    tempSubcourseInfo = temp.subCourse;
-    this.setState({ subcourseinfo: temp.subCourse, isLoaded: true });
+    tempSubcourseInfo = temp1.subCourse;
+    this.setState({ subcourseinfo: temp1.subCourse, isLoaded: true,create:false });
+    console.log(this.state.subcourseinfo);
   }
 
   async updateSubcourse() {
-    var temp = await (axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
-      subcourse: tempSubcourseInfo
+    this.setState({  isLoaded: false });
+    var temp2 = (await axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
+    subcourse: tempSubcourseInfo
     }))).data
     console.log(tempSubcourseInfo);
+    this.refresh();
   }
 
   async delete(x) {
@@ -57,28 +63,48 @@ export class AdminEditSubCourseModal extends React.Component {
     tempSubcourseInfo.splice(x, 1);
     console.log(tempSubcourseInfo);
     this.updateSubcourse();
+    this.refresh();
   }
 
-  async edit(x) {
-    tempSubcourseInfo.splice(x, 1);
-    this.create();
+  async editFetch(x) {
+    document.getElementById('subcoursename').value = this.state.subcourseinfo[x].subcoursename;
+    document.getElementById('subcourseinfo').placeholder = this.state.subcourseinfo[x].subcourseinfo;
+    document.getElementById('videolink').placeholder = this.state.subcourseinfo[x].videolink;
+    editsubcourse = x;
+    scid = this.state.subcourseinfo[x].subcourseid;
+
   }
+
 
   async create() {
     var subcourseWillBeAdded = {
       courseid: this.props.courseid,
-      subcourseid: (this.state.subcourseinfo[this.state.subcourseinfo.length-1].subcourseid)+1,
+      subcourseid: scidofcreate,
       subcoursename: document.getElementById('subcoursename').value,
       subcourseinfo: document.getElementById('subcourseinfo').value,
       videolink: document.getElementById('videolink').value,
       isavailable: '1',
     }
+    var scidofcreate = this.state.create ? (this.state.subcourseinfo[this.state.subcourseinfo.length-1].subcourseid)+1 : scid;
+    if(this.state.create){
+      subcourseWillBeAdded.subcourseid = (this.state.subcourseinfo[this.state.subcourseinfo.length-1].subcourseid)+1 ;
+    }
+    else{
+      subcourseWillBeAdded.subcourseid = scid ;
+      tempSubcourseInfo.splice(editsubcourse, 1);
+    }
+
     tempSubcourseInfo.push(subcourseWillBeAdded);
+    console.log( tempSubcourseInfo);
     this.updateSubcourse();
   }
 
-  toggleNested = () => {
-    this.setState({ nestedModal: !this.state.nestedModal });
+  toggleNested = async() => {
+    return await new Promise(async(resolve, reject) => {
+      await this.setState({ nestedModal: !this.state.nestedModal });
+      resolve();
+    })
+    
   }
 
 
@@ -92,7 +118,7 @@ export class AdminEditSubCourseModal extends React.Component {
           <td>{item.subcourseid}</td>
           <td>{item.subcoursename}</td>
           <td><Button href={item.videolink} target='_blank'><i class="fa fa-film" /></Button></td>
-          <td><Button color='primary' onClick={() => { this.edit(i) }}><i class="fa fa-edit" /></Button>{' '}
+          <td><Button color='primary' onClick={async() =>{await this.toggleNested();this.editFetch(i); }}><i class="fa fa-edit" /></Button>{' '}
             <Button color='danger' onClick={() => { this.delete(i) }}><i class="fa fa-trash-o" /></Button>
           </td>
         </tr>
@@ -137,7 +163,7 @@ export class AdminEditSubCourseModal extends React.Component {
                 </tr>
                 <tr>
                   <td colspan="10">
-                    <Button color='info' style={{ width: '100%', height: '100%' }} onClick={this.toggleNested}><i class="fa fa-plus" /></Button></td>
+                    <Button color='info' style={{ width: '100%', height: '100%' }} onClick={()=>{this.toggleNested();this.state.create=true}}><i class="fa fa-plus" /></Button></td>
                 </tr>
 
               </thead>
@@ -147,7 +173,7 @@ export class AdminEditSubCourseModal extends React.Component {
             </Table>
           </Container>
           <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested}>
-            <ModalHeader toggle={this.toggleNested}>Create SubCourse</ModalHeader>
+            <ModalHeader toggle={this.toggleNested}>Create/Edit SubCourse</ModalHeader>
             <ModalBody>
               <Container fluid>
                 <FormGroup row>
@@ -180,8 +206,8 @@ export class AdminEditSubCourseModal extends React.Component {
               </Container>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={()=>{this.toggleNested();this.create();}}>Done</Button>{' '}
-              <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
+              <Button color="primary" onClick={()=>{this.toggleNested();this.create()}}>Done</Button>{' '}
+              <Button color="secondary" onClick={this.toggleNested}>Cancel</Button>
             </ModalFooter>
           </Modal>
         </ModalBody>

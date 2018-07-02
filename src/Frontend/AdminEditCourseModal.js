@@ -56,16 +56,6 @@ export class AdminEditCourseModal extends React.Component {
         isavailable: data.isavailable
       }
     }))).data
-    if(bannerFormData){
-      console.log("send bannerFormData");
-      var temp2 =  (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
-      console.log(temp2);
-    }
-    if(thumbnailFormData){
-      console.log("send thumbnailFormData");
-      var temp3 =  (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
-      console.log(temp3);
-    }
     /*if(temp.redirect){
       this.setState({
         redirect:temp.redirect

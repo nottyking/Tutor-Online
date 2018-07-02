@@ -39,7 +39,6 @@ async function register(username, email, password, user_type) {
 }
 
 async function login(usernameEmail, password) {
-    
     //check User is loggin-in -> kick
     if(localStorage.getItem('user')) {
         return failure(user);
@@ -71,7 +70,6 @@ async function login(usernameEmail, password) {
     } else{
         return failure(user);
     }
-    
     
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }

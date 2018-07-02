@@ -4,7 +4,7 @@ import {AdminCreateCourseModal} from './AdminCreateCourseModal';
 import {AdminEditSubCourseModal} from './AdminEditSubCourseModal';
 import {AdminDeleteCourseModal} from './AdminDeleteCourseModal';
 import { Loading } from './Loading'
-import { Container, Col,Table,Badge,Modal,ModalBody,Button,ModalFooter,ModalHeader } from 'reactstrap'
+import { Container, Col,Table,Badge,Modal,ModalBody,Button,ModalFooter,ModalHeader,Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import Cookies from 'universal-cookie';
 import { DH_UNABLE_TO_CHECK_GENERATOR } from 'constants';
 
@@ -15,6 +15,7 @@ const capsule = require('./Capsulation/SendData')
 var isValidToken;
 var linkRedirect = '/loginPage';
 var modalComponent;
+const rowperpage = 19;
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -30,7 +31,8 @@ export class Admin extends React.Component {
         isloaded: false,
         modalOpen:false,
         courseInfo:{},
-        modalHeader:''
+        modalHeader:'',
+        pager:0,
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -94,6 +96,10 @@ export class Admin extends React.Component {
     return;
   }*/
 
+  setPage(x){
+    this.setState({pager:x});
+  }
+
 toggleEdit(x) {
   console.log(this.state.modalOpen);
 this.setState({
@@ -143,7 +149,11 @@ closeModal=()=> {
     console.log('renderrrrrr');
     if(this.state.isloaded){
         var courseTableBody = this.state.courseInfo.map((item,i)=>
-        <tr style={{color : (item.isavailable == '1') ? '#FFF': '#555'}}>
+        {
+          console.log(typeof this.state.pager)
+          console.log((i >= rowperpage*this.state.pager && i<rowperpage*(this.state.pager+1)));
+          return(
+        <tr style={{color : (item.isavailable == '1') ? '#FFF': '#555',display : (i >= rowperpage*this.state.pager && i<rowperpage*(this.state.pager+1)) ? '': 'none'}}>
                 <td><b>{i+1}</b></td>
                 <td>{item.courseid}</td>
                 <td>{item.coursename}</td>
@@ -154,7 +164,7 @@ closeModal=()=> {
                 <Button color='danger' outline onClick={()=>{this.toggleDelete(i)}}><i class="fa fa-trash-o"/></Button></td>
         </tr>
 
-
+        );}
         );
 
         return(
@@ -190,6 +200,40 @@ closeModal=()=> {
 
         </tbody>
       </Table>
+
+      <Pagination aria-label="Page navigation example">
+        <PaginationItem>
+          <PaginationLink previous onClick={()=>{this.setPage(this.state.page-1)}}/>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>{this.setPage(0)}}>
+            1
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>{this.setPage(1)}}>
+            2
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>{this.setPage(2)}}>
+            3
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>{this.setPage(3)}}>
+            4
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>{this.setPage(4)}}>
+            5
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink next onClick={()=>{this.setPage(this.state.page+1)}} />
+        </PaginationItem>
+      </Pagination>
       </Col>
             </Container>
         );

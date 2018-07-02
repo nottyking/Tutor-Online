@@ -32,9 +32,10 @@ export class AdminEditCourseModal extends React.Component {
     const bannerFormData = new FormData()
     const thumbnailFormData = new FormData()
     bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+    bannerFormData.append('courseid', document.getElementById('banner').files[0], id);
     thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
-    //console.log(this.state.selectedFile === null);
-    //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+    thumbnailFormData.append('courseid', document.getElementById('thumbnail').files[0], id);
+
     var data = {
         courseid: id,
         coursename: document.getElementById('coursename').value,

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 function checkAuthen(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   console.log("SESSION USERID:",req.session.userid);
-  console.log(req.files);
+  console.log("FILES",req.files);
   var clientLoginToken = req.body.loginToken;
   if(!clientLoginToken && req.files){
     clientLoginToken = req.files.myFile.name

@@ -26,7 +26,7 @@ import {
 } from 'reactstrap';
 
 const pages = ['home', 'course', 'about us', 'Register','admin'];
-const loginPages = ['home', 'student', 'course', 'learning', 'about us'];
+const loginPages = ['home', 'student', 'course', 'learning', 'about us' , 'admin'];
 
 export class BrowserRouterManager extends React.Component {
 

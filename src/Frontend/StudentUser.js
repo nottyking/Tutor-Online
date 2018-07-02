@@ -72,7 +72,11 @@ export class Student extends React.Component {
       defaultValue.FirstName = studentInformation.fname;
       defaultValue.LastName = studentInformation.lname;
       defaultValue.Email = studentInformation.email;
-      // defaultValue.ProfileImg = studentInformation.profileimg;
+      try{
+        defaultValue.ProfileImg = require('./Image/ProfileImage/ProfileImage' + defaultValue.UserID + '.jpg')
+      }catch(err){
+        defaultValue.ProfileImg = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png'
+      }
       defaultValue.Birthday = studentInformation.birthday;
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;

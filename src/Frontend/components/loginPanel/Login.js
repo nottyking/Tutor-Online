@@ -33,7 +33,6 @@ class Login extends React.Component {
     async loginHandle() {
         var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
         console.log('check::')
-        alert()
         if (check.type === "USER_LOGIN_SUCCESS") {
             this.toggleModal();
             history.go(0)

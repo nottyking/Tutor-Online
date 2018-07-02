@@ -34,25 +34,15 @@ async function LoginByNormal(req, res){
           console.log("Login successful:",result);
           var userid = result[i].userid;
 
-          // var loginToken = localStorage.getItem(userid);
-          // console.log("Login token in storage:",loginToken);
-          // if(loginToken!=null){
-          //   console.log("There is this user in server");
-          //   return resolve({
-          //     result: true ,
-          //     msg: "Login successful",
-          //     loginToken: loginToken
-          //   }) ;
-          // }
-
           var loginToken = (await makeAuthentication(userid));
           console.log("Login Token:",loginToken);
           storeThisIDInLocalStorage(userid, loginToken);
 
           return resolve({
             result: true ,
-            msg: "Login successful",
-            loginToken: loginToken
+            msg: "Login successful" ,
+            loginToken: loginToken ,
+            role: result[i].role
           }) ;
 
         }

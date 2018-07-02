@@ -6,7 +6,7 @@ export class ProfileField extends React.Component {
     render() {
       var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
       try{
-          profilePicture = require('../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+          profilePicture = require('../../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
       } catch(err){
         console.log("ERR:",err);
       }

@@ -66,7 +66,7 @@ export class CourseA extends React.Component {
     }
     else{
       try{
-        temp.course.banner = require('./Image/Course/Banner/Banner' + this.props.match.params.courseID + '.jpg')
+        temp.course.banner = require('../../Image/Course/Banner/Banner' + this.props.match.params.courseID + '.jpg')
       }catch(err){
         temp.course.banner = defaultCourseInfo.banner
       }

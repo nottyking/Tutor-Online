@@ -50,8 +50,8 @@ export class Admin extends React.Component {
   for(var i = 0 ; i < temp1.length ; i++){
     // console.log(courseInfo[i].thumbnail);
     try{
-      temp1[i].thumbnail = require('./Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
-      temp1[i].banner = require('./Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
+      temp1[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
+      temp1[i].banner = require('../../Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
     } catch(err){
 
     }

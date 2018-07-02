@@ -34,6 +34,13 @@ export class Content extends React.Component {
       })
     }
     else{
+      console.log(courseInfo);
+      // courseInfo[17].thumbnail = require('./Image/Course/Thumbnail/Thumbnail21.jpg')
+      for(var i = 0 ; i < courseInfo.length ; i++){
+        // console.log(courseInfo[i].thumbnail);
+        courseInfo[i].thumbnail = require('./Image/Course/Thumbnail/Thumbnail' + courseInfo[i].courseid + '.jpg')
+        // console.log(courseInfo[i].thumbnail);
+      }
       this.setState({
         isloaded: true ,
         courseInfo: courseInfo

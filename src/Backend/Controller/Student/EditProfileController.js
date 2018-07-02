@@ -15,7 +15,7 @@ async function updateNewProfile(req, res){
   var gender = req.body.gender
   var fileName = 'ProfileImage' + req.session.userid + '.jpg';
   var isbanned = req.body.isbanned
-  var profileimg = pathFromFrontend + fileName
+  var profileimage = pathFromFrontend + fileName
 
   var updateKeyList = ['password','fname','lname','address','profileimage','birthday','gender']
   var updateValueList = [password,fname,lname,address,profileimage,birthday,gender]
@@ -30,7 +30,7 @@ async function updateNewProfile(req, res){
   var whereKeyList = ['userid']
   var whereValueList = [userid]
 
-  updateFunc.updateUserWithUserID(updateKeyList, updateValueList, whereKeyList, whereValueList);
+  return await updateFunc.updateUserWithUserID(updateKeyList, updateValueList, whereKeyList, whereValueList);
 }
 
 async function uploadProfileImage(req, res){

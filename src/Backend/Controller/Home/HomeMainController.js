@@ -11,8 +11,8 @@ async function queryInformation(req, res){
   console.log("Enter queryInformation in Maincontroller");
   var courseInformation = (await getFunc.getCourse()).result;
   var courseInformationWithLink = await addCourseLink(courseInformation);
-  console.log("courseInformation:",courseInformation);
-  console.log("courseInformationWithLink:",courseInformationWithLink);
+  // console.log("courseInformation:",courseInformation);
+  // console.log("courseInformationWithLink:",courseInformationWithLink);
   return courseInformationWithLink;
 }
 

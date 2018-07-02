@@ -10,8 +10,6 @@ function payByCreditCard(req, res){
     'omiseVersion': omiseConfig.omiseVersion
   });
 
-  // var orderID = req.body.orderID;
-  console.log(req.body);
   var orderID = '1'
   var amount = req.body.amount;
   var paymentTokenID = req.body.omiseToken;
@@ -22,8 +20,6 @@ function payByCreditCard(req, res){
     'capture': true,
     'card': paymentTokenID
   }, async function(err, resp) {
-    console.log("Charge res:",resp);
-    console.log("Charge err:",err);
     if (!resp.failure_message) {
       //Success
       console.log("Payment Success");

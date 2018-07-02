@@ -108,7 +108,6 @@ export class Student extends React.Component {
       case 0:
         this.getDatabaseValue();
         console.log("After load");
-        
       case 1:
         if (!isValidToken) {
           console.log("redirect");

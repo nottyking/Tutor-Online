@@ -7,8 +7,8 @@ async function createCourse(req, res){
   var coursename = req.body.coursename;
   var instructor = req.body.instructor;
   var price = req.body.price;
-  var banner = './Image/Course/Banner' + courseid;
-  var thumbnail = './Image/Course/Thumbnail' + courseid;
+  var banner = './Image/Course/Banner/Banner' + courseid + '.jpg';
+  var thumbnail = './Image/Course/Thumbnail/Thumbnail' + courseid + '.jpg';
   var description = req.body.description;
   var limitduration = req.body.limitduration;
   var createdate = new Date();

@@ -2,30 +2,31 @@ import React from 'react';
 import { Card, Col, Container, Button, FormGroup, Label, Input, CardTitle, CardBody, CardFooter, CardText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import { Redirect } from 'react-router';
-import { UserActions } from '../../redux/actions';
+import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
+import { history } from '../../redux/helpers';
 
 class LoginPage extends React.Component {
-    
+
     constructor(props) {
         super(props);
-        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true, redirect: false }
+        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.loginHandle = this.loginHandle.bind(this);
     }
-    
+
     async loginHandle() {
-        var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
+        var check = await this.props.login(document.getElementById('loginpage-username').value, document.getElementById('loginpage-password').value)
         console.log('check::')
         console.log(check);
         if (check.type === "USER_LOGIN_SUCCESS") {
-            this.toggleModal();
+            history.push('/');
         } else {
             this.setState({ msg: '', loginValid: false, defaultLoginState: false })
         }
     }
 
     render() {
-        if(this.state.redirect) {
+        if (localStorage.getItem('user')) {
             return (<Redirect to='/' />);
         }
         else {
@@ -99,7 +100,7 @@ function mapStateToProps({ authentication }) {
 }
 
 function mapDispacthToProps(dispatch) {
-    const login = UserActions.login;
+    const login = GuestActions.login;
     return { login: (usernameEmail, password) => dispatch(login(usernameEmail, password)) };
 }
 export default connect(mapStateToProps, mapDispacthToProps)(LoginPage);

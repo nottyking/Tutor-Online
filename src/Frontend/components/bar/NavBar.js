@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavBar.css';
 import { Route, Link } from 'react-router-dom';
-import { Logout } from '../loginPanel/Logout';
+import  Logout  from '../loginPanel/Logout';
 import Login from './../loginPanel/Login';
 
 import {
@@ -60,14 +60,12 @@ export default class NavBar extends React.Component {
         var actionButton
         var pageList
 
-        if (!this.props.loginStatus) {
+        if (!localStorage.getItem('user')) {
             pageList = this.createPage(pages);
-            actionButton = <Login loginStatus={this.props.loginStatus}
-                /*login={this.props.login}*/ />
+            actionButton = <Login loginStatus={this.props.loginStatus}/>
         } else {
             pageList = this.createPage(loginPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus}
-                logout={this.props.logout} />
+            actionButton = <Logout loginStatus={this.props.loginStatus}/>
         }
 
         return (

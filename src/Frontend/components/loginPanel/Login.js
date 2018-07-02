@@ -2,8 +2,9 @@ import React from 'react';
 import { NavLink, Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import { UserActions } from '../../redux/actions';
+import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
+import { history } from '../../redux/helpers';
 
 
 class Login extends React.Component {
@@ -35,6 +36,7 @@ class Login extends React.Component {
         console.log(check);
         if (check.type === "USER_LOGIN_SUCCESS") {
             this.toggleModal();
+            history.go(0)
         } else {
             this.setState({ msg: '', loginValid: false, defaultLoginState: false })
         }
@@ -101,7 +103,7 @@ function mapStateToProps({ authentication }) {
 }
 
 function mapDispacthToProps(dispatch) {
-    const login = UserActions.login;
+    const login = GuestActions.login;
     return { login: (usernameEmail, password) => dispatch(login(usernameEmail, password)) };
 }
 export default connect(mapStateToProps, mapDispacthToProps)(Login);

@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 const maxAge = 1 * 31 * 60 * 60;
 
-export const UserActions = {
+export const GuestActions = {
     register,
     login,
     logout
@@ -40,6 +40,12 @@ async function register(username, email, password, user_type) {
 }
 
 async function login(usernameEmail, password) {
+    
+    //check User is loggin-in -> kick
+    if(localStorage.getItem('user')) {
+        return failure(user);
+    }
+
     const data = {
         usernameEmail,
         password
@@ -61,13 +67,13 @@ async function login(usernameEmail, password) {
     if (user.result) {
         cookies.set("loginToken", user.loginToken, { maxAge: maxAge });
         localStorage.setItem('user', JSON.stringify(user));
-        history.push('/');
+        //history.push('/');
         return success(user);
     } else{
         return failure(user);
     }
     
-
+    
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
@@ -75,5 +81,6 @@ async function login(usernameEmail, password) {
 
 async function logout() {
     localStorage.removeItem('user');
+    history.push('/');
     return { type: userConstants.LOGOUT };
 }

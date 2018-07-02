@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AccountFields } from './AccountFields';
 import { Confirmation } from './Confirmation';
 import { Success } from './Success';
-import { UserActions } from '../../redux/actions';
+import { GuestActions } from '../../redux/actions';
 import './Register.css';
 
 var fieldValues = {
@@ -87,7 +87,7 @@ function mapStateToProps({ registration }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const register = UserActions.register;
+  const register = GuestActions.register;
   return { register: (username,email, password, userType) => dispatch(register(username, email, password, userType)) };
 }
 

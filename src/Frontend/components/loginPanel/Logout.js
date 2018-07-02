@@ -2,9 +2,11 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import './Login.css';
 import Cookies from 'universal-cookie';
+import { GuestActions } from '../../redux/actions';
+import { connect } from 'react-redux';
 const cookies = new Cookies();
 
-export class Logout extends React.Component {
+class Logout extends React.Component {
     constructor(props) {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
@@ -26,3 +28,11 @@ export class Logout extends React.Component {
         }
     }
 }
+
+function mapDispatchToProps(dispatch){
+    const logout = GuestActions.logout;
+    return {logout: ()=> dispatch(logout())};
+}
+
+export default connect(null, mapDispatchToProps)(Logout);
+

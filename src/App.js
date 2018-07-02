@@ -19,6 +19,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 class BrowserRouterManager extends React.Component {
   render() {
+    //initial New Dev branch
     const user = localStorage.getItem('user');
     const admin = localStorage.getItem('admin');
     return (

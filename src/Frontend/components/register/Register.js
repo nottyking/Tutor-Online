@@ -24,6 +24,7 @@ class RegisterForm extends React.Component {
     this.nextStep = this.nextStep.bind(this);
     this.previousStep = this.previousStep.bind(this);
     this.submitRegister = this.submitRegister.bind(this);
+    this.toFailPage = this.toFailPage.bind(this);
   }
 
   saveValues(field) {
@@ -40,9 +41,22 @@ class RegisterForm extends React.Component {
   }
 
   async submitRegister() {
-    var ooo =  this.props.register(fieldValues.username, fieldValues.email, fieldValues.password, 'user');
-    console.log('check ooo');
-    console.log(ooo);
+    var item = await this.props.register(fieldValues.username, fieldValues.email, fieldValues.password, 'user');
+    console.log(item);
+    if (item.type === "USER_REGISTER_SUCCESS") {
+      console.log('Success to Register');
+      this.nextStep();
+    }
+    else {
+      console.log('Fail to Register');
+      this.toFialPage();
+    }
+  }
+
+  toFailPage() {
+    this.setState({
+      step: 4
+    })
   }
 
   nextStep() {
@@ -78,8 +92,8 @@ class RegisterForm extends React.Component {
           saveValues={this.saveValues} />;
       case 3:
         return <RegisterSuccess initializeValue={this.initializeValue} />;
-        case 4:
-        return <RegisterFail initializeValue={this.initializeValue}/>
+      case 4:
+        return <RegisterFail initializeValue={this.initializeValue} />
       default:
         return <h1>No state</h1>
     }

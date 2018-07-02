@@ -44,18 +44,7 @@ export class Confirmation extends React.Component {
     };
 
     saveAndContinue() {
-        var item = this.props.submitRegister();
-        console.log('check item');
-        console.log(item);
-        
-        if(item){
-            console.log('Success to Register');
-            this.props.nextStep();
-        }
-        else {
-            console.log('Fail to Register');
-            this.props.nextStep();
-        }
+        this.props.submitRegister();
     }
 
     backToPreviousPage(event) {

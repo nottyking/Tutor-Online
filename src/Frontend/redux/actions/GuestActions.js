@@ -18,7 +18,7 @@ async function register(username, email, password, user_type) {
         username, email, password, user_type
     }
 
-    console.log('before');
+    console.log('before get value (Register)');
     var isSendSuccess = await axios.post(ipList.backend + '/register', {
         username: data.username, password: data.password, email: data.email,
         fname: '-', lname: '-', address: '-', birthday: '-', gender: '-'

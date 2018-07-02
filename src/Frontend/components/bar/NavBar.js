@@ -15,8 +15,8 @@ import {
     Label
 } from 'reactstrap';
 
-const pages = ['home', 'course', 'about us', 'Register'];
-const loginPages = ['home', 'student', 'course', 'learning', 'about us'];
+const pages = ['home', 'about us', 'Register', 'admin'];
+const loginPages = ['home', 'student', 'learning', 'about us','admin'];
 
 export default class NavBar extends React.Component {
     constructor(props) {

@@ -1,5 +1,6 @@
 import './student.css';
-import React, { Component } from 'react'
+import React from 'react'
+import { Redirect } from 'react-router'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 const axios = require('axios')
 const ipList = require('../../../Config/ipConfig')
@@ -13,7 +14,9 @@ export class EditProfileField extends React.Component {
         this.state = {
             ModalMessage: '', isDefaultPassword: true, validPassword: false,
             isDefaultRePassword: true, validRePassword: false, Modal: false,
-            selectedFile: this.props.defaultValue.ProfileImg
+            selectedFile: [],
+            showProfilePicture: this.props.defaultValue.ProfileImg,
+            redirect: ""
         };
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.checkValidPassword = this.checkValidPassword.bind(this);
@@ -26,11 +29,18 @@ export class EditProfileField extends React.Component {
     fileChangedHandler = (event) => {
         console.log('Uploading');
         this.setState({selectedFile: event.target.files[0]});
-        console.log(event.target.files[0]);
-
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(file);
+        reader.onloadend = function (e) {
+        this.setState({
+            showProfilePicture:[reader.result]
+            })
+        }.bind(this);
+        console.log(url)
       }
 
-    saveToDatabase() {
+    async saveToDatabase() {
         const formData = new FormData()
         console.log(this.state.selectedFile === null);
         /*
@@ -39,7 +49,6 @@ export class EditProfileField extends React.Component {
         */
         formData.append('myFile', this.state.selectedFile, cookies.get('loginToken'));
         //axios.post(ipList.backend + "/student/editProfile", formData);
-        console.log('yeeeee');
         var data = {
             FirstName: document.getElementById('fName').value,
             LastName: document.getElementById('lName').value,
@@ -50,11 +59,21 @@ export class EditProfileField extends React.Component {
             newPassword: document.getElementById('newPassword').value
         }
         console.log(data.ProfileImg);
-        axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
-          password: data.newPassword, fname: data.FirstName, lname: data.LastName,
-          address: data.Address, birthday: data.Birthday, gender: data.Gender
-        }))
-        axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)
+        // var temp = (await axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
+        //   password: data.newPassword, fname: data.FirstName, lname: data.LastName,
+        //   address: data.Address, birthday: data.Birthday, gender: data.Gender
+        // }))).data
+        // if(temp.redirect){
+        //   this.setState({
+        //     redirect:temp.redirect
+        //   })
+        // }
+        var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
+        if(temp2.redirect){
+          this.setState({
+            redirect:temp2.redirect
+          })
+        }
         return true;
     }
 
@@ -62,7 +81,13 @@ export class EditProfileField extends React.Component {
         var isPasswordCorrect = (await axios.post(ipList.backend + "/student/checkPassword",capsulation.sendData({
           password: document.getElementById('password').value
         }))).data
-        return isPasswordCorrect
+        if(isPasswordCorrect.redirect){
+          this.setState({
+            redirect:isPasswordCorrect.redirect
+          })
+        }
+        else
+          return isPasswordCorrect
     }
 
     async saveAndContinue(event) {
@@ -122,6 +147,15 @@ export class EditProfileField extends React.Component {
     }
 
     render() {
+      if(this.state.redirect !== ""){
+        return <Redirect to={this.state.redirect}/>;
+      }
+      var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+      try{
+          profilePicture = require('../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+      } catch(err){
+        console.log("ERR:",err);
+      }
         return (
             <div>
                 <Card style={{
@@ -132,23 +166,30 @@ export class EditProfileField extends React.Component {
                 }}>
 
                     <br />
-                    <div class="image-upload">
-                        <label for="file-input">
-                    <CardImg
-                        top
-                        style={{ width: 100, textAlign: "center" }}
-                        src={this.props.defaultValue.ProfileImg}
-                        alt='Card image cap' />
-                        </label>
 
-                        <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
+                    <div class="image-upload imageContainer">
+
+                    <CardImg className='avatar'
+                        top
+                        src={this.state.showProfilePicture}
+
+                        alt='Card image cap' />
+
+
+                        <label for="file-input">
+                        <div class="overlay">
+
+                        Click to Change
+                      </div>
+                      </label>
+
+                      <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
                     </div>
                     <br />
-                    
+
                     <CardBody>
                         <CardText>
                             <Form>
-                                <hr></hr>
                                 <FormGroup row>
                                     <Label >Username</Label>
                                     <Input disabled type='text' id='username'

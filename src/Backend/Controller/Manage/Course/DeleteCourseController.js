@@ -12,6 +12,7 @@ async function deleteCourse(req, res){
       err: isSubCourseDeletionSuccess.err
     }
 }
+
 module.exports = {
   deleteCourse : deleteCourse,
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AccountFields } from './AccountFields';
 import { Confirmation } from './Confirmation';
-import { Success } from './Success';
+import { RegisterSuccess } from './Success';
 import { GuestActions } from '../../redux/actions';
 import './Register.css';
+import { RegisterFail } from './Fail';
 
 var fieldValues = {
   username: '',
@@ -38,8 +39,10 @@ class RegisterForm extends React.Component {
     fieldValues.rePassword = '';
   }
 
-  submitRegister() {
-    this.props.register(fieldValues.username, fieldValues.email, fieldValues.password, 'user');
+  async submitRegister() {
+    var ooo =  this.props.register(fieldValues.username, fieldValues.email, fieldValues.password, 'user');
+    console.log('check ooo');
+    console.log(ooo);
   }
 
   nextStep() {
@@ -74,7 +77,9 @@ class RegisterForm extends React.Component {
           previousStep={this.previousStep}
           saveValues={this.saveValues} />;
       case 3:
-        return <Success fieldValues={fieldValues} initializeValue={this.initializeValue} />;
+        return <RegisterSuccess initializeValue={this.initializeValue} />;
+        case 4:
+        return <RegisterFail initializeValue={this.initializeValue}/>
       default:
         return <h1>No state</h1>
     }
@@ -88,7 +93,7 @@ function mapStateToProps({ registration }) {
 
 function mapDispatchToProps(dispatch) {
   const register = GuestActions.register;
-  return { register: (username,email, password, userType) => dispatch(register(username, email, password, userType)) };
+  return { register: (username, email, password, userType) => dispatch(register(username, email, password, userType)) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

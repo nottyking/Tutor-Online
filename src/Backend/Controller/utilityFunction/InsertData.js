@@ -28,13 +28,14 @@ const insertEnrolledCourse = async(userid, courseid, expireddate) => {
   return await doQuerySQL("EnrolledCourse",preparedSQLQuery.sql,preparedSQLQuery.valueList);
 }
 
-const insertCourse = async(coursename, instructor, price, banner, thumbnail, description, limitduration, isAvailable, createdate, limitdurationtype) => {
+const insertCourse = async(coursename, instructor, price, banner, thumbnail, description,
+                           limitduration, createdate, limitdurationtype) => {
   console.log('Enter InsertCourse in insertData');
 
   var preparedSQLQuery = prepareSQLQuery(
-    "course (coursename, instructor, price, banner, thumbnail, description, limitduration, isAvailable, createdate, limitdurationtype)",
-    "(?,?,?,?,?,?,?,?,?,?)",
-    [coursename, instructor, price, banner, thumbnail, description, limitduration, isAvailable, createdate, limitdurationtype]
+    "course (coursename, instructor, price, banner, thumbnail, description,limitduration, createdate, limitdurationtype)",
+    "(?,?,?,?,?,?,?,?,?)",
+    [coursename, instructor, price, banner, thumbnail, description,limitduration, createdate, limitdurationtype]
   );
 
   console.log('sql:', preparedSQLQuery.sql);
@@ -54,6 +55,20 @@ const insertSubCourse = async(courseid, subcourseid, subcoursename, subcourseinf
   console.log('sql:', preparedSQLQuery.sql);
   console.log('valueList:', preparedSQLQuery.valueList);
   return await doQuerySQL("Subcourse",preparedSQLQuery.sql,preparedSQLQuery.valueList);
+}
+
+const insertCourseReview = async(courseid,reviewid,userid,description,rating,reviewedtime) => {
+  console.log('Enter insertCourseReview in insertData');
+
+  var preparedSQLQuery = prepareSQLQuery(
+    "coursereview (courseid,reviewid,userid,description,rating,reviewedtime)",
+    "(?,?,?,?,?,?)",
+    [courseid,reviewid,userid,description,rating,reviewedtime]
+  );
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('valueList:', preparedSQLQuery.valueList);
+  return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
 }
 
 function prepareSQLQuery(insert, valueText, valueList){
@@ -88,6 +103,7 @@ const insertFunction = {
   insertEnrolledCourse : insertEnrolledCourse ,
   insertCourse : insertCourse,
   insertSubCourse : insertSubCourse,
+  insertCourseReview : insertCourseReview,
 }
 
 module.exports = insertFunction ;

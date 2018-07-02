@@ -1,7 +1,6 @@
 import React from 'react';
 import './Register.css';
 import { Form, Col, Button, FormGroup, Label, Input } from 'reactstrap';
-import { userConstants } from './../../redux/constants/UserConstants';
 
 export class Confirmation extends React.Component {
     constructor(props) {
@@ -45,8 +44,11 @@ export class Confirmation extends React.Component {
     };
 
     saveAndContinue() {
-        this.props.submitRegister();
-        if(localStorage.getItem('user') === JSON.stringify('RegisterComplete')){
+        var item = this.props.submitRegister();
+        console.log('check item');
+        console.log(item);
+        
+        if(item){
             console.log('Success to Register');
             this.props.nextStep();
         }

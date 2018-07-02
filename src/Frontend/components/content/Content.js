@@ -1,8 +1,10 @@
 import React from 'react'
+import { Redirect } from 'react-router'
 import { Container} from 'reactstrap'
 import banner from '../../Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
 import {CoursePresent} from '../course/CoursePresent'
+import {Loading} from '../loading/Loading'
 const insideStyles1 = {background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)'};
 const insideStyles2 = {background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)'};
 
@@ -13,7 +15,8 @@ export class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isloaded : true
+      isloaded : false ,
+      redirect : ""
     }
   }
 
@@ -25,14 +28,34 @@ export class Content extends React.Component {
     var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
-    this.setState({
-      isloaded: false ,
-      courseInfo: courseInfo
-    })
+    if(courseInfo.redirect){
+      this.setState({
+        redirect:courseInfo.redirect
+      })
+    }
+    else{
+      console.log(courseInfo);
+      // courseInfo[17].thumbnail = require('./Image/Course/Thumbnail/Thumbnail21.jpg')
+      for(var i = 0 ; i < courseInfo.length ; i++){
+        // console.log(courseInfo[i].thumbnail);
+        courseInfo[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + courseInfo[i].courseid + '.jpg')
+        // console.log(courseInfo[i].thumbnail);
+      }
+      this.setState({
+        isloaded: true ,
+        courseInfo: courseInfo
+      })
+    }
   }
 
   render () {
+    if(this.state.redirect !== ""){
+      return <Redirect to={this.state.redirect}/>;
+    }
+
+    if(this.state.isloaded)
     return (
+
       <div className='App'>
         <Container fluid style={{paddingBottom:20}}>
         <Parallax bgImage={banner} blur={{min: -1,max:5}} strength={600} style={{overflow: 'visible'}}>
@@ -48,6 +71,11 @@ export class Content extends React.Component {
         </div>
         </Container>
       </div>
-    )
+    );
+    else{
+      return (
+        <Loading/>
+      );
+    }
   }
 }

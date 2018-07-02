@@ -10,6 +10,7 @@ import { Learning } from './Frontend/components/course/Learning';
 import  LoginPage  from './Frontend/components/loginPanel/LoginPage';
 import { RegisterPage } from './Frontend/components/register/RegisterPage';
 import { Footer } from './Frontend/components/footer/Footer';
+import { Admin } from './Frontend/components/admin/Admin';
 import browserHistory from './Frontend/redux/helpers/history'
 
 import './App.css'
@@ -24,6 +25,7 @@ class BrowserRouterManager extends React.Component {
       <div>
         <Switch>
           <Route exact path="/" component={Content} />
+          <Route exact path="/admin" component={Admin} />
           <Route exact path="/about_us" component={AboutUs} />
           <Route exact path="/course" component={CourseA} />
           <Route exact path="/course/:courseID" component={CourseA} />
@@ -42,19 +44,6 @@ class BrowserRouterManager extends React.Component {
 export class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { isLogin: false } // For eazy implementation in other href
-    this.login = this.login.bind(this)
-    this.logout = this.logout.bind(this)
-  }
-
-  login() {
-    this.setState({ isLogin: true })
-    console.log('login in app');
-  }
-
-  logout() {
-    this.setState({ isLogin: false })
-    console.log('logout in app');
   }
 
   render() {
@@ -63,11 +52,7 @@ export class App extends Component {
       <div>
         <Router history={browserHistory}>
           <div style={{ backgroundColor: '#222' }}>
-            <Route path='/' render={() => <NavBar
-              str={`TEST`}
-              loginStatus={this.state.isLogin}
-              login={this.login}
-              logout={this.logout} />} />
+            <Route path='/' render={() => <NavBar str={`TEST`}/>} />
             <BrowserRouterManager />
           </div>
         </Router>

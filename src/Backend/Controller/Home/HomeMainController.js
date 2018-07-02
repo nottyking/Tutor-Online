@@ -9,10 +9,10 @@ async function addCourseLink(courseInfomation){
 
 async function queryInformation(req, res){
   console.log("Enter queryInformation in Maincontroller");
-  var courseInformation = (await getFunc.getCourse()).result;
+  var courseInformation = (await getFunc.getCourseWithWhere(['isavailable'],[1])).result;
   var courseInformationWithLink = await addCourseLink(courseInformation);
-  console.log("courseInformation:",courseInformation);
-  console.log("courseInformationWithLink:",courseInformationWithLink);
+  // console.log("courseInformation:",courseInformation);
+  // console.log("courseInformationWithLink:",courseInformationWithLink);
   return courseInformationWithLink;
 }
 

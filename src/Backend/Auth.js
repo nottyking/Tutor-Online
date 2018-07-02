@@ -5,9 +5,12 @@ const jwt = require('jsonwebtoken')
 function checkAuthen(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   console.log("SESSION USERID:",req.session.userid);
+  console.log("FILES",req.files);
   var clientLoginToken = req.body.loginToken;
-  if(!clientLoginToken && req.files)
+  if(!clientLoginToken && req.files){
     clientLoginToken = req.files.myFile.name
+    // console.log("a:",req.files.myFile.name.a);
+  }
   console.log("clientLoginToken:",clientLoginToken);
   if(clientLoginToken){
     try{

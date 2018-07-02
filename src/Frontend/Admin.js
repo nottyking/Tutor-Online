@@ -106,7 +106,7 @@ this.setState({
     modalHeader: 'Edit Sub Course',
     modalOpen: !this.state.modalOpen
 });
-modalComponent = (x<0)? '':(<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid} closeModal={this.closeModal}/>);
+modalComponent = (x<0)? '':(<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal}/>);
 }
 
 toggleDelete(x) {
@@ -147,12 +147,13 @@ closeModal=()=> {
 
         return(
             <Container fluid>
+            <h3 color='white'>Courses List</h3>
             <Modal size="lg" isOpen={this.state.modalOpen}  toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}
             <ModalFooter></ModalFooter>
-            </Modal>);
+            </Modal>
             <Col>
             <Table inverse striped>
         <thead>

@@ -267,8 +267,7 @@ handleRatingChange = async (value) => {
               </CardBody>
             </Card>
 
-              </Col>
-              <Col>
+
               <h3>Course Syllabus</h3>
               <Table dark borderless>
               <thead>
@@ -290,6 +289,8 @@ handleRatingChange = async (value) => {
                 {Syllabus}
               </tbody>
             </Table>
+            </Col>
+            <Col>
 
               </Col>
             </Row>

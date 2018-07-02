@@ -7,7 +7,7 @@ import { Content } from './Frontend/components/content/Content';
 import { CourseA } from './Frontend/components/course/CourseA';
 import { Student } from './Frontend/components/student/StudentPage';
 import { Learning } from './Frontend/components/course/Learning';
-import { LoginPage } from './Frontend/components/loginPanel/LoginPage';
+import  LoginPage  from './Frontend/components/loginPanel/LoginPage';
 import { RegisterPage } from './Frontend/components/register/RegisterPage';
 import { Footer } from './Frontend/components/footer/Footer';
 import browserHistory from './Frontend/redux/helpers/history'

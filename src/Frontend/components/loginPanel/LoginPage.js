@@ -1,20 +1,27 @@
 import React from 'react';
 import { Card, Col, Container, Button, FormGroup, Label, Input, CardTitle, CardBody, CardFooter, CardText, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
-import ipList from '../../../Config/ipConfig';
-import axios from 'axios';
-import Cookies from 'universal-cookie';
 import { Redirect } from 'react-router';
-const cookies = new Cookies();
-const maxAge = 1 * 31 * 60 * 60;
+import { UserActions } from '../../redux/actions';
+import { connect } from 'react-redux';
 
-export class LoginPage extends React.Component {
-
+class LoginPage extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true, redirect: false }
-        this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
-        this.login = this.login.bind(this);
+        this.loginHandle = this.loginHandle.bind(this);
+    }
+    
+    async loginHandle() {
+        var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
+        console.log('check::')
+        console.log(check);
+        if (check.type === "USER_LOGIN_SUCCESS") {
+            this.toggleModal();
+        } else {
+            this.setState({ msg: '', loginValid: false, defaultLoginState: false })
+        }
     }
 
     render() {
@@ -75,7 +82,7 @@ export class LoginPage extends React.Component {
                                     </FormGroup>
                                 </CardText>
                                 <CardFooter className='Login_Footer'>
-                                    <Button onClick={this.login} color='success'>Login</Button>
+                                    <Button onClick={this.loginHandle} color='success'>Login</Button>
                                 </CardFooter>
                             </CardBody>
                         </Card>
@@ -84,25 +91,15 @@ export class LoginPage extends React.Component {
             );
         }
     }
-    async login() {
-        //this.toggleModal();
-        console.log("Login");
-        var isLoginSuccess = await this.checkLoginOnDatabase();
-        console.log("After send");
-        if (isLoginSuccess.result) {//Check id/email/password
-            var currentdate = new Date();
-            cookies.set("loginToken", isLoginSuccess.loginToken, { maxAge: maxAge });
-            this.setState({ redirect: true})
-        } else {
-            this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })
-        }
-    }
-
-    async checkLoginOnDatabase() {
-        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal', {
-            usernameOrEmail: document.getElementById('loginpage-username').value,
-            password: document.getElementById('loginpage-password').value
-        })).data
-        return isLoginSuccess;
-    }
 }
+
+function mapStateToProps({ authentication }) {
+    const { isLoggingIn } = authentication;
+    return { isLoggingIn };
+}
+
+function mapDispacthToProps(dispatch) {
+    const login = UserActions.login;
+    return { login: (usernameEmail, password) => dispatch(login(usernameEmail, password)) };
+}
+export default connect(mapStateToProps, mapDispacthToProps)(LoginPage);

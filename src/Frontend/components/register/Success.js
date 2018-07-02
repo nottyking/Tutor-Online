@@ -15,7 +15,7 @@ export class Success extends React.Component {
             return (
                 <div>
                     <h1>
-                        Success, Please confirm your account on your E-mail
+                        Success, Please confirm an account on your E-mail
                     </h1>
                     <NavLink tag={Link} to={'/'} exact>Click here to go back to Home</NavLink>
                 </div>

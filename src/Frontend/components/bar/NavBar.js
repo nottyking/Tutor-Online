@@ -1,17 +1,8 @@
 import React from 'react';
 import './NavBar.css';
-import { Redirect, Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { AboutUs } from '../content/About_us';
-import { Content } from '../content/Content';
-import { Student } from '../student/StudentPage';
-import { CourseA } from '../course/CourseA';
-import { Learning } from '../course/Learning';
-import { Login } from '../loginPanel/Login';
 import { Logout } from '../loginPanel/Logout';
-import { LoginPage } from '../loginPanel/LoginPage';
-import { Register } from '../register/Register';
-import { Footer } from '../footer/Footer';
+import Login from './../loginPanel/Login';
 
 import {
     Collapse,
@@ -72,7 +63,7 @@ export default class NavBar extends React.Component {
         if (!this.props.loginStatus) {
             pageList = this.createPage(pages);
             actionButton = <Login loginStatus={this.props.loginStatus}
-                login={this.props.login} />
+                /*login={this.props.login}*/ />
         } else {
             pageList = this.createPage(loginPages);
             actionButton = <Logout loginStatus={this.props.loginStatus}

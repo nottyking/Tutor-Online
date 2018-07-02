@@ -2,21 +2,18 @@ import React from 'react';
 import { NavLink, Col, Button, FormGroup, Label, Input, FormFeedback, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import ipList from '../../../Config/ipConfig';
-import axios from 'axios';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-const maxAge = 1 * 31 * 60 * 60;
+import { UserActions } from '../../redux/actions';
+import { connect } from 'react-redux';
 
-export class Login extends React.Component {
+
+class Login extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.toggleModal = this.toggleModal.bind(this);
-        this.checkLoginOnDatabase = this.checkLoginOnDatabase.bind(this);
-        this.login = this.login.bind(this);
         this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
+        this.loginHandle = this.loginHandle.bind(this);
     }
 
     toggleModal() {
@@ -30,6 +27,17 @@ export class Login extends React.Component {
             loginValid: false, defaultLoginState: true
         })
         this.toggleModal();
+    }
+
+    async loginHandle() {
+        var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
+        console.log('check::')
+        console.log(check);
+        if (check.type === "USER_LOGIN_SUCCESS") {
+            this.toggleModal();
+        } else {
+            this.setState({ msg: '', loginValid: false, defaultLoginState: false })
+        }
     }
 
 
@@ -79,32 +87,21 @@ export class Login extends React.Component {
                     </ModalBody>
                     <ModalFooter className='Login_Footer'>
                         <Button onClick={this.toDefaultLoginState} color='danger'>Cancel</Button>
-                        <Button onClick={this.login} color='success'>Login</Button>
+                        <Button onClick={this.loginHandle} color='success' >Login</Button>
                     </ModalFooter>
                 </Modal>
             </div>
         );
     }
-
-    async login() {
-        //this.toggleModal();
-        console.log("Login");
-        var isLoginSuccess = await this.checkLoginOnDatabase();
-        console.log("After send");
-        if (isLoginSuccess.result) {//Check id/email/password
-            var currentdate = new Date();
-            cookies.set("loginToken", isLoginSuccess.loginToken, { maxAge: maxAge });
-            this.props.login();
-        } else {
-            this.setState({ msg: isLoginSuccess.msg, loginValid: false, defaultLoginState: false })
-        }
-    }
-
-    async checkLoginOnDatabase() {
-        var isLoginSuccess = (await axios.post(ipList.backend + '/login/normal', {
-            usernameOrEmail: document.getElementById('login-username').value,
-            password: document.getElementById('login-password').value
-        })).data
-        return isLoginSuccess;
-    }
 }
+
+function mapStateToProps({ authentication }) {
+    const { isLoggingIn } = authentication;
+    return { isLoggingIn };
+}
+
+function mapDispacthToProps(dispatch) {
+    const login = UserActions.login;
+    return { login: (usernameEmail, password) => dispatch(login(usernameEmail, password)) };
+}
+export default connect(mapStateToProps, mapDispacthToProps)(Login);

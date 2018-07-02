@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { AccountFields } from './AccountFields';
 import { Confirmation } from './Confirmation';
 import { Success } from './Success';
@@ -89,7 +88,7 @@ function mapStateToProps({ registration }) {
 
 function mapDispatchToProps(dispatch) {
   const register = UserActions.register;
-  return { register: (a, b, c, d) => dispatch(register(a, b, c, d)) };
+  return { register: (username,email, password, userType) => dispatch(register(username, email, password, userType)) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

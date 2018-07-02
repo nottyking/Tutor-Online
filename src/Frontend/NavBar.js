@@ -13,6 +13,7 @@ import { Logout } from './Logout';
 import { LoginPage } from './LoginPage';
 import { Footer } from './Footer';
 import { Admin} from './Admin';
+import { Privacy } from './Privacy';
 
 import {
     Collapse,
@@ -44,6 +45,7 @@ export class BrowserRouterManager extends React.Component {
                     <Route exact path="/learning/:courseID/:subcourseID" component={true ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
                     <Route exact path="/register" component={!false ? Register : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path='/loginPage' component={!false ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path='/privacy' component={Privacy} />
                     <Route component={Content} />
                 </Switch>
             </div >

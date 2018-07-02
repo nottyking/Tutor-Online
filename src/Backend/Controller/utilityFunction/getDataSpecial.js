@@ -1,7 +1,7 @@
 const con = require('../../Config/database')
 
 const getFunction = async(select, from, atti, value) => {
-  console.log('Enter getEnrolledCourseInformationFromUserid in getDataSpecial');
+  console.log('Enter getGeneralFunction in getDataSpecial');
   var preparedSQLQuery = await prepareSQLQuery(select, from, atti, value);
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);

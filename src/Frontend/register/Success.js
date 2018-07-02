@@ -22,6 +22,7 @@ export class Success extends React.Component {
           username:this.props.fieldValues.username, password:this.props.fieldValues.password, email:this.props.fieldValues.email,
           fname:'-', lname:'-', address:'-', birthday:'-', gender:'-'
         })).data
+        console.log("ASD:",isSendSuccess);
         if(isSendSuccess.redirect){
           this.setState({
             redirect:isSendSuccess.redirect

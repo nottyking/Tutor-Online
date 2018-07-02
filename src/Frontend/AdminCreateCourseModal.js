@@ -29,11 +29,12 @@ export class AdminCreateCourseModal extends React.Component {
       async saveToDatabase() {
         const bannerFormData = new FormData()
         const thumbnailFormData = new FormData()
+        bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
+        thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
         //console.log(this.state.selectedFile === null);
         //formData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
         var temp;
         if(document.getElementById('limitdurationtype').value==='0'){
-          console.log('asdasdad');
           temp = 0;  }
         else if(document.getElementById('limitdurationtype').value==='1'){
           temp = document.getElementById('limitduration').value; }
@@ -59,7 +60,16 @@ export class AdminCreateCourseModal extends React.Component {
           limitdurationtype:data.limitdurationtype,
           limitduration: data.limitduration
         }))).data
-
+        if(bannerFormData){
+          console.log("send bannerFormData");
+          var temp2 =  (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
+          console.log(temp2);
+        }
+        if(thumbnailFormData){
+          console.log("send thumbnailFormData");
+          var temp3 =  (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
+          console.log(temp3);
+        }
         /*if(temp.redirect){
           this.setState({
             redirect:temp.redirect
@@ -75,14 +85,14 @@ export class AdminCreateCourseModal extends React.Component {
         return true;
     }
 
-      
-    
+
+
       toggletype=event=>{
           console.log(document.getElementById('limitdurationtype').value);
           this.setState({expireType:document.getElementById('limitdurationtype').value
         });
       }
-    
+
       bannerChange=event=>{
         var file = document.getElementById('banner').files[0];
         var reader = new FileReader();
@@ -105,7 +115,7 @@ export class AdminCreateCourseModal extends React.Component {
           }.bind(this);
           console.log(url)
       }
-    
+
       render () {
         console.log('modal render')
         return (
@@ -141,7 +151,7 @@ export class AdminCreateCourseModal extends React.Component {
                     id='price'
                     placeholder='Enter Course price in Thai Baht' />
                 </FormGroup>
-                
+
                 <FormGroup row>
                 <Input plaintext> Description
                 </Input>
@@ -161,7 +171,7 @@ export class AdminCreateCourseModal extends React.Component {
                     />
                     </FormGroup>
                     <hr></hr>
-                    <FormGroup row>  
+                    <FormGroup row>
                   <Input plaintext> Banner
                   <img src={this.state.showBanner} className='img-fluid'></img>
                   </Input>
@@ -171,8 +181,8 @@ export class AdminCreateCourseModal extends React.Component {
                     id='banner'
                     thumbnail='banner'
                     onChange={this.bannerChange}
-                    /> 
-    
+                    />
+
                    </FormGroup>
                    <hr/>
                    <FormGroup row>
@@ -194,7 +204,7 @@ export class AdminCreateCourseModal extends React.Component {
                     Expire on exact date
                   </option>
                   </Input>
-    
+
                   <Collapse isOpen={this.state.expireType==='1'}>
                     <Card>
                       <CardBody>
@@ -231,9 +241,8 @@ export class AdminCreateCourseModal extends React.Component {
               </Button>{' '}
               <Button color='secondary' onClick={this.props.closeModal}>Cancel</Button>
             </Container>
-            
+
           </ModalBody>
         )
     }
 }
-

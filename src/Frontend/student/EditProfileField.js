@@ -59,15 +59,15 @@ export class EditProfileField extends React.Component {
             newPassword: document.getElementById('newPassword').value
         }
         console.log(data.ProfileImg);
-        var temp = await (axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
-          password: data.newPassword, fname: data.FirstName, lname: data.LastName,
-          address: data.Address, birthday: data.Birthday, gender: data.Gender
-        }))).data
-        if(temp.redirect){
-          this.setState({
-            redirect:temp.redirect
-          })
-        }
+        // var temp = (await axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
+        //   password: data.newPassword, fname: data.FirstName, lname: data.LastName,
+        //   address: data.Address, birthday: data.Birthday, gender: data.Gender
+        // }))).data
+        // if(temp.redirect){
+        //   this.setState({
+        //     redirect:temp.redirect
+        //   })
+        // }
         var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
         if(temp2.redirect){
           this.setState({

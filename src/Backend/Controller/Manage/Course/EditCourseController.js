@@ -1,4 +1,6 @@
 const updateFunc = require('../../utilityfunction/UpdateData')
+const getFuncGeneral = require('../../utilityfunction/GetDataSpecial')
+const deleteFunc = require('../../utilityfunction/DeleteData')
 
 async function editCourseAndSubCourse(req, res){
   console.log("Enter updateCourseAndSubCourse in Managecontroller");
@@ -20,12 +22,12 @@ async function editCourseAndSubCourse(req, res){
     Promises.push(promise2);
   }
   return await Promise.all(Promises).then((response) => {
-    console.log("In Promise all");
+    console.log("In Promise.all");
     for(var i = 0 ; i < response.length ; i++){
       if(response[i].err)
         throw response[i].err;
     }
-    // console.log("return",response);
+    console.log("Success! response",response);
     return {
       result : "success"
     }
@@ -79,22 +81,39 @@ async function uploadPicture(type, req, res){
     return true;
 }
 
-async function editSubCourse(subCourseList){
+async function editSubCourse(subCourseList, req, res){
   console.log("Enter editSubCourse in EditCourseController");
+  var allSubcourse = (await getFuncGeneral.getFunction('subcourseid','subcourse',['courseid'],[subCourseList[0].courseid])).result
   var promises = []
-  for(var i = 0 ; i < subCourseList.length ; i++){
-    var courseid = subCourseList[i].courseid;
-    var subcourseid = subCourseList[i].subcourseid;
-    var videolink = subCourseList[i].videolink;
-    var subcoursename = subCourseList[i].subcoursename;
-    var subcourseinfo = subCourseList[i].subcourseinfo;
-    var isavailable = subCourseList[i].isavailable;
-    promises.push(new Promise(async(resolve, reject) => {
-      resolve(await updateFunc.updateSubCourseWithCourseID(['subcoursename','subcourseinfo','videolink','isavailable'] ,
-                                                         [subcoursename,subcourseinfo,videolink,isavailable] ,
-                                                         ['courseid', 'subcourseid'] ,
-                                                         [courseid, subcourseid]))
-    }))
+  for(var i = 0 ; i < allSubcourse.length ; i++){
+    var subcourseidExist = allSubcourse[i].subcourseid;
+    var isSubcourseExistInDatabase = false;
+    for(var j = 0 ; j < subCourseList.length ; j++){
+      var courseid = subCourseList[j].courseid;
+      var subcourseid = subCourseList[j].subcourseid;
+      var videolink = subCourseList[j].videolink;
+      var subcoursename = subCourseList[j].subcoursename;
+      var subcourseinfo = subCourseList[j].subcourseinfo;
+      var isavailable = subCourseList[j].isavailable;
+      if(subcourseid == subcourseidExist){
+        isSubcourseExistInDatabase = true ;
+        break;
+      }
+    }
+    console.log(courseid);
+    if(isSubcourseExistInDatabase){
+      promises.push(new Promise(async(resolve, reject) => {
+        resolve(await updateFunc.updateSubCourseWithCourseID(['subcoursename','subcourseinfo','videolink','isavailable'] ,
+                                                           [subcoursename,subcourseinfo,videolink,isavailable] ,
+                                                           ['courseid', 'subcourseid'] ,
+                                                           [courseid, subcourseid]))
+                                                         }))
+    }
+    else{
+      promises.push(new Promise(async(resolve, reject) => {
+        resolve(await deleteFunc.deleteOneSubCourse(courseid, subcourseidExist))
+                                                         }))
+    }
   }
   return Promise.all(promises).then((response) => {
     for(var i = 0 ; i < response.length ; i++){

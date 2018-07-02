@@ -5,8 +5,8 @@ const SuccessController = require('./SuccessController');
 const ConfirmatoinController = require('./ConfirmationController');
 
 // insert student data for registering
-router.post('/', function(req, res){
-  res.send(SuccessController.register(req,res));
+router.post('/', async function(req, res){
+  res.send(await SuccessController.register(req,res));
 })
 
 // check same username and email with database

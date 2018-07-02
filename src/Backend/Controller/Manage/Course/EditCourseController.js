@@ -1,6 +1,7 @@
 const updateFunc = require('../../utilityfunction/UpdateData')
 const getFuncGeneral = require('../../utilityfunction/GetDataSpecial')
 const deleteFunc = require('../../utilityfunction/DeleteData')
+const insertFunc = require('../../utilityfunction/InsertData')
 
 async function editCourseAndSubCourse(req, res){
   console.log("Enter updateCourseAndSubCourse in Managecontroller");
@@ -112,6 +113,27 @@ async function editSubCourse(subCourseList, req, res){
     else{
       promises.push(new Promise(async(resolve, reject) => {
         resolve(await deleteFunc.deleteOneSubCourse(courseid, subcourseidExist))
+                                                         }))
+    }
+  }
+  for(var i = 0 ; i < subCourseList.length ; i++){
+    var courseid = subCourseList[i].courseid;
+    var subcourseid = subCourseList[i].subcourseid;
+    var videolink = subCourseList[i].videolink;
+    var subcoursename = subCourseList[i].subcoursename;
+    var subcourseinfo = subCourseList[i].subcourseinfo;
+    var isavailable = subCourseList[i].isavailable;
+    var isSubcourseExistInDatabase = false;
+    for(var j = 0 ; j < allSubcourse.length ; j++){
+      var subcourseidInDB = allSubcourse[j].subcourseid;
+      if(subcourseid == subcourseidInDB){
+        isSubcourseExistInDatabase = true ;
+        break;
+      }
+    }
+    if(!isSubcourseExistInDatabase){
+      promises.push(new Promise(async(resolve, reject) => {
+        resolve(await insertFunc.insertSubCourse(courseid, subcourseid, subcoursename, subcourseinfo, videolink, isavailable))
                                                          }))
     }
   }

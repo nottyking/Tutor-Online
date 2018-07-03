@@ -2,23 +2,29 @@ const auth = require('./Config/Auth')
 const ipList = require('../Config/ipConfig')
 const jwt = require('jsonwebtoken')
 
-function checkAuthen(req, res, next){
+async function checkAuthen(req, res, next){
   console.log("CHECK AUTH IN SERVER");
   console.log("SESSION USERID:",req.session.userid);
   console.log("FILES",req.files);
+  console.log("BODY:",req.body);
+
+  // get client logintoken
   var clientLoginToken = req.body.loginToken;
   if(!clientLoginToken && req.files){
     clientLoginToken = req.files.myFile.name
-    // console.log("a:",req.files.myFile.name.a);
   }
   console.log("clientLoginToken:",clientLoginToken);
+
   if(clientLoginToken){
     try{
-      const { userid: userid } = jwt.verify(clientLoginToken, auth.AUTH_SECRET);
+      // check clienttoken with servertoken
+      const { userid: userid } = await jwt.verify(clientLoginToken, auth.AUTH_SECRET);
       console.log("userid:",userid);
       req.session.userid = userid ;
       console.log('session userid:',req.session.userid);
-      jwt.sign({
+
+      // store token in server side
+      await jwt.sign({
         userid: userid
       },
       auth.AUTH_SECRET,{
@@ -26,12 +32,16 @@ function checkAuthen(req, res, next){
       }
       )
       console.log("Pass Auth");
+
     }catch(err){
+
+      // token not match
       console.log("Token invalid");
-      console.log(ipList.frontend);
-      return res.send({
-        redirect: "/loginpage"
-      });
+      req.session.checkAuth = "TOKEN NOT MATCH";
+
+      // return res.send({
+      //   redirect: "/loginpage"
+      // });
     }
   }
   next();

@@ -1,13 +1,8 @@
 import React from 'react';
 import './NavBar.css';
 import { Route, Link } from 'react-router-dom';
-<<<<<<< HEAD
 import Logout from '../loginPanel/Logout';
-import Login from './../loginPanel/Login';
-=======
-import  Logout  from '../loginPanel/Logout';
-import Login from './x../loginPanel/Login';
->>>>>>> 129fb3ab1a0a76ce256f4438debe850fa03e649e
+import Login from '../loginPanel/Login';
 
 import {
     Collapse,

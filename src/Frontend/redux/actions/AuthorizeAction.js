@@ -1,10 +1,7 @@
-import { history } from '../helpers';
 import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
-import { userConstants } from '../constants/UserConstants';
 import Cookies from 'universal-cookie';
 import { authorizeConstants } from './../constants/AuthorizeConstants';
-import capsule from '../../capsulation/SendData'
 
 const cookies = new Cookies();
 const maxAge = 1 * 31 * 60 * 60;
@@ -15,12 +12,15 @@ export const AuthorizeActions = {
 
 async function checkValidToken() {
     try{
-      // console.log(await localStorage.getItem('user'))
-      // console.log(await localStorage.getItem('user'));
-      const token = JSON.parse(await localStorage.getItem('user')).loginToken;
-      const role = JSON.parse(await localStorage.getItem('user')).role;
+      const user = await localStorage.getItem('user');
+      const token = JSON.parse(user).loginToken;
+      const role = JSON.parse(user).role;
       var authInfo = (await axios.post(ipList.backend + '/auth' , {loginToken: token , role: role})).data;
       console.log("authInfo:",authInfo);
+      
+      if((user && !cookies.getItem("loginToken"))){
+        return await tokenLoss('...');
+      }
 
       if(authInfo.result == "TOKEN NOT MATCH"){
         return await tokenNotMatchRole('...');

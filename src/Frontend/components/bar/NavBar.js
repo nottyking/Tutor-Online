@@ -50,7 +50,6 @@ export default class NavBar extends React.Component {
                 }
                 return (
                     <div>
-                        <AuthToken />
                         <NavItem>
                             <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
                         </NavItem>
@@ -69,7 +68,6 @@ export default class NavBar extends React.Component {
             var link = page.replace(" ", "_");
             return (
                 <div>
-                    <AuthToken />
                     <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
                 </div>
             );

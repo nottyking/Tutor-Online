@@ -28,7 +28,9 @@ export class Content extends React.Component {
     var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
+    console.log('courseInfo');
     if(courseInfo.redirect){
+      localStorage.removeItem('user')
       this.setState({
         redirect:courseInfo.redirect
       })

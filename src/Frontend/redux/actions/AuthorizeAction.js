@@ -18,6 +18,9 @@ async function checkValidToken() {
       var authInfo = (await axios.post(ipList.backend + '/auth' , {loginToken: token , role: role})).data;
       console.log("authInfo:",authInfo);
       
+      console.log(user);
+      console.log(cookies.get("loginToken"));
+
       if((user && !cookies.getItem("loginToken"))){
         return await tokenLoss('...');
       }

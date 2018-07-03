@@ -40,7 +40,7 @@ class AuthToken extends React.Component {
         if (!this.state.isRedirect) {
             return (<div></div>);
         }else {
-            this.toggleRedirect
+            this.toggleRedirect();
             return (<div><Redirect to="/" /></div>);
         }
     }

@@ -38,10 +38,10 @@ async function checkAuthen(req, res, next){
       // token not match
       console.log("Token invalid");
       req.session.checkAuth = "TOKEN NOT MATCH";
-
-      // return res.send({
-      //   redirect: "/loginpage"
-      // });
+      return res.send({
+        result : "TOKEN NOT MATCH" ,
+        redirect: "/loginpage"
+      })
     }
   }
   next();

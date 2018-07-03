@@ -32,6 +32,7 @@ async function checkValidToken() {
         return await tokenValid('...');
       }
     } catch(err){
+      console.log("Don't have TOKEN");
       /*
         do nothing
       */

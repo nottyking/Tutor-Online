@@ -67,7 +67,6 @@ export class Student extends React.Component {
       defaultValue.Birthday = studentInformation.birthday;
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;
-      console.log();
       defaultValue.src = studentInformation.src.result;
     }
     this.toNextStep()
@@ -98,6 +97,7 @@ export class Student extends React.Component {
       case 1:
         if (!isValidToken) {
           console.log("redirect");
+          return (<Redirect to ='/'/>);
 
         } else {
           return (

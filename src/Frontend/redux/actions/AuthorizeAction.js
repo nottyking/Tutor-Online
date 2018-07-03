@@ -15,11 +15,11 @@ export const AuthorizeActions = {
 async function checkValidToken() {
 
     if(true){
-        return tokenValid('...');
+        return await tokenValid('...');
     }else if(false){
-        return tokenLoss('...');
+        return await tokenLoss('...');
     }else {
-        return tokenNotMatchRole('...');
+        return await tokenNotMatchRole('...');
     }
 
     function tokenValid(user) { return { type: authorizeConstants.TOKEN_VALID, user } }

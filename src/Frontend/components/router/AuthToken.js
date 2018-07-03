@@ -11,17 +11,13 @@ class AuthToken extends React.Component {
     }
 
     async checkToken() {
-        this.props.checkValidToken();
-    }
 
-    render() {
-        //initial New Dev branch
+        //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
         const user = localStorage.getItem('user');
         const admin = localStorage.getItem('admin');
-        console.log('GET LOCAL STORAGE FOR CHECKING!!!')
 
-        var checkToken = this.checkToken();
         //Check for remove localstorage when loss cookie
+        var checkToken = await this.props.checkValidToken();
         if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
             if (user) {
                 localStorage.removeItem('user');
@@ -29,12 +25,15 @@ class AuthToken extends React.Component {
                 localStorage.removeItem('admin');
             }
         }
+    }
 
-        return ;
+    render() {
+        this.checkToken();
+        return(<div></div>);
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispacthToProps(dispatch) {
     const checkValidToken = AuthorizeActions.checkValidToken;
     return { checkValidToken: () => dispatch(checkValidToken()) };
 }

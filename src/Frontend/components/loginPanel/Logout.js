@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import './Login.css';
-import Cookies from 'universal-cookie';
 import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
-const cookies = new Cookies();
 
 class Logout extends React.Component {
     constructor(props) {
@@ -23,7 +21,6 @@ class Logout extends React.Component {
 
     logout() {
         if (true) {//Check bha bha
-            cookies.remove('loginToken');
             this.props.logout();
         }
     }

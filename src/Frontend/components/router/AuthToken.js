@@ -4,13 +4,16 @@ import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { AuthorizeActions } from './../../redux/actions/AuthorizeAction';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import { Redirect } from 'react-router';
 
 const cookies = new Cookies();
 
 class AuthToken extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { isRedirect: false }
         this.checkToken = this.checkToken.bind(this);
+        this.toggleRedirect = this.toggleRedirect.bind(this);
     }
 
     async checkToken() {
@@ -23,12 +26,23 @@ class AuthToken extends React.Component {
         if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
             localStorage.removeItem('user');
             cookies.remove("loginToken");
+            this.toggleRedirect();
+
         }
+    }
+
+    toggleRedirect() {
+        this.setState({isRedirect: !this.state.isRedirect})
     }
 
     render() {
         this.checkToken();
-        return (<div></div>);
+        if (!this.state.isRedirect) {
+            return (<div></div>);
+        }else {
+            this.toggleRedirect
+            return (<div><Redirect to="/" /></div>);
+        }
     }
 }
 

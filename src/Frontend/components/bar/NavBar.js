@@ -4,9 +4,8 @@ import { Route, Link } from 'react-router-dom';
 import Logout from '../loginPanel/Logout';
 import Login from '../loginPanel/Login';
 
-import {
-    Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody
-} from 'reactstrap';
+import AuthToken from './../router/AuthToken';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody } from 'reactstrap';
 
 const pages = ['home', 'about us', 'Register'];
 const userPages = ['home', 'student', 'learning', 'about us'];
@@ -50,9 +49,12 @@ export default class NavBar extends React.Component {
                         break;
                 }
                 return (
-                    <NavItem>
-                        <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
-                    </NavItem>
+                    <div>
+                        <AuthToken />
+                        <NavItem>
+                            <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
+                        </NavItem>
+                    </div>
                 );
             } else {
                 return this.createAdminPage(adminFunctionPage);
@@ -66,11 +68,15 @@ export default class NavBar extends React.Component {
         const adminListPage = content.map(page => {
             var link = page.replace(" ", "_");
             return (
-                <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
+                <div>
+                    <AuthToken />
+                    <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
+                </div>
             );
         });
         return (
             <div>
+                <AuthToken />
                 <NavLink navbar id="adminPopover" onClick={this.togglePopover}>
                     ADMIN
                 </NavLink>
@@ -93,14 +99,18 @@ export default class NavBar extends React.Component {
             //userType = "Guest"
             pageList = this.createPage(pages);
             actionButton = <Login loginStatus={this.props.loginStatus} />
-        } else if (JSON.parse(user).role === 0) {
+        } else if (JSON.parse(user).role == 0) {
+            console.log('user');
             //userType = "user"
             pageList = this.createPage(userPages);
             actionButton = <Logout loginStatus={this.props.loginStatus} />
-        } else if (JSON.parse(user).role === 1) {
+        } else if (JSON.parse(user).role == 1) {
+            console.log('admin');
             //userType = "admin"
             pageList = this.createPage(adminPages);
             actionButton = <Logout loginStatus={this.props.loginStatus} />
+        } else {
+            console.log('Nav error');
         }
 
         return (
@@ -110,6 +120,7 @@ export default class NavBar extends React.Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+                            <AuthToken />
                             {pageList}
                         </Nav>
                         <Label>&nbsp;&nbsp;&nbsp;</Label>

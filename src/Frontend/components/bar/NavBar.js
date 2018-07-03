@@ -2,7 +2,7 @@ import React from 'react';
 import './NavBar.css';
 import { Route, Link } from 'react-router-dom';
 import  Logout  from '../loginPanel/Logout';
-import Login from './x../loginPanel/Login';
+import Login from '../loginPanel/Login';
 
 import {
     Collapse,

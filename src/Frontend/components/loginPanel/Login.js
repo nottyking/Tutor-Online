@@ -42,6 +42,10 @@ class Login extends React.Component {
         }
     }
 
+    async facebookLoginHandle(){
+      
+    }
+
 
     render() {
         return (
@@ -77,7 +81,7 @@ class Login extends React.Component {
                         <FormGroup row align='center'>
                             <Col>
                                 <Button block outline color='danger'>Google Login</Button>
-                                <Button block outline color='primary'>Facebook Login</Button>
+                                <Button onClick={this.facebookLoginHandle} block outline color='primary'>Facebook Login</Button>
                             </Col>
                         </FormGroup>
                         <hr></hr>

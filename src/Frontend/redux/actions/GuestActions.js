@@ -39,10 +39,6 @@ async function register(username, email, password, user_type) {
 }
 
 async function login(usernameEmail, password) {
-<<<<<<< HEAD
-=======
-
->>>>>>> e45f372c979ea46d2d7b9edce65d135129a2eaeb
     //check User is loggin-in -> kick
     if(localStorage.getItem('user')) {
         return failure(user);
@@ -73,12 +69,8 @@ async function login(usernameEmail, password) {
     } else{
         return failure(user);
     }
-<<<<<<< HEAD
-    
-=======
 
 
->>>>>>> e45f372c979ea46d2d7b9edce65d135129a2eaeb
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }

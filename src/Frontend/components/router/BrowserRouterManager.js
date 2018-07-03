@@ -16,21 +16,30 @@ import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 class BrowserRouterManager extends React.Component {
 
     render() {
+        var userType;
         const user = localStorage.getItem('user');
-        const admin = localStorage.getItem('admin');
+        if (!user) {
+            userType = "guest";
+        } else if (JSON.parse(user).role === "0") {
+            userType = "user";
+        } else if (JSON.parse(user).role === "1") {
+            userType = "admin";
+        } else {
+            userType = "unauthorized"
+        }
+
         return (
             <div>
                 <Switch>
                     <Route exact path="/" component={Content} />
                     <Route exact path="/about_us" component={AboutUs} />
-                    <Route exact path="/course" component={CourseA} />
-                    <Route exact path="/admin" component={Admin} />
+                    <Route exact path="/admin" component={(userType === "admin") ? Admin : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path="/course/:courseID" component={CourseA} />
-                    <Route exact path="/student" component={(user || admin) ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/learning" component={(user || admin) ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/learning/:courseID/:subcourseID" component={(user || admin) ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/register" component={!(user || admin) ? RegisterPage : () => { return (<Redirect to={'/'} />) }} />
-                    <Route exact path='/loginPage' component={!(user || admin) ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/student" component={(userType === "user" || userType === "admin") ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/learning" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/learning/:courseID/:subcourseID" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    <Route exact path="/register" component={!(userType === "user" || userType === "admin") ? RegisterPage : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path='/loginPage' component={!(userType === "user" || userType === "admin") ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />
                 </Switch>
             </div >

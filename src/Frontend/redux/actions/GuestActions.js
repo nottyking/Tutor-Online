@@ -49,7 +49,6 @@ async function login(usernameEmail, password) {
         password
     }
 
-    console.log("Login");
     var isLoginSuccess = await axios.post(ipList.backend + '/login/normal', {
         usernameOrEmail: data.usernameEmail,
         password: data.password
@@ -57,17 +56,11 @@ async function login(usernameEmail, password) {
         console.log(msg);
         return failure(msg);
     });
-    console.log("after send");
 
     const user = isLoginSuccess.data;
-    console.log(user)
     if (user.result) {
         cookies.set("loginToken", user.loginToken, { maxAge: maxAge });
-        if (user.role == 0) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else if (user.role == 1) {
-            localStorage.setItem('admin', JSON.stringify(user));
-        }
+        localStorage.setItem('user', JSON.stringify(user));
         return success(user);
     } else {
         return failure(user);
@@ -79,11 +72,8 @@ async function login(usernameEmail, password) {
 }
 
 async function logout() {
-    if (localStorage.getItem('user')) {
-        localStorage.removeItem('user');
-    } else if (localStorage.getItem('admin')) {
-        localStorage.removeItem('admin');
-    }
+    localStorage.removeItem('user');
+    cookies.remove("loginToken");
     history.push('/');
     return { type: userConstants.LOGOUT };
 }

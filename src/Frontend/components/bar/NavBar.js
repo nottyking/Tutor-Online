@@ -58,21 +58,23 @@ export default class NavBar extends React.Component {
     }
 
     render() {
-        var actionButton
-        var pageList
+        var actionButton;
+        var pageList;
+        var userType;
+        const user = localStorage.getItem('user')
 
-        const user = localStorage.getItem('user');
-        const admin = localStorage.getItem('admin');
-
-        if (user) {
-            pageList = this.createPage(userPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus} />
-        } else if (admin) {
-            pageList = this.createPage(adminPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus} />
-        }else {
+        if (!user) {
+            userType = "Guest"
             pageList = this.createPage(pages);
             actionButton = <Login loginStatus={this.props.loginStatus} />
+        }else if (JSON.parse(user).role == 0) {
+            userType = "user"
+            pageList = this.createPage(userPages);
+            actionButton = <Logout loginStatus={this.props.loginStatus} />
+        } else if (JSON.parse(user).role == 1) {
+            userType = "admin"
+            pageList = this.createPage(adminPages);
+            actionButton = <Logout loginStatus={this.props.loginStatus} />
         }
 
         return (

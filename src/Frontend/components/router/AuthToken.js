@@ -3,6 +3,9 @@ import React from 'react'
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { AuthorizeActions } from './../../redux/actions/AuthorizeAction';
 import { connect } from 'react-redux';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class AuthToken extends React.Component {
     constructor(props) {
@@ -10,31 +13,22 @@ class AuthToken extends React.Component {
         this.checkToken = this.checkToken.bind(this);
     }
 
-    async componentWillMount(){
-      await this.checkToken();
-    }
-
     async checkToken() {
-        return await new Promise(async(resolve, reject) => {
-          //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
-          const user = localStorage.getItem('user');
-          const admin = localStorage.getItem('admin');
 
-          //Check for remove localstorage when loss cookie
-          var checkToken = await this.props.checkValidToken();
-          if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
-            if (user) {
-              localStorage.removeItem('user');
-            } else if (admin) {
-              localStorage.removeItem('admin');
-            }
-          }
-          resolve();
-        })
+        //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
+        const user = localStorage.getItem('user');
+
+        //Check for remove localstorage when loss cookie
+        var checkToken = await this.props.checkValidToken();
+        if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
+            localStorage.removeItem('user');
+            cookies.remove("loginToken");
+        }
     }
 
     render() {
-        return(<div></div>);
+        this.checkToken();
+        return (<div></div>);
     }
 }
 

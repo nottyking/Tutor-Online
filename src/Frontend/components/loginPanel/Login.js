@@ -51,7 +51,7 @@ class Login extends React.Component {
             <div align='right'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
 
-                <Modal isOpen={this.state.isModal}>
+                <Modal isOpen={this.state.isModal} autoFocus={false} toggle={this.toggleModal} >
                     <ModalHeader className='Login_Header'>
                         <Label color='success'>LOG IN</Label>
                     </ModalHeader>
@@ -59,7 +59,7 @@ class Login extends React.Component {
                         <FormGroup row>
                             <Label sm={{ size: 2, order: 2, offset: 1 }} >Account</Label>
                             <Col sm={{ size: 8, order: 4 }}>
-                                <Input type='text' id='login-username'
+                                <Input autoFocus type='text' id='login-username'
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                 />

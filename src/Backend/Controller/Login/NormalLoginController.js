@@ -1,8 +1,8 @@
 const con = require('../../Config/database')
 const auth = require('../../Config/Auth')
 const jwt = require('jsonwebtoken')
-const LocalStorage = require('node-localstorage').LocalStorage;
-const localStorage = new LocalStorage('./scratch');
+// const LocalStorage = require('node-localstorage').LocalStorage;
+// const localStorage = new LocalStorage('./scratch');
 
 async function LoginByNormal(req, res){
   console.log('Enter login normal');
@@ -36,7 +36,7 @@ async function LoginByNormal(req, res){
 
           var loginToken = (await makeAuthentication(userid));
           console.log("Login Token:",loginToken);
-          storeThisIDInLocalStorage(userid, loginToken);
+          // storeThisIDInLocalStorage(userid, loginToken);
 
           return resolve({
             result: true ,
@@ -76,10 +76,10 @@ async function makeAuthentication(userid){
   })
 }
 
-function storeThisIDInLocalStorage(userid, loginToken){
-  console.log("storeThisIDInLocalStorage");
-  localStorage.setItem(userid, loginToken);
-}
+// function storeThisIDInLocalStorage(userid, loginToken){
+//   console.log("storeThisIDInLocalStorage");
+//   localStorage.setItem(userid, loginToken);
+// }
 
 module.exports = {
   LoginByNormal : LoginByNormal

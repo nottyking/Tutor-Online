@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavBar.css';
 import { Route, Link } from 'react-router-dom';
-import  Logout  from '../loginPanel/Logout';
+import Logout from '../loginPanel/Logout';
 import Login from '../loginPanel/Login';
 
 import {
@@ -15,8 +15,9 @@ import {
     Label
 } from 'reactstrap';
 
-const pages = ['home', 'about us', 'Register', 'admin'];
-const loginPages = ['home', 'student', 'learning', 'about us','admin'];
+const pages = ['home', 'about us', 'Register'];
+const userPages = ['home', 'student', 'learning', 'about us'];
+const adminPages = ['home', 'student', 'learning', 'about us', 'admin'];
 
 export default class NavBar extends React.Component {
     constructor(props) {
@@ -60,12 +61,18 @@ export default class NavBar extends React.Component {
         var actionButton
         var pageList
 
-        if (!localStorage.getItem('user')) {
+        const user = localStorage.getItem('user');
+        const admin = localStorage.getItem('admin');
+
+        if (user) {
+            pageList = this.createPage(userPages);
+            actionButton = <Logout loginStatus={this.props.loginStatus} />
+        } else if (admin) {
+            pageList = this.createPage(adminPages);
+            actionButton = <Logout loginStatus={this.props.loginStatus} />
+        }else {
             pageList = this.createPage(pages);
-            actionButton = <Login loginStatus={this.props.loginStatus}/>
-        } else {
-            pageList = this.createPage(loginPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus}/>
+            actionButton = <Login loginStatus={this.props.loginStatus} />
         }
 
         return (

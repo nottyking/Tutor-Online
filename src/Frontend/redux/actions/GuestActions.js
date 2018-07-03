@@ -22,7 +22,7 @@ async function register(username, email, password, user_type) {
     var isSendSuccess = await axios.post(ipList.backend + '/register', {
         username: data.username, password: data.password, email: data.email,
         fname: '-', lname: '-', address: '-', birthday: '-', gender: '-'
-    }).catch(async(err) => {
+    }).catch(async (err) => {
         console.log(err);
         return await failure(err);
     })
@@ -39,8 +39,8 @@ async function register(username, email, password, user_type) {
 }
 
 async function login(usernameEmail, password) {
-    //check User is loggin-in -> kick
-    if(localStorage.getItem('user')) {
+
+    if (localStorage.getItem('user')) {
         return failure(user);
     }
 
@@ -63,13 +63,15 @@ async function login(usernameEmail, password) {
     console.log(user)
     if (user.result) {
         cookies.set("loginToken", user.loginToken, { maxAge: maxAge });
-        localStorage.setItem('user', JSON.stringify(user));
-        //history.push('/');
+        if (user.role == 0) {
+            localStorage.setItem('user', JSON.stringify(user));
+        } else if (user.role == 1) {
+            localStorage.setItem('admin', JSON.stringify(user));
+        }
         return success(user);
-    } else{
+    } else {
         return failure(user);
     }
-
 
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
@@ -77,7 +79,11 @@ async function login(usernameEmail, password) {
 }
 
 async function logout() {
-    localStorage.removeItem('user');
+    if (localStorage.getItem('user')) {
+        localStorage.removeItem('user');
+    } else if (localStorage.getItem('admin')) {
+        localStorage.removeItem('admin');
+    }
     history.push('/');
     return { type: userConstants.LOGOUT };
 }

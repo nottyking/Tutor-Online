@@ -12,3 +12,10 @@
     border-collapse: separate;
     column-width: 100px;
 }
+
+.AdminDropdown{
+  text-align: right;
+  border-collapse: separate;
+  color: black;
+  background-color: darkgray;
+}

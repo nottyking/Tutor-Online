@@ -22,8 +22,8 @@ app.use(session({
 }))
 
 const Auth = require('./Auth')
-app.use((req,res,next) => {
-  Auth.checkAuthen(req,res,next)
+app.use(async (req,res,next) => {
+  await Auth.checkAuthen(req,res,next)
 })
 
 // All route is in routerList file

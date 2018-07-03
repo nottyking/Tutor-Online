@@ -10,25 +10,30 @@ class AuthToken extends React.Component {
         this.checkToken = this.checkToken.bind(this);
     }
 
+    async componentWillMount(){
+      await this.checkToken();
+    }
+
     async checkToken() {
+        return await new Promise(async(resolve, reject) => {
+          //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
+          const user = localStorage.getItem('user');
+          const admin = localStorage.getItem('admin');
 
-        //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
-        const user = localStorage.getItem('user');
-        const admin = localStorage.getItem('admin');
-
-        //Check for remove localstorage when loss cookie
-        var checkToken = await this.props.checkValidToken();
-        if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
+          //Check for remove localstorage when loss cookie
+          var checkToken = await this.props.checkValidToken();
+          if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
             if (user) {
-                localStorage.removeItem('user');
+              localStorage.removeItem('user');
             } else if (admin) {
-                localStorage.removeItem('admin');
+              localStorage.removeItem('admin');
             }
-        }
+          }
+          resolve();
+        })
     }
 
     render() {
-        this.checkToken();
         return(<div></div>);
     }
 }

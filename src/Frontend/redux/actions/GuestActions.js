@@ -59,7 +59,7 @@ async function login(usernameEmail, password) {
 
     const user = isLoginSuccess.data;
     if (user.result) {
-        cookies.set("loginToken", user.loginToken, { maxAge: maxAge });
+        cookies.set("loginToken", user.loginToken, { maxAge: maxAge , path: '/' });
         localStorage.setItem('user', JSON.stringify(user));
         return success(user);
     } else {
@@ -73,7 +73,7 @@ async function login(usernameEmail, password) {
 
 async function logout() {
     localStorage.removeItem('user');
-    cookies.remove("loginToken");
+    cookies.remove("loginToken",{ path: '/' });
     history.push('/');
     return { type: userConstants.LOGOUT };
 }

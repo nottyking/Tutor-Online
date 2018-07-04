@@ -14,16 +14,19 @@ router.post('/', async(req, res) => {
   console.log("req role",req.body.role);
   console.log("req.session.checkAuth",req.session.checkAuth);
   if(req.session.checkAuth == "TOKEN NOT MATCH"){
+    console.log('TOKEN NOT MATCH');
     res.send({
       result : "TOKEN NOT MATCH"
     })
   }
   else if(userData.role != req.body.role){
+    console.log('ROLE NOT MATCH');
     res.send({
       result : "ROLE NOT MATCH"
     })
   }
   else{
+    console.log('Token Valid');
     res.send({
       result : "Token Valid"
     })

@@ -31,7 +31,7 @@ export default class NavBar extends React.Component {
     }
 
     isCollapseToggle() {
-        if (this.isOpen == true)
+        if (this.state.isOpen == true)
             this.toggle();
     }
 

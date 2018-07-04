@@ -155,6 +155,7 @@ export class Admin extends React.Component {
 
       return (
         <div>
+          <AuthToken msgFrom="Admin" />
           <Container fluid>
             <h3 color='white'>Courses List</h3>
             <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>

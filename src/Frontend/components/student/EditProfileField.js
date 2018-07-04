@@ -2,6 +2,7 @@ import './student.css';
 import React from 'react'
 import { Redirect } from 'react-router'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
+import AuthToken from './../router/AuthToken';
 const axios = require('axios')
 const ipList = require('../../../Config/ipConfig')
 const capsulation = require('../../capsulation/SendData')
@@ -160,6 +161,7 @@ export class EditProfileField extends React.Component {
         }
         return (
             <div>
+                <AuthToken msgFrom="EditProfileField (Student)" />
                 <Card style={{
                     justifyContent: 'center',
                     alignItems: 'center',

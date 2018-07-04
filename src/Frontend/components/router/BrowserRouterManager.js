@@ -12,6 +12,7 @@ import { RegisterPage } from './../register/RegisterPage';
 import { Admin } from './../admin/Admin';
 
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import AuthToken from './AuthToken';
 
 class BrowserRouterManager extends React.Component {
 

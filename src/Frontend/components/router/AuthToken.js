@@ -17,12 +17,14 @@ class AuthToken extends React.Component {
     }
 
     async checkToken() {
+        console.log('authToken message: ' + this.props.msgFrom);
 
         //console.log('GET LOCAL STORAGE FOR CHECKING!!!')
         const user = localStorage.getItem('user');
 
         //Check for remove localstorage when loss cookie
         var checkToken = await this.props.checkValidToken();
+        //console.log(checkToken.type);
         if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
             localStorage.removeItem('user');
             cookies.remove("loginToken");

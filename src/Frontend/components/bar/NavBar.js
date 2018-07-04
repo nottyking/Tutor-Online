@@ -74,7 +74,7 @@ export default class NavBar extends React.Component {
         });
         return (
             <div>
-                <AuthToken />
+                <AuthToken msgFrom='Navbar: CreateAdminPage' />
                 <NavLink navbar id="adminPopover" onClick={this.togglePopover}>
                     ADMIN
                 </NavLink>
@@ -118,7 +118,7 @@ export default class NavBar extends React.Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <AuthToken />
+                            <AuthToken msgFrom="Navbar: Render" />
                             {pageList}
                         </Nav>
                         <Label>&nbsp;&nbsp;&nbsp;</Label>

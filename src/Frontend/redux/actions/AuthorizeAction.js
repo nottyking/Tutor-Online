@@ -16,12 +16,11 @@ async function checkValidToken() {
       const token = JSON.parse(user).loginToken;
       const role = JSON.parse(user).role;
       var authInfo = (await axios.post(ipList.backend + '/auth' , {loginToken: token , role: role})).data;
-      console.log("authInfo:",authInfo);
-      
-      console.log(user);
-      console.log(cookies.get("loginToken"));
+      //console.log("authInfo:",authInfo);
+      //console.log(user);
+      //console.log(cookies.get("loginToken"));
 
-      if((user && !cookies.getItem("loginToken"))){
+      if((user && !cookies.get("loginToken"))){
         return await tokenLoss('...');
       }
 

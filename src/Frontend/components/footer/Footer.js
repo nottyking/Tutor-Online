@@ -14,7 +14,7 @@ export class Footer extends React.Component {
                 </Container>
                 <Container fluid style={{ backgroundColor: '#333', color: '#FFF', paddingBottom: 20, paddingTop: 10, bottom: 0 }}>
                     <Row className="row justify-content-between">
-                        <Col xs="3">
+                        <Col xs="auto">
                             <MenuTab />
                         </Col>
                         <Col xs="auto">

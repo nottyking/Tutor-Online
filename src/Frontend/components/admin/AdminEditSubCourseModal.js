@@ -11,6 +11,7 @@ var exitfx;
 var tempSubcourseInfo;
 var scid;
 var editsubcourse;
+var exitandreloadfx;
 
 
 
@@ -29,6 +30,7 @@ export class AdminEditSubCourseModal extends React.Component {
     this.updateSubcourse = this.updateSubcourse.bind(this);
     this.refresh = this.refresh.bind(this);
     exitfx = this.props.closeModal;
+    exitandreloadfx=this.props.closeModalAndReload;
 
   }
 
@@ -45,6 +47,7 @@ export class AdminEditSubCourseModal extends React.Component {
     tempSubcourseInfo = temp1.subCourse;
     this.setState({ subcourseinfo: temp1.subCourse, isLoaded: true, create: false });
     console.log(this.state.subcourseinfo);
+    console.log('loaded');
   }
 
   async updateSubcourse() {
@@ -52,6 +55,7 @@ export class AdminEditSubCourseModal extends React.Component {
     var temp2 = (await axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
       subcourse: tempSubcourseInfo
     }))).data
+    console.log('updated');
     console.log(tempSubcourseInfo);
     this.refresh();
   }
@@ -110,14 +114,36 @@ export class AdminEditSubCourseModal extends React.Component {
   }
 
 
-  render() {
-    console.log('modal render')
-    if (this.state.isLoaded) {
+  // swap index x with x-1 
+  swapup(x){
+    if(x>0){
+      var swaptemp = tempSubcourseInfo[x-1].subcourseid;
+      tempSubcourseInfo[x-1].subcourseid = tempSubcourseInfo[x].subcourseid;
+      tempSubcourseInfo[x].subcourseid = swaptemp;
+      this.updateSubcourse();
+    }
+  }
 
+  //swap index x with x+1
+  swapdown(x){
+    if(x < tempSubcourseInfo.length-1){
+    var swaptemp = tempSubcourseInfo[x+1].subcourseid;
+    tempSubcourseInfo[x+1].subcourseid = tempSubcourseInfo[x].subcourseid;
+    tempSubcourseInfo[x].subcourseid = swaptemp;
+    this.updateSubcourse();
+    }
+  }
+
+
+  render() {
+
+    console.log('modal render');
+    if (this.state.isLoaded) {
       var courseTableBody = this.state.subcourseinfo.map((item, i) =>
         <tr>
           <td scope="row" style={{ color: item.isavailable == '0' ? 'grey' : 'black' }}><b>{i + 1}</b></td>
-          <td>{item.subcourseid}</td>
+          <td><Button color='secondary' onClick={async () => {this.swapdown(i); }}><i class="fa fa-angle-down" /></Button>{' '}
+          <Button color='secondary' onClick={() => { this.swapup(i) }}><i class="fa fa-angle-up" /></Button></td>
           <td>{item.subcoursename}</td>
           <td><Button href={item.videolink} target='_blank'><i class="fa fa-film" /></Button></td>
           <td><Button color='primary' onClick={async () => { await this.toggleNested(); this.editFetch(i); }}><i class="fa fa-edit" /></Button>{' '}
@@ -158,9 +184,9 @@ export class AdminEditSubCourseModal extends React.Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>SubCourse id</th>
-                  <th>SubCourse Name</th>
-                  <th>videolink</th>
+                  <th>Order</th>
+                  <th>Name</th>
+                  <th>Videolink</th>
                   <th></th>
                 </tr>
                 <tr>

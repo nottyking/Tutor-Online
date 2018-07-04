@@ -7,7 +7,7 @@ const cookies = new Cookies()
 const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData');
-var id; var exitfx;
+var id; var exitfx;var exitandreloadfx;
 
 
 export class AdminEditCourseModal extends React.Component {
@@ -24,6 +24,7 @@ export class AdminEditCourseModal extends React.Component {
     this.showThumbnail=this.thumbnailChange.bind(this);
     id = this.props.src.courseid;
     exitfx = this.props.closeModal;
+    exitandreloadfx=this.props.closeModalAndReload;
   }
 
   async saveToDatabase() {

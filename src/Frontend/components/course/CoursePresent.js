@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import {
-    Card, CardImg, CardText, CardBody,
+import { Link } from 'react-router-dom';
+import {Card, CardImg, CardText, CardBody,
     CardTitle, Button, Row, Col, Container
 } from 'reactstrap';
 /*
@@ -19,7 +19,7 @@ export class CoursePresent extends React.Component {
         const ListItems = src.map(
             (item, i) =>
             <Col>
-                <a href={item.courselink} style={{color:'black',textDecoration:'none'}}>
+                <Link to={item.courselink} style={{color:'black',textDecoration:'none'}}>
                     <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',border:'none' }}>
                             <CardImg src={item.thumbnail} alt="Card image cap" />
                             <CardBody>
@@ -27,7 +27,7 @@ export class CoursePresent extends React.Component {
                                 <CardText>{item.description}</CardText>
                             </CardBody>
                     </Card>
-                </a>
+                </Link>
             </Col>
         );
 

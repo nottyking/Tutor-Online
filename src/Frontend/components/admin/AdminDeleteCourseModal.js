@@ -6,6 +6,7 @@ const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 var id;
 var exitfx;
+var exitandreloadfx;
 
 export class AdminDeleteCourseModal extends React.Component{
 
@@ -13,6 +14,7 @@ export class AdminDeleteCourseModal extends React.Component{
         super(props)
         id = this.props.courseid;
         exitfx=this.props.closeModal;
+        exitandreloadfx=this.props.closeModalAndReload;
       }
 
     async sendRequestToDatabase() {

@@ -10,6 +10,10 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
 import capsule from '../../capsulation/SendData'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+const maxAge = 1 * 31 * 60 * 60;
 
 class Login extends React.Component {
 
@@ -50,9 +54,14 @@ class Login extends React.Component {
       const username = response.name;
       const email = response.email;
       const profileimage = response.picture.data.url;
-      const isStoreDataSuccess = (await axios.post(ipList.backend + '/login/facebook' , capsule.sendData({
-        username:username, email:email, profileimage:profileimage
-      })))
+      const typeid = response.id;
+      const loginData = (await axios.post(ipList.backend + '/login/facebook' , capsule.sendData({
+        username:username, email:email, profileimage:profileimage, typeid: typeid
+      }))).data
+      console.log(loginData);
+      cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge , path: '/' });
+      localStorage.setItem('user', JSON.stringify(loginData));
+      history.push('/');
     }
 
     render() {

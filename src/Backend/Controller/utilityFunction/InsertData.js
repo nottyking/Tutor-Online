@@ -1,12 +1,12 @@
 const con = require('../../Config/database')
 
-const insertUser = async(username,password,email,fname,lname,address,profileimage,birthday,gender) => {
+const insertUser = async(username,password,email,fname,lname,address,profileimage,type,typeid,birthday,gender) => {
   console.log('Enter InsertEnrolledCourse in insertData');
 
   var preparedSQLQuery = prepareSQLQuery(
-    "user (username,password,email,fname,lname,address,profileimage,birthday,gender)",
-    "(?,?,?,?,?,?,?,?,?)",
-    [username,password,email,fname,lname,address,profileimage,birthday,gender]
+    "user (username,password,email,fname,lname,address,profileimage,type,typeid,birthday,gender)",
+    "(?,?,?,?,?,?,?,?,?,?,?)",
+    [username,password,email,fname,lname,address,profileimage,type,typeid,birthday,gender]
   );
 
   console.log('sql:', preparedSQLQuery.sql);

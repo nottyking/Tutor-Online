@@ -51,7 +51,7 @@ export default class NavBar extends React.Component {
                 return (
                     <div>
                         <NavItem>
-                            <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
+                            <NavLink tag={Link} to={'/' + link} onClick={this.toggle} exact>{page.toUpperCase()}</NavLink>
                         </NavItem>
                     </div>
                 );

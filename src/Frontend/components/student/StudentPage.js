@@ -10,7 +10,7 @@ import axios from 'axios'
 const cookies = new Cookies();
 const ipList = require('../../../Config/ipConfig')
 
-var isValidToken;
+var isValidToken = true;
 var linkRedirect = '/loginPage';
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -46,8 +46,10 @@ export class Student extends React.Component {
       loginToken: cookies.get("loginToken")
     })).data;
     console.log("studentInformationAndError:", studentInformationAndError);
+    
     isValidToken = true;
     linkRedirect = '';
+
     if (studentInformationAndError.redirect) {
       console.log("Redirect", studentInformationAndError.redirect);
       localStorage.removeItem('user');
@@ -96,8 +98,9 @@ export class Student extends React.Component {
         console.log("After load");
       case 1:
         if (!isValidToken) {
-          console.log("redirect");
-          return (<Redirect to ='/'/>);
+          //console.log("redirect");
+          return (<h1><Redirect to ='/'/></h1>);
+          //return (<h1></h1>);
 
         } else {
           return (

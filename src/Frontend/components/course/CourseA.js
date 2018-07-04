@@ -3,8 +3,8 @@ import { Redirect } from 'react-router'
 import {
   Row, Col, Container, Card,
   CardBody, CardText, CardTitle, Button,
-  Table, Badge, CardSubtitle, Modal,
-  ModalBody, ModalFooter, ModalHeader,
+  Table, Badge, CardSubtitle, CardImg, Modal,
+  ModalBody, ModalFooter, ModalHeader, Alert,
   Label, FormGroup, Input, CardImgOverlay
 } from 'reactstrap'
 import Rating from 'react-rating';
@@ -95,31 +95,31 @@ export class CourseA extends React.Component {
     }
   }
 
-  createSyllabus(){
+  createSyllabus() {
     var syllabus = this.state.courseInfo.subCourse.map((item, i) => {
       return (
-          <tr>
-            <th scope='row'>
-              {i + 1}
-            </th>
-            <td>
-              {item.subcourseid}
-            </td>
-            <td>
-              {item.subcoursename}
-            </td>
-            <td>
-              <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
-                {this.state.alreadyEnroll ? 'Learn' : ''}
-              </Badge>
-            </td>
-          </tr>
+        <tr>
+          <th scope='row'>
+            {i + 1}
+          </th>
+          <td>
+            {item.subcourseid}
+          </td>
+          <td>
+            {item.subcoursename}
+          </td>
+          <td>
+            <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
+              {this.state.alreadyEnroll ? 'Let\'s Learn!' : 'Please Enroll first'}
+            </Badge>
+          </td>
+        </tr>
       );
     });
     return syllabus;
   }
 
-  generateStar(rating){
+  generateStar(rating) {
     console.log('rating: ' + rating);
     if (rating > 4.9) {
       return (
@@ -148,33 +148,33 @@ export class CourseA extends React.Component {
     }
   }
 
-  createReviewComponent(){
-      var CourseReviewPresent;
-      if (!this.state.alreadyEnroll || this.state.alreadyReview) {
-        CourseReviewPresent = this.generateStar(this.state.courseInfo.reviewcourse[0].rating);
-      } else {
-        CourseReviewPresent = (
-          <div>
+  createReviewComponent() {
+    var CourseReviewPresent;
+    if (!this.state.alreadyEnroll || this.state.alreadyReview) {
+      CourseReviewPresent = this.generateStar(this.state.courseInfo.reviewcourse[0].rating);
+    } else {
+      CourseReviewPresent = (
+        <div>
+          <FormGroup>
+            <Label for="exampleText">Please Comment This Course</Label>
+            <Input type="textarea" name="text" id="exampleText" />
+          </FormGroup>
+          <FormGroup tag="fieldset">
             <FormGroup>
-              <Label for="exampleText">Please Comment This Course</Label>
-              <Input type="textarea" name="text" id="exampleText" />
+              <Label for="formControlRange">Rate this Course</Label>
+              <br />
+              <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
+                emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
+                  'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
+                fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
+                  'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
             </FormGroup>
-            <FormGroup tag="fieldset">
-              <FormGroup>
-                <Label for="formControlRange">Rate this Course</Label>
-                <br />
-                <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
-                  emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
-                    'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
-                  fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
-                    'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
-              </FormGroup>
-            </FormGroup>
-            <Button color='primary' onClick={this.onClickReview}>Submit</Button>
-          </div>
-        );
-      }
-      return CourseReviewPresent;
+          </FormGroup>
+          <Button color='primary' onClick={this.onClickReview}>Submit</Button>
+        </div>
+      );
+    }
+    return CourseReviewPresent;
   }
 
   onClickReview = async () => {
@@ -237,13 +237,13 @@ export class CourseA extends React.Component {
 
       return (
         <div className='App'>
-        <AuthToken msgFrom="CourseA" />
+          <AuthToken msgFrom="CourseA" />
           <Container fluid>
             <Row>
               <Col></Col>
               <Col>
-                <img src={this.state.courseInfo.course.banner} width={700} style={{ left: 0, align: 'left' }} alt='error' />
-                <Card>
+                <Card style={{ width: 800}}>
+                  <CardImg src={this.state.courseInfo.course.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>
                       {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename}
@@ -270,7 +270,8 @@ export class CourseA extends React.Component {
                   </CardBody>
                 </Card>
                 <br />
-                <Card>
+
+                <Card style={{ width: 800 }}>
                   <CardBody>
                     <CardTitle>
                       Student Review
@@ -278,22 +279,26 @@ export class CourseA extends React.Component {
                     {CourseReviewPresent}
                   </CardBody>
                 </Card>
+                <br />
 
+                <Card style={{ width: 800, color: 'white', background: 'black' }}>
+                  <h3>Course Syllabus</h3>
+                  <Table dark bordered>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>SUB-COURSE ID</th>
+                        <th>SUB-COURSE NAME</th>
+                        <th><Badge color="light">STATUS</Badge></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Syllabus}
+                    </tbody>
+                  </Table>
+                </Card>
+                <br />
 
-                <h3>Course Syllabus</h3>
-                <Table dark borderless>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>SubCourseID</th>
-                      <th>SubCourseName</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Syllabus}
-                  </tbody>
-                </Table>
               </Col>
               <Col></Col>
             </Row>

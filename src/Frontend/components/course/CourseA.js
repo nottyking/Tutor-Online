@@ -96,6 +96,89 @@ export class CourseA extends React.Component {
     }
   }
 
+  createSyllabus(){
+    var syllabus = this.state.courseInfo.subCourse.map((item, i) => {
+      return (
+        <div>
+          <tr>
+            <th scope='row'>
+              {i + 1}
+            </th>
+            <td>
+              {item.subcourseid}
+            </td>
+            <td>
+              {item.subcoursename}
+            </td>
+            <td>
+              <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
+                {this.state.alreadyEnroll ? 'Learn' : ''}
+              </Badge>
+            </td>
+          </tr>
+        </div>
+      );
+    });
+    return syllabus;
+  }
+
+  generateStar(rating){
+    if (rating > 4.9) {
+      return (
+        <h1 style={{ color: '#ffc107' }}><i className='fa fa-star' style={{ fontSize: '2rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '2rem' }} /></h1>
+      );
+    } else if (rating > 3.9) {
+      return (
+        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
+      );
+    } else if (rating > 2.9) {
+      return (
+        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
+      );
+    } else if (rating > 1.9) {
+      return (
+        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
+      );
+    } else if (rating > 0.9) {
+      return (
+        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
+      );
+    } else {
+      return (
+        <h4>This Course Doesn't have Review Yet</h4>
+      );
+    }
+  }
+
+  createReviewComponent(){
+      var CourseReviewPresent;
+      if (!this.state.alreadyEnroll || this.state.alreadyReview) {
+        CourseReviewPresent = this.generateStar(this.state.courseInfo.reviewcourse[0].rating);
+      } else {
+        CourseReviewPresent = (
+          <div>
+            <FormGroup>
+              <Label for="exampleText">Please Comment This Course</Label>
+              <Input type="textarea" name="text" id="exampleText" />
+            </FormGroup>
+            <FormGroup tag="fieldset">
+              <FormGroup>
+                <Label for="formControlRange">Rate this Course</Label>
+                <br />
+                <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
+                  emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
+                    'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
+                  fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
+                    'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
+              </FormGroup>
+            </FormGroup>
+            <Button color='primary' onClick={this.onClickReview}>Submit</Button>
+          </div>
+        );
+      }
+      return CourseReviewPresent;
+  }
+
   onClickReview = async () => {
     var courseid = this.props.match.params.courseID
     var description = document.getElementById('exampleText').value;
@@ -150,86 +233,13 @@ export class CourseA extends React.Component {
       return <Redirect to={this.state.redirect} />;
     }
     if (this.state.isLoaded) {
-      let Syllabus = this.state.courseInfo.subCourse.map((item, i) => {
-        return (
-          <div>
-            <AuthToken msgFrom="CourseA" />
-            <tr>
-              <th scope='row'>
-                {i + 1}
-              </th>
-              <td>
-                {item.subcourseid}
-              </td>
-              <td>
-                {item.subcoursename}
-              </td>
-              <td>
-                <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
-                  {this.state.alreadyEnroll ? 'Learn' : ''}
-                </Badge>
-              </td>
-            </tr>
-          </div>
-        );
-      });
+      //Get UI Component for render
+      var Syllabus = this.createSyllabus();
+      var CourseReviewPresent = this.createReviewComponent();
 
-      var CourseReview
-      if (this.state.courseInfo.reviewcourse[0].rating > 4.9) {
-        CourseReview = (
-          <h1 style={{ color: '#ffc107' }}><i className='fa fa-star' style={{ fontSize: '2rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '2rem' }} /></h1>
-
-        );
-      } else if (this.state.courseInfo.reviewcourse[0].rating > 3.9) {
-        CourseReview = (
-          <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-        );
-      } else if (this.state.courseInfo.reviewcourse[0].rating > 2.9) {
-        CourseReview = (
-          <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-        );
-      } else if (this.state.courseInfo.reviewcourse[0].rating > 1.9) {
-        CourseReview = (
-          <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-        );
-      } else if (this.state.courseInfo.reviewcourse[0].rating > 0.9) {
-        CourseReview = (
-          <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-        );
-      } else {
-        CourseReview = (
-          <h4>This Course Doesn't have Review Yet</h4>
-        );
-      }
-      // '
-      var CourseReviewButton = (
-        <div>
-          <FormGroup>
-            <Label for="exampleText">Please Comment This Course</Label>
-            <Input type="textarea" name="text" id="exampleText" />
-          </FormGroup>
-          <FormGroup tag="fieldset">
-            <FormGroup>
-              <Label for="formControlRange">Rate this Course</Label>
-              <br />
-              <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
-                emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
-                  'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
-                fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
-                  'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
-            </FormGroup>
-          </FormGroup>
-          <Button color='primary' onClick={this.onClickReview}>Submit</Button>
-        </div>
-      );
-      var CourseReviewPresent;
-      if (!this.state.alreadyEnroll || this.state.alreadyReview) {
-        CourseReviewPresent = CourseReview;
-      } else {
-        CourseReviewPresent = CourseReviewButton
-      }
       return (
         <div className='App'>
+        <AuthToken msgFrom="CourseA" />
           <Container fluid>
             <Row>
               <Col>

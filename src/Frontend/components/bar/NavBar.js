@@ -34,7 +34,6 @@ export default class NavBar extends React.Component {
         });
     }
 
-
     //TO create navbar page in each user type
     createPage(contents) {
         const listPage = contents.map(page => {
@@ -112,7 +111,7 @@ export default class NavBar extends React.Component {
         }
 
         return (
-            < div >
+            <div>
                 <Navbar color="dark" dark expand="md">
                     <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />

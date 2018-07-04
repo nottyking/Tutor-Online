@@ -86,20 +86,18 @@ export class CourseA extends React.Component {
         alreadyEnroll: temp.enrolledcourse.length > 0 ? true : false,
         alreadyReview: temp.reviewcourse[0].rating > 0 ? true : false,
         alreadyLogin: cookies.get("loginToken") ? true : false,
-        // alreadyLogin:cookies.get("loginToken")? true:true,
         isLoaded: true
       });
-      console.log('course info state');
-      console.log(this.state.courseInfo);
-      console.log(this.state.courseInfo.course.coursename);
-      console.log("this state:", this.state);
+      // console.log('course info state');
+      // console.log(this.state.courseInfo);
+      // console.log(this.state.courseInfo.course.coursename);
+      // console.log("this state:", this.state);
     }
   }
 
   createSyllabus(){
     var syllabus = this.state.courseInfo.subCourse.map((item, i) => {
       return (
-        <div>
           <tr>
             <th scope='row'>
               {i + 1}
@@ -116,13 +114,13 @@ export class CourseA extends React.Component {
               </Badge>
             </td>
           </tr>
-        </div>
       );
     });
     return syllabus;
   }
 
   generateStar(rating){
+    console.log('rating: ' + rating);
     if (rating > 4.9) {
       return (
         <h1 style={{ color: '#ffc107' }}><i className='fa fa-star' style={{ fontSize: '2rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '2rem' }} /></h1>
@@ -242,9 +240,7 @@ export class CourseA extends React.Component {
         <AuthToken msgFrom="CourseA" />
           <Container fluid>
             <Row>
-              <Col>
-              </Col>
-
+              <Col></Col>
               <Col>
                 <img src={this.state.courseInfo.course.banner} width={700} style={{ left: 0, align: 'left' }} alt='error' />
                 <Card>
@@ -289,17 +285,10 @@ export class CourseA extends React.Component {
                 <Table dark borderless>
                   <thead>
                     <tr>
-                      <th>
-                        #
-                  </th>
-                      <th>
-                        SubCourseID
-                  </th>
-                      <th>
-                        SubCourseName
-                  </th>
-                      <th>
-                      </th>
+                      <th>#</th>
+                      <th>SubCourseID</th>
+                      <th>SubCourseName</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -307,9 +296,7 @@ export class CourseA extends React.Component {
                   </tbody>
                 </Table>
               </Col>
-              <Col>
-
-              </Col>
+              <Col></Col>
             </Row>
           </Container>
 

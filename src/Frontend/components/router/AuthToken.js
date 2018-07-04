@@ -27,7 +27,7 @@ class AuthToken extends React.Component {
         //console.log(checkToken.type);
         if (!(checkToken.type === "CHECK_TOKEN_VALID") /*Token is {invalid} or {loss} or {not match role}*/) {
             localStorage.removeItem('user');
-            cookies.remove("loginToken");
+            cookies.remove("loginToken",{ path: '/' });
             this.toggleRedirect();
 
         }

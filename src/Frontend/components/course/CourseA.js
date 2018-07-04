@@ -242,7 +242,8 @@ export class CourseA extends React.Component {
             <Row>
               <Col></Col>
               <Col>
-                <Card style={{ width: 800}}>
+                <br />
+                <Card style={{ width: 800 }}>
                   <CardImg src={this.state.courseInfo.course.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>

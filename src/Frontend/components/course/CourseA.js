@@ -253,7 +253,6 @@ export class CourseA extends React.Component {
                     {this.state.courseInfo.course.instructor}
                     </CardSubtitle>
                     <CardText>
-
                       <br />
                       {this.state.courseInfo.course.description}
                     </CardText>

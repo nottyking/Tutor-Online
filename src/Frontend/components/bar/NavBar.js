@@ -17,6 +17,7 @@ export default class NavBar extends React.Component {
         super(props);
         this.state = { isOpen: false, popoverOpen: false };
         this.toggle = this.toggle.bind(this);
+        this.isCollapseToggle = this.isCollapseToggle.bind(this);
         this.createPage = this.createPage.bind(this);
         this.createAdminPage = this.createAdminPage.bind(this);
         this.togglePopover = this.togglePopover.bind(this);
@@ -27,6 +28,11 @@ export default class NavBar extends React.Component {
         this.setState({
             isOpen: !this.state.isOpen
         });
+    }
+
+    isCollapseToggle() {
+        if (this.isOpen == true)
+            this.toggle();
     }
 
     togglePopover() {
@@ -51,7 +57,7 @@ export default class NavBar extends React.Component {
                 return (
                     <div>
                         <NavItem>
-                            <NavLink tag={Link} to={'/' + link} onClick={this.toggle} exact>{page.toUpperCase()}</NavLink>
+                            <NavLink tag={Link} to={'/' + link} onClick={this.isCollapseToggle} exact>{page.toUpperCase()}</NavLink>
                         </NavItem>
                     </div>
                 );
@@ -121,20 +127,20 @@ export default class NavBar extends React.Component {
         document.addEventListener('click', this.handleDocumentClick, true)
 
         return (
-            <div ref={(c)=> (this._element = c)}>
-            <Navbar color="dark" dark expand="md">
-                <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
-                <NavbarToggler onClick={this.toggle} />
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                        <AuthToken msgFrom="Navbar: Render" />
-                        {pageList}
-                    </Nav>
-                    <Label>&nbsp;&nbsp;&nbsp;</Label>
-                </Collapse>
-                {actionButton}
-            </Navbar>
-        </div >
+            <div ref={(c) => (this._element = c)}>
+                <Navbar color="dark" dark expand="md">
+                    <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <AuthToken msgFrom="Navbar: Render" />
+                            {pageList}
+                        </Nav>
+                        <Label>&nbsp;&nbsp;&nbsp;</Label>
+                    </Collapse>
+                    {actionButton}
+                </Navbar>
+            </div >
         );
     }
 }

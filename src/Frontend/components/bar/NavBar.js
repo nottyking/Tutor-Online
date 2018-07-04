@@ -68,7 +68,7 @@ export default class NavBar extends React.Component {
             var link = page.replace(" ", "_");
             return (
                 <div>
-                    <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
+                    <NavLink tag={Link} to={'/admin_' + link} onClick={this.togglePopover} exact>{page.toUpperCase()}</NavLink>
                 </div>
             );
         });

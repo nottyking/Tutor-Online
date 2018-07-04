@@ -19,7 +19,7 @@ class App extends Component {
 
     return (
       <div>
-        <AuthToken />
+        <AuthToken msgFrom="Starting App"/>
         <Router history={browserHistory}>
           <div style={{ backgroundColor: '#222' }}>
             <Route path='/' render={() => <NavBar str={`TEST`} />} />

@@ -12,6 +12,7 @@ import { RegisterPage } from './../register/RegisterPage';
 import { Admin } from './../admin/Admin';
 
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import AuthToken from './AuthToken';
 
 class BrowserRouterManager extends React.Component {
 
@@ -20,9 +21,9 @@ class BrowserRouterManager extends React.Component {
         const user = localStorage.getItem('user');
         if (!user) {
             userType = "guest";
-        } else if (JSON.parse(user).role === 0) {
+        } else if (JSON.parse(user).role == 0) {
             userType = "user";
-        } else if (JSON.parse(user).role === 1) {
+        } else if (JSON.parse(user).role == 1) {
             userType = "admin";
         } else {
             userType = "unauthorized"

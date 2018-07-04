@@ -38,7 +38,7 @@ class LoginPage extends React.Component {
                         padding: 20,
                         marginBottom: 20,
                         marginTop: 20,
-                        width: '60%'
+                        width: '500px'
                     }}>
                         <Card style={{
                             textAlign: 'center'
@@ -49,16 +49,16 @@ class LoginPage extends React.Component {
                                 </CardTitle>
                                 <CardText>
                                     <FormGroup row>
-                                        <Label >Account</Label>
+                                        <Label >&nbsp;&nbsp;Account&nbsp;&nbsp;</Label>
                                         <Col>
-                                            <Input type='text' id='loginpage-username'
+                                            <Input autoFocus type='text' id='loginpage-username'
                                                 defaultValue={''} placeholder='Enter your Username or E-mail'
                                                 invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                             />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>
-                                        <Label>Password</Label>
+                                        <Label>&nbsp;&nbsp;Password</Label>
                                         <Col>
                                             <Input type='password' id='loginpage-password'
                                                 defaultValue={''} placeholder='Enter your password'

@@ -50,6 +50,7 @@ export class Student extends React.Component {
     linkRedirect = '';
     if (studentInformationAndError.redirect) {
       console.log("Redirect", studentInformationAndError.redirect);
+      localStorage.removeItem('user');
       isValidToken = false;
       linkRedirect = studentInformationAndError.redirect;
     }
@@ -63,11 +64,9 @@ export class Student extends React.Component {
       defaultValue.FirstName = studentInformation.fname;
       defaultValue.LastName = studentInformation.lname;
       defaultValue.Email = studentInformation.email;
-      // defaultValue.ProfileImg = studentInformation.profileimg;
       defaultValue.Birthday = studentInformation.birthday;
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;
-      console.log();
       defaultValue.src = studentInformation.src.result;
     }
     this.toNextStep()
@@ -98,6 +97,7 @@ export class Student extends React.Component {
       case 1:
         if (!isValidToken) {
           console.log("redirect");
+          return (<Redirect to ='/'/>);
 
         } else {
           return (
@@ -132,5 +132,3 @@ export class Student extends React.Component {
     }
   }
 }
-
-// return <Redirect to={'/loginPage'} />

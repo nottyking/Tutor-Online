@@ -4,6 +4,7 @@ import { Form, Col, Button, FormGroup, Label, Input, FormText, Modal, ModalHeade
 import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
 import capsulation from '../../capsulation/SendData'
+import AuthToken from './../router/AuthToken';
 
 export class AccountFields extends React.Component {
 
@@ -34,6 +35,7 @@ export class AccountFields extends React.Component {
     render() {
         return (
             <div>
+                <AuthToken msgFrom="Register" />
                 {/* REGISTER FORM */}
                 <h1>REGISTER</h1>
 

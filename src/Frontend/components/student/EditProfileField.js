@@ -2,6 +2,7 @@ import './student.css';
 import React from 'react'
 import { Redirect } from 'react-router'
 import { Button, Form, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
+import AuthToken from './../router/AuthToken';
 const axios = require('axios')
 const ipList = require('../../../Config/ipConfig')
 const capsulation = require('../../capsulation/SendData')
@@ -28,17 +29,17 @@ export class EditProfileField extends React.Component {
 
     fileChangedHandler = (event) => {
         console.log('Uploading');
-        this.setState({selectedFile: event.target.files[0]});
+        this.setState({ selectedFile: event.target.files[0] });
         var file = event.target.files[0];
         var reader = new FileReader();
         var url = reader.readAsDataURL(file);
         reader.onloadend = function (e) {
-        this.setState({
-            showProfilePicture:[reader.result]
+            this.setState({
+                showProfilePicture: [reader.result]
             })
         }.bind(this);
         console.log(url)
-      }
+    }
 
     async saveToDatabase() {
         const formData = new FormData()
@@ -69,25 +70,27 @@ export class EditProfileField extends React.Component {
         //   })
         // }
         var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
-        if(temp2.redirect){
-          this.setState({
-            redirect:temp2.redirect
-          })
+        if (temp2.redirect) {
+            localStorage.removeItem('user');
+            this.setState({
+                redirect: temp2.redirect
+            })
         }
         return true;
     }
 
     async checkCurrentPassword() {
-        var isPasswordCorrect = (await axios.post(ipList.backend + "/student/checkPassword",capsulation.sendData({
-          password: document.getElementById('password').value
+        var isPasswordCorrect = (await axios.post(ipList.backend + "/student/checkPassword", capsulation.sendData({
+            password: document.getElementById('password').value
         }))).data
-        if(isPasswordCorrect.redirect){
-          this.setState({
-            redirect:isPasswordCorrect.redirect
-          })
+        if (isPasswordCorrect.redirect) {
+            localStorage.removeItem('user');
+            this.setState({
+                redirect: isPasswordCorrect.redirect
+            })
         }
         else
-          return isPasswordCorrect
+            return isPasswordCorrect
     }
 
     async saveAndContinue(event) {
@@ -147,17 +150,18 @@ export class EditProfileField extends React.Component {
     }
 
     render() {
-      if(this.state.redirect !== ""){
-        return <Redirect to={this.state.redirect}/>;
-      }
-      var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
-      try{
-          profilePicture = require('../../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
-      } catch(err){
-        console.log("ERR:",err);
-      }
+        if (this.state.redirect !== "") {
+            return <Redirect to={this.state.redirect} />;
+        }
+        var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+        try {
+            profilePicture = require('../../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+        } catch (err) {
+            console.log("ERR:", err);
+        }
         return (
             <div>
+                <AuthToken msgFrom="EditProfileField (Student)" />
                 <Card style={{
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -169,21 +173,21 @@ export class EditProfileField extends React.Component {
 
                     <div class="image-upload imageContainer">
 
-                    <CardImg className='avatar'
-                        top
-                        src={this.state.showProfilePicture}
+                        <CardImg className='avatar'
+                            top
+                            src={this.state.showProfilePicture}
 
-                        alt='Card image cap' />
+                            alt='Card image cap' />
 
 
                         <label for="file-input">
-                        <div class="overlay">
+                            <div class="overlay">
 
-                        Click to Change
+                                Click to Change
                       </div>
-                      </label>
+                        </label>
 
-                      <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
+                        <input type="file" name="file" id="file-input" onChange={this.fileChangedHandler} />
                     </div>
                     <br />
 

@@ -4,9 +4,8 @@ import { Route, Link } from 'react-router-dom';
 import Logout from '../loginPanel/Logout';
 import Login from '../loginPanel/Login';
 
-import {
-    Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody
-} from 'reactstrap';
+import AuthToken from './../router/AuthToken';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody } from 'reactstrap';
 
 const pages = ['home', 'about us', 'Register'];
 const userPages = ['home', 'student', 'learning', 'about us'];
@@ -21,6 +20,7 @@ export default class NavBar extends React.Component {
         this.createPage = this.createPage.bind(this);
         this.createAdminPage = this.createAdminPage.bind(this);
         this.togglePopover = this.togglePopover.bind(this);
+        this.handleDocumentClick = this.handleDocumentClick.bind(this);
     }
 
     toggle() {
@@ -34,7 +34,6 @@ export default class NavBar extends React.Component {
             popoverOpen: !this.state.popoverOpen
         });
     }
-
 
     //TO create navbar page in each user type
     createPage(contents) {
@@ -50,9 +49,11 @@ export default class NavBar extends React.Component {
                         break;
                 }
                 return (
-                    <NavItem>
-                        <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
-                    </NavItem>
+                    <div>
+                        <NavItem>
+                            <NavLink tag={Link} to={'/' + link} exact>{page.toUpperCase()}</NavLink>
+                        </NavItem>
+                    </div>
                 );
             } else {
                 return this.createAdminPage(adminFunctionPage);
@@ -66,11 +67,14 @@ export default class NavBar extends React.Component {
         const adminListPage = content.map(page => {
             var link = page.replace(" ", "_");
             return (
-                <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
+                <div>
+                    <NavLink tag={Link} to={'/admin_' + link} exact>{page.toUpperCase()}</NavLink>
+                </div>
             );
         });
         return (
             <div>
+                <AuthToken msgFrom='Navbar: CreateAdminPage' />
                 <NavLink navbar id="adminPopover" onClick={this.togglePopover}>
                     ADMIN
                 </NavLink>
@@ -84,6 +88,13 @@ export default class NavBar extends React.Component {
         );
     }
 
+    handleDocumentClick(e) {
+        const container = this._element;
+        if (e.target !== container && !container.contains(e.target) && this.state.isOpen == true) {
+            this.toggle();
+        }
+    }
+
     render() {
         var actionButton;
         var pageList;
@@ -92,31 +103,38 @@ export default class NavBar extends React.Component {
         if (!user) {
             //userType = "Guest"
             pageList = this.createPage(pages);
-            actionButton = <Login loginStatus={this.props.loginStatus} />
-        } else if (JSON.parse(user).role === 0) {
+            actionButton = <Login />
+        } else if (JSON.parse(user).role == 0) {
+            console.log('user');
             //userType = "user"
             pageList = this.createPage(userPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus} />
-        } else if (JSON.parse(user).role === 1) {
+            actionButton = <Logout />
+        } else if (JSON.parse(user).role == 1) {
+            console.log('admin');
             //userType = "admin"
             pageList = this.createPage(adminPages);
-            actionButton = <Logout loginStatus={this.props.loginStatus} />
+            actionButton = <Logout />
+        } else {
+            console.log('Nav error');
         }
 
+        document.addEventListener('click', this.handleDocumentClick, true)
+
         return (
-            < div >
-                <Navbar color="dark" dark expand="md">
-                    <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar >
-                        <Nav className="ml-auto" navbar>
-                            {pageList}
-                        </Nav>
-                        <Label>&nbsp;&nbsp;&nbsp;</Label>
-                    </Collapse>
-                    {actionButton}
-                </Navbar>
-            </div >
+            <div ref={(c)=> (this._element = c)}>
+            <Navbar color="dark" dark expand="md">
+                <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        <AuthToken msgFrom="Navbar: Render" />
+                        {pageList}
+                    </Nav>
+                    <Label>&nbsp;&nbsp;&nbsp;</Label>
+                </Collapse>
+                {actionButton}
+            </Navbar>
+        </div >
         );
     }
 }

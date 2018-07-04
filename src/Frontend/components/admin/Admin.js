@@ -340,7 +340,7 @@ export class Admin extends React.Component {
               </PaginationLink>
             </PaginationItem>);
 
-        })(i);
+        })(i)
       }
       var tableHeader =[];
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Container, Nav, Navbar, NavItem, NavLink, Label} from 'reactstrap'
+import { Input, Container, Nav, Navbar, NavItem, NavLink, Label } from 'reactstrap'
 
 
 export class MenuTab extends React.Component {
@@ -43,7 +43,7 @@ export class MenuTab extends React.Component {
         return (
             <div>
                 <Container fluid style={{ paddingTop: 10 }}>
-                    <Label style={{ fontWeight: "bold",paddingTop: 15}} align='left'></Label>
+                    <Label style={{ fontWeight: "bold", paddingTop: 15 }} align='left'></Label>
                     <hr color='#FFF' style={{
                         height: '3px',
                         margin: '0em'
@@ -53,11 +53,6 @@ export class MenuTab extends React.Component {
                             <NavItem>
                                 <NavLink style={colorHover1} onMouseEnter={this.toggleHover1} onMouseLeave={this.toggleHover1} href={"./"}>HOME</NavLink>
                             </NavItem>
-                            <Input plaintext disable style={{ color: '#666' }} >|</Input>
-                            {/* <NavItem>
-                                <NavLink style={colorHover2} onMouseEnter={this.toggleHover2} onMouseLeave={this.toggleHover2} href={"./course"}>COURSE</NavLink>
-                            </NavItem>
-                            <Input plaintext disable style={{ color: '#666' }}>|</Input> */}
                             <NavItem>
                                 <NavLink style={colorHover3} onMouseEnter={this.toggleHover3} onMouseLeave={this.toggleHover3} href={"./about_us"}>ABOUT&nbsp;US</NavLink>
                             </NavItem>

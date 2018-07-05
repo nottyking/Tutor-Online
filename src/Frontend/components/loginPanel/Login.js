@@ -24,6 +24,13 @@ class Login extends React.Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
         this.loginHandle = this.loginHandle.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+    }
+
+    handleKeyPress(target) {
+        if (target.charCode == 13) {
+            this.loginHandle()
+        }
     }
 
     toggleModal() {
@@ -50,40 +57,40 @@ class Login extends React.Component {
         }
     }
 
-    async responseFacebook(response){
-      console.log(response);
-      const username = response.name;
-      const email = response.email;
-      const profileimage = response.picture.data.url;
-      const typeid = response.id;
-      const loginData = (await axios.post(ipList.backend + '/login/facebook' , capsule.sendData({
-        username:username, email:email, profileimage:profileimage, typeid: typeid
-      }))).data
-      console.log(loginData);
-      cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge , path: '/' });
-      localStorage.setItem('user', JSON.stringify(loginData));
-      history.push('/');
+    async responseFacebook(response) {
+        console.log(response);
+        const username = response.name;
+        const email = response.email;
+        const profileimage = response.picture.data.url;
+        const typeid = response.id;
+        const loginData = (await axios.post(ipList.backend + '/login/facebook', capsule.sendData({
+            username: username, email: email, profileimage: profileimage, typeid: typeid
+        }))).data
+        console.log(loginData);
+        cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+        localStorage.setItem('user', JSON.stringify(loginData));
+        history.push('/');
     }
 
-    async responseGoogle(response){
-      console.log(response.profileObj);
-      const username = response.profileObj.name;
-      const email = response.profileObj.email;
-      const profileimage = response.profileObj.imageUrl;
-      const typeid = response.profileObj.googleId;
-      const loginData = (await axios.post(ipList.backend + '/login/google' , capsule.sendData({
-        username:username, email:email, profileimage:profileimage, typeid: typeid
-      }))).data
-      console.log(loginData);
-      cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge , path: '/' });
-      localStorage.setItem('user', JSON.stringify(loginData));
-      history.push('/');
+    async responseGoogle(response) {
+        console.log(response.profileObj);
+        const username = response.profileObj.name;
+        const email = response.profileObj.email;
+        const profileimage = response.profileObj.imageUrl;
+        const typeid = response.profileObj.googleId;
+        const loginData = (await axios.post(ipList.backend + '/login/google', capsule.sendData({
+            username: username, email: email, profileimage: profileimage, typeid: typeid
+        }))).data
+        console.log(loginData);
+        cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+        localStorage.setItem('user', JSON.stringify(loginData));
+        history.push('/');
     }
 
     render() {
 
         const componentClicked = () => {
-          console.log("Click");
+            console.log("Click");
         }
 
         return (
@@ -97,16 +104,17 @@ class Login extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup row>
-                        <div class="fb-login-button" data-max-rows="1"
-                        data-size="large" data-button-type="continue_with" data-show-faces="false"
-                        data-auto-logout-link="false" data-use-continue-as="false">
-                        </div>
+                            <div class="fb-login-button" data-max-rows="1"
+                                data-size="large" data-button-type="continue_with" data-show-faces="false"
+                                data-auto-logout-link="false" data-use-continue-as="false">
+                            </div>
                             <Label sm={{ size: 2, order: 2, offset: 1 }} >Account</Label>
                             <Col sm={{ size: 8, order: 4 }}>
                                 <Input autoFocus type='text' id='login-username'
+                                    onKeyPress={this.handleKeyPress}
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
-                                />
+                                    />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -114,8 +122,9 @@ class Login extends React.Component {
                             <Col sm={{ size: 8, order: 2 }}>
                                 <Input type='password' id='login-password'
                                     defaultValue={''} placeholder='Enter your password'
+                                    onKeyPress={this.handleKeyPress}    
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
-                                />
+                                    />
                                 <FormFeedback>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>
@@ -124,21 +133,21 @@ class Login extends React.Component {
                         <FormGroup row align='center'>
                             <Col>
                                 <GoogleLogin
-                                  clientId="757848252064-b5rojrk6j243feqgasilcrnb3ui1e0f6.apps.googleusercontent.com"
-                                  buttonText="Login"
-                                  onSuccess={this.responseGoogle}
-                                  onFailure={this.responseGoogle}
-                                  render={renderProps => (
-                                    <Button onClick={renderProps.onClick} block outline color='danger'>Google Login</Button>
-                                  )}
+                                    clientId="757848252064-b5rojrk6j243feqgasilcrnb3ui1e0f6.apps.googleusercontent.com"
+                                    buttonText="Login"
+                                    onSuccess={this.responseGoogle}
+                                    onFailure={this.responseGoogle}
+                                    render={renderProps => (
+                                        <Button onClick={renderProps.onClick} block outline color='danger'>Google Login</Button>
+                                    )}
                                 />
                                 <FacebookLogin
-                                  appId="2111909269078325"
-                                  fields="name,email,picture"
-                                  callback={this.responseFacebook}
-                                  render={renderProps => (
-                                    <Button onClick={renderProps.onClick} block outline color='primary'>Facebook Login</Button>
-                                  )}
+                                    appId="2111909269078325"
+                                    fields="name,email,picture"
+                                    callback={this.responseFacebook}
+                                    render={renderProps => (
+                                        <Button onClick={renderProps.onClick} block outline color='primary'>Facebook Login</Button>
+                                    )}
                                 />
                             </Col>
                         </FormGroup>

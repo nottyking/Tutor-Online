@@ -12,6 +12,7 @@ class LoginPage extends React.Component {
         super(props);
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.loginHandle = this.loginHandle.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     async loginHandle() {
@@ -22,6 +23,12 @@ class LoginPage extends React.Component {
             history.push('/');
         } else {
             this.setState({ msg: '', loginValid: false, defaultLoginState: false })
+        }
+    }
+
+    handleKeyPress(target) {
+        if (target.charCode == 13) {
+            this.loginHandle()
         }
     }
 
@@ -45,22 +52,24 @@ class LoginPage extends React.Component {
                         }}>
                             <CardBody>
                                 <CardTitle>
-                                    <Label color='success'>LOG IN</Label>
+                                    <Label style={{ fontSize: '150%' }} color='success'>LOG IN</Label>
                                 </CardTitle>
                                 <CardText>
                                     <FormGroup row>
-                                        <Label >&nbsp;&nbsp;Account&nbsp;&nbsp;</Label>
+                                        <Label style={{ fontSize: 'large' }}>&nbsp;&nbsp;Account&nbsp;&nbsp;</Label>
                                         <Col>
                                             <Input autoFocus type='text' id='loginpage-username'
+                                                onKeyPress={this.handleKeyPress}
                                                 defaultValue={''} placeholder='Enter your Username or E-mail'
                                                 invalid={!this.state.loginValid && !this.state.defaultLoginState}
-                                            />
+                                                />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>
-                                        <Label>&nbsp;&nbsp;Password</Label>
+                                        <Label style={{ fontSize: 'large' }}>&nbsp;&nbsp;Password</Label>
                                         <Col>
                                             <Input type='password' id='loginpage-password'
+                                                onKeyPress={this.handleKeyPress}
                                                 defaultValue={''} placeholder='Enter your password'
                                                 invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                             />

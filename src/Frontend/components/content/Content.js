@@ -74,8 +74,9 @@ export class Content extends React.Component {
               </div>
 
             </Parallax>
-            <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left: '10%', backgroundColor: '#FFF', padding: 20, zIndex: '100' }}>
+            <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left:'10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100' }}>
               <h1><Badge color='info'>Our Courses</Badge></h1>
+              <br/>
               <CoursePresent src={this.state.courseInfo} />
             </div>
           </Container>

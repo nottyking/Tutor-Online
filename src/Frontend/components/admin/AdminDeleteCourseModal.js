@@ -35,7 +35,7 @@ export class AdminDeleteCourseModal extends React.Component{
             redirect:temp2.redirect
           })
         }*/
-        exitfx();
+        exitandreloadfx();
         return true;
     }
 

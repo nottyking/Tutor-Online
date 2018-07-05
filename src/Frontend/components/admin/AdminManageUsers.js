@@ -5,7 +5,7 @@ import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
-import { Container, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import { Form, Input, Container, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -14,6 +14,8 @@ const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
 var modalComponent;
 const rowperpage = 15;
+var allusers;
+const rolecolor = ['#FFF','#007bff']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -53,7 +55,7 @@ export class AdminManageUsers extends React.Component {
     this.state = {
       isloaded: false,
       modalOpen: false,
-      courseInfo: {},
+      userinfo: {},
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
@@ -72,7 +74,7 @@ export class AdminManageUsers extends React.Component {
   }
 
   setPage(x) {
-    if (x >= 0 && x <= Math.ceil(this.state.courseInfo.length / rowperpage) - 1) {
+    if (x >= 0 && x <= Math.ceil(this.state.userinfo.length / rowperpage) - 1) {
       this.setState({ pager: x });
     }
   }
@@ -82,20 +84,21 @@ export class AdminManageUsers extends React.Component {
       isloaded: false
     });
     console.log("GetIt");
-    var temp1 = (await axios.post(ipList.backend + "/manage/queryInformation", capsule.sendData({
+    var temp1 = (await axios.post(ipList.backend + "/manage/mainuser", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
     console.log(temp1);
     for (var i = 0; i < temp1.length; i++) {
-      // console.log(courseInfo[i].thumbnail);
+      // console.log(userinfo[i].thumbnail);
       try {
         temp1[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
         temp1[i].banner = require('../../Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
       } catch (err) {
 
       }
-      // console.log(courseInfo[i].thumbnail);
+      // console.log(userinfo[i].thumbnail);
     }
+    allusers = temp1;
     if (this.state.ishideUnavailable) {
       for (var i = temp1.length - 1; i >= 0; --i) {
         if (temp1[i].isavailable == 0) {
@@ -106,10 +109,10 @@ export class AdminManageUsers extends React.Component {
     console.log(temp1);
     this.setState({
       isloaded: true,
-      courseInfo: temp1,
+      userinfo: temp1,
       pager: 0
     });
-    console.log("Course info:", this.state.courseInfo);
+    console.log("Course info:", this.state.userinfo);
     return true;
   }
 
@@ -141,7 +144,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={this.state.courseInfo[x]} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
   }
 
   toggleCreate() {
@@ -159,7 +162,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit Sub Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
   }
 
   toggleDelete(x) {
@@ -168,7 +171,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
   }
 
   closeModal = () => {
@@ -185,19 +188,55 @@ export class AdminManageUsers extends React.Component {
     this.getData();
   }
 
+  searchUser(searchword, mode) {
+    if(searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1){
+      document.getElementById('usersearchbox').classList.remove('is-valid');
+      document.getElementById('usersearchbox').classList.add('is-invalid');
+      return;
+    }
+    var expr = RegExp(searchword.toLowerCase());
+    var tempusers = [];
+    switch (mode) {
+      case 'fname':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'userid':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'lname':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+      case 'email':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      default:
+
+    }
+
+    console.log(tempusers);
+    this.setState({ userinfo: tempusers, pager: 0 });
+  }
+
 
 
 
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
-      var courseTableBody = this.state.courseInfo.map((item, i) =>
-        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+      var courseTableBody = this.state.userinfo.map((item, i) =>
+        <tr style={{ color: (item.isBanned == '1') ? '#F55' : (item.isConfirm == '0') ? '#888' :rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td><b>{i + 1}</b></td>
-          <td>{item.courseid}</td>
-          <td>{item.coursename}</td>
-          <td>{item.instructor}</td>
-          <td>{(item.price / 100).toLocaleString('en')} ฿</td>
+          <td>{item.userid}</td>
+          <td>{item.username}</td>
+          <td>{item.fname}</td>
+          <td>{(item.lname)}</td>
           <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
             <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
             <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
@@ -205,7 +244,7 @@ export class AdminManageUsers extends React.Component {
       );
 
       var paginationitems = [];
-      for (var i = 0; i < Math.ceil(this.state.courseInfo.length / rowperpage); i++) {
+      for (var i = 0; i < Math.ceil(this.state.userinfo.length / rowperpage); i++) {
         ((i) => {
           paginationitems.push(
             <PaginationItem active={i == this.state.pager}>
@@ -219,7 +258,11 @@ export class AdminManageUsers extends React.Component {
 
       return (
         <Container fluid style={{ paddingBottom: '10px' }}>
-          <h3 color='white'>Courses List</h3>
+          <h3 style={{ color: 'white' }}>Users List</h3>
+          <Form inline style={{ position: 'absolute', left: '75%', display: 'block', zIndex: 100 }}>
+            <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search Course" style={{ width: 300 }} />
+            <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
+          </Form>
           <Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} />
           <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
@@ -232,23 +275,15 @@ export class AdminManageUsers extends React.Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Course id</th>
-                  <th>Course Name</th>
-                  <th>Instructor</th>
+                  <th>User ID</th>
+                  <th>UserName</th>
+                  <th>FirstName</th>
                   <th>Price</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colspan="10">
-                    <Button color='info' outline style={{ width: '100%', height: '100%' }} onClick={this.toggleCreate}><i class="fa fa-plus" /></Button></td>
-
-                </tr>
                 {courseTableBody}
-
-
-
               </tbody>
             </Table>
 
@@ -259,7 +294,7 @@ export class AdminManageUsers extends React.Component {
                 </PaginationLink>
               </PaginationItem>
               {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1}>
+              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.userinfo.length / rowperpage) - 1|| this.state.userinfo.length === 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
                   <i class="fa fa-angle-right" />
                 </PaginationLink>
@@ -297,32 +332,32 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>
 
-                </tr>                
+                </tr>
                 <tr>
                   <td colspan="10">
                     {MyLoaderRow()}</td>

@@ -17,33 +17,42 @@ export class SubCourseProgressBar extends React.Component {
             isOpen: false,
             isLoaded: false
         };
-
-        console.log(this.vimeoLoadingThumb('id'));
+        (async() => {
+          console.log(await this.vimeoLoadingThumb('id'));
+        })()
 
     }
 
     async componentWillMount(){
         const src = this.props.src;
-        Buttons = src.map((item,i) => {
+        var allSubCourseComponent = []
+        src.map((item,i) => {
+          allSubCourseComponent.push(new Promise(async(resolve, reject) => {
+            var video = await this.vimeoLoadingThumb(item.SClink.substring(item.SClink.indexOf('o/')+2),i==src.length-1);
             if (item.SCid === this.props.now) {
-                console.log(item.SClink.substring(item.SClink.indexOf('o/')+2));
-                return (
-                    <div color="warning" block>
-                        <img src={this.vimeoLoadingThumb(item.SClink.substring(item.SClink.indexOf('o/')+2),i==src.length-1)}/>
-                        <i class="fa">&#xf097;</i> {item.SCname.toUpperCase()}
-                    </div>
-                )
+              resolve (
+                <div color="warning" block>
+                <img src={video}/>
+                <i class="fa">&#xf097;</i> {item.SCname.toUpperCase()}
+                </div>
+              )
             }
             else {
-                return (
-                    <div outline color="warning" block>
-                    <img src={this.vimeoLoadingThumb(item.SClink.substring(item.SClink.indexOf('o/')+2),i==src.length-1)}/>
-                        {item.SCname.toUpperCase()}
-                    </div>
-                )
+              resolve (
+                <div outline color="warning" block>
+                <img src={video}/>
+                {item.SCname.toUpperCase()}
+                </div>
+              )
             }
+          }))
         });
-        this.setState({isLoaded:true});
+        Promise.all(allSubCourseComponent).then((res) => {
+          Buttons = res
+          this.setState({isLoaded:true});
+        }).catch((err) => {
+          console.log("ERROR IN SUBCOURSEPROGRESSBAR");
+        })
 
     }
 
@@ -69,18 +78,18 @@ export class SubCourseProgressBar extends React.Component {
     render() {
         if(this.state.isLoaded){
             console.log('progress bar render');
+            console.log(Buttons);
+            return (
+                < div style={{ 'padding-top': 20 }}>
+                    <ButtonGroup vertical>
+                        {Buttons}
+                    </ButtonGroup>
+                </div >
 
-        return (
-            < div style={{ 'padding-top': 20 }}>
-                <ButtonGroup vertical>
-                    {Buttons}
-                </ButtonGroup>
-            </div >
-
-        );
-    }else{
-        return <div/>
-    }
+            );
+        }else{
+            return <div/>
+        }
     }
 }
 

@@ -24,12 +24,9 @@ export class Footer extends React.Component {
                 </Container>
 
                 <Container fluid style={{ backgroundColor: '#000', color: '#FFF', paddingBottom: 10, paddingTop: 10, bottom: 0, textAlign: 'center'}}>
-                    <h6>© Playtorium Solutions</h6>
+                    <h6 style={{color: '#FFF', textAlign: 'center'}}>© Playtorium Solutions</h6>
                 </Container>
-
             </div>
-
-
         );
     }
 }

@@ -54,6 +54,9 @@ export class MenuTab extends React.Component {
                                 <NavLink style={colorHover1} onMouseEnter={this.toggleHover1} onMouseLeave={this.toggleHover1} href={"./"}>HOME</NavLink>
                             </NavItem>
                             <NavItem>
+                                <NavLink style={colorHover2} onMouseEnter={this.toggleHover2} onMouseLeave={this.toggleHover2} href={"./course"}>COURSE</NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink style={colorHover3} onMouseEnter={this.toggleHover3} onMouseLeave={this.toggleHover3} href={"./about_us"}>ABOUT&nbsp;US</NavLink>
                             </NavItem>
                         </Nav>

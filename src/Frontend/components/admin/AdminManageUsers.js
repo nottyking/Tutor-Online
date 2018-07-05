@@ -5,7 +5,7 @@ import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
-import { Form, Input, Container, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import { Form, Card, Input, Container, Col, Row, FormGroup, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -15,7 +15,7 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 const rowperpage = 15;
 var allusers;
-const rolecolor = ['#FFF','#007bff']
+const rolecolor = ['#FFF', '#007bff']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -189,7 +189,7 @@ export class AdminManageUsers extends React.Component {
   }
 
   searchUser(searchword, mode) {
-    if(searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1){
+    if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('usersearchbox').classList.remove('is-valid');
       document.getElementById('usersearchbox').classList.add('is-invalid');
       return;
@@ -225,13 +225,11 @@ export class AdminManageUsers extends React.Component {
   }
 
 
-
-
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
       var courseTableBody = this.state.userinfo.map((item, i) =>
-        <tr style={{ color: (item.isBanned == '1') ? '#F55' : (item.isConfirm == '0') ? '#888' :rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+        <tr style={{ color: (item.isBanned == '1') ? '#F55' : (item.isConfirm == '0') ? '#888' : rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
@@ -258,12 +256,26 @@ export class AdminManageUsers extends React.Component {
 
       return (
         <Container fluid style={{ paddingBottom: '10px' }}>
-          <h3 style={{ color: 'white' }}>Users List</h3>
-          <Form inline style={{ position: 'absolute', left: '75%', display: 'block', zIndex: 100 }}>
-            <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search Course" style={{ width: 300 }} />
-            <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
-          </Form>
-          <Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} />
+
+          <br />
+          <Card style={{ background: '#444', padding: 20 }}>
+            <Row className="justify-content-between" style={{ color: 'white' }}>
+              <Col xs='auto'>
+                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>User Management</Input>
+              </Col>
+              <Col xs='auto'>
+                <Form inline style={{ display: 'block', zIndex: 100 }}>
+                  <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
+                    <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+                    <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User" style={{ width: 300 }} />&nbsp;
+                    <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
+                  </FormGroup>
+                </Form>
+              </Col>
+            </Row>
+          </Card>
+          <br />
+
           <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
@@ -294,7 +306,7 @@ export class AdminManageUsers extends React.Component {
                 </PaginationLink>
               </PaginationItem>
               {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.userinfo.length / rowperpage) - 1|| this.state.userinfo.length === 0}>
+              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.userinfo.length / rowperpage) - 1 || this.state.userinfo.length === 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
                   <i class="fa fa-angle-right" />
                 </PaginationLink>
@@ -324,53 +336,33 @@ export class AdminManageUsers extends React.Component {
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
                   <td colspan="10">
-                    {MyLoaderRow()}</td>
-
-                </tr>
+                    {MyLoaderRow()}</td></tr>
                 <tr>
                   <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                    {MyLoaderRow()}</td></tr>
+                <tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
+                  <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
-                <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td>
-
-                </tr>
-
-
-
               </tbody>
             </Table>
           </Col>
         </Container>
-
       );
     }
   }

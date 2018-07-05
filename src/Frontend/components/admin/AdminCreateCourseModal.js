@@ -9,6 +9,7 @@ const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 var exitfx;
 var warnMessage;
+var exitandreloadfx;
 
 export class AdminCreateCourseModal extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export class AdminCreateCourseModal extends React.Component {
     this.showThumbnail = this.thumbnailChange.bind(this);
     this.checkInp = this.checkInp.bind(this);
     exitfx = this.props.closeModal;
+    exitandreloadfx = this.props.closeModalAndReload;
   }
   checkInp(x) {
     var regex = /^[0-9]+$/;
@@ -90,7 +92,7 @@ export class AdminCreateCourseModal extends React.Component {
         redirect:temp2.redirect
       })
     }*/
-    exitfx();
+    exitandreloadfx();
     return true;
   }
   courseNameCheck() {

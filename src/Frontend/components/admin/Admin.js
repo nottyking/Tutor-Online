@@ -65,7 +65,7 @@ export class Admin extends React.Component {
       sortmode: 0,
 
       // Cut this off when cut Admin to Course manage Component
-      activeTab: '1'
+      activeTab: '2'
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -232,6 +232,13 @@ export class Admin extends React.Component {
   }
 
   searchCourse(searchword){
+    if(searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1){
+      document.getElementById('coursesearchbox').classList.remove('is-valid');
+      document.getElementById('coursesearchbox').classList.add('is-invalid');
+      return;
+    }
+    document.getElementById('coursesearchbox').classList.add('is-valid');
+      document.getElementById('coursesearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempcourses = [];
     allcourses.map((item)=>
@@ -246,7 +253,7 @@ export class Admin extends React.Component {
     var temp2 = Object.assign([],allcourses);
     console.log(allcourses)
     if (!this.state.ishideUnavailable) {
-      console.log('hideee');
+      temp2 = Object.assign([],this.state.courseInfo);
       for (var i = temp2.length - 1; i >= 0; --i) {
         if (temp2[i].isavailable == 0) {
           temp2.splice(i, 1);
@@ -320,8 +327,8 @@ export class Admin extends React.Component {
       var courseTableBody = this.state.courseInfo.map((item, i) =>
         <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td style={{width:50,maxWidth:50}}><b>{i + 1}</b></td>
-          <td style={{width:100,maxWidth:100}}>{item.courseid}</td>
-          <td style={{width:300,maxWidth:300}}>{item.coursename}</td>
+          <td style={{width:110,maxWidth:110}}>{item.courseid}</td>
+          <td style={{width:300,maxWidth:300,overflowX:'hide'}}>{item.coursename}</td>
           <td style={{width:300,maxWidth:300}}>{item.instructor}</td>
           <td style={{width:150,maxWidth:150}}>{(item.price / 100).toLocaleString('en')} ฿</td>
           <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
@@ -361,7 +368,7 @@ export class Admin extends React.Component {
                   className={classnames({ active: this.state.activeTab === '2' })}
                   onClick={() => { this.toggle('2'); }}
                 >
-                  Moar Tabs
+                  Manege Users
             </NavLink>
               </NavItem>
             </Nav>
@@ -381,14 +388,14 @@ export class Admin extends React.Component {
                   <option value={11}>11</option>
                 </Input>
               </FormGroup>
-              <Form inline>
-              <Input type="text" name="searchbox" id="searchbox" placeholder="Search Course" style={{width:300}} />
-              <Button color="primary" onClick={()=>{this.searchCourse(document.getElementById('searchbox').value)}}><i class="fa fa-search" /></Button>
+              <Form inline style={{position: 'absolute', left: '75%',display:'block',zIndex:100}}>
+              <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" style={{width:300}} />
+              <Button color="primary" onClick={()=>{this.searchCourse(document.getElementById('coursesearchbox').value)}}><i class="fa fa-search" /></Button>
               </Form>
               <Row>
                 <Col sm="12">
-                  <h3 color='white'>Courses List</h3>
-                  <Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} />
+                  <h3 style={{color:'white'}}>Courses List</h3>
+                  <Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{position: 'absolute', left: '70%',display:'block',zIndex:100,transform:'translate(0,-160%)'}}/>
                   <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
                     <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
@@ -431,7 +438,7 @@ export class Admin extends React.Component {
                         </PaginationLink>
                       </PaginationItem>
                       {paginationitems}
-                      <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1}>
+                      <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1 || this.state.courseInfo.length === 0}>
                         <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
                           <i class="fa fa-angle-right" />
                         </PaginationLink>

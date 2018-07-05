@@ -7,12 +7,12 @@ import AuthToken from './../router/AuthToken';
 
 export class ProfileField extends React.Component {
   render() {
-    var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
-    try {
-      profilePicture = require('../../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
-    } catch (err) {
-      console.log("ERR:", err);
-    }
+    // var profilePicture = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+    // try {
+    //   profilePicture = require('../../Image/ProfileImage/ProfileImage' + this.props.defaultValue.UserID + '.jpg');
+    // } catch (err) {
+    //   console.log("ERR:", err);
+    // }
     return (
       <div>
         <AuthToken msgFrom="ProfileField (Student)" />
@@ -25,7 +25,7 @@ export class ProfileField extends React.Component {
           <CardImg
             top
             className='avatar'
-            src={profilePicture}
+            src={this.props.defaultValue.ProfileImg}
             alt='Card image cap' />
           <CardBody>
             <CardTitle>

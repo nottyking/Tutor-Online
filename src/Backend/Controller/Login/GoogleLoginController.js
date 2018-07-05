@@ -5,8 +5,8 @@ const insertFunc = require('../utilityFunction/InsertData')
 const getFunc = require('../utilityFunction/GetDataSpecial')
 const download = require('image-downloader')
 
-async function LoginByFacebook(req, res){
-  console.log('Enter login facebook');
+async function LoginByGoogle(req, res){
+  console.log('Enter login google');
   return await new Promise(async(resolve, reject) => {
     console.log("userid:",userid);
     const username = req.body.username;
@@ -22,7 +22,7 @@ async function LoginByFacebook(req, res){
       role = userdata[0].role;
     }
     else{
-      const result = (await insertFunc.insertUser(username,'-',email,'-','-','-',profileimage,1,typeid,'-','-')).result
+      const result = (await insertFunc.insertUser(username,'-',email,'-','-','-',profileimage,2,typeid,'-','-')).result
       console.log(result);
       userid = result.insertId;
       role = 0;
@@ -70,5 +70,5 @@ function makeAuthentication(userid){
 }
 
 module.exports = {
-  LoginByFacebook : LoginByFacebook
+  LoginByGoogle : LoginByGoogle
 }

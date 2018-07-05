@@ -70,6 +70,7 @@ export class Student extends React.Component {
       } catch (err) {
         defaultValue.ProfileImg = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
       };
+      defaultValue.type = studentInformation.type;
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;
       defaultValue.src = studentInformation.src.result;

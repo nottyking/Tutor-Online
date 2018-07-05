@@ -4,6 +4,7 @@ const ipList = require('../../../Config/ipconfig')
 const transporter = require('../../Config/NodeMailer').transporter
 const EMAIL_SECRET = require('../../Config/NodeMailer').EMAIL_SECRET
 const insertFunc = require('../utilityFunction/insertData')
+const download = require('image-downloader')
 
 // insert data for registering from role received
 function register(req, res){
@@ -22,13 +23,29 @@ async function insertUser(req,res){
   var profileimage = req.body.profileimage
   var birthday = req.body.birthday
   var gender = req.body.gender
-  var result = (await insertFunc.insertUser(username, password, email, fname, lname, address, profileimage, birthday, gender)).result;
+  var result = (await insertFunc.insertUser(username, password, email, fname, lname, address, profileimage, 0, '' ,birthday, gender)).result;
+
+  uploadProfileImage(result.insertId);
 
   sendConfirmationEmail(result.insertId, email);
   return({
     result : true ,
     msg : "Success!"
   });
+}
+
+function uploadProfileImage(userid){
+  const options = {
+    url: 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png',
+    dest: '../Frontend/Image/ProfileImage/ProfileImage' + userid + '.jpg'                  // Save to /path/to/dest/image.jpg
+  }
+  download.image(options)
+    .then(({ filename, image }) => {
+      console.log('File saved to', filename)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
 // send confirmation email by asynchronous

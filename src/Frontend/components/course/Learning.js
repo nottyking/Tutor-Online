@@ -37,6 +37,7 @@ export class Learning extends React.Component {
     const timeElapsed = '0m5s'
     console.log(this.props.match.params.courseID);
     console.log(this.props.match.params.subcourseID);
+
     return (
       <div className='App'>
         <AuthToken msgFrom="Learning" />
@@ -62,15 +63,15 @@ export class Learning extends React.Component {
               <br /><br />
               <SubCourseProgressBar now={1}
                 src={[
-                  { SCname: "Math101", SCid: 1, SClink: "aaaaaa" },
-                  { SCname: "Math102", SCid: 2, SClink: "aaaaaa" },
-                  { SCname: "Math201", SCid: 3, SClink: "aaaaaa" },
-                  { SCname: "Math202", SCid: 4, SClink: "aaaaaa" },
-                  { SCname: "Math301", SCid: 5, SClink: "aaaaaa" },
-                  { SCname: "Math302", SCid: 6, SClink: "aaaaaa" },
-                  { SCname: "Math401", SCid: 7, SClink: "aaaaaa" },
-                  { SCname: "Math402", SCid: 8, SClink: "aaaaaa" },
-                  { SCname: "Math501", SCid: 9, SClink: "aaaaaa" }
+                  { SCname: "Math101", SCid: 1, SClink: "https://player.vimeo.com/video/205571281" },
+                  { SCname: "Math102", SCid: 2, SClink: "https://player.vimeo.com/video/110270314" },
+                  { SCname: "Math201", SCid: 3, SClink: "https://player.vimeo.com/video/205571281" },
+                  { SCname: "Math202", SCid: 4, SClink: "https://player.vimeo.com/video/110270314" },
+                  { SCname: "Math301", SCid: 5, SClink: "https://player.vimeo.com/video/205571281" },
+                  { SCname: "Math302", SCid: 6, SClink: "https://player.vimeo.com/video/110270314" },
+                  { SCname: "Math401", SCid: 7, SClink: "https://player.vimeo.com/video/205571281" },
+                  { SCname: "Math402", SCid: 8, SClink: "https://player.vimeo.com/video/110270314" },
+                  { SCname: "Math501", SCid: 9, SClink: "https://player.vimeo.com/video/205571281" }
                 ]}
               />
             </Col>

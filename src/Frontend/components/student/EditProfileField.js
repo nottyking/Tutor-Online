@@ -13,8 +13,12 @@ export class EditProfileField extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ModalMessage: '', isDefaultPassword: true, validPassword: false,
-            isDefaultRePassword: true, validRePassword: false, Modal: false,
+            ModalMessage: '',
+            isDefaultPassword: true,
+            validPassword: false,
+            isDefaultRePassword: true,
+            validRePassword: false,
+            Modal: false,
             selectedFile: [],
             showProfilePicture: this.props.defaultValue.ProfileImg,
             redirect: ""

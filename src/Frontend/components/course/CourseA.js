@@ -73,7 +73,7 @@ export class CourseA extends React.Component {
       try {
         temp.course.banner = require('../../Image/Course/Banner/Banner' + this.props.match.params.courseID + '.jpg')
       } catch (err) {
-        temp.course.banner = defaultCourseInfo.banner
+        temp.course.banner = 'https://dummyimage.com/600x400/ffffff/000000&text=' + temp.course.coursename
       }
 
       if (temp.reviewcourse.length == 0) {
@@ -88,10 +88,6 @@ export class CourseA extends React.Component {
         alreadyLogin: cookies.get("loginToken") ? true : false,
         isLoaded: true
       });
-      // console.log('course info state');
-      // console.log(this.state.courseInfo);
-      // console.log(this.state.courseInfo.course.coursename);
-      // console.log("this state:", this.state);
     }
   }
 

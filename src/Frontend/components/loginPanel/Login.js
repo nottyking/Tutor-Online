@@ -7,6 +7,7 @@ import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
 import { history } from '../../redux/helpers';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
 import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
 import capsule from '../../capsulation/SendData'
@@ -64,6 +65,21 @@ class Login extends React.Component {
       history.push('/');
     }
 
+    async responseGoogle(response){
+      console.log(response.profileObj);
+      const username = response.profileObj.name;
+      const email = response.profileObj.email;
+      const profileimage = response.profileObj.imageUrl;
+      const typeid = response.profileObj.googleId;
+      const loginData = (await axios.post(ipList.backend + '/login/google' , capsule.sendData({
+        username:username, email:email, profileimage:profileimage, typeid: typeid
+      }))).data
+      console.log(loginData);
+      cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge , path: '/' });
+      localStorage.setItem('user', JSON.stringify(loginData));
+      history.push('/');
+    }
+
     render() {
 
         const componentClicked = () => {
@@ -107,7 +123,15 @@ class Login extends React.Component {
 
                         <FormGroup row align='center'>
                             <Col>
-                                <Button block outline color='danger'>Google Login</Button>
+                                <GoogleLogin
+                                  clientId="757848252064-b5rojrk6j243feqgasilcrnb3ui1e0f6.apps.googleusercontent.com"
+                                  buttonText="Login"
+                                  onSuccess={this.responseGoogle}
+                                  onFailure={this.responseGoogle}
+                                  render={renderProps => (
+                                    <Button onClick={renderProps.onClick} block outline color='danger'>Google Login</Button>
+                                  )}
+                                />
                                 <FacebookLogin
                                   appId="2111909269078325"
                                   fields="name,email,picture"

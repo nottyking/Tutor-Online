@@ -19,6 +19,7 @@ export class EditProfileField extends React.Component {
             showProfilePicture: this.props.defaultValue.ProfileImg,
             redirect: ""
         };
+        console.log(this.props.defaultValue.type);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.checkValidPassword = this.checkValidPassword.bind(this);
         this.checkValidRePassword = this.checkValidRePassword.bind(this);
@@ -57,18 +58,19 @@ export class EditProfileField extends React.Component {
             Birthday: document.getElementById('birthDate').value,
             Address: document.getElementById('address').value,
             Gender: document.getElementById('gender').value,
-            newPassword: document.getElementById('newPassword').value
         }
+        if(this.props.defaultValue.type==0)
+          data.newPassword = document.getElementById('newPassword').value
         console.log(data.ProfileImg);
-        // var temp = (await axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
-        //   password: data.newPassword, fname: data.FirstName, lname: data.LastName,
-        //   address: data.Address, birthday: data.Birthday, gender: data.Gender
-        // }))).data
-        // if(temp.redirect){
-        //   this.setState({
-        //     redirect:temp.redirect
-        //   })
-        // }
+        var temp = (await axios.post(ipList.backend + "/student/editProfile/updateNewProfile", capsulation.sendData({
+          password: data.newPassword, fname: data.FirstName, lname: data.LastName,
+          address: data.Address, birthday: data.Birthday, gender: data.Gender
+        }))).data
+        if(temp.redirect){
+          this.setState({
+            redirect:temp.redirect
+          })
+        }
         var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
         if (temp2.redirect) {
             localStorage.removeItem('user');
@@ -95,7 +97,7 @@ export class EditProfileField extends React.Component {
 
     async saveAndContinue(event) {
         event.preventDefault(event);
-        if (!await this.checkCurrentPassword()) {
+        if (this.props.defaultValue.type==0 && !await this.checkCurrentPassword()) {
             this.setState({ ModalMessage: 'your password is incorrect' });
             this.modalToggle();
         }
@@ -147,6 +149,47 @@ export class EditProfileField extends React.Component {
 
     modalToggle() {
         this.setState({ Modal: !this.state.Modal })
+    }
+
+    fillPasswordForm = () => {
+      console.log("!@#");
+      return(
+        <div>
+          <hr></hr>
+          <CardTitle>
+              Comfirm Your Password
+          </CardTitle>
+          <Form>
+              <FormGroup row>
+                  <Label>New Password</Label>
+                  <Input type='password' id='newPassword'
+                      defaultValue={this.props.defaultValue.password} placeholder='Enter new password'
+                      valid={this.state.validPassword}
+                      invalid={!this.state.validPassword && !this.state.isDefaultPassword}
+                      onChange={this.checkValidPassword}
+                  />
+                  <FormText>Type here to change your password, New password must contain between 8-12 characters</FormText>
+              </FormGroup>
+              <FormGroup row>
+                  <Label>Re-Password</Label>
+                  <Input type='password' id='rePassword'
+                      defaultValue={this.props.defaultValue.rePassword} placeholder='Enter new password again'
+                      valid={this.state.validRePassword}
+                      invalid={!this.state.validRePassword && !this.state.isDefaultRePassword}
+                      onChange={this.checkValidRePassword}
+                  />
+                  <FormText>Confirm your new password here</FormText>
+              </FormGroup>
+              <FormGroup row>
+                  <Label>Current Password</Label>
+                  <Input type='password' id='password'
+                      defaultValue={this.props.defaultValue.password} placeholder='Enter your password'
+                  />
+                  <FormText>Type your current password to confirm this session</FormText>
+              </FormGroup>
+          </Form>
+        </div>
+      )
     }
 
     render() {
@@ -246,39 +289,9 @@ export class EditProfileField extends React.Component {
                                     </Table>
                                 </FormGroup>
                             </Form>
-                            <hr></hr>
-                            <CardTitle>
-                                Comfirm Your Password
-                            </CardTitle>
-                            <Form>
-                                <FormGroup row>
-                                    <Label>New Password</Label>
-                                    <Input type='password' id='newPassword'
-                                        defaultValue={this.props.defaultValue.password} placeholder='Enter new password'
-                                        valid={this.state.validPassword}
-                                        invalid={!this.state.validPassword && !this.state.isDefaultPassword}
-                                        onChange={this.checkValidPassword}
-                                    />
-                                    <FormText>Type here to change your password, New password must contain between 8-12 characters</FormText>
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label>Re-Password</Label>
-                                    <Input type='password' id='rePassword'
-                                        defaultValue={this.props.defaultValue.rePassword} placeholder='Enter new password again'
-                                        valid={this.state.validRePassword}
-                                        invalid={!this.state.validRePassword && !this.state.isDefaultRePassword}
-                                        onChange={this.checkValidRePassword}
-                                    />
-                                    <FormText>Confirm your new password here</FormText>
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label>Current Password</Label>
-                                    <Input type='password' id='password'
-                                        defaultValue={this.props.defaultValue.password} placeholder='Enter your password'
-                                    />
-                                    <FormText>Type your current password to confirm this session</FormText>
-                                </FormGroup>
-                            </Form>
+
+                            {this.props.defaultValue.type==0? this.fillPasswordForm():''}
+
                         </CardText>
 
                         <Button color='danger' onClick={this.props.toPreviousStep}>Back</Button>&nbsp;&nbsp;

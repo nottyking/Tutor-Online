@@ -36,7 +36,7 @@ async function checkAuthen(req, res, next){
     }catch(err){
 
       // token not match
-      console.log("Token invalid");
+      console.log("Token invalid $%#^#^$#^$$^#^$#^$#^$#$#$^^$#^$$^#^$");
       req.session.checkAuth = "TOKEN NOT MATCH";
       return res.send({
         result : "TOKEN NOT MATCH" ,

@@ -10,7 +10,7 @@ import axios from 'axios'
 const cookies = new Cookies();
 const ipList = require('../../../Config/ipConfig')
 
-var isValidToken;
+var isValidToken=true;
 var linkRedirect = '/loginPage';
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -46,7 +46,6 @@ export class Student extends React.Component {
       loginToken: cookies.get("loginToken")
     })).data;
     console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
     linkRedirect = '';
     if (studentInformationAndError.redirect) {
       console.log("Redirect", studentInformationAndError.redirect);
@@ -65,6 +64,11 @@ export class Student extends React.Component {
       defaultValue.LastName = studentInformation.lname;
       defaultValue.Email = studentInformation.email;
       defaultValue.Birthday = studentInformation.birthday;
+      try {
+        defaultValue.ProfileImg = require('../../Image/ProfileImage/ProfileImage' + defaultValue.UserID + '.jpg');
+      } catch (err) {
+        defaultValue.ProfileImg = 'http://www.uv.mx/sin-humo/files/2014/06/Ponentes.png';
+      };
       defaultValue.Address = studentInformation.address;
       defaultValue.Gender = studentInformation.gender;
       defaultValue.src = studentInformation.src.result;

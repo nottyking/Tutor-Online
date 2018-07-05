@@ -2,12 +2,14 @@ const con = require('../../Config/database')
 
 const getUser = () => {
   console.log('Enter getUser in getData');
-  con.query('SELECT * FROM user', (err, result) => {
-    console.log('result:',result);
-    return {
-      'err' : err ,
-      'result' : result
-    } ;
+  return new Promise((resolve, reject) => {
+    con.query('SELECT * FROM user', (err, result) => {
+      console.log('result:',result);
+      resolve ({
+        'err' : err ,
+        'result' : result
+      }) ;
+    })
   })
 }
 

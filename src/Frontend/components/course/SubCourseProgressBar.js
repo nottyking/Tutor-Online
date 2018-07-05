@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { ButtonGroup, Button } from 'reactstrap';
+import $ from 'jquery';
 
 /* SubCourseProgressBar used in learning window like a sidebar to show where this clip is in the All of clips in the Course
 Get prop Now(SCId of this video),Src:[{SCId(Sub Course Id), SCName, SCLink*May Be Not*)}]
@@ -17,6 +18,15 @@ export class SubCourseProgressBar extends React.Component {
         };
     }
 
+    vimeoLoadingThumb(id) {
+        var a;
+        $.getJSON('http://www.vimeo.com/api/v2/video/' + id + '.json?callback=?', { format: "json" }, function (data) {
+
+            a=  data[0].thumbnail_large;
+        });
+        return a;
+    }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen
@@ -29,6 +39,7 @@ export class SubCourseProgressBar extends React.Component {
             if (item.SCid === this.props.now) {
                 return (
                     <Button color="warning" block>
+                        <img src={this.vimeoLoadingThumb(item.SClink.substring(item.SClink.indexOf('o/')+2))}/>
                         <i class="fa">&#xf097;</i> {item.SCname.toUpperCase()}
                     </Button>
                 )

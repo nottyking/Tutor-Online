@@ -66,7 +66,7 @@ export class AdminEditCourseModal extends React.Component {
         redirect:temp2.redirect
       })
     }*/
-    exitfx();
+    exitandreloadfx();
     return true;
 }
 

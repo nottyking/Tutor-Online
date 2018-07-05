@@ -46,6 +46,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "react-sidebar": "^2.3.2",
     "react-spring": "^5.3.18",
     "reactstrap": "^6.1.0",
     "redis": "^2.8.0",

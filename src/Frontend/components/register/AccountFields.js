@@ -37,7 +37,7 @@ export class AccountFields extends React.Component {
             <div>
                 <AuthToken msgFrom="Register" />
                 {/* REGISTER FORM */}
-                <h1>REGISTER</h1>
+                <h1 style={{color: "white"}}>REGISTER</h1>
 
                 <Form className='Register-form'>
                     <FormGroup row>

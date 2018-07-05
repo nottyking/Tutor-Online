@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, Button, Row, Col, Container
+    CardTitle, Button, Row, Col, Container, Badge
 } from 'reactstrap';
 import './CourseImg.css';
 /*
@@ -27,10 +27,10 @@ export class CoursePresent extends React.Component {
                                 <CardImg className='cc' src={item.thumbnail} alt="Card image cap" />
                             </div>
                             <div className='description-course'>
-                            <CardBody className = 'description-course'>
-                                <CardTitle>{item.coursename}</CardTitle>
-                                <CardText>{item.description}</CardText>
-                            </CardBody>
+                                <CardBody className='description-course'>
+                                    <CardTitle><Badge color='warning'>{item.coursename}</Badge></CardTitle>
+                                    <CardText>{item.description}</CardText>
+                                </CardBody>
                             </div>
                         </Link>
                     </Card>

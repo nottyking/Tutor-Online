@@ -45,7 +45,7 @@ export class AdminEditCourseModal extends React.Component {
     }
     console.log(data);
     console.log((document.getElementById('isavailable').checked));
-    var temp = await (axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
+    var temp = (await axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
       course:{
         courseid: data.courseid,
         coursename: data.coursename,
@@ -55,17 +55,8 @@ export class AdminEditCourseModal extends React.Component {
         isavailable: data.isavailable
       }
     }))).data
-    /*if(temp.redirect){
-      this.setState({
-        redirect:temp.redirect
-      })
-    }*/
-    /*var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
-    if(temp2.redirect){
-      this.setState({
-        redirect:temp2.redirect
-      })
-    }*/
+    var temp2 = (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
+    var temp3 = (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
     exitfx();
     return true;
 }

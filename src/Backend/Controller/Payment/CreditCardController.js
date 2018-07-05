@@ -1,5 +1,4 @@
-const Omise = require('omise')
-const omiseConfig = require('../../Config/Omise');
+const omise = require('../../Config/Omise');
 const ipList = require('../../../Config/ipConfig');
 const insertFunc = require('../utilityFunction/insertData')
 
@@ -11,10 +10,11 @@ function payByCreditCard(req, res){
   });
 
   var orderID = '1'
+  var userid = req.session.userid
   var amount = req.body.amount;
   var paymentTokenID = req.body.omiseToken;
   omise.charges.create({
-    'description': 'Charge for order ID: ' + orderID,
+    'description': 'Charge of userid: ' + userid,
     'amount' : amount,
     'currency': 'thb',
     'capture': true,

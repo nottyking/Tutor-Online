@@ -10,7 +10,7 @@ export class Payment extends React.Component {
         super(props);
         this.state = {};
         this.submitPay = this.submitPay.bind(this);
-        
+
     }
 
     handleChange = event => {

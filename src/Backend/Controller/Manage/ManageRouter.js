@@ -9,7 +9,7 @@ const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
 const manageMainCourseController = require('./User/ManageMainCoursecontroller')
 const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
-
+const manageMainPaymentController = require('./Payment/ManageMainPaymentController')
 // Home
 router.post('/queryinformation', async(req, res) => {
   res.send(await manageMainController.queryInformation(req, res));
@@ -44,6 +44,11 @@ router.post('/uploadthumbnail',async(req, res) => {
 })
 router.post('/deletecourse', async(req, res) => {
   res.send(await deleteCourseController.deleteCourse(req, res));
+})
+
+// Payment
+router.post('/mainpayment', async(req, res) => {
+  res.send(await manageMainPaymentController.queryInformation(req, res));
 })
 
 module.exports = router ;

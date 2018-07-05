@@ -9,10 +9,11 @@ import { Student } from './../student/StudentPage';
 import { Learning } from './../course/Learning';
 import LoginPage from './../loginPanel/LoginPage';
 import { RegisterPage } from './../register/RegisterPage';
-import { Admin } from './../admin/Admin';
 
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { CoursePageList } from './../course/CoursePageList';
+import { AdminManageUsers } from './../admin/AdminManageUsers';
+import { AdminManageCourses } from './../admin/AdminManageCourses';
 
 class BrowserRouterManager extends React.Component {
 
@@ -42,8 +43,9 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/register" component={!(userType === "user" || userType === "admin") ? RegisterPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path='/loginPage' component={!(userType === "user" || userType === "admin") ? LoginPage : () => { return (<Redirect to={'/'} />) }} />
                     
-                    <Route exact path="/admin" component={(userType === "admin") ? Admin : () => { return (<Redirect to={'/'} />) }} />
-                    <Route exact path="/admin_manage_Course" component={(userType === "admin") ? Admin : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/admin" component={(userType === "admin") ? AdminManageCourses : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/admin_manage_user" component={(userType === "admin") ? AdminManageUsers : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/admin_manage_course" component={(userType === "admin") ? AdminManageCourses : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />
                 </Switch>
             </div >

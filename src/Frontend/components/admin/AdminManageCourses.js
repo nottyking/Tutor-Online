@@ -337,7 +337,7 @@ export class AdminManageCourses extends React.Component {
 
       return (
         <Container fluid style={{ paddingBottom: '10px' }}>
-          <Card>
+          {/* <Card>
             <FormGroup style={{ background: '#FFF', paddingBottom: '10px' }}>
               <Label plaintext>Mode</Label>
               <Col>
@@ -352,22 +352,26 @@ export class AdminManageCourses extends React.Component {
                 </Input>
               </Col>
             </FormGroup>
-          </Card>
+          </Card> */}
 
-          <Row className="justify-content-between" style={{ color: 'white', padding: '20px 20px 20px 20px' }}>
-            <Col xs='auto'>
-              <Input plaintext style={{ color: 'white', fontSize: '150%', fontWeight: 'bold' }}>Courses List</Input>
-            </Col>
-            <Col xs='auto'>
-              <Form inline style={{ display: 'block', zIndex: 100 }}>
-                <FormGroup row>
-                  <Input plaintext style={{ color: 'white', width: 100}}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }}/></Input>
-                  <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" style={{ width: 300}} />&nbsp;
-                  <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value) }}><i class="fa fa-search" /></Button>
-                </FormGroup>
-              </Form>
-            </Col>
-          </Row>
+          <br />
+          <Card style={{ background: '#444', padding: 20 }}>
+            <Row className="justify-content-between" style={{ color: 'white' }}>
+              <Col xs='auto'>
+                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>Courses Management</Input>
+              </Col>
+              <Col xs='auto'>
+                <Form inline style={{ display: 'block', zIndex: 100 }}>
+                  <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
+                    <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+                    <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" style={{ width: 300 }} />&nbsp;
+                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value) }}><i class="fa fa-search" /></Button>
+                  </FormGroup>
+                </Form>
+              </Col>
+            </Row>
+          </Card>
+          <br />
 
           <Row>
             <Col sm="12">

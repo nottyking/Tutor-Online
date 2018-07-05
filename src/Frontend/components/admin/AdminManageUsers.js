@@ -15,7 +15,8 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 const rowperpage = 15;
 var allusers;
-const rolecolor = ['#FFF','#007bff']
+const rolecolor = ['#FFF','#007bff'];
+const type = ['','fab fa-facebook-f' ,'fab fa-google']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -237,9 +238,10 @@ export class AdminManageUsers extends React.Component {
           <td>{item.username}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
-          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
+          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-google" /></Button>{' '}
             <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
             <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
+            <td><i class={item.type=='1'?"fa fa-facebook":item.type=='2'? "fa fa-google":''} /></td>
         </tr>
       );
 
@@ -280,6 +282,7 @@ export class AdminManageUsers extends React.Component {
                   <th>FirstName</th>
                   <th>Price</th>
                   <th></th>
+                  <th>type</th>
                 </tr>
               </thead>
               <tbody>

@@ -5,6 +5,7 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, Button, Row, Col, Container
 } from 'reactstrap';
+import './CourseImg.css';
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
 get src [ List of {coursename(Coursename),thumbnail(Link To CourseThumbnailImage),courselink(Link to Course),description(Course Description)}]
@@ -19,14 +20,18 @@ export class CoursePresent extends React.Component {
         console.log("Render in Coursepresent src:", src);
         const ListItems = src.map(
             (item, i) =>
-                <Col>
-                    <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>
+                <Col sm={{ size: 'auto', offset: 1 }}>
+                    <Card key={i} style={{ width: 330, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>
                         <Link to={item.courselink} style={{ color: 'black', textDecoration: 'none' }}>
-                            <CardImg src={item.thumbnail} alt="Card image cap" />
-                            <CardBody>
+                            <div className='change-ratio'>
+                                <CardImg className='cc' src={item.thumbnail} alt="Card image cap" />
+                            </div>
+                            <div className='description-course'>
+                            <CardBody className = 'description-course'>
                                 <CardTitle>{item.coursename}</CardTitle>
                                 <CardText>{item.description}</CardText>
                             </CardBody>
+                            </div>
                         </Link>
                     </Card>
                 </Col>

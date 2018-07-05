@@ -7,12 +7,21 @@ const createSubCourseController = require('./Course/CreateSubCourseController')
 const editCourseController = require('./Course/EditCourseController');
 const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
+const manageMainCourseController = require('./User/ManageMainCoursecontroller')
+const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
+
 // Home
 router.post('/queryinformation', async(req, res) => {
   res.send(await manageMainController.queryInformation(req, res));
 })
 
 // User
+router.post('/mainuser', async(req, res) => {
+  res.send(await manageMainCourseController.queryInformation(req, res));
+})
+router.post('/userenrolledcourse', async(req, res) => {
+  res.send(await userEnrolledCourseController.queryInformation(req, res));
+})
 router.post('/edituser', async(req, res) => {
   res.send(await editUserController.editUser(req, res));
 })

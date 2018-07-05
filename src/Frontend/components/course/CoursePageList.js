@@ -1,18 +1,15 @@
 import React from 'react'
 import { Redirect } from 'react-router'
 import { Container, Badge } from 'reactstrap'
-import banner from '../../Image/apple-businesswoman-communication-6479.jpg';
-import { Parallax } from 'react-parallax';
 import { CoursePresent } from '../course/CoursePresent'
 import { Loading } from '../loading/Loading'
 import AuthToken from './../router/AuthToken';
-const insideStyles1 = { background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)' };
-const insideStyles2 = { background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)' };
 
 const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
-export class Content extends React.Component {
+
+export class CoursePageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,16 +63,8 @@ export class Content extends React.Component {
         <div className='App'>
           <AuthToken msgFrom="content" />
           <Container fluid style={{ paddingBottom: 20 }}>
-            <Parallax bgImage={banner} blur={{ min: -1, max: 5 }} strength={600} style={{ overflow: 'visible' }}>
-              <div style={{ height: 800 }}>
-                <div style={insideStyles1}><h1>Tutor-Online</h1></div>
-                <div style={insideStyles2}><h2>Welcome to Tutor-Online</h2>
-                  <h4>The best tutor online in the world!!</h4> </div>
-              </div>
-
-            </Parallax>
-            <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left:'10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100' }}>
-              <h1><Badge color='info'>Top Courses</Badge></h1>
+            <div style={{ width: '80%', position: 'relative', marginTop: '50px', left:'10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100' }}>
+              <h1><Badge color='info'>Our Courses</Badge></h1>
               <br/>
               <CoursePresent src={this.state.courseInfo} />
             </div>

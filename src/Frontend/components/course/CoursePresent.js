@@ -14,7 +14,7 @@ get src [ List of {coursename(Coursename),thumbnail(Link To CourseThumbnailImage
 //Todo add Link to Course
 
 export class CoursePresent extends React.Component {
-
+    //This is the course component in the first page
     render() {
         const src = this.props.src;
         console.log("Render in Coursepresent src:", src);

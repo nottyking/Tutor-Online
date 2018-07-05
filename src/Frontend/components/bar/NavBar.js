@@ -7,9 +7,9 @@ import Login from '../loginPanel/Login';
 import AuthToken from './../router/AuthToken';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody } from 'reactstrap';
 
-const pages = ['home', 'about us', 'Register'];
-const userPages = ['home', 'student', 'learning', 'about us'];
-const adminPages = ['home', 'student', 'learning', 'about us', 'admin'];
+const pages = ['home', 'course', 'about us', 'Register'];
+const userPages = ['home', 'student', 'course', 'learning', 'about us'];
+const adminPages = ['home', 'student', 'course', 'learning', 'about us', 'admin'];
 const adminFunctionPage = ['manage User', 'manage Course'];
 
 export default class NavBar extends React.Component {

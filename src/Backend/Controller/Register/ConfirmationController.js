@@ -8,8 +8,8 @@ function confirmRegister(req, res){
   console.log(EMAIL_SECRET);
   const { userid: userid } = jwt.verify(req.params.token, EMAIL_SECRET);
   console.log("userid:",userid);
-  console.log(`UPDATE user SET isConfirm = '1' WHERE userid = '${userid}'`);
-  con.query(`UPDATE user SET isConfirm = '1' WHERE userid = '${userid}'`, (err, result) => {
+  console.log(`UPDATE user SET isconfirm = '1' WHERE userid = '${userid}'`);
+  con.query(`UPDATE user SET isconfirm = '1' WHERE userid = '${userid}'`, (err, result) => {
     if(err){
       console.log("Error update in confirmationregister", err);
       res.send("ERROR:",err);

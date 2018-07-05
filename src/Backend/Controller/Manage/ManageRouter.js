@@ -1,14 +1,14 @@
 const app = require('express')
 const router = app.Router();
 const manageMainController = require('./ManageMainController');
+const manageMainUserController = require('./User/ManageMainUsercontroller')
+const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
 const editUserController = require('./User/EditUserController')
 const createCourseController = require('./Course/CreateCourseController');
 const createSubCourseController = require('./Course/CreateSubCourseController')
 const editCourseController = require('./Course/EditCourseController');
 const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
-const manageMainCourseController = require('./User/ManageMainCoursecontroller')
-const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
 const manageMainPaymentController = require('./Payment/ManageMainPaymentController')
 // Home
 router.post('/queryinformation', async(req, res) => {
@@ -17,7 +17,7 @@ router.post('/queryinformation', async(req, res) => {
 
 // User
 router.post('/mainuser', async(req, res) => {
-  res.send(await manageMainCourseController.queryInformation(req, res));
+  res.send(await manageMainUserController.queryInformation(req, res));
 })
 router.post('/userenrolledcourse', async(req, res) => {
   res.send(await userEnrolledCourseController.queryInformation(req, res));

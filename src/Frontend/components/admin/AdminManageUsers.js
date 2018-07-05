@@ -1,4 +1,5 @@
 import React from 'react'
+    import { AdminEditUserModal } from './AdminEditUserModal';
 import { AdminEditCourseModal } from './AdminEditCourseModal';
 import { AdminCreateCourseModal } from './AdminCreateCourseModal';
 import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
@@ -59,7 +60,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
-      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,  
+      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,
       sortmode: 0
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
@@ -88,16 +89,6 @@ export class AdminManageUsers extends React.Component {
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
     console.log(temp1);
-    for (var i = 0; i < temp1.length; i++) {
-      // console.log(userinfo[i].thumbnail);
-      try {
-        temp1[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
-        temp1[i].banner = require('../../Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
-      } catch (err) {
-
-      }
-      // console.log(userinfo[i].thumbnail);
-    }
     allusers = temp1;
     if (this.state.ishideUnavailable) {
       for (var i = temp1.length - 1; i >= 0; --i) {
@@ -141,16 +132,16 @@ export class AdminManageUsers extends React.Component {
   toggleEdit(x) {
     console.log(this.state.modalOpen);
     this.setState({
-      modalHeader: 'Edit Course',
+      modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
+      modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
   }
 
   toggleCreate() {
     console.log(this.state.modalOpen);
     this.setState({
-      modalHeader: 'Create Course',
+      modalHeader: 'Create User',
       modalOpen: !this.state.modalOpen
     });
     modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} />;
@@ -159,7 +150,7 @@ export class AdminManageUsers extends React.Component {
   toggleSubcourse(x) {
     console.log(this.state.modalOpen);
     this.setState({
-      modalHeader: 'Edit Sub Course',
+      modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
     modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
@@ -168,7 +159,7 @@ export class AdminManageUsers extends React.Component {
   toggleDelete(x) {
     console.log(this.state.modalOpen);
     this.setState({
-      modalHeader: 'Delete Course',
+      modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
     modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
@@ -231,7 +222,7 @@ export class AdminManageUsers extends React.Component {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
       var courseTableBody = this.state.userinfo.map((item, i) =>
-        <tr style={{ color: (item.isBanned == '1') ? '#F55' : (item.isConfirm == '0') ? '#888' :rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+        <tr style={{ color: (item.isbanned == '1') ? '#F55' : (item.isconfirm == '0') ? '#888' :rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
@@ -264,7 +255,7 @@ export class AdminManageUsers extends React.Component {
             <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
           </Form>
           <Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} />
-          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}

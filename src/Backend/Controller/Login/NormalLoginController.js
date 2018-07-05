@@ -30,7 +30,7 @@ async function LoginByNormal(req, res){
       }
 
       for(let i = 0 ; i < result.length ; i++){
-        if(result[i].isConfirm === 1){
+        if(result[i].isconfirm === 1){
           console.log("Login successful:",result);
           var userid = result[i].userid;
 

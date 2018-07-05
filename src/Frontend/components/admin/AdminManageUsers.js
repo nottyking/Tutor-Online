@@ -15,12 +15,8 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 const rowperpage = 15;
 var allusers;
-<<<<<<< HEAD
 const rolecolor = ['#FFF','#007bff'];
 const type = ['','fab fa-facebook-f' ,'fab fa-google']
-=======
-const rolecolor = ['#FFF', '#007bff']
->>>>>>> bfade338b175155453ca2bbecbaa5f96dc29842c
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender

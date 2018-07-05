@@ -33,7 +33,7 @@ export class ProfileField extends React.Component {
             </CardTitle>
             <CardSubtitle>
               User Information
-                  </CardSubtitle>
+            </CardSubtitle>
             <CardText>
               <br />
               <p>

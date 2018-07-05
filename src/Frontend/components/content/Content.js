@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { Container } from 'reactstrap'
+import { Container, Badge } from 'reactstrap'
 import banner from '../../Image/apple-businesswoman-communication-6479.jpg';
 import { Parallax } from 'react-parallax';
 import { CoursePresent } from '../course/CoursePresent'
@@ -69,12 +69,13 @@ export class Content extends React.Component {
             <Parallax bgImage={banner} blur={{ min: -1, max: 5 }} strength={600} style={{ overflow: 'visible' }}>
               <div style={{ height: 800 }}>
                 <div style={insideStyles1}><h1>Tutor-Online</h1></div>
-                <div style={insideStyles2}><h2>Lorem ipsum t amet, consectetur adipiscing elit.</h2>
-                  <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non feugiat tortor nec, tincidunt dui</h4> </div>
+                <div style={insideStyles2}><h2>Welcome to Tutor-Online</h2>
+                  <h4>The best tutor online in the world!!</h4> </div>
               </div>
 
             </Parallax>
-            <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left: '10%', backgroundColor: '#FFF', padding: 20, zIndex: '100' }}><h2>Our Courses</h2>
+            <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left: '10%', backgroundColor: '#FFF', padding: 20, zIndex: '100' }}>
+              <h1><Badge color='info'>Our Courses</Badge></h1>
               <CoursePresent src={this.state.courseInfo} />
             </div>
           </Container>

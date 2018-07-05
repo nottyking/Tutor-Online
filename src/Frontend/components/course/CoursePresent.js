@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
-import {Card, CardImg, CardText, CardBody,
+import {
+    Card, CardImg, CardText, CardBody,
     CardTitle, Button, Row, Col, Container
 } from 'reactstrap';
 /*
@@ -15,24 +16,24 @@ export class CoursePresent extends React.Component {
 
     render() {
         const src = this.props.src;
-        console.log("Render in Coursepresent src:",src);
+        console.log("Render in Coursepresent src:", src);
         const ListItems = src.map(
             (item, i) =>
-            <Col>
-                <Link to={item.courselink} style={{color:'black',textDecoration:'none'}}>
-                    <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',border:'none' }}>
+                <Col>
+                    <Card key={i} style={{ width: 332, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>
+                        <Link to={item.courselink} style={{ color: 'black', textDecoration: 'none' }}>
                             <CardImg src={item.thumbnail} alt="Card image cap" />
                             <CardBody>
                                 <CardTitle>{item.coursename}</CardTitle>
                                 <CardText>{item.description}</CardText>
                             </CardBody>
+                        </Link>
                     </Card>
-                </Link>
-            </Col>
+                </Col>
         );
 
         return (
-            <Container style={{ paddingBottom: 20 }}>
+            <Container style={{ paddingBottom: 20, textAlign: 'center' }}>
                 <Row>
                     {ListItems}
                 </Row>
@@ -43,10 +44,10 @@ export class CoursePresent extends React.Component {
 
 CoursePresent.propType = {
     src: PropTypes.arrayOf(PropTypes.shape({
-        coursename : PropTypes.string.isRequired,
-        thumbnail : PropTypes.string.isRequired,
-         courselink: PropTypes.string.isRequired,
-         description: PropTypes.string.isRequired
+        coursename: PropTypes.string.isRequired,
+        thumbnail: PropTypes.string.isRequired,
+        courselink: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired
     })).isRequired
 }
 
@@ -56,11 +57,11 @@ CoursePresent.propType = {
 
 CoursePresent.defaultProps = {
     src: [
-        {coursename : "Math101", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"},
-        {coursename : "Math102", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"},
-        {coursename : "Math201", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"},
-        {coursename : "Math202", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"},
-        {coursename : "Math202", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"},
-        {coursename : "Math202", thumbnail : 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG',courselink:"/course",description:"aaaaaaaa"}
-        ]
+        { coursename: "Math101", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" },
+        { coursename: "Math102", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" },
+        { coursename: "Math201", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" },
+        { coursename: "Math202", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" },
+        { coursename: "Math202", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" },
+        { coursename: "Math202", thumbnail: 'https://dummyimage.com/318x180/AAAAAA/FFFFFF&text=DefaultIMG', courselink: "/course", description: "aaaaaaaa" }
+    ]
 };

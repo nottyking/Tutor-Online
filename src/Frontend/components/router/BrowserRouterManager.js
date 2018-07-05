@@ -12,6 +12,7 @@ import { RegisterPage } from './../register/RegisterPage';
 import { Admin } from './../admin/Admin';
 
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import { CoursePageList } from './../course/CoursePageList';
 
 class BrowserRouterManager extends React.Component {
 
@@ -33,6 +34,7 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/" component={Content} />
                     <Route exact path="/about_us" component={AboutUs} />
                     <Route exact path="/course/:courseID" component={CourseA} />
+                    <Route exact path="/course" component={CoursePageList} />
                     
                     <Route exact path="/student" component={(userType === "user" || userType === "admin") ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
                     <Route exact path="/learning" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />

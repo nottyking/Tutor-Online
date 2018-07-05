@@ -20,7 +20,7 @@ export class ContactUsTab extends React.Component {
     render() {
         return (
             <div>
-                <Container fluid style={{ paddingTop: 10, width: '310px', justifyContent: 'right' }}>
+                <Container fluid style={{ paddingTop: 10, justifyContent: 'right' }}>
                     <Label style={{ fontWeight: "bold" }}>CONTACT US</Label>
                     <hr color='#FFF' style={{
                         height: '3px',
@@ -37,7 +37,7 @@ export class ContactUsTab extends React.Component {
                             <NavLink className={classnames({ active: this.state.contactTab === '3' })} onClick={() => { this.toggleContact('3') }}>Opening Times</NavLink>
                         </NavItem>
                     </Nav>
-                    <TabContent activeTab={this.state.contactTab}>
+                    <TabContent activeTab={this.state.contactTab} style={{textAlign: 'center' }}>
                         <TabPane tabId='1'>
                             <Label>+66(0)2-821-7877</Label>
                         </TabPane>

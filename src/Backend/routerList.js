@@ -7,6 +7,7 @@ const routerList = {
     '/course',
     '/home' ,
     '/manage',
+    '/learning',
     '/auth'
   ] ,
   routeTo : [
@@ -17,6 +18,7 @@ const routerList = {
     require('./Controller/Course/CourseRouter'),
     require('./Controller/Home/HomeRouter'),
     require('./Controller/Manage/ManageRouter'),
+    require('./Controller/Learning/LearningRouter'),
     require('./CheckAuth')
   ]
 }

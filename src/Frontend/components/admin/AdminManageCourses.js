@@ -371,7 +371,7 @@ export class AdminManageCourses extends React.Component {
           <Card style={{ background: '#444', padding: 20 }}>
             <Row className="justify-content-between" style={{ color: 'white' }}>
               <Col xs='auto'>
-                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>User Management</Input>
+                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>Course Management</Input>
               </Col>
               <Col xs='auto'>
                 <Form inline style={{ display: 'block', zIndex: 100 }}>

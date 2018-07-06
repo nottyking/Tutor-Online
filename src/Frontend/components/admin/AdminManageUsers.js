@@ -247,10 +247,15 @@ export class AdminManageUsers extends React.Component {
           <td>{item.username}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
-          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-google" /></Button>{' '}
-            <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
-            <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
-          <td><i class={item.type == '1' ? "fa fa-facebook" : item.type == '2' ? "fa fa-google" : ''} /></td>
+          <td><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
+          <td>
+            <Button disabled color={item.isconfirm == 0 ? "dark" : item.isbanned == 1 ? "danger" : item.role == 1 ? "primary" : "success"} style={{ width: 45, height: 40 }}>
+              <i class={item.isconfirm == 0 ? "fa fa-envelope-o" : item.isbanned == 1 ? "fa fa-warning" : item.role == 1 ? "fa fa-graduation-cap" : "fa fa-check"} />
+            </Button>{" "}
+            <Button disabled color={item.isconfirm == 0 ? "dark" : item.isbanned == 1 ? "danger" : type == '1' ? "primary" : item.type == '2' ? "danger" : "light"} style={{ width: 45, height: 40 }}>
+              <i class={item.type == '1' ? "fa fa-facebook" : item.type == '2' ? "fa fa-google" : 'fa fa-user'} />
+            </Button>
+          </td>
         </tr>
       );
 

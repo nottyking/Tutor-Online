@@ -44,7 +44,7 @@ export class Learning extends React.Component {
         <Container fluid>
           <Row>
             <Col />
-            <Col xs='9'>
+            <Col xs='8'>
               <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>Coursename</h3>
               <VideoPlayer />
               <p></p>
@@ -59,21 +59,10 @@ export class Learning extends React.Component {
               </CardText>
               </Card>
             </Col>
-            <Col xs='2'>
+            <Col xs='3'>
               <br /><br />
-              <SubCourseProgressBar now={1}
-                src={[
-                  { SCname: "Math101", SCid: 1, SClink: "https://player.vimeo.com/video/205571281" },
-                  { SCname: "Math102", SCid: 2, SClink: "https://player.vimeo.com/video/110270314" },
-                  { SCname: "Math201", SCid: 3, SClink: "https://player.vimeo.com/video/205571281" },
-                  { SCname: "Math202", SCid: 4, SClink: "https://player.vimeo.com/video/110270314" },
-                  { SCname: "Math301", SCid: 5, SClink: "https://player.vimeo.com/video/205571281" },
-                  { SCname: "Math302", SCid: 6, SClink: "https://player.vimeo.com/video/110270314" },
-                  { SCname: "Math401", SCid: 7, SClink: "https://player.vimeo.com/video/205571281" },
-                  { SCname: "Math402", SCid: 8, SClink: "https://player.vimeo.com/video/110270314" },
-                  { SCname: "Math501", SCid: 9, SClink: "https://player.vimeo.com/video/205571281" }
-                ]}
-              />
+              <SubCourseProgressBar/>
+
             </Col>
           </Row>
         </Container>
@@ -93,3 +82,17 @@ Learning.propTypes = {
     Cdesc: PropTypes.string.isRequired
   })).isRequired
 }
+
+/*<SubCourseProgressBar now={1}
+src={[
+  { SCname: "Math101", SCid: 1, SClink: "https://player.vimeo.com/video/205571281" },
+  { SCname: "Math102", SCid: 2, SClink: "https://player.vimeo.com/video/110270314" },
+  { SCname: "Math201", SCid: 3, SClink: "https://player.vimeo.com/video/205571281" },
+  { SCname: "Math202", SCid: 4, SClink: "https://player.vimeo.com/video/110270314" },
+  { SCname: "Math301", SCid: 5, SClink: "https://player.vimeo.com/video/205571281" },
+  { SCname: "Math302", SCid: 6, SClink: "https://player.vimeo.com/video/110270314" },
+  { SCname: "Math401", SCid: 7, SClink: "https://player.vimeo.com/video/205571281" },
+  { SCname: "Math402", SCid: 8, SClink: "https://player.vimeo.com/video/110270314" },
+  { SCname: "Math501", SCid: 9, SClink: "https://player.vimeo.com/video/205571281" }
+]}
+/>*/

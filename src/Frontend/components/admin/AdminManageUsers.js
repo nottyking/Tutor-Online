@@ -301,7 +301,7 @@ export class AdminManageUsers extends React.Component {
                         onKeyPress={(e, mode = document.getElementById('selectUserMode').value) => this.handleSearchKeyPress(e, mode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}>
+                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, document.getElementById('selectUserMode').value) }}>
                           <i class="fa fa-search" />
                         </Button>
                       </InputGroupAddon>

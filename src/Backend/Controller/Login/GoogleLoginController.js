@@ -18,11 +18,17 @@ async function LoginByGoogle(req, res){
     var userid;
     var role;
     if(userdata.length>0){
+      if(userdata[0].isbanned == 1){
+        return resolve({
+          result: false ,
+          msg: "You are banned, please contract us."
+        }) ;
+      }
       userid = userdata[0].userid;
       role = userdata[0].role;
     }
     else{
-      const result = (await insertFunc.insertUser(username,'-',email,'-','-','-',profileimage,2,typeid,'-','-')).result
+      const result = (await insertFunc.insertUser(username,'-',email,'-','-','-',profileimage,2,typeid,'-','-',1)).result
       console.log(result);
       userid = result.insertId;
       role = 0;

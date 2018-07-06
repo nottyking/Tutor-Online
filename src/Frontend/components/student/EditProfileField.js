@@ -78,6 +78,7 @@ export class EditProfileField extends React.Component {
         var temp2 = (await axios.post(ipList.backend + "/student/editProfile/uploadProfileImage", formData)).data
         if (temp2.redirect) {
             localStorage.removeItem('user');
+            cookies.remove("loginToken",{ path: '/' });
             this.setState({
                 redirect: temp2.redirect
             })
@@ -91,6 +92,7 @@ export class EditProfileField extends React.Component {
         }))).data
         if (isPasswordCorrect.redirect) {
             localStorage.removeItem('user');
+            cookies.remove("loginToken",{ path: '/' });
             this.setState({
                 redirect: isPasswordCorrect.redirect
             })

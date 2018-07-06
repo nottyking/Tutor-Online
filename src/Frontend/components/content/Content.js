@@ -8,6 +8,9 @@ import { Loading } from '../loading/Loading'
 import AuthToken from './../router/AuthToken';
 const insideStyles1 = { background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)' };
 const insideStyles2 = { background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)' };
+const Cookies = require('universal-cookie');
+
+const cookies = new Cookies();
 
 const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
@@ -32,6 +35,7 @@ export class Content extends React.Component {
     console.log('courseInfo');
     if (courseInfo.redirect) {
       localStorage.removeItem('user')
+      cookies.remove("loginToken",{ path: '/' });
       this.setState({
         redirect: courseInfo.redirect
       })

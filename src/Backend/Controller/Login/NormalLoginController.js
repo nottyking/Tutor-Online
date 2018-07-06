@@ -32,19 +32,28 @@ async function LoginByNormal(req, res){
       for(let i = 0 ; i < result.length ; i++){
         console.log(result[i]);
         if(result[i].isconfirm === 1){
-          console.log("Login successful:",result);
-          var userid = result[i].userid;
+          if(result[i].isbanned==1){
+            console.log("BANNED!");
+            return resolve({
+              result: false ,
+              msg: "You are banned, please contract us."
+            }) ;
+          }
+          else{
+            console.log("Login successful:",result);
+            var userid = result[i].userid;
 
-          var loginToken = (await makeAuthentication(userid));
-          console.log("Login Token:",loginToken);
-          // storeThisIDInLocalStorage(userid, loginToken);
+            var loginToken = (await makeAuthentication(userid));
+            console.log("Login Token:",loginToken);
+            // storeThisIDInLocalStorage(userid, loginToken);
 
-          return resolve({
-            result: true ,
-            msg: "Login successful" ,
-            loginToken: loginToken ,
-            role: result[i].role
-          }) ;
+            return resolve({
+              result: true ,
+              msg: "Login successful" ,
+              loginToken: loginToken ,
+              role: result[i].role
+            }) ;
+          }
 
         }
       }

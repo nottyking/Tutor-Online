@@ -345,9 +345,9 @@ export class AdminManageCourses extends React.Component {
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.coursename}</td>
           <td style={{ width: 300, maxWidth: 300 }}>{item.instructor}</td>
           <td style={{ width: 150, maxWidth: 150 }}>{(item.price / 100).toLocaleString('en')} ฿</td>
-          <td><Button color='primary' style={{width:45, height:40}} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
-            <Button color='primary' style={{width:45, height:40}} outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
-            <Button color='danger' style={{width:45, height:40}} outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
+          <td><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
+            <Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
+            <Button color='danger' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
         </tr>
       );
 
@@ -443,22 +443,26 @@ export class AdminManageCourses extends React.Component {
                     {courseTableBody}
                   </tbody>
                 </Table>
-                <Pagination aria-label="Page navigation example" style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, -100%)' }}>
-                  <PaginationItem disabled={this.state.pager == 0}>
-                    <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
-                      <i class="fa fa-angle-left" />
-                    </PaginationLink>
-                  </PaginationItem>
-                  {paginationitems}
-                  <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1 || this.state.courseInfo.length === 0}>
-                    <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
-                      <i class="fa fa-angle-right" />
-                    </PaginationLink>
-                  </PaginationItem>
-                </Pagination>
               </Col>
             </Col>
           </Row>
+
+          <Row className='justify-content-around'>
+            <Pagination aria-label="Page navigation example">
+              <PaginationItem disabled={this.state.pager == 0}>
+                <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
+                  <i class="fa fa-angle-left" />
+                </PaginationLink>
+              </PaginationItem>
+              {paginationitems}
+              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1 || this.state.courseInfo.length === 0}>
+                <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
+                  <i class="fa fa-angle-right" />
+                </PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </Row>
+          
         </Container >
       );
 

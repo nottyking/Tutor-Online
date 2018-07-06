@@ -118,7 +118,6 @@ export class AdminManageUsers extends React.Component {
   handleSearchKeyPress(event, mode) {
     if (event.charCode == 13) {
       event.preventDefault();
-      console.log(mode);
       this.searchUser(event.target.value, mode);
     }
   }

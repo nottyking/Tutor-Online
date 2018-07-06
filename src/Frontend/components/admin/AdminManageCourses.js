@@ -63,6 +63,7 @@ export class AdminManageCourses extends React.Component {
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
+      searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: 0,
@@ -72,6 +73,7 @@ export class AdminManageCourses extends React.Component {
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.changeSearchType = this.changeSearchType.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
@@ -114,11 +116,18 @@ export class AdminManageCourses extends React.Component {
     return true;
   }
 
-  handleSearchKeyPress(event) {
+  handleSearchKeyPress(event, mode) {
     if (event.charCode == 13) {
       event.preventDefault();
-      this.searchCourse(event.target.value);
+      this.searchCourse(event.target.value, mode);
     }
+  }
+
+  changeSearchType(type) {
+    if (this.state.searchType !== type)
+      this.setState(
+        { searchType: type }
+      )
   }
 
   sortCourse(mode) {

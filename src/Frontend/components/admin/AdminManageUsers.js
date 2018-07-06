@@ -251,7 +251,7 @@ export class AdminManageUsers extends React.Component {
                     <InputGroup >
                       <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
                       <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
-                        <Input disabled hidden name="selectUserMode" id="selectUserMode" value={this.state.searchType}></Input>
+                        <Input disabled hidden value={this.state.searchType}></Input>
                         <Button disabled color="light" outline
                           style={{ width: 130 }} >{this.state.searchType}</Button>
                         <DropdownToggle split outline color='light' />
@@ -266,10 +266,10 @@ export class AdminManageUsers extends React.Component {
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
                       <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
-                        onKeyPress={(e, mode = document.getElementById('selectUserMode').value) => this.handleSearchKeyPress(e, mode)}
+                        onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, document.getElementById('selectUserMode').value) }}>
+                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, this.state.searchType) }}>
                           <i class="fa fa-search" />
                         </Button>
                       </InputGroupAddon>
@@ -294,7 +294,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
-                  <th>E-Mail</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -336,6 +336,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -347,11 +348,11 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>

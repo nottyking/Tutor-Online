@@ -43,15 +43,15 @@ export class SubCourseProgressBar extends React.Component {
         const src = this.props.src;
         var allSubCourseComponent = []
         src.map((item, i) => {
-            if(item.videolink.substring(item.videolink.indexOf('o/') + 2)){
+            if(item.videolink.substring(item.videolink.indexOf('o/') + 2)!==-1){
             allSubCourseComponent.push(new Promise(async (resolve, reject) => {
                 var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
-                if (i === this.props.now) {
+                if (i == this.props.now) {
                     resolve(
-                        <Button className='sidebarHover' style={{display:'block',zIndex:100}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' style={{display:'block',width:'100%',minWidth:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px'}}><img src={video} style={{top:0,left:0}} /></td>
-                            <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> {item.subcoursename.toUpperCase()}</td>
+                            <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> <p>{item.subcoursename.toUpperCase()}</p></td>
                         </tr>
                         </Button>
                     )
@@ -61,12 +61,14 @@ export class SubCourseProgressBar extends React.Component {
                         <Button className='sidebarHover' href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr className='sidevarHoverEl'>
                             <td style={{padding:'0px 0px 0px 0px'}} className='sidevarHoverEl'><img src={video} /></td>
-                            <td className='sidevarHoverEl'>{item.subcoursename.toUpperCase() }</td>
+                            <td className='sidevarHoverEl'><p>{item.subcoursename.toUpperCase() }</p></td>
                         </tr>
                         </Button>
                     )
                 }
             }))
+        }else{
+            console.log('error from link :'+item.videolink);
         }
         });
 
@@ -90,7 +92,7 @@ export class SubCourseProgressBar extends React.Component {
             console.log('loaded');
             // this.setState({isLoaded:true});
         }
-        return a[0].thumbnail_medium;
+        return a[0].thumbnail_small;
     }
 
     toggle() {

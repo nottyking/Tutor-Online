@@ -159,31 +159,33 @@ export class EditProfileField extends React.Component {
       console.log("!@#");
       return(
         <div>
+          <Form>
+            <FormGroup row>
+                <Label>New Password</Label>
+                <Input type='password' id='newPassword'
+                    defaultValue={this.props.defaultValue.password} placeholder='Enter new password'
+                    valid={this.state.validPassword}
+                    invalid={!this.state.validPassword && !this.state.isDefaultPassword}
+                    onChange={this.checkValidPassword}
+                />
+                <FormText>Type here to change your password, New password must contain between 8-12 characters</FormText>
+            </FormGroup>
+            <FormGroup row>
+                <Label>Re-Password</Label>
+                <Input type='password' id='rePassword'
+                    defaultValue={this.props.defaultValue.rePassword} placeholder='Enter new password again'
+                    valid={this.state.validRePassword}
+                    invalid={!this.state.validRePassword && !this.state.isDefaultRePassword}
+                    onChange={this.checkValidRePassword}
+                />
+                <FormText>Confirm your new password here</FormText>
+            </FormGroup>
+          </Form>
           <hr></hr>
           <CardTitle>
               Comfirm Your Password
           </CardTitle>
           <Form>
-              <FormGroup row>
-                  <Label>New Password</Label>
-                  <Input type='password' id='newPassword'
-                      defaultValue={this.props.defaultValue.password} placeholder='Enter new password'
-                      valid={this.state.validPassword}
-                      invalid={!this.state.validPassword && !this.state.isDefaultPassword}
-                      onChange={this.checkValidPassword}
-                  />
-                  <FormText>Type here to change your password, New password must contain between 8-12 characters</FormText>
-              </FormGroup>
-              <FormGroup row>
-                  <Label>Re-Password</Label>
-                  <Input type='password' id='rePassword'
-                      defaultValue={this.props.defaultValue.rePassword} placeholder='Enter new password again'
-                      valid={this.state.validRePassword}
-                      invalid={!this.state.validRePassword && !this.state.isDefaultRePassword}
-                      onChange={this.checkValidRePassword}
-                  />
-                  <FormText>Confirm your new password here</FormText>
-              </FormGroup>
               <FormGroup row>
                   <Label>Current Password</Label>
                   <Input type='password' id='password'

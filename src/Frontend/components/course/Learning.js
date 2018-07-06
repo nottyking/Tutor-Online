@@ -42,13 +42,17 @@ export class Learning extends React.Component {
 
   async getData() {
     // var subcourseInfo = (await axios.post())
+    console.log(this.props.match.params.courseID);
     var temp = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
+    console.log(temp);
+    console.log(this.props.match.params.subcourseID);
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
     this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow});
+    console.log(this.state);
   }
 
   joox(clickvideo){
@@ -59,6 +63,7 @@ export class Learning extends React.Component {
     const timeElapsed = '0m5s'
     console.log(this.props.match.params.courseID);
     console.log(this.props.match.params.subcourseID);
+    console.log(this.state);
     console.log(this.state.subcoursesInfo);
     console.log(this.state.subcoursesInfo[this.state.now]);
     //console.log(this.state.subcoursesInfo[this.state.now].subcourseinfo);

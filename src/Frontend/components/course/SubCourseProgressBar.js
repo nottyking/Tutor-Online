@@ -71,7 +71,7 @@ export class SubCourseProgressBar extends React.Component {
             console.log('error from link :'+item.videolink);
         }
         });
-        
+
         Promise.all(allSubCourseComponent).then((res) => {
             Medias = res
             this.setState({ isLoaded: true });
@@ -104,9 +104,9 @@ export class SubCourseProgressBar extends React.Component {
     state = { open: undefined }
     toggle = () => this.setState(state => ({ open: !state.open }))
 
- 
 
-    
+
+
 
 
     render() {
@@ -119,7 +119,7 @@ export class SubCourseProgressBar extends React.Component {
                 {Medias}
                   </tbody>
                 </Table>
-                    
+
             </Container>);
         var sidebarLoadingContent = (
             <Container fluid style={{ background: '#555' }}>

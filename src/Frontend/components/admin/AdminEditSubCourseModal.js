@@ -53,7 +53,7 @@ export class AdminEditSubCourseModal extends React.Component {
   async updateSubcourse() {
     this.setState({ isLoaded: false });
     var temp2 = (await axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
-      subcourse: tempSubcourseInfo
+      subcourse: tempSubcourseInfo, courseid: this.props.courseid
     }))).data
     console.log('updated');
     console.log(tempSubcourseInfo);
@@ -114,7 +114,7 @@ export class AdminEditSubCourseModal extends React.Component {
   }
 
 
-  // swap index x with x-1 
+  // swap index x with x-1
   swapup(x){
     if(x>0){
       var swaptemp = tempSubcourseInfo[x-1].subcourseid;

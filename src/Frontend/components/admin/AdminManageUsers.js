@@ -185,7 +185,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleCreate() {
@@ -194,7 +194,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Create User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} />;
+    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />;
   }
 
   toggleSubcourse(x) {
@@ -203,7 +203,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleDelete(x) {
@@ -212,15 +212,23 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload}/>);
   }
 
   closeModal = () => {
+    console.log('closemodal by fx')
+    this.setState({
+      modalOpen: false
+    });
+  }
+
+  closeModalAndReload = () =>{
     console.log('closemodal by fx')
     this.getData();
     this.setState({
       modalOpen: false
     });
+
   }
 
   togglehideUnavailable = () => {

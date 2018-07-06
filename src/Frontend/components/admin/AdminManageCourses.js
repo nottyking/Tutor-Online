@@ -63,6 +63,7 @@ export class AdminManageCourses extends React.Component {
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
+      splitButtonOpen: false,
       searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
@@ -74,6 +75,7 @@ export class AdminManageCourses extends React.Component {
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.changeSearchType = this.changeSearchType.bind(this);
+    this.toggleSplit = this.toggleSplit.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
@@ -258,9 +260,6 @@ export class AdminManageCourses extends React.Component {
         break;
 
     }
-
-
-
     console.log(tempcourses);
     this.setState({ courseInfo: tempcourses, pager: 0 });
   }
@@ -282,6 +281,11 @@ export class AdminManageCourses extends React.Component {
     this.setState({ ishideUnavailable: !this.state.ishideUnavailable, courseInfo: temp2, pager: 0 });
   }
 
+  toggleSplit() {
+    this.setState({
+      splitButtonOpen: !this.state.splitButtonOpen
+    });
+  }
 
   toggleEdit(x) {
     console.log(this.state.modalOpen);
@@ -369,17 +373,35 @@ export class AdminManageCourses extends React.Component {
           <Card style={{ background: '#444', padding: 20 }}>
             <Row className="justify-content-between" style={{ color: 'white' }}>
               <Col xs='auto'>
-                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>Courses Management</Input>
+                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>User Management</Input>
               </Col>
               <Col xs='auto'>
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
-                    <Input type="text" name="coursesearchbox"
-                      id="coursesearchbox" placeholder="Search Course"
-                      onKeyPress={(e) => this.handleSearchKeyPress(e)}
-                      style={{ width: 300 }} />&nbsp;
-                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value, 'Price <') }}><i class="fa fa-search" /></Button>
+                    <InputGroup >
+                      <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
+                        <Input disabled hidden value={this.state.searchType}></Input>
+                        <Button disabled color="light" outline
+                          style={{ width: 130 }} >{this.state.searchType}</Button>
+                        <DropdownToggle split outline color='light' />
+                        <DropdownMenu>
+                          <DropdownItem onClick={() => this.changeSearchType('All')}>All</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Course Name')}>Course Name</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Instructor')}>Instructor</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Price >')}>{'Price >'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Price <')}>{'Price <'}</DropdownItem>
+                        </DropdownMenu>
+                      </InputGroupButtonDropdown>
+                      <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" placeholder="Search Course"
+                        onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
+                        style={{ width: 300 }} />
+                      <InputGroupAddon addonType="append">
+                        <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value, this.state.searchType) }}>
+                          <i class="fa fa-search" />
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormGroup>
                 </Form>
               </Col>

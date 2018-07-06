@@ -6,7 +6,10 @@ import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
-import { Form, Card, Input, Container, Col, Row, FormGroup, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import {
+  Form, Card, Input, InputGroupButtonDropdown, DropdownMenu, DropdownItem, InputGroupAddon, DropdownToggle, InputGroup,
+  Container, Col, Row, FormGroup, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink
+} from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -61,6 +64,8 @@ export class AdminManageUsers extends React.Component {
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
+      splitButtonOpen: false,
+      searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,
       sortmode: 0
     }
@@ -69,6 +74,7 @@ export class AdminManageUsers extends React.Component {
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.toggleSplit = this.toggleSplit.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
@@ -109,11 +115,19 @@ export class AdminManageUsers extends React.Component {
     return true;
   }
 
-  handleSearchKeyPress(event) {
+  handleSearchKeyPress(event, mode) {
     if (event.charCode == 13) {
       event.preventDefault();
-      this.searchUser(event.target.value, 'fname');
+      console.log(mode);
+      this.searchUser(event.target.value, mode);
     }
+  }
+
+  changeSearchType(type) {
+    if (this.state.searchType !== type)
+      this.setState(
+        { searchType: type }
+      )
   }
 
   searchUser(searchword, mode) {
@@ -125,30 +139,54 @@ export class AdminManageUsers extends React.Component {
     var expr = RegExp(searchword.toLowerCase());
     var tempusers = [];
     switch (mode) {
-      case 'fname':
+      case 'Name':
+        allusers.map((item) =>
+          ((expr.test(item.fname.toLowerCase())) || (expr.test(item.lname.toLowerCase()))) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'User ID':
+        allusers.map((item) =>
+          (expr.test(item.userid)) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'Username':
+        allusers.map((item) =>
+          (expr.test(item.username.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'First Name':
         allusers.map((item) =>
           (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
         );
         break;
-      case 'userid':
+      case 'Last Name':
         allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+          (expr.test(item.lname.toLowerCase())) ? tempusers.push(item) : ''
         );
         break;
-      case 'lname':
+      case 'Email-Address':
         allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
-        );
-      case 'email':
-        allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+          (expr.test(item.email.toLowerCase())) ? tempusers.push(item) : ''
         );
         break;
       default:
-
+        allusers.map((item) => (
+          (expr.test(item.userid)) ||
+          (expr.test(item.username.toLowerCase())) ||
+          (expr.test(item.email.toLowerCase())) ||
+          (expr.test(item.fname.toLowerCase())) ||
+          (expr.test(item.lname.toLowerCase()))) ? tempusers.push(item) : ''
+        );
+        break;
     }
     console.log(tempusers);
     this.setState({ userinfo: tempusers, pager: 0 });
+  }
+
+  toggleSplit() {
+    this.setState({
+      splitButtonOpen: !this.state.splitButtonOpen
+    });
   }
 
   toggleEdit(x) {
@@ -201,8 +239,6 @@ export class AdminManageUsers extends React.Component {
     this.getData();
   }
 
-
-
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
@@ -244,11 +280,32 @@ export class AdminManageUsers extends React.Component {
               <Col xs='auto'>
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
-                    <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
-                      onKeyPress={(e) => this.handleSearchKeyPress(e)}
-                      style={{ width: 300 }} />&nbsp;
-                    <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
+                    <InputGroup >
+                      <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
+                        <Input disabled hidden name="selectUserMode" id="selectUserMode" value={this.state.searchType}></Input>
+                        <Button disabled color="light" outline
+                          style={{ width: 130 }} >{this.state.searchType}</Button>
+                        <DropdownToggle split outline color='light' />
+                        <DropdownMenu>
+                          <DropdownItem onClick={() => this.changeSearchType('All')}>All</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('User ID')}>User ID</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Username')}>Username</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Email-Address')}>Email-Address</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Name')}>Name</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('First Name')}>First Name</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
+                        </DropdownMenu>
+                      </InputGroupButtonDropdown>
+                      <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
+                        onKeyPress={(e, mode = document.getElementById('selectUserMode').value) => this.handleSearchKeyPress(e, mode)}
+                        style={{ width: 300 }} />
+                      <InputGroupAddon addonType="append">
+                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, document.getElementById('selectUserMode').value) }}>
+                          <i class="fa fa-search" />
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormGroup>
                 </Form>
               </Col>
@@ -270,8 +327,8 @@ export class AdminManageUsers extends React.Component {
                   <th>User ID</th>
                   <th>UserName</th>
                   <th>FirstName</th>
-                  <th>Price</th>
-                  <th></th>
+                  <th>LastName</th>
+                  <th>Action</th>
                   <th>type</th>
                 </tr>
               </thead>
@@ -308,11 +365,12 @@ export class AdminManageUsers extends React.Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Course id</th>
-                  <th>Course Name</th>
-                  <th>Instructor</th>
-                  <th>Price</th>
-                  <th></th>
+                  <th>User ID</th>
+                  <th>UserName</th>
+                  <th>FirstName</th>
+                  <th>LastName</th>
+                  <th>Action</th>
+                  <th>type</th>
                 </tr>
               </thead>
               <tbody>

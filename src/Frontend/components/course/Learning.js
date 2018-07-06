@@ -69,7 +69,6 @@ export class Learning extends React.Component {
         <AuthToken msgFrom="Learning" />
         <Container fluid>
           <Row>
-            <Col />
             <Col xs='8'>
               <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
               <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink}/>
@@ -83,11 +82,12 @@ export class Learning extends React.Component {
               </CardText>
               </Card>
             </Col>
-            <Col xs='3'>
+            
               <br /><br />
+              
+              <Col xs='4'>
               <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID}/>
-
-            </Col>
+              </Col>
           </Row>
         </Container>
       </div>

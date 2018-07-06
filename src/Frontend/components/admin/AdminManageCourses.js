@@ -51,8 +51,6 @@ const MyLoader2 = props => (
   </ContentLoader>
 );
 
-
-
 export class AdminManageCourses extends React.Component {
   constructor(props) {
     super(props);
@@ -511,7 +509,6 @@ export class AdminManageCourses extends React.Component {
             </Table>
           </Col>
         </Container>
-
       );
     }
   }

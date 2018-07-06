@@ -246,6 +246,7 @@ export class AdminManageUsers extends React.Component {
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
+          <td>{item.email}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
           <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-google" /></Button>{' '}
@@ -325,6 +326,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -366,6 +368,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -377,11 +380,11 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>

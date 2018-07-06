@@ -345,9 +345,9 @@ export class AdminManageCourses extends React.Component {
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.coursename}</td>
           <td style={{ width: 300, maxWidth: 300 }}>{item.instructor}</td>
           <td style={{ width: 150, maxWidth: 150 }}>{(item.price / 100).toLocaleString('en')} ฿</td>
-          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
-            <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
-            <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
+          <td><Button color='primary' style={{width:45, height:40}} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
+            <Button color='primary' style={{width:45, height:40}} outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
+            <Button color='danger' style={{width:45, height:40}} outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
         </tr>
       );
 

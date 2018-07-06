@@ -39,7 +39,7 @@ export class AdminEditUserModal extends React.Component {
       userid : id
     }))).data
 
-    exitfx();
+    exitandreloadfx();
     return true;
   }
 

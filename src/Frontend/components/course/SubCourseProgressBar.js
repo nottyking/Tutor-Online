@@ -48,7 +48,7 @@ export class SubCourseProgressBar extends React.Component {
                 var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
                 if (i == this.props.now) {
                     resolve(
-                        <Button className='sidebarHover' style={{display:'block',width:'100%',minWidth:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px'}}><img src={video} style={{top:0,left:0}} /></td>
                             <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> <p>{item.subcoursename.toUpperCase()}</p></td>
@@ -113,7 +113,7 @@ export class SubCourseProgressBar extends React.Component {
         console.log(this.props.src);
         var sidebarContent = (
             <Container fluid style={{ background: '#555',padding:'0px 0px 0px 0px'}}>
-                <i class="fa fa-outdent" onClick={() => { this.onSetSidebarOpen(false) }} style={{ color: 'white' }} />
+            <Button color='info' onClick={()=>{this.onSetSidebarOpen(false)}}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
                 <Table borderless>
                 <tbody>
                 {Medias}
@@ -123,7 +123,7 @@ export class SubCourseProgressBar extends React.Component {
             </Container>);
         var sidebarLoadingContent = (
             <Container fluid style={{ background: '#555' }}>
-                <i class="fa fa-outdent" onClick={() => { this.onSetSidebarOpen(false) }} style={{ color: 'white' }} />
+            <Button color='info' onClick={()=>{this.onSetSidebarOpen(false)}}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
                 <ButtonGroup vertical>
                 </ButtonGroup>
             </Container>);

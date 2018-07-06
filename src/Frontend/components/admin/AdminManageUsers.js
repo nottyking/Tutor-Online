@@ -1,6 +1,6 @@
 import React from 'react'
 import { AdminEditUserModal } from './AdminEditUserModal';
-import { AdminEditUserSubcourseModal } from './AdminEditUserSubcourseModal';
+import { AdminEditCourseModal } from './AdminEditCourseModal';
 import { AdminCreateCourseModal } from './AdminCreateCourseModal';
 import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
@@ -17,8 +17,8 @@ const ipList = require('../../../Config/ipConfig');
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
 var modalComponent;
+const rowperpage = 15;
 var allusers;
-const rowperpage = 15
 const rolecolor = ['#FFF', '#007bff'];
 const type = ['', 'fab fa-facebook-f', 'fab fa-google']
 
@@ -71,6 +71,9 @@ export class AdminManageUsers extends React.Component {
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.toggleCreate = this.toggleCreate.bind(this);
+    this.toggleSubcourse = this.toggleSubcourse.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
@@ -93,16 +96,7 @@ export class AdminManageUsers extends React.Component {
     var temp1 = (await axios.post(ipList.backend + "/manage/mainuser", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
-    console.log(temp1);
     allusers = temp1;
-    if (this.state.ishideUnavailable) {
-      for (var i = temp1.length - 1; i >= 0; --i) {
-        if (temp1[i].isconfirm == 0) {
-          temp1.splice(i, 1);
-        }
-      }
-    }
-    console.log(temp1);
     this.setState({
       isloaded: true,
       userinfo: temp1,
@@ -191,21 +185,64 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+  }
+
+  toggleCreate() {
+    console.log(this.state.modalOpen);
+    this.setState({
+      modalHeader: 'Create User',
+      modalOpen: !this.state.modalOpen
+    });
+    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />;
+  }
+
+  toggleSubcourse(x) {
+    console.log(this.state.modalOpen);
+    this.setState({
+      modalHeader: 'Edit User',
+      modalOpen: !this.state.modalOpen
+    });
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+  }
+
+  toggleDelete(x) {
+    console.log(this.state.modalOpen);
+    this.setState({
+      modalHeader: 'Delete User',
+      modalOpen: !this.state.modalOpen
+    });
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload}/>);
   }
 
   closeModal = () => {
     console.log('closemodal by fx')
-    this.getData();
     this.setState({
       modalOpen: false
     });
   }
 
+  closeModalAndReload = () =>{
+    console.log('closemodal by fx')
+    this.getData();
+    this.setState({
+      modalOpen: false
+    });
+
+  }
+
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable });
-    this.getData();
+    var temp = Object.assign([], allusers);
+    if (!this.state.ishideUnavailable) {
+      for (var i = temp.length - 1; i >= 0; --i) {
+        if (temp[i].isconfirm == 0) {
+          temp.splice(i, 1);
+        }
+      }
+    }
+    console.log(temp);
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable,userinfo:temp,pager:0 });
   }
 
   render() {
@@ -216,11 +253,19 @@ export class AdminManageUsers extends React.Component {
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
-          <td>{item.email}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
-          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
-            <td><i class={item.type=='1'?"fa fa-facebook":item.type=='2'? "fa fa-google":''} /></td>
+          <td style={{ width: 60 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
+          <td style={{ width: 120 }}>
+            <Button disabled color={item.isconfirm == 0 ? "dark" : item.isbanned == 1 ? "danger" : item.role == 1 ? "primary" : "success"}
+              style={{ width: 45, height: 40 }}>
+              <i class={item.isconfirm == 0 ? "fa fa-envelope-o" : item.isbanned == 1 ? "fa fa-warning" : item.role == 1 ? "fa fa-graduation-cap" : "fa fa-check"} />
+            </Button>{" "}
+            <Button disabled color={item.isconfirm == 0 ? "dark" : item.isbanned == 1 ? "danger" : item.role == 1 ? "primary" : item.type == '1' ? "primary" : item.type == '2' ? "danger" : "light"}
+              style={{ width: 45, height: 40 }}>
+              <i class={item.type == '1' ? "fa fa-facebook" : item.type == '2' ? "fa fa-google" : 'fa fa-user'} />
+            </Button>
+          </td>
         </tr>
       );
 
@@ -281,20 +326,19 @@ export class AdminManageUsers extends React.Component {
           </Card>
           <br />
 
-          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}
             <ModalFooter></ModalFooter>
           </Modal>
           <Col>
-            <Table inverse striped>
+            <Table bordered inverse striped>
               <thead>
                 <tr>
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
-                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -306,6 +350,9 @@ export class AdminManageUsers extends React.Component {
               </tbody>
             </Table>
 
+          </Col>
+
+          <Row className='justify-content-around'>
             <Pagination aria-label="Page navigation example">
               <PaginationItem disabled={this.state.pager == 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
@@ -319,7 +366,7 @@ export class AdminManageUsers extends React.Component {
                 </PaginationLink>
               </PaginationItem>
             </Pagination>
-          </Col>
+          </Row>
         </Container>
       );
 
@@ -336,7 +383,6 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
-                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -348,11 +394,11 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">{MyLoaderRow()}</td>
-                </tr>
+                  <td colspan="10">
+                    {MyLoaderRow()}</td></tr>
                 <tr>
-                  <td colspan="10">{MyLoaderRow()}</td>
-                </tr>
+                  <td colspan="10">
+                    {MyLoaderRow()}</td></tr>
                 <tr>
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>

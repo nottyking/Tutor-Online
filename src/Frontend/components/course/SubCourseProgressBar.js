@@ -113,7 +113,7 @@ export class SubCourseProgressBar extends React.Component {
         console.log(this.props.src);
         var sidebarContent = (
             <Container fluid style={{ background: '#555',padding:'0px 0px 0px 0px'}}>
-                <i class="fa fa-outdent" onClick={() => { this.onSetSidebarOpen(false) }} style={{ color: 'white' }} />
+            <Button color='info' onClick={()=>{this.onSetSidebarOpen(false)}}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
                 <Table borderless>
                 <tbody>
                 {Medias}
@@ -123,7 +123,7 @@ export class SubCourseProgressBar extends React.Component {
             </Container>);
         var sidebarLoadingContent = (
             <Container fluid style={{ background: '#555' }}>
-                <i class="fa fa-outdent" onClick={() => { this.onSetSidebarOpen(false) }} style={{ color: 'white' }} />
+            <Button color='info' onClick={()=>{this.onSetSidebarOpen(false)}}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
                 <ButtonGroup vertical>
                 </ButtonGroup>
             </Container>);

@@ -96,16 +96,7 @@ export class AdminManageUsers extends React.Component {
     var temp1 = (await axios.post(ipList.backend + "/manage/mainuser", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
-    console.log(temp1);
     allusers = temp1;
-    if (this.state.ishideUnavailable) {
-      for (var i = temp1.length - 1; i >= 0; --i) {
-        if (temp1[i].isavailable == 0) {
-          temp1.splice(i, 1);
-        }
-      }
-    }
-    console.log(temp1);
     this.setState({
       isloaded: true,
       userinfo: temp1,
@@ -194,7 +185,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleCreate() {
@@ -203,7 +194,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Create User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} />;
+    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />;
   }
 
   toggleSubcourse(x) {
@@ -212,7 +203,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleDelete(x) {
@@ -221,21 +212,37 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload}/>);
   }
 
   closeModal = () => {
     console.log('closemodal by fx')
-    this.getData();
     this.setState({
       modalOpen: false
     });
   }
 
+  closeModalAndReload = () =>{
+    console.log('closemodal by fx')
+    this.getData();
+    this.setState({
+      modalOpen: false
+    });
+
+  }
+
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable });
-    this.getData();
+    var temp = Object.assign([], allusers);
+    if (!this.state.ishideUnavailable) {
+      for (var i = temp.length - 1; i >= 0; --i) {
+        if (temp[i].isconfirm == 0) {
+          temp.splice(i, 1);
+        }
+      }
+    }
+    console.log(temp);
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable,userinfo:temp,pager:0 });
   }
 
   render() {

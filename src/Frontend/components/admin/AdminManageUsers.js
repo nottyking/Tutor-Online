@@ -96,16 +96,7 @@ export class AdminManageUsers extends React.Component {
     var temp1 = (await axios.post(ipList.backend + "/manage/mainuser", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
-    console.log(temp1);
     allusers = temp1;
-    if (this.state.ishideUnavailable) {
-      for (var i = temp1.length - 1; i >= 0; --i) {
-        if (temp1[i].isavailable == 0) {
-          temp1.splice(i, 1);
-        }
-      }
-    }
-    console.log(temp1);
     this.setState({
       isloaded: true,
       userinfo: temp1,
@@ -234,8 +225,16 @@ export class AdminManageUsers extends React.Component {
 
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable });
-    this.getData();
+    var temp = Object.assign([], allusers);
+    if (!this.state.ishideUnavailable) {
+      for (var i = temp.length - 1; i >= 0; --i) {
+        if (temp[i].isconfirm == 0) {
+          temp.splice(i, 1);
+        }
+      }
+    }
+    console.log(temp);
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable,userinfo:temp,pager:0 });
   }
 
   render() {

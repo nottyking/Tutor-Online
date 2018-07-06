@@ -22,12 +22,15 @@ class LoginPage extends React.Component {
         this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
         this.loginHandle = this.loginHandle.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.responseFacebook = this.responseFacebook.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
     }
 
     async loginHandle() {
         var check = await this.props.login(document.getElementById('loginpage-username').value, document.getElementById('loginpage-password').value)
         console.log('check::')
         console.log(check);
+        console.log(check.error.msg);
         if (check.type === "USER_LOGIN_SUCCESS") {
             history.push('/');
         } else {

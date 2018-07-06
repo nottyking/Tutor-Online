@@ -20,11 +20,18 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { isModal: false, msg: '', loginValid: false, defaultLoginState: true }
+        this.state = {
+          isModal: false,
+          msg: '',
+          loginValid: false,
+          defaultLoginState: true
+        }
         this.toggleModal = this.toggleModal.bind(this);
         this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
         this.loginHandle = this.loginHandle.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.responseFacebook = this.responseFacebook.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
     }
 
     handleKeyPress(target) {
@@ -53,7 +60,7 @@ class Login extends React.Component {
             this.toggleModal();
             history.go(0)
         } else {
-            this.setState({ msg: check.msg, loginValid: false, defaultLoginState: false })
+            this.setState({ msg: check.error.msg, loginValid: false, defaultLoginState: false })
         }
     }
 
@@ -73,7 +80,11 @@ class Login extends React.Component {
           history.push('/');
         }
         else{
-          // this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+          this.setState({
+            msg: loginData.msg,
+            loginValid: false,
+            defaultLoginState: false
+          })
         }
     }
 
@@ -93,7 +104,11 @@ class Login extends React.Component {
           history.push('/');
         }
         else{
-          this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+          this.setState({
+            msg: loginData.msg,
+            loginValid: false,
+            defaultLoginState: false
+          })
         }
     }
 

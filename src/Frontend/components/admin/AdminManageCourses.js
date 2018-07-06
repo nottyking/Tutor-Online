@@ -6,7 +6,10 @@ import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
-import { Form, Badge, Label, Input, FormGroup, Card, Navbar, TabContent, TabPane, Nav, NavItem, NavLink, Container, Row, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import {
+  Form, Badge, Label, Input, InputGroupButtonDropdown, DropdownMenu, DropdownItem, InputGroupAddon, DropdownToggle, InputGroup,
+  FormGroup, Card, Navbar, TabContent, TabPane, Nav, NavItem, NavLink, Container, Row, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink
+} from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
 import { AdminManageUsers } from './AdminManageUsers';
@@ -205,7 +208,7 @@ export class AdminManageCourses extends React.Component {
     this.setState({ courseInfo: tempcourses, sortmode: mode, pager: 0 });
   }
 
-  searchCourse(searchword) {
+  searchCourse(searchword, mode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('coursesearchbox').classList.remove('is-valid');
       document.getElementById('coursesearchbox').classList.add('is-invalid');
@@ -215,9 +218,40 @@ export class AdminManageCourses extends React.Component {
     document.getElementById('coursesearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempcourses = [];
-    allcourses.map((item) =>
-      (expr.test(item.coursename.toLowerCase()) || expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : ''
-    );
+
+    switch (mode) {
+      case 'Course Name':
+        allcourses.map((item) =>
+          (expr.test(item.coursename.toLowerCase())) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Instructor':
+        allcourses.map((item) =>
+          (expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Price >':
+        allcourses.map((item) =>
+          (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Price <':
+        allcourses.map((item) =>
+          (item.price <= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      default:
+        allcourses.map((item) =>
+          (expr.test(item.coursename.toLowerCase()) ||
+            expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : (parseInt(searchword) == NaN) ? '' :
+              (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+
+    }
+
+
+
     console.log(tempcourses);
     this.setState({ courseInfo: tempcourses, pager: 0 });
   }
@@ -322,23 +356,6 @@ export class AdminManageCourses extends React.Component {
 
       return (
         <Container fluid style={{ paddingBottom: '10px' }}>
-          {/* <Card>
-            <FormGroup style={{ background: '#FFF', paddingBottom: '10px' }}>
-              <Label plaintext>Mode</Label>
-              <Col>
-                <Input type="select" name="selectMulti" id="selectedsortmode" onClick={() => {
-                  this.sortCourse(document.getElementById('selectedsortmode').value);
-                  console.log(document.getElementById('selectedsortmode').value);
-                }}>
-                  <option value={8}>Createdate Asc</option>
-                  <option value={9}>Createdate Desc</option>
-                  <option value={10}>10</option>
-                  <option value={11}>11</option>
-                </Input>
-              </Col>
-            </FormGroup>
-          </Card> */}
-
           <br />
           <Card style={{ background: '#444', padding: 20 }}>
             <Row className="justify-content-between" style={{ color: 'white' }}>
@@ -353,7 +370,7 @@ export class AdminManageCourses extends React.Component {
                       id="coursesearchbox" placeholder="Search Course"
                       onKeyPress={(e) => this.handleSearchKeyPress(e)}
                       style={{ width: 300 }} />&nbsp;
-                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value) }}><i class="fa fa-search" /></Button>
+                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value, 'Price <') }}><i class="fa fa-search" /></Button>
                   </FormGroup>
                 </Form>
               </Col>

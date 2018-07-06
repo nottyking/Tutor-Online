@@ -336,6 +336,9 @@ export class AdminManageUsers extends React.Component {
               </tbody>
             </Table>
 
+          </Col>
+
+          <Row className='justify-content-around'>
             <Pagination aria-label="Page navigation example">
               <PaginationItem disabled={this.state.pager == 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
@@ -349,7 +352,7 @@ export class AdminManageUsers extends React.Component {
                 </PaginationLink>
               </PaginationItem>
             </Pagination>
-          </Col>
+          </Row>
         </Container>
       );
 

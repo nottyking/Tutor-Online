@@ -51,6 +51,7 @@ export class Student extends React.Component {
     if (studentInformationAndError.redirect) {
       console.log("Redirect", studentInformationAndError.redirect);
       localStorage.removeItem('user');
+      cookies.remove("loginToken",{ path: '/' });
       isValidToken = false;
       linkRedirect = studentInformationAndError.redirect;
     }

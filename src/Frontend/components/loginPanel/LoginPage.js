@@ -5,6 +5,15 @@ import { Redirect } from 'react-router';
 import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
 import { history } from '../../redux/helpers';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
+import axios from 'axios'
+import ipList from '../../../Config/ipConfig'
+import capsule from '../../capsulation/SendData'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+const maxAge = 1 * 31 * 60 * 60;
 
 class LoginPage extends React.Component {
 
@@ -22,9 +31,50 @@ class LoginPage extends React.Component {
         if (check.type === "USER_LOGIN_SUCCESS") {
             history.push('/');
         } else {
-            this.setState({ msg: '', loginValid: false, defaultLoginState: false })
+            this.setState({ msg: check.error.msg, loginValid: false, defaultLoginState: false })
         }
     }
+
+    async responseFacebook(response) {
+        console.log(response);
+        const username = response.name;
+        const email = response.email;
+        const profileimage = response.picture.data.url;
+        const typeid = response.id;
+        const loginData = (await axios.post(ipList.backend + '/login/facebook', capsule.sendData({
+            username: username, email: email, profileimage: profileimage, typeid: typeid
+        }))).data
+        console.log(loginData);
+        if(loginData.result){
+          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+          localStorage.setItem('user', JSON.stringify(loginData));
+          history.push('/');
+        }
+        else{
+          this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+        }
+    }
+
+    async responseGoogle(response) {
+        console.log(response.profileObj);
+        const username = response.profileObj.name;
+        const email = response.profileObj.email;
+        const profileimage = response.profileObj.imageUrl;
+        const typeid = response.profileObj.googleId;
+        const loginData = (await axios.post(ipList.backend + '/login/google', capsule.sendData({
+            username: username, email: email, profileimage: profileimage, typeid: typeid
+        }))).data
+        console.log(loginData);
+        if(loginData.result){
+          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+          localStorage.setItem('user', JSON.stringify(loginData));
+          history.push('/');
+        }
+        else{
+          this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+        }
+    }
+
 
     handleKeyPress(target) {
         if (target.charCode == 13) {
@@ -80,8 +130,23 @@ class LoginPage extends React.Component {
 
                                     <FormGroup row align='center'>
                                         <Col>
-                                            <Button block outline color='danger'>Google Login</Button>
-                                            <Button block outline color='primary'>Facebook Login</Button>
+                                        <GoogleLogin
+                                            clientId="757848252064-b5rojrk6j243feqgasilcrnb3ui1e0f6.apps.googleusercontent.com"
+                                            buttonText="Login"
+                                            onSuccess={this.responseGoogle}
+                                            onFailure={this.responseGoogle}
+                                            render={renderProps => (
+                                                <Button onClick={renderProps.onClick} block outline color='danger'>Google Login</Button>
+                                            )}
+                                        />
+                                        <FacebookLogin
+                                            appId="2111909269078325"
+                                            fields="name,email,picture"
+                                            callback={this.responseFacebook}
+                                            render={renderProps => (
+                                                <Button onClick={renderProps.onClick} block outline color='primary'>Facebook Login</Button>
+                                            )}
+                                        />
                                         </Col>
                                     </FormGroup>
                                     <hr></hr>

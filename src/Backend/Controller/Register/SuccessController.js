@@ -23,7 +23,7 @@ async function insertUser(req,res){
   var profileimage = req.body.profileimage
   var birthday = req.body.birthday
   var gender = req.body.gender
-  var result = (await insertFunc.insertUser(username, password, email, fname, lname, address, profileimage, 0, '' ,birthday, gender)).result;
+  var result = (await insertFunc.insertUser(username, password, email, fname, lname, address, profileimage, 0, '' ,birthday, gender,0)).result;
 
   uploadProfileImage(result.insertId);
 

@@ -8,6 +8,9 @@ import AuthToken from './../router/AuthToken';
 const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
+const Cookies = require('universal-cookie');
+
+const cookies = new Cookies();
 
 export class CoursePageList extends React.Component {
   constructor(props) {
@@ -29,6 +32,7 @@ export class CoursePageList extends React.Component {
     console.log('courseInfo');
     if (courseInfo.redirect) {
       localStorage.removeItem('user')
+      cookies.remove("loginToken",{ path: '/' });
       this.setState({
         redirect: courseInfo.redirect
       })

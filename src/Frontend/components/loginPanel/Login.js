@@ -48,12 +48,12 @@ class Login extends React.Component {
 
     async loginHandle() {
         var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
-        console.log('check::')
+        console.log('check::',check)
         if (check.type === "USER_LOGIN_SUCCESS") {
             this.toggleModal();
             history.go(0)
         } else {
-            this.setState({ msg: '', loginValid: false, defaultLoginState: false })
+            this.setState({ msg: check.msg, loginValid: false, defaultLoginState: false })
         }
     }
 
@@ -67,9 +67,14 @@ class Login extends React.Component {
             username: username, email: email, profileimage: profileimage, typeid: typeid
         }))).data
         console.log(loginData);
-        cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-        localStorage.setItem('user', JSON.stringify(loginData));
-        history.push('/');
+        if(loginData.result){
+          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+          localStorage.setItem('user', JSON.stringify(loginData));
+          history.push('/');
+        }
+        else{
+          // this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+        }
     }
 
     async responseGoogle(response) {
@@ -82,9 +87,14 @@ class Login extends React.Component {
             username: username, email: email, profileimage: profileimage, typeid: typeid
         }))).data
         console.log(loginData);
-        cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-        localStorage.setItem('user', JSON.stringify(loginData));
-        history.push('/');
+        if(loginData.result){
+          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+          localStorage.setItem('user', JSON.stringify(loginData));
+          history.push('/');
+        }
+        else{
+          this.setState({ msg: loginData.msg, loginValid: false, defaultLoginState: false })
+        }
     }
 
     render() {
@@ -122,7 +132,7 @@ class Login extends React.Component {
                             <Col sm={{ size: 8, order: 2 }}>
                                 <Input type='password' id='login-password'
                                     defaultValue={''} placeholder='Enter your password'
-                                    onKeyPress={this.handleKeyPress}    
+                                    onKeyPress={this.handleKeyPress}
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
                                     />
                                 <FormFeedback>{this.state.msg}</FormFeedback>

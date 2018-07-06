@@ -28,24 +28,20 @@
 
   .sidebarHover :hover{
     background: #868686;
-    transform: scale(1.1, 1.1);
-    -ms-transform: scale(1.1, 1.1); /* IE 9 */
-    -webkit-transform: scale(1.1, 1.1); /* Safari */
-    -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
+    -ms-transform: scale(1.1, 1.1),background 2s ease; /* IE 9 */
+    -webkit-transform: scale(1.1, 1.1),background 2s ease; /* Safari */
+    -webkit-transition: width 2s, height 2s,transform 2s ease,background 2s ease; /* For Safari 3.1 to 6.0 */
     transition: width 2s, height 2s,transform 2s ease,background 2s ease;
   }
 
   .sidebarHover{
       padding:0;
-      -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
       transition: width 2s, height 2s,transform 2s ease;
   }
 
   .sidebarHover :hover .sidebarHoverEl :hover{
     background: #868686;
     transform: scale(1, 1);
-    -ms-transform: scale(1, 1); /* IE 9 */
-    -webkit-transform: scale(1, 1); /* Safari */
     -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
     transition: width 2s, height 2s,transform 2s ease,background 2s ease;
   }

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { ButtonGroup, Button, Container,Media,Table } from 'reactstrap';
 import Sidebar from 'react-sidebar';
 import $ from 'jquery';
-import './sidebar.css'
+import './sidebar.css';
+const ipList = require('../../../Config/ipConfig');
 
 /* SubCourseProgressBar used in learning window like a sidebar to show where this clip is in the All of clips in the Course
-Get prop Now(SCId of this video),Src:[{SCId(Sub Course Id), SCName, SCLink*May Be Not*)}]
+Get prop Now(subcourseId of this video),Src:[{subcourseId(Sub Course Id), subcourseName, videolink*May Be Not*)}]
 */
 var Medias;
 
@@ -31,33 +32,42 @@ export class SubCourseProgressBar extends React.Component {
         this.setState({ sidebarOpen: open });
     }
 
+    async componentWillReceiveProps(){
+        (async () => {
+            console.log(await this.vimeoLoadingThumb('id'));
+        })()
+
+    }
+
     async componentWillMount() {
         const src = this.props.src;
         var allSubCourseComponent = []
         src.map((item, i) => {
+            if(item.videolink.substring(item.videolink.indexOf('o/') + 2)){
             allSubCourseComponent.push(new Promise(async (resolve, reject) => {
-                var video = await this.vimeoLoadingThumb(item.SClink.substring(item.SClink.indexOf('o/') + 2), i == src.length - 1);
-                if (item.SCid === this.props.now) {
+                var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
+                if (item.subcourseid === this.props.now) {
                     resolve(
-                        <div className='sidebarHover' style={{display:'block',zIndex:100}}>
+                        <Button className='sidebarHover' style={{display:'block',zIndex:100}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px'}}><img src={video} style={{top:0,left:0}} /></td>
-                            <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> {item.SCname.toUpperCase()}</td>
+                            <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> {item.subcoursename.toUpperCase()}</td>
                         </tr>
-                        </div>
+                        </Button>
                     )
                 }
                 else {
                     resolve(
-                        <Button className='sidebarHover'>
+                        <Button className='sidebarHover' href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr className='sidevarHoverEl'>
                             <td style={{padding:'0px 0px 0px 0px'}} className='sidevarHoverEl'><img src={video} /></td>
-                            <td className='sidevarHoverEl'>{item.SCname.toUpperCase() }</td>
+                            <td className='sidevarHoverEl'>{item.subcoursename.toUpperCase() }</td>
                         </tr>
                         </Button>
                     )
                 }
             }))
+        }
         });
         
         Promise.all(allSubCourseComponent).then((res) => {
@@ -98,6 +108,7 @@ export class SubCourseProgressBar extends React.Component {
 
 
     render() {
+        console.log(this.props.src);
         var sidebarContent = (
             <Container fluid style={{ background: '#555',padding:'0px 0px 0px 0px'}}>
                 <i class="fa fa-outdent" onClick={() => { this.onSetSidebarOpen(false) }} style={{ color: 'white' }} />
@@ -117,7 +128,7 @@ export class SubCourseProgressBar extends React.Component {
         const state = this.state.open === undefined ? 'peek' : this.state.open ? 'open' : 'close'
         const icon = this.state.open ? 'fold' : 'unfold'
         if (this.state.isLoaded) {
-
+            console.log('render loaded')
             return (
                 <Sidebar
                     sidebar={sidebarContent}
@@ -148,23 +159,23 @@ export class SubCourseProgressBar extends React.Component {
 SubCourseProgressBar.propTypes = {
     now: PropTypes.number.isRequired,
     src: PropTypes.arrayOf(PropTypes.shape({
-        SCname: PropTypes.string.isRequired,
-        SCid: PropTypes.number.isRequired,
-        SClink: PropTypes.string.isRequired,
+        subcoursename: PropTypes.string.isRequired,
+        subcourseid: PropTypes.number.isRequired,
+        videolink: PropTypes.string.isRequired,
     })).isRequired
 }
 
 SubCourseProgressBar.defaultProps = {
     now: 3,
     src: [
-        { SCname: "Math101", SCid: 1, SClink: "https://player.vimeo.com/video/205571281" },
-        { SCname: "Math102", SCid: 2, SClink: "https://player.vimeo.com/video/110270314" },
-        { SCname: "Math201", SCid: 3, SClink: "https://player.vimeo.com/video/205571281" },
-        { SCname: "Math202", SCid: 4, SClink: "https://player.vimeo.com/video/110270314" },
-        { SCname: "Math301", SCid: 5, SClink: "https://player.vimeo.com/video/205571281" },
-        { SCname: "Math302", SCid: 6, SClink: "https://player.vimeo.com/video/110270314" },
-        { SCname: "Math401", SCid: 7, SClink: "https://player.vimeo.com/video/205571281" },
-        { SCname: "Math402", SCid: 8, SClink: "https://player.vimeo.com/video/110270314" },
-        { SCname: "Math501", SCid: 9, SClink: "https://player.vimeo.com/video/205571281" }
+        { subcoursename: "Math101", subcourseid: 1, videolink: "https://player.vimeo.com/video/205571281" },
+        { subcoursename: "Math102", subcourseid: 2, videolink: "https://player.vimeo.com/video/110270314" },
+        { subcoursename: "Math201", subcourseid: 3, videolink: "https://player.vimeo.com/video/205571281" },
+        { subcoursename: "Math202", subcourseid: 4, videolink: "https://player.vimeo.com/video/110270314" },
+        { subcoursename: "Math301", subcourseid: 5, videolink: "https://player.vimeo.com/video/205571281" },
+        { subcoursename: "Math302", subcourseid: 6, videolink: "https://player.vimeo.com/video/110270314" },
+        { subcoursename: "Math401", subcourseid: 7, videolink: "https://player.vimeo.com/video/205571281" },
+        { subcoursename: "Math402", subcourseid: 8, videolink: "https://player.vimeo.com/video/110270314" },
+        { subcoursename: "Math501", subcourseid: 9, videolink: "https://player.vimeo.com/video/205571281" }
     ]
 };

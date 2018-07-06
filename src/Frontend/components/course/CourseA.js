@@ -257,7 +257,7 @@ export class CourseA extends React.Component {
                       <Button>Please login before enroll</Button>
                       :
                       !this.state.alreadyEnroll ?
-                        <Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
+                          this.state.courseInfo.course.price==0? <Button color='primary'>Enroll this course for free</Button> :<Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
                         :
                         <div>
                           <Button>You've finished enroll, Let's learn!</Button>

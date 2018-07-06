@@ -1,0 +1,51 @@
+::-webkit-scrollbar {
+    width: 3px;
+} /* this targets the default scrollbar (compulsory) */
+
+::-webkit-scrollbar-track {
+    background-color: #000000;
+} /* the new scrollbar will have a flat appearance with the set background color */
+
+::-webkit-scrollbar-thumb {
+    background-color: #474747; 
+} /* this will style the thumb, ignoring the track */
+
+::-webkit-scrollbar-button {
+    background-color: rgba(126, 126, 126, 0.2);
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+
+::-webkit-scrollbar-corner {
+    background-color: black;
+} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+.card-img-left {
+    border-bottom-left-radius: calc(.25rem - 1px);
+    border-top-left-radius: calc(.25rem - 1px);
+    float: left;
+    padding-right: 1em;
+    margin-bottom: -1.25em;
+  }
+
+  .sidebarHover :hover{
+    background: #868686;
+    transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1); /* IE 9 */
+    -webkit-transform: scale(1.1, 1.1); /* Safari */
+    -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
+    transition: width 2s, height 2s,transform 2s ease,background 2s ease;
+  }
+
+  .sidebarHover{
+      padding:0;
+      -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
+      transition: width 2s, height 2s,transform 2s ease;
+  }
+
+  .sidebarHover :hover .sidebarHoverEl :hover{
+    background: #868686;
+    transform: scale(1, 1);
+    -ms-transform: scale(1, 1); /* IE 9 */
+    -webkit-transform: scale(1, 1); /* Safari */
+    -webkit-transition: width 2s, height 2s,transform 2s ease; /* For Safari 3.1 to 6.0 */
+    transition: width 2s, height 2s,transform 2s ease,background 2s ease;
+  }

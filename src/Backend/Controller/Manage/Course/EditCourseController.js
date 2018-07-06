@@ -7,6 +7,7 @@ async function editCourseAndSubCourse(req, res){
   console.log("Enter updateCourseAndSubCourse in Managecontroller");
   var course = req.body.course;
   var subcourse = req.body.subcourse;
+  console.log();
   var Promises = [];
   console.log();
   if(course){
@@ -83,8 +84,9 @@ async function uploadPicture(type, req, res){
 }
 
 async function editSubCourse(subCourseList, req, res){
-  console.log("Enter editSubCourse in EditCourseController");
-  var allSubcourse = (await getFuncGeneral.getFunction('subcourseid','subcourse',['courseid'],[subCourseList[0].courseid])).result
+  console.log("Enter editSubCourse in EditCourseController",subCourseList);
+  var courseid = req.body.courseid;
+  var allSubcourse = (await getFuncGeneral.getFunction('subcourseid','subcourse',['courseid'],[courseid])).result
   var promises = []
   for(var i = 0 ; i < allSubcourse.length ; i++){
     var subcourseidExist = allSubcourse[i].subcourseid;

@@ -2,11 +2,10 @@ import React from 'react';
 import { Loading } from '../loading/Loading'
 import { Button, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, Container, Table } from 'reactstrap';
 
-
+// const omise = require('../../../Backend/Config/Omise');
 const ipList = require('../../../Config/ipConfig');
 const axios = require('axios');
 const capsulation = require('../../capsulation/SendData');
-
 var exitfx;
 var tempSubcourseInfo;
 var scid;
@@ -15,12 +14,12 @@ var exitandreloadfx;
 
 
 
-export class AdminEditUserCourseModal extends React.Component {
+export class AdminEditUserSubcourseModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       expireType: 0,
-      subcourseinfo: '',
+      courseinfo: '',
       isLoaded: false,
       warnModal: false,
       editModal: false,
@@ -34,20 +33,22 @@ export class AdminEditUserCourseModal extends React.Component {
 
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.refresh();
   }
 
   async refresh() {
-    this.setState({ isLoaded: false });
-    var temp1 = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
-      courseid: this.props.courseid
-    }))).data;
-
-    tempSubcourseInfo = temp1.subCourse;
-    this.setState({ subcourseinfo: temp1.subCourse, isLoaded: true, create: false });
-    console.log(this.state.subcourseinfo);
-    console.log('loaded');
+      this.setState({ isLoaded: false });
+      var temp1 = (await axios.post(ipList.backend + "/manage/userenrolledcourse", capsulation.sendData({
+        userid : this.props.userid
+      }))).data;
+      // omise.charges.list(function(error, list) {
+      //   console.log(list);
+      // });
+      tempSubcourseInfo = temp1.subCourse;
+      await this.setState({ courseinfo: temp1, isLoaded: true, create: false });
+      console.log(this.state.courseinfo);
+      console.log('loaded');
   }
 
   async updateSubcourse() {
@@ -69,11 +70,11 @@ export class AdminEditUserCourseModal extends React.Component {
   }
 
   async editFetch(x) {
-    document.getElementById('subcoursename').value = this.state.subcourseinfo[x].subcoursename;
-    document.getElementById('subcourseinfo').placeholder = this.state.subcourseinfo[x].subcourseinfo;
-    document.getElementById('videolink').placeholder = this.state.subcourseinfo[x].videolink;
+    document.getElementById('subcoursename').value = this.state.courseinfo[x].subcoursename;
+    document.getElementById('courseinfo').placeholder = this.state.courseinfo[x].courseinfo;
+    document.getElementById('videolink').placeholder = this.state.courseinfo[x].videolink;
     editsubcourse = x;
-    scid = this.state.subcourseinfo[x].subcourseid;
+    scid = this.state.courseinfo[x].subcourseid;
 
   }
 
@@ -83,13 +84,13 @@ export class AdminEditUserCourseModal extends React.Component {
       courseid: this.props.courseid,
       subcourseid: 0,
       subcoursename: document.getElementById('subcoursename').value,
-      subcourseinfo: document.getElementById('subcourseinfo').value,
+      courseinfo: document.getElementById('courseinfo').value,
       videolink: document.getElementById('videolink').value,
       isavailable: '1',
     }
     if (this.state.create) {
-      if (this.state.subcourseinfo.length > 0) {
-        subcourseWillBeAdded.subcourseid = (this.state.subcourseinfo[this.state.subcourseinfo.length - 1].subcourseid) + 1;
+      if (this.state.courseinfo.length > 0) {
+        subcourseWillBeAdded.subcourseid = (this.state.courseinfo[this.state.courseinfo.length - 1].subcourseid) + 1;
       }
       else {
         subcourseWillBeAdded.subcourseid = 1;
@@ -114,7 +115,7 @@ export class AdminEditUserCourseModal extends React.Component {
   }
 
 
-  // swap index x with x-1 
+  // swap index x with x-1
   swapup(x){
     if(x>0){
       var swaptemp = tempSubcourseInfo[x-1].subcourseid;
@@ -139,12 +140,12 @@ export class AdminEditUserCourseModal extends React.Component {
 
     console.log('modal render');
     if (this.state.isLoaded) {
-      var courseTableBody = this.state.subcourseinfo.map((item, i) =>
+      console.log(this.state.courseinfo);
+      var courseTableBody = this.state.courseinfo.map((item, i) =>
         <tr>
           <td scope="row" style={{ color: item.isavailable == '0' ? 'grey' : 'black' }}><b>{i + 1}</b></td>
-          <td><Button color='secondary' onClick={async () => {this.swapdown(i); }}><i class="fa fa-angle-down" /></Button>{' '}
-          <Button color='secondary' onClick={() => { this.swapup(i) }}><i class="fa fa-angle-up" /></Button></td>
-          <td>{item.subcoursename}</td>
+          <td scope="row"><b>{item.coursename}</b></td>
+
           <td><Button href={item.videolink} target='_blank'><i class="fa fa-film" /></Button></td>
           <td><Button color='primary' onClick={async () => { await this.toggleNested(); this.editFetch(i); }}><i class="fa fa-edit" /></Button>{' '}
             <Button color='danger' onClick={() => { this.delete(i) }}><i class="fa fa-trash-o" /></Button>
@@ -153,6 +154,7 @@ export class AdminEditUserCourseModal extends React.Component {
 
 
       );
+      console.log(courseTableBody);
       return (
         <ModalBody>
 
@@ -184,9 +186,8 @@ export class AdminEditUserCourseModal extends React.Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Order</th>
-                  <th>Name</th>
-                  <th>Videolink</th>
+                  <th>COURSE NAME</th>
+                  <th>STATUS</th>
                   <th></th>
                 </tr>
                 <tr>
@@ -219,7 +220,7 @@ export class AdminEditUserCourseModal extends React.Component {
               </Label>
                   <Input
                     type='text'
-                    id='subcourseinfo'
+                    id='courseinfo'
                     placeholder='Enter SubCourse Info' />
                 </FormGroup>
                 <FormGroup row>
@@ -251,6 +252,6 @@ export class AdminEditUserCourseModal extends React.Component {
 
 /* Create form
       subcoursename:,
-      subcourseinfo:,
+      courseinfo:,
       videolink:,
       isavailable:,*/

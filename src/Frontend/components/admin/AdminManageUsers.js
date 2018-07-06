@@ -1,6 +1,6 @@
 import React from 'react'
-    import { AdminEditUserModal } from './AdminEditUserModal';
-import { AdminEditCourseModal } from './AdminEditCourseModal';
+import { AdminEditUserModal } from './AdminEditUserModal';
+import { AdminEditUserSubcourseModal } from './AdminEditUserSubcourseModal';
 import { AdminCreateCourseModal } from './AdminCreateCourseModal';
 import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
@@ -14,8 +14,8 @@ const ipList = require('../../../Config/ipConfig');
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
 var modalComponent;
-const rowperpage = 15;
 var allusers;
+const rowperpage = 15;
 const rolecolor = ['#FFF','#007bff'];
 const type = ['','fab fa-facebook-f' ,'fab fa-google']
 
@@ -66,9 +66,6 @@ export class AdminManageUsers extends React.Component {
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
-    this.toggleCreate = this.toggleCreate.bind(this);
-    this.toggleSubcourse = this.toggleSubcourse.bind(this);
-    this.toggleDelete = this.toggleDelete.bind(this);
   }
 
   async componentWillMount() {
@@ -93,7 +90,7 @@ export class AdminManageUsers extends React.Component {
     allusers = temp1;
     if (this.state.ishideUnavailable) {
       for (var i = temp1.length - 1; i >= 0; --i) {
-        if (temp1[i].isavailable == 0) {
+        if (temp1[i].isconfirm == 0) {
           temp1.splice(i, 1);
         }
       }
@@ -108,28 +105,6 @@ export class AdminManageUsers extends React.Component {
     return true;
   }
 
-  /*async getDatabaseValue() {
-    //get Data from database
-    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
-      loginToken: cookies.get("loginToken")
-    })).data;
-    console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
-    linkRedirect = '';
-    if (studentInformationAndError.redirect) {
-      console.log("Redirect", studentInformationAndError.redirect);
-      isValidToken = false;
-      linkRedirect = studentInformationAndError.redirect;
-    }
-    else {
-      var studentInformation = studentInformationAndError.result[0]
-      console.log(studentInformation);
-      var studentError = studentInformationAndError.error;
-      console.log();
-    }
-    return;
-  }*/
-
   toggleEdit(x) {
     console.log(this.state.modalOpen);
     this.setState({
@@ -137,33 +112,6 @@ export class AdminManageUsers extends React.Component {
       modalOpen: !this.state.modalOpen
     });
       modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
-  }
-
-  toggleCreate() {
-    console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Create User',
-      modalOpen: !this.state.modalOpen
-    });
-    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} />;
-  }
-
-  toggleSubcourse(x) {
-    console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Edit User',
-      modalOpen: !this.state.modalOpen
-    });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
-  }
-
-  toggleDelete(x) {
-    console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Delete User',
-      modalOpen: !this.state.modalOpen
-    });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} />);
   }
 
   closeModal = () => {
@@ -225,11 +173,10 @@ export class AdminManageUsers extends React.Component {
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
+          <td>{item.email}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
-          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-google" /></Button>{' '}
-            <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
-            <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
+          <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
             <td><i class={item.type=='1'?"fa fa-facebook":item.type=='2'? "fa fa-google":''} /></td>
         </tr>
       );
@@ -268,7 +215,7 @@ export class AdminManageUsers extends React.Component {
           </Card>
           <br />
 
-          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}
@@ -281,9 +228,10 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>E-Mail</th>
                   <th>FirstName</th>
-                  <th>Price</th>
-                  <th></th>
+                  <th>Lastname</th>
+                  <th/>
                   <th>type</th>
                 </tr>
               </thead>

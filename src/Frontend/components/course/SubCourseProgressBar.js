@@ -50,16 +50,16 @@ export class SubCourseProgressBar extends React.Component {
                 else {
                     resolve(
                         <Button className='sidebarHover'>
-                        <tr className='sidevarHoverEl'>
-                            <td style={{padding:'0px 0px 0px 0px'}} className='sidevarHoverEl'><img src={video} /></td>
-                            <td className='sidevarHoverEl'>{item.SCname.toUpperCase() }</td>
+                        <tr>
+                            <td style={{padding:'0px 0px 0px 0px'}}><img src={video} /></td>
+                            <td className='sidebarHoverEl'>{item.SCname.toUpperCase() }</td>
                         </tr>
                         </Button>
                     )
                 }
             }))
         });
-        
+
         Promise.all(allSubCourseComponent).then((res) => {
             Medias = res
             this.setState({ isLoaded: true });
@@ -92,9 +92,9 @@ export class SubCourseProgressBar extends React.Component {
     state = { open: undefined }
     toggle = () => this.setState(state => ({ open: !state.open }))
 
- 
 
-    
+
+
 
 
     render() {
@@ -106,7 +106,7 @@ export class SubCourseProgressBar extends React.Component {
                 {Medias}
                   </tbody>
                 </Table>
-                    
+
             </Container>);
         var sidebarLoadingContent = (
             <Container fluid style={{ background: '#555' }}>

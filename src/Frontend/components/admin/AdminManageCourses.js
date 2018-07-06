@@ -69,6 +69,7 @@ export class AdminManageCourses extends React.Component {
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
   async componentWillMount() {
@@ -110,27 +111,12 @@ export class AdminManageCourses extends React.Component {
     return true;
   }
 
-  /*async getDatabaseValue() {
-    //get Data from database
-    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
-      loginToken: cookies.get("loginToken")
-    })).data;
-    console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
-    linkRedirect = '';
-    if (studentInformationAndError.redirect) {
-      console.log("Redirect", studentInformationAndError.redirect);
-      isValidToken = false;
-      linkRedirect = studentInformationAndError.redirect;
+  handleSearchKeyPress(event) {
+    if (event.charCode == 13) {
+      event.preventDefault();
+      this.searchCourse(event.target.value);
     }
-    else {
-      var studentInformation = studentInformationAndError.result[0]
-      console.log(studentInformation);
-      var studentError = studentInformationAndError.error;
-      console.log();
-    }
-    return;
-  }*/
+  }
 
   sortCourse(mode) {
     console.log('mode : ' + mode);
@@ -235,7 +221,6 @@ export class AdminManageCourses extends React.Component {
     console.log(tempcourses);
     this.setState({ courseInfo: tempcourses, pager: 0 });
   }
-
 
   togglehideUnavailable = () => {
     var temp2 = Object.assign([], allcourses);
@@ -364,7 +349,10 @@ export class AdminManageCourses extends React.Component {
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
-                    <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" style={{ width: 300 }} />&nbsp;
+                    <Input type="text" name="coursesearchbox"
+                      id="coursesearchbox" placeholder="Search Course"
+                      onKeyPress={(e) => this.handleSearchKeyPress(e)}
+                      style={{ width: 300 }} />&nbsp;
                     <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value) }}><i class="fa fa-search" /></Button>
                   </FormGroup>
                 </Form>

@@ -1,5 +1,5 @@
 import React from 'react'
-    import { AdminEditUserModal } from './AdminEditUserModal';
+import { AdminEditUserModal } from './AdminEditUserModal';
 import { AdminEditCourseModal } from './AdminEditCourseModal';
 import { AdminCreateCourseModal } from './AdminCreateCourseModal';
 import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
@@ -16,8 +16,8 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 const rowperpage = 15;
 var allusers;
-const rolecolor = ['#FFF','#007bff'];
-const type = ['','fab fa-facebook-f' ,'fab fa-google']
+const rolecolor = ['#FFF', '#007bff'];
+const type = ['', 'fab fa-facebook-f', 'fab fa-google']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -69,6 +69,7 @@ export class AdminManageUsers extends React.Component {
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
   async componentWillMount() {
@@ -108,27 +109,47 @@ export class AdminManageUsers extends React.Component {
     return true;
   }
 
-  /*async getDatabaseValue() {
-    //get Data from database
-    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
-      loginToken: cookies.get("loginToken")
-    })).data;
-    console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
-    linkRedirect = '';
-    if (studentInformationAndError.redirect) {
-      console.log("Redirect", studentInformationAndError.redirect);
-      isValidToken = false;
-      linkRedirect = studentInformationAndError.redirect;
+  handleSearchKeyPress(event) {
+    if (event.charCode == 13) {
+      event.preventDefault();
+      this.searchUser(event.target.value, 'fname');
     }
-    else {
-      var studentInformation = studentInformationAndError.result[0]
-      console.log(studentInformation);
-      var studentError = studentInformationAndError.error;
-      console.log();
+  }
+
+  searchUser(searchword, mode) {
+    if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
+      document.getElementById('usersearchbox').classList.remove('is-valid');
+      document.getElementById('usersearchbox').classList.add('is-invalid');
+      return;
     }
-    return;
-  }*/
+    var expr = RegExp(searchword.toLowerCase());
+    var tempusers = [];
+    switch (mode) {
+      case 'fname':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'userid':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      case 'lname':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+      case 'email':
+        allusers.map((item) =>
+          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
+        );
+        break;
+      default:
+
+    }
+    console.log(tempusers);
+    this.setState({ userinfo: tempusers, pager: 0 });
+  }
 
   toggleEdit(x) {
     console.log(this.state.modalOpen);
@@ -136,7 +157,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-      modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} />);
   }
 
   toggleCreate() {
@@ -180,41 +201,6 @@ export class AdminManageUsers extends React.Component {
     this.getData();
   }
 
-  searchUser(searchword, mode) {
-    if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
-      document.getElementById('usersearchbox').classList.remove('is-valid');
-      document.getElementById('usersearchbox').classList.add('is-invalid');
-      return;
-    }
-    var expr = RegExp(searchword.toLowerCase());
-    var tempusers = [];
-    switch (mode) {
-      case 'fname':
-        allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
-        );
-        break;
-      case 'userid':
-        allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
-        );
-        break;
-      case 'lname':
-        allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
-        );
-      case 'email':
-        allusers.map((item) =>
-          (expr.test(item.fname.toLowerCase())) ? tempusers.push(item) : ''
-        );
-        break;
-      default:
-
-    }
-
-    console.log(tempusers);
-    this.setState({ userinfo: tempusers, pager: 0 });
-  }
 
 
   render() {
@@ -230,7 +216,7 @@ export class AdminManageUsers extends React.Component {
           <td><Button color='primary' outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-google" /></Button>{' '}
             <Button color='primary' outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
             <Button color='danger' outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
-            <td><i class={item.type=='1'?"fa fa-facebook":item.type=='2'? "fa fa-google":''} /></td>
+          <td><i class={item.type == '1' ? "fa fa-facebook" : item.type == '2' ? "fa fa-google" : ''} /></td>
         </tr>
       );
 
@@ -259,7 +245,9 @@ export class AdminManageUsers extends React.Component {
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
-                    <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User" style={{ width: 300 }} />&nbsp;
+                    <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
+                      onKeyPress={(e) => this.handleSearchKeyPress(e)}
+                      style={{ width: 300 }} />&nbsp;
                     <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, 'fname') }}><i class="fa fa-search" /></Button>
                   </FormGroup>
                 </Form>

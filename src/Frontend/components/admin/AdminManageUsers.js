@@ -235,7 +235,6 @@ export class AdminManageUsers extends React.Component {
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
     this.setState({ ishideUnavailable: !this.state.ishideUnavailable });
-    this.getData();
   }
 
   render() {

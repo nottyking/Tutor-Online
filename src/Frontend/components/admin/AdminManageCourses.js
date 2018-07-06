@@ -6,7 +6,10 @@ import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
-import { Form, Badge, Label, Input, FormGroup, Card, Navbar, TabContent, TabPane, Nav, NavItem, NavLink, Container, Row, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import {
+  Form, Badge, Label, Input, InputGroupButtonDropdown, DropdownMenu, DropdownItem, InputGroupAddon, DropdownToggle, InputGroup,
+  FormGroup, Card, Navbar, TabContent, TabPane, Nav, NavItem, NavLink, Container, Row, Col, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink
+} from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
 import { AdminManageUsers } from './AdminManageUsers';
@@ -60,6 +63,7 @@ export class AdminManageCourses extends React.Component {
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
+      searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: 0,
@@ -69,6 +73,8 @@ export class AdminManageCourses extends React.Component {
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.changeSearchType = this.changeSearchType.bind(this);
+    this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
   }
 
   async componentWillMount() {
@@ -110,27 +116,19 @@ export class AdminManageCourses extends React.Component {
     return true;
   }
 
-  /*async getDatabaseValue() {
-    //get Data from database
-    var studentInformationAndError = (await axios.post(ipList.backend + "/student/queryInformation", {
-      loginToken: cookies.get("loginToken")
-    })).data;
-    console.log("studentInformationAndError:", studentInformationAndError);
-    isValidToken = true;
-    linkRedirect = '';
-    if (studentInformationAndError.redirect) {
-      console.log("Redirect", studentInformationAndError.redirect);
-      isValidToken = false;
-      linkRedirect = studentInformationAndError.redirect;
+  handleSearchKeyPress(event, mode) {
+    if (event.charCode == 13) {
+      event.preventDefault();
+      this.searchCourse(event.target.value, mode);
     }
-    else {
-      var studentInformation = studentInformationAndError.result[0]
-      console.log(studentInformation);
-      var studentError = studentInformationAndError.error;
-      console.log();
-    }
-    return;
-  }*/
+  }
+
+  changeSearchType(type) {
+    if (this.state.searchType !== type)
+      this.setState(
+        { searchType: type }
+      )
+  }
 
   sortCourse(mode) {
     console.log('mode : ' + mode);
@@ -219,7 +217,7 @@ export class AdminManageCourses extends React.Component {
     this.setState({ courseInfo: tempcourses, sortmode: mode, pager: 0 });
   }
 
-  searchCourse(searchword) {
+  searchCourse(searchword, mode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('coursesearchbox').classList.remove('is-valid');
       document.getElementById('coursesearchbox').classList.add('is-invalid');
@@ -229,13 +227,43 @@ export class AdminManageCourses extends React.Component {
     document.getElementById('coursesearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempcourses = [];
-    allcourses.map((item) =>
-      (expr.test(item.coursename.toLowerCase()) || expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : ''
-    );
+
+    switch (mode) {
+      case 'Course Name':
+        allcourses.map((item) =>
+          (expr.test(item.coursename.toLowerCase())) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Instructor':
+        allcourses.map((item) =>
+          (expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Price >':
+        allcourses.map((item) =>
+          (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Price <':
+        allcourses.map((item) =>
+          (item.price <= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      default:
+        allcourses.map((item) =>
+          (expr.test(item.coursename.toLowerCase()) ||
+            expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : (parseInt(searchword) == NaN) ? '' :
+              (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+
+    }
+
+
+
     console.log(tempcourses);
     this.setState({ courseInfo: tempcourses, pager: 0 });
   }
-
 
   togglehideUnavailable = () => {
     var temp2 = Object.assign([], allcourses);
@@ -337,23 +365,6 @@ export class AdminManageCourses extends React.Component {
 
       return (
         <Container fluid style={{ paddingBottom: '10px' }}>
-          {/* <Card>
-            <FormGroup style={{ background: '#FFF', paddingBottom: '10px' }}>
-              <Label plaintext>Mode</Label>
-              <Col>
-                <Input type="select" name="selectMulti" id="selectedsortmode" onClick={() => {
-                  this.sortCourse(document.getElementById('selectedsortmode').value);
-                  console.log(document.getElementById('selectedsortmode').value);
-                }}>
-                  <option value={8}>Createdate Asc</option>
-                  <option value={9}>Createdate Desc</option>
-                  <option value={10}>10</option>
-                  <option value={11}>11</option>
-                </Input>
-              </Col>
-            </FormGroup>
-          </Card> */}
-
           <br />
           <Card style={{ background: '#444', padding: 20 }}>
             <Row className="justify-content-between" style={{ color: 'white' }}>
@@ -364,8 +375,11 @@ export class AdminManageCourses extends React.Component {
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
-                    <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" style={{ width: 300 }} />&nbsp;
-                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value) }}><i class="fa fa-search" /></Button>
+                    <Input type="text" name="coursesearchbox"
+                      id="coursesearchbox" placeholder="Search Course"
+                      onKeyPress={(e) => this.handleSearchKeyPress(e)}
+                      style={{ width: 300 }} />&nbsp;
+                    <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value, 'Price <') }}><i class="fa fa-search" /></Button>
                   </FormGroup>
                 </Form>
               </Col>

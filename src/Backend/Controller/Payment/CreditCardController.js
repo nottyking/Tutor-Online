@@ -4,10 +4,6 @@ const insertFunc = require('../utilityFunction/insertData')
 
 function payByCreditCard(req, res){
   console.log("Enter Payment CreditCard");
-  // var omise = Omise({
-  //   'secretKey': omiseConfig.omiseSecretKey,
-  //   'omiseVersion': omiseConfig.omiseVersion
-  // });
 
   var orderID = '1'
   var userid = req.session.userid

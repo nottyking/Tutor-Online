@@ -21,6 +21,7 @@ const rowperpage = 15;
 var allusers;
 const rolecolor = ['#FFF', '#007bff'];
 const type = ['', 'fab fa-facebook-f', 'fab fa-google']
+const sortName = ['User ID (+)', 'User ID (-)', 'Username (A-Z)', 'Username (Z-A)', 'E-mail (A-Z)', 'E-mail (Z-A)', 'Name (A-Z)', 'Name (Z-A)', 'Surname (A-Z)', 'Surname (Z-A)']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -60,7 +61,7 @@ export class AdminManageUsers extends React.Component {
     this.state = {
       isloaded: false,
       modalOpen: false,
-      userinfo: {},
+      userInfo: {},
       userhideinfo:{},
       modalHeader: '',
       pager: 0,
@@ -69,7 +70,9 @@ export class AdminManageUsers extends React.Component {
       searchType: 'All',
       searchWord: '',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,
-      sortmode: -1
+      sortmode: -1,
+      sortmodeIcon: -1,
+      sortmodeName: 'None'
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -77,7 +80,13 @@ export class AdminManageUsers extends React.Component {
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
+    this.toggleSortSplit = this.toggleSortSplit.bind(this);
+    this.setSortModeIcon = this.setSortModeIcon.bind(this);
+    this.setSortModeName = this.setSortModeName.bind(this);
+    this.sortUser = this.sortUser.bind(this);
+    this.sortUserData = this.sortUserData.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
+    this.handleSearchIconPress = this.handleSearchIconPress.bind(this);
   }
 
   async componentWillMount() {
@@ -85,7 +94,7 @@ export class AdminManageUsers extends React.Component {
   }
 
   setPage(x) {
-    var info = this.state.userinfo
+    var info = this.state.userInfo
     if(this.state.ishideUnavailable)
       info = this.state.userhideinfo
     if (x >= 0 && x <= Math.ceil(info.length / rowperpage) - 1) {
@@ -105,18 +114,58 @@ export class AdminManageUsers extends React.Component {
     console.log("GETDATA",temp1);
     this.setState({
       isloaded: true,
-      userinfo: temp1,
+      userInfo: temp1,
       pager: 0
     });
     this.togglehideUnavailable();
-    console.log("Course info:", this.state.userinfo);
+    console.log("Course info:", this.state.userInfo);
     return true;
   }
 
-  sortUser(mode) {
-    console.log('mode : ' + mode);
-    var tempusers = this.state.userinfo;
-    switch (parseInt(mode)) {
+  handleSearchKeyPress(event, searchMode, sortMode) {
+    if (event.charCode == 13) {
+      event.preventDefault();
+      this.searchUser(event.target.value, searchMode, sortMode);
+    }
+  }
+
+  handleSearchIconPress(searchKeyword, searchMode, sortMode) {
+    this.searchUser(searchKeyword, searchMode, sortMode);
+  }
+
+  changeSearchType(type) {
+    if (this.state.searchType !== type)
+      this.setState(
+        { searchType: type }
+      )
+  }
+
+  setSortModeIcon(sortMode) {
+    if (this.state.sortmodeIcon !== sortMode) {
+      this.setState({
+        sortmodeIcon: sortMode
+      });
+      this.setSortModeName(sortMode)
+    }
+  }
+
+  setSortModeName(sortMode) {
+    if (sortMode < 0) {
+      this.setState({
+        sortmodeName: 'None'
+      });
+    }
+    else {
+      this.setState({
+        sortmodeName: sortName[sortMode]
+      });
+    }
+  }
+
+  sortUserData(sortMode, userdata) {
+    var tempusers = userdata;
+    this.setSortModeName(sortMode);
+    switch (parseInt(sortMode)) {
       case 0:
         tempusers.sort(function (a, b) { return a.userid - b.userid });
         break;
@@ -199,8 +248,14 @@ export class AdminManageUsers extends React.Component {
         this
     }
     console.log("SORT");
-    this.setState({ userinfo: tempusers, sortmode: mode, pager: 0 });
+    this.setState({ userInfo: tempusers, sortmode: sortMode, pager: 0 });
     this.togglehideUnavailable();
+  }
+
+  sortUser(sortmode) {
+    var tempusers = this.state.userInfo;
+    this.sortUserData(sortmode, tempusers)
+    console.log('sort user (by icon) finish')
   }
 
   handleSearchKeyPress(event, mode) {
@@ -217,15 +272,17 @@ export class AdminManageUsers extends React.Component {
       )
   }
 
-  searchUser(searchword, mode) {
+  searchUser(searchword, searchMode, sortMode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('usersearchbox').classList.remove('is-valid');
       document.getElementById('usersearchbox').classList.add('is-invalid');
       return;
     }
+    document.getElementById('usersearchbox').classList.add('is-valid');
+    document.getElementById('usersearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempusers = [];
-    switch (mode) {
+    switch (searchMode) {
       case 'Name':
         allusers.map((item) =>
           ((expr.test(item.fname.toLowerCase())) || (expr.test(item.lname.toLowerCase()))) ? tempusers.push(item) : ''
@@ -266,10 +323,13 @@ export class AdminManageUsers extends React.Component {
         );
         break;
     }
-    console.log(tempusers);
-    console.log("SEARCH");
-    this.setState({ userinfo: tempusers, pager: 0, searchWord:searchword});
-    this.togglehideUnavailable();
+    this.sortUserData(sortMode, tempusers);
+  }
+
+  toggleSortSplit() {
+    this.setState({
+      splitSortButtonOpen: !this.state.splitSortButtonOpen
+    });
   }
 
   toggleSplit() {
@@ -284,7 +344,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    var info = this.state.userinfo
+    var info = this.state.userInfo
     if(this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={info[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
@@ -305,7 +365,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    var info = this.state.userinfo
+    var info = this.state.userInfo
     if(this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={info[x].courseid} coursename={info[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
@@ -317,7 +377,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    var info = this.state.userinfo
+    var info = this.state.userInfo
     if(this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={info[x].courseid} coursename={info[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
@@ -349,7 +409,7 @@ export class AdminManageUsers extends React.Component {
 
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
-    var temp = Object.assign([], this.state.userinfo);
+    var temp = Object.assign([], this.state.userInfo);
     for (var i = temp.length - 1; i >= 0; --i) {
       if (temp[i].isconfirm == 0) {
         temp.splice(i, 1);
@@ -361,8 +421,8 @@ export class AdminManageUsers extends React.Component {
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
-      var info = this.state.userinfo
-      console.log(this.state.userinfo);
+      var info = this.state.userInfo
+      console.log(this.state.userInfo);
       console.log("ishide",this.state.ishideUnavailable);
       if(this.state.ishideUnavailable){
         console.log("IN");
@@ -417,6 +477,26 @@ export class AdminManageUsers extends React.Component {
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <InputGroup >
                       <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.handleHideToggle} style={{ width: 50 }} /></Input>
+
+                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
+                      <Button disabled color="light" outline
+                        style={{ width: 160 }} >{this.state.sortmodeName}</Button>
+                      <DropdownToggle split outline color='light' />
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => this.setSortModeIcon(-1)}>None</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(0)}>{sortName[0]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(1)}>{sortName[1]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(2)}>{sortName[2]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(3)}>{sortName[3]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(4)}>{sortName[4]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(8)}>{sortName[8]}</DropdownItem>
+                        <DropdownItem onClick={() => this.setSortModeIcon(9)}>{sortName[9]}</DropdownItem>
+                      </DropdownMenu>
+                      </InputGroupButtonDropdown>
+
                       <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
                         <Input disabled hidden value={this.state.searchType}></Input>
                         <Button disabled color="light" outline

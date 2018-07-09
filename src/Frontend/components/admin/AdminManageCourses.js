@@ -66,6 +66,7 @@ export class AdminManageCourses extends React.Component {
       splitButtonOpen: false,
       splitSortButtonOpen: false,
       searchType: 'All',
+      searchWord: '',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass,
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: -1,
@@ -168,7 +169,7 @@ export class AdminManageCourses extends React.Component {
     }
   }
 
-  sortCourseData(sortmode, coursedata) {
+  async sortCourseData(sortmode, coursedata) {
     var tempcourses = coursedata;
     this.setSortModeName(sortmode);
     switch (parseInt(sortmode)) {
@@ -269,15 +270,13 @@ export class AdminManageCourses extends React.Component {
         //Do nothing
         break;
     }
-    this.setState({ courseInfo: tempcourses, courseHideInfo: tempcourses, sortmode: sortmode, pager: 0 });
+    await this.setState({ courseInfo: tempcourses, courseHideInfo: tempcourses, sortmode: sortmode, pager: 0 });
     this.togglehideUnavailable()
     console.log('sort finish')
   }
 
   sortCourse(sortmode) {
     var tempcourses = this.state.courseInfo;
-    if(this.state.ishideUnavailable)
-      tempcourses = this.state.courseHideInfo;
     this.sortCourseData(sortmode, tempcourses)
     console.log('sort (by icon) finish')
   }
@@ -322,10 +321,11 @@ export class AdminManageCourses extends React.Component {
               (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
         );
         break;
-
     }
-
     this.sortCourseData(sortMode, tempcourses);
+    this.setState({
+      searchWord:searchword
+    })
     console.log('search finish')
   }
 
@@ -399,9 +399,10 @@ export class AdminManageCourses extends React.Component {
     modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
-  closeModalAndReload = () => {
+  closeModalAndReload = async() => {
     console.log('closemodal by fx')
-    this.getData();
+    await this.getData();
+    this.searchCourse(this.state.searchWord, this.state.searchType,this.state.sortmode)
     this.setState({
       modalOpen: false
     });
@@ -493,7 +494,7 @@ export class AdminManageCourses extends React.Component {
                       </InputGroupButtonDropdown>
                     </InputGroup >&nbsp;
                     <InputGroup style={{ width: 340 }} >
-                      <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" placeholder="Search Course"
+                      <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" defaultValue={this.state.searchWord==''? '':this.state.searchWord}
                         onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">

@@ -30,7 +30,6 @@ class LoginPage extends React.Component {
         var check = await this.props.login(document.getElementById('loginpage-username').value, document.getElementById('loginpage-password').value)
         console.log('check::')
         console.log(check);
-        console.log(check.error.msg);
         if (check.type === "USER_LOGIN_SUCCESS") {
             history.push('/');
         } else {

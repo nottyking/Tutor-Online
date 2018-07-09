@@ -43,7 +43,7 @@ export class AccountFields extends React.Component {
                     <FormGroup row>
                         <Label sm={{ size: 2, order: 2, offset: 3 }} >Username</Label>
                         <Col sm={{ size: 4, order: 4 }}>
-                            <Input type='text' id='reg-username'
+                            <Input autoFocus type='text' id='reg-username'
                                 defaultValue={this.props.fieldValues.username} placeholder='Enter your Username'
                                 valid={this.state.validUsername}
                                 invalid={!this.state.validUsername && !this.state.defaultUsername}
@@ -94,9 +94,6 @@ export class AccountFields extends React.Component {
                         <Button onClick={this.saveAndContinue}>Save And Continue</Button>
                     </FormGroup>
                 </Form>
-
-
-
 
                 {/* HANDLE WARNING */}
                 <Modal isOpen={this.state.Modal} toggle={this.modalToggle}>

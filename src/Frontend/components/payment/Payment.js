@@ -37,7 +37,7 @@ export class Payment extends React.Component {
     render() {
         return (
                     <Form action="http://localhost:8888/payment/creditcard" method="POST">
-                     <Input type="submit" value="Pay To Enroll" id="checkout-button" className="btn btn-primary" onChange={this.handleChange} />
+                     <Input type="submit" value={"Pay To Enroll for "+(this.props.coursePrice/100).toLocaleString('en')+" ฿"} id="checkout-button" className="btn btn-primary" onChange={this.handleChange} />
                      <Input name='amount' id='amount' value={this.props.coursePrice} style={{display:'none'}}/>
                      <Input name='courseid' id='courseID' value={this.props.courseID} style={{display:'none'}}/>
                      <Input name='loginToken' id='loginToken' value={cookies.get("loginToken")} style={{display:'none'}}/>

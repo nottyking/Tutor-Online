@@ -8,10 +8,10 @@ export class Success extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>
+            <div style={{ marginTop: 10 }}>
+                <h1 style={{ color: '#FFF' }}>
                     Success to change your profile
-                    </h1>
+                </h1>
                 <a href={"./Student"}>Click here to go back to Profile Page</a>
 
             </div>

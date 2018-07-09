@@ -212,7 +212,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload}/>);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   closeModal = () => {
@@ -222,7 +222,7 @@ export class AdminManageUsers extends React.Component {
     });
   }
 
-  closeModalAndReload = () =>{
+  closeModalAndReload = () => {
     console.log('closemodal by fx')
     this.getData();
     this.setState({
@@ -242,7 +242,7 @@ export class AdminManageUsers extends React.Component {
       }
     }
     console.log(temp);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable,userinfo:temp,pager:0 });
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, userinfo: temp, pager: 0 });
   }
 
   render() {
@@ -253,6 +253,7 @@ export class AdminManageUsers extends React.Component {
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
+          <th>{item.email}</th>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
           <td style={{ width: 60 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
@@ -310,6 +311,8 @@ export class AdminManageUsers extends React.Component {
                           <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
+                    </InputGroup >&nbsp;
+                    <InputGroup style={{ width: 340 }} >
                       <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
                         onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
                         style={{ width: 300 }} />
@@ -339,6 +342,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -383,6 +387,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -394,11 +399,11 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>

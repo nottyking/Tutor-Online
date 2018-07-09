@@ -472,6 +472,8 @@ export class AdminManageCourses extends React.Component {
                           <DropdownItem onClick={() => this.changeSearchType('Price <')}>{'Price <'}</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
+                    </InputGroup >&nbsp;
+                    <InputGroup style={{ width: 340 }} >
                       <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" placeholder="Search Course"
                         onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
                         style={{ width: 300 }} />

@@ -30,7 +30,7 @@ class BrowserRouterManager extends React.Component {
             userType = "unauthorized"
         }
         return (
-            <div>
+            <div style={{minHeight: window.innerHeight-(270)}}>
                 <Switch>
                     <Route exact path="/" component={Content} />
                     <Route exact path="/about_us" component={AboutUs} />

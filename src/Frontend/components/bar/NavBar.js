@@ -127,8 +127,8 @@ export default class NavBar extends React.Component {
         document.addEventListener('click', this.handleDocumentClick, true)
 
         return (
-            <div ref={(c) => (this._element = c)}>
-                <Navbar color="dark" dark expand="md">
+            <div ref={(c) => (this._element = c)} >
+                <Navbar color="dark" dark expand="md" style={{height: '60px'}}>
                     <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>

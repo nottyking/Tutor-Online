@@ -1,6 +1,6 @@
 import React from 'react';
 import { Loading } from '../loading/Loading'
-import { Button, FormGroup, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, Container, Table } from 'reactstrap';
+import { Button, FormGroup,FormText, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, Container, Table } from 'reactstrap';
 
 
 const ipList = require('../../../Config/ipConfig');
@@ -230,6 +230,10 @@ export class AdminEditSubCourseModal extends React.Component {
                     type='text'
                     id='videolink'
                     placeholder='Enter Link of Video' />
+                    <FormText color="muted">
+              Link must in the form of https://player.vimeo.com/video/[video_id]
+            </FormText>
+
                 </FormGroup>
               </Container>
             </ModalBody>

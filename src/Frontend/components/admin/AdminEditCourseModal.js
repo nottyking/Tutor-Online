@@ -22,6 +22,7 @@ export class AdminEditCourseModal extends React.Component {
     this.toggletype=this.toggletype.bind(this);
     this.showBanner=this.bannerChange.bind(this);
     this.showThumbnail=this.thumbnailChange.bind(this);
+    this.saveToDatabase = this.saveToDatabase.bind(this);
     id = this.props.src.courseid;
     exitfx = this.props.closeModal;
     exitandreloadfx=this.props.closeModalAndReload;
@@ -35,13 +36,28 @@ export class AdminEditCourseModal extends React.Component {
     thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
     thumbnailFormData.append('courseid', document.getElementById('thumbnail').files[0], id);
 
+    var temp;
+    if (document.getElementById('limitdurationtype').value === '0') {
+      temp = 0;
+    }
+    else if (document.getElementById('limitdurationtype').value === '1') {
+      temp = document.getElementById('limitduration').value;
+    }
+    else {
+      var createdate = new Date(this.props.src.createdate);
+      temp = Math.ceil(((new Date(document.getElementById('expiredate').value)) - createdate) / (24 * 3600 * 1000));
+    }
+
     var data = {
         courseid: id,
         coursename: document.getElementById('coursename').value,
         instructor: document.getElementById('instructor').value,
         price: document.getElementById('price').value*100,
         description: document.getElementById('description').value,
-        isavailable: (document.getElementById('isavailable').checked)? '1':'0'
+        isavailable: (document.getElementById('isavailable').checked)? '1':'0',
+        limitdurationtype: document.getElementById('limitdurationtype').value,
+        limitduration: temp
+
     }
     console.log(data);
     console.log((document.getElementById('isavailable').checked));
@@ -53,12 +69,13 @@ export class AdminEditCourseModal extends React.Component {
         price: data.price,
         description: data.description,
         isavailable: data.isavailable,
-        expireType:this.props.src.limitdurationtype
+        limitdurationtype: data.limitdurationtype,
+        limitduration: data.limitduration
       }
     }))).data
     var temp2 = (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
     var temp3 = (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
-    exitfx();
+    exitandreloadfx();
     return true;
 }
 

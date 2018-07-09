@@ -12,7 +12,7 @@ export class CourseField extends React.Component {
                     <td scope="row">{i + 1}</td>
                     <td>{item.courseid}</td>
                     <td><a href={ipList.frontend+'/learning/'+item.courseid+'/1'}>{item.coursename}</a></td>
-                    <td>{dateFormat(item.expireddate,"yyyy-mm-dd")}  <Badge color="primary">{parseInt(((new Date(item.expireddate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
+                    <td>{dateFormat(item.expireddate,"dd/mm/yyyy")}  <Badge color="primary">{parseInt(((new Date(item.expireddate)) - today) / (24 * 3600 * 1000))} days left</Badge></td>
                 </tr>
                 );
             }
@@ -22,7 +22,7 @@ export class CourseField extends React.Component {
                     <td scope="row">{i + 1}</td>
                     <td>{item.courseid}</td>
                     <td>{item.coursename}</td>
-                    <td>{dateFormat(item.expireddate,"yyyy-mm-dd")}   <Badge color="danger">Expired</Badge></td>
+                    <td>{dateFormat(item.expireddate,"dd/mm/yyyy")}   <Badge color="danger">Expired</Badge></td>
                 </tr>
                 );
             }

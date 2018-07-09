@@ -23,6 +23,8 @@ export class AdminCreateCourseModal extends React.Component {
     this.showBanner = this.bannerChange.bind(this);
     this.showThumbnail = this.thumbnailChange.bind(this);
     this.checkInp = this.checkInp.bind(this);
+    this.checkAll = this.checkAll.bind(this);
+    this.saveToDatabase = this.saveToDatabase.bind(this);
     exitfx = this.props.closeModal;
     exitandreloadfx = this.props.closeModalAndReload;
   }
@@ -34,7 +36,85 @@ export class AdminCreateCourseModal extends React.Component {
     return true;
   }
 
+  courseNameCheck() {
+    console.log('check coursename');
+    if (document.getElementById('coursename').value.length > 3 && document.getElementById('coursename').value.length < 46) {
+      console.log('true');
+      document.getElementById("coursename").classList.remove('is-invalid');
+      document.getElementById("coursename").classList.add('is-valid');
+      return true;
+    }
+    document.getElementById("coursename").classList.remove('is-valid');
+    document.getElementById("coursename").classList.add('is-invalid');
+    return false;
+  }
+
+  instructorCheck() {
+    return true;
+  }
+
+
+  priceCheck() {
+    console.log('price check');
+    if (!isNaN(document.getElementById('price').value) && (document.getElementById('price').value > 20 && document.getElementById('price').value < 10000) || document.getElementById('price').value === 0) {
+      document.getElementById("price").classList.remove('is-invalid');
+      document.getElementById("price").classList.add('is-valid');
+      console.log('price true');
+      return true;
+    }
+    console.log('price false');
+    document.getElementById("price").classList.remove('is-valid');
+    document.getElementById("price").classList.add('is-invalid');
+    return false;
+  }
+  limitdurationCheck() {
+    if (document.getElementById('limitdurationtype').value === '1') {
+      if (!isNaN(document.getElementById('limitduration').value) && (document.getElementById('limitduration').value >= 7)) {
+        document.getElementById("limitduration").classList.remove('is-invalid');
+        document.getElementById("limitduration").classList.add('is-valid');
+        console.log('price true');
+        return true;
+      }
+      console.log('price false');
+      document.getElementById("limitduration").classList.remove('is-valid');
+      document.getElementById("limitduration").classList.add('is-invalid');
+      return false;
+    }
+    return true;
+  }
+  expireDateCheck() {
+    if (document.getElementById('limitdurationtype').value === '2') {
+      console.log('check expire');
+      var today = new Date();
+      var temp;
+      today.setHours(0, 0, 0, 0);
+      temp = parseInt((new Date(document.getElementById('expiredate').value)) - today) / (24 * 3600 * 1000);
+      console.log(temp>=7);
+      if (temp >= 7) {
+        document.getElementById("expiredate").classList.remove('is-invalid');
+        document.getElementById("expiredate").classList.add('is-valid');
+        return true;
+      } else {
+        document.getElementById("expiredate").classList.remove('is-valid');
+        document.getElementById("expiredate").classList.add('is-invalid');
+        return false;
+      }
+
+    }
+    return true
+
+  }
+
+  checkAll= () => {
+    return this.courseNameCheck() && this.instructorCheck() && this.priceCheck() && this.limitdurationCheck() && this.expireDateCheck;
+  }
+
   async saveToDatabase() {
+    console.log(this.checkAll());
+    if(!this.checkAll()){
+      console.log('not save');
+      return;
+    }
     const bannerFormData = new FormData()
     const thumbnailFormData = new FormData()
     bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
@@ -95,77 +175,7 @@ export class AdminCreateCourseModal extends React.Component {
     exitandreloadfx();
     return true;
   }
-  courseNameCheck() {
-    console.log('check coursename');
-    if (document.getElementById('coursename').value.length > 3 && document.getElementById('coursename').value.length < 46) {
-      console.log('true');
-      document.getElementById("coursename").classList.remove('is-invalid');
-      document.getElementById("coursename").classList.add('is-valid');
-      return true;
-    }
-    document.getElementById("coursename").classList.remove('is-valid');
-    document.getElementById("coursename").classList.add('is-invalid');
-    return false;
-  }
 
-  instructorCheck() {
-
-  }
-
-
-  priceCheck() {
-    console.log('price check');
-    if (!isNaN(document.getElementById('price').value) && (document.getElementById('price').value > 20 && document.getElementById('price').value < 10000) || document.getElementById('price').value === 0) {
-      document.getElementById("price").classList.remove('is-invalid');
-      document.getElementById("price").classList.add('is-valid');
-      console.log('price true');
-      return true;
-    }
-    console.log('price false');
-    document.getElementById("price").classList.remove('is-valid');
-    document.getElementById("price").classList.add('is-invalid');
-    return false;
-  }
-  limitdurationCheck() {
-    if (document.getElementById('limitdurationtype').value === '1') {
-      if (!isNaN(document.getElementById('limitduration').value) && (document.getElementById('limitduration').value >= 7)) {
-        document.getElementById("limitduration").classList.remove('is-invalid');
-        document.getElementById("limitduration").classList.add('is-valid');
-        console.log('price true');
-        return true;
-      }
-      console.log('price false');
-      document.getElementById("limitduration").classList.remove('is-valid');
-      document.getElementById("limitduration").classList.add('is-invalid');
-      return false;
-    }
-    return true;
-  }
-  expireDateCheck() {
-    if (document.getElementById('limitdurationtype').value === '2') {
-      console.log('check expire');
-      var today = new Date();
-      var temp;
-      today.setHours(0, 0, 0, 0);
-      temp = parseInt((new Date(document.getElementById('expiredate').value)) - today) / (24 * 3600 * 1000);
-      console.log(temp>=7);
-      if (temp >= 7) {
-        document.getElementById("expiredate").classList.remove('is-invalid');
-        document.getElementById("expiredate").classList.add('is-valid');
-        return true;
-      } else {
-        document.getElementById("expiredate").classList.remove('is-valid');
-        document.getElementById("expiredate").classList.add('is-invalid');
-        return false;
-      }
-
-    }
-    return true
-
-  }
-  checkAll() {
-    return this.courseNameCheck() && this.instructorCheck() && this.priceCheck() && this.limitdurationCheck() && this.expireDateCheck;
-  }
 
 
 

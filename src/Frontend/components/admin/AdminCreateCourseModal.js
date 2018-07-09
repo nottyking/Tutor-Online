@@ -302,7 +302,7 @@ export class AdminCreateCourseModal extends React.Component {
                     choose type 1 : Expire in a range of time
                       <FormGroup row>
                       <Label>
-                        Course Name
+                      Choose range of time
                   </Label>
                       <Input
                         type='text'
@@ -319,7 +319,7 @@ export class AdminCreateCourseModal extends React.Component {
               <Collapse isOpen={this.state.expireType === '2'}>
                 <Card>
                   <CardBody>
-                    choose type 2 : Expire on exact date
+                    choose type 2 : Expire on exact date<br/>
                                     <Label>Choose Exact Expiry Date</Label>
                     <Input
                       type='date'

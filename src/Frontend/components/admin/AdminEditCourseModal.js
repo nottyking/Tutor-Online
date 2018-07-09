@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {  Button, Form, FormGroup,  ModalBody,  Label, Input, Container } from 'reactstrap'
+import {  Button, Form, FormGroup,  ModalBody,  Label, Input, Container,Collapse,Card,CardBody,FormFeedback } from 'reactstrap'
 import Cookies from 'universal-cookie'
 
 const cookies = new Cookies()
@@ -14,7 +14,7 @@ export class AdminEditCourseModal extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-        expireType:0,
+        expireType:this.props.src.limitdurationtype,
         showThumbnail: this.props.src.thumbnail,
         showBanner:this.props.src.banner,
         redirect:''
@@ -52,7 +52,8 @@ export class AdminEditCourseModal extends React.Component {
         instructor: data.instructor,
         price: data.price,
         description: data.description,
-        isavailable: data.isavailable
+        isavailable: data.isavailable,
+        expireType:this.props.src.limitdurationtype
       }
     }))).data
     var temp2 = (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
@@ -90,9 +91,58 @@ export class AdminEditCourseModal extends React.Component {
       console.log(url)
   }
 
-  render () {
+  limitdurationCheck() {
+    if (document.getElementById('limitdurationtype').value === '1') {
+      if (!isNaN(document.getElementById('limitduration').value) && (document.getElementById('limitduration').value >= 7)) {
+        document.getElementById("limitduration").classList.remove('is-invalid');
+        document.getElementById("limitduration").classList.add('is-valid');
+        console.log('price true');
+        return true;
+      }
+      console.log('price false');
+      document.getElementById("limitduration").classList.remove('is-valid');
+      document.getElementById("limitduration").classList.add('is-invalid');
+      return false;
+    }
+    return true;
+  }
+  expireDateCheck() {
+    if (document.getElementById('limitdurationtype').value === '2') {
+      console.log('check expire');
+      var today = new Date();
+      var temp;
+      today.setHours(0, 0, 0, 0);
+      temp = parseInt((new Date(document.getElementById('expiredate').value)) - today) / (24 * 3600 * 1000);
+      console.log(temp>=7);
+      if (temp >= 7) {
+        document.getElementById("expiredate").classList.remove('is-invalid');
+        document.getElementById("expiredate").classList.add('is-valid');
+        return true;
+      } else {
+        document.getElementById("expiredate").classList.remove('is-valid');
+        document.getElementById("expiredate").classList.add('is-invalid');
+        return false;
+      }
 
-    console.log('modal render')
+    }
+    return true
+
+  }
+
+  toggletype = event => {
+    console.log(document.getElementById('limitdurationtype').value);
+    this.setState({
+      expireType: document.getElementById('limitdurationtype').value
+    });
+  }
+
+  render () {
+    var date;
+    if(this.props.src.limitdurationtype==2){
+      date = new Date(this.props.src.createdate);
+      date.setDate(date.getDate() + this.props.src.limitduration);
+      console.log(date);
+    }
     return (
       <ModalBody >
         <Container fluid>
@@ -164,6 +214,64 @@ export class AdminEditCourseModal extends React.Component {
 
                </FormGroup>
                <hr/>
+               <FormGroup row>
+              <Input plaintext> Expire Type
+                  </Input>
+              <Input
+                type='select'
+                name='limitdurationtype'
+                id='limitdurationtype'
+                defaultValue={this.props.src.limitdurationtype}
+                onChange={this.toggletype}>
+                <option value='0'>
+                  Will Not Expire
+                  </option>
+                <option value='1'>
+                  Expire in a range of time
+                  </option>
+                <option value='2'>
+                  Expire on exact date
+                  </option>
+              </Input>
+
+              <Collapse isOpen={this.state.expireType == '1'}>
+                <Card>
+                  <CardBody>
+                    choose type 1 : Expire in a range of time
+                      <FormGroup row>
+                      <Label>
+                      Choose Range of time
+                  </Label>
+                      <Input
+                        type='text'
+                        id='limitduration'
+                        placeholder='Enter range of expire in days ex. 365'
+                        defaultValue={this.props.src.limitdurationtype==1?this.props.src.limitduration:''}
+                        onChange={this.limitdurationCheck}
+                        />
+                        <FormFeedback>must be number and exceed 7</FormFeedback>
+                    </FormGroup>
+                  </CardBody>
+                </Card>
+              </Collapse>
+              <br />
+              <Collapse isOpen={this.state.expireType == '2'}>
+                <Card>
+                  <CardBody>
+                    choose type 2 : Expire on exact date<br/>
+                                    <Label>Choose Exact Expiry Date</Label>
+                    <Input
+                      type='date'
+                      id='expiredate'
+                      onChange={this.expireDateCheck}
+                      defaultValue={this.props.src.limitdurationtype==2?date.toISOString().split('T')[0]:new Date}
+                    />
+                    <FormFeedback>must more than 7 days form now</FormFeedback>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </FormGroup>
+            <hr/>
                <FormGroup>
           <Label>
             <Input type="checkbox" defaultChecked={this.props.src.isavailable=='1'? true:false} onChange={()=>{console.log(document.getElementById('isavailable').value)}} id='isavailable'/>{' '}

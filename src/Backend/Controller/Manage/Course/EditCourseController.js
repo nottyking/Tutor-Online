@@ -45,10 +45,12 @@ async function editCourse(course, req, res){
   // var thumbnail = course.thumbnail;
   var description = course.description;
   var isavailable = course.isavailable;
+  var limitduration = course.limitduration;
+  var limitdurationtype = course.limitdurationtype;
 
   var courseid = course.courseid;
-  return await updateFunc.updateCourseWithCourseID(['coursename','instructor','price','description','isavailable'] ,
-                                                     [coursename,instructor,price,description,isavailable] ,
+  return await updateFunc.updateCourseWithCourseID(['coursename','instructor','price','description','isavailable','limitduration','limitdurationtype'] ,
+                                                     [coursename,instructor,price,description,isavailable,limitduration,limitdurationtype] ,
                                                      ['courseid'] ,
                                                      [courseid])
 }

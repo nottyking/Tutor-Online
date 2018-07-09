@@ -7,7 +7,7 @@ import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
 import ContentLoader from 'react-content-loader'
 import { Loading } from '../loading/Loading'
 import {
-  Form, Card, Input, InputGroupButtonDropdown, DropdownMenu, DropdownItem, InputGroupAddon, DropdownToggle, InputGroup,
+  Form, Badge, Card, Input, InputGroupButtonDropdown, DropdownMenu, DropdownItem, InputGroupAddon, DropdownToggle, InputGroup,
   Container, Col, Row, FormGroup, Table, Modal, Button, ModalFooter, ModalHeader, Pagination, PaginationItem, PaginationLink
 } from 'reactstrap'
 import { Switch } from 'antd';
@@ -21,7 +21,7 @@ const rowperpage = 15;
 var allusers;
 const rolecolor = ['#FFF', '#007bff'];
 const type = ['', 'fab fa-facebook-f', 'fab fa-google']
-const sortName = ['User ID (+)', 'User ID (-)', 'Username (A-Z)', 'Username (Z-A)', 'E-mail (A-Z)', 'E-mail (Z-A)', 'Name (A-Z)', 'Name (Z-A)']
+const sortName = ['User ID (+)', 'User ID (-)', 'Username (A-Z)', 'Username (Z-A)', 'E-mail (A-Z)', 'E-mail (Z-A)', 'Name (A-Z)', 'Name (Z-A)', 'Surname (A-Z)', 'Surname (Z-A)']
 
 
 /*
@@ -63,6 +63,7 @@ export class AdminManageUsers extends React.Component {
       isloaded: false,
       modalOpen: false,
       userInfo: {},
+      userhideinfo: {},
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
@@ -90,7 +91,7 @@ export class AdminManageUsers extends React.Component {
   }
 
   async componentWillMount() {
-    return this.getData();
+    this.getData();
   }
 
   setPage(x) {
@@ -108,6 +109,7 @@ export class AdminManageUsers extends React.Component {
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
     allusers = temp1;
+    console.log("GETDATA", temp1);
     this.setState({
       isloaded: true,
       userInfo: temp1,
@@ -157,94 +159,93 @@ export class AdminManageUsers extends React.Component {
     }
   }
 
-  sortUserData(sortmode, userdata) {
+  sortUserData(sortMode, userdata) {
     var tempusers = userdata;
-    this.setSortModeName(sortmode);
-    switch (parseInt(sortmode)) {
+    this.setSortModeName(sortMode);
+    switch (parseInt(sortMode)) {
       case 0:
-        //User ID sort min > max
         tempusers.sort(function (a, b) { return a.userid - b.userid });
-        console.log('mode 0 complete');
         break;
       case 1:
-        //User ID sort max > min
         tempusers.sort(function (a, b) { return b.userid - a.userid });
-        console.log('mode 1 complete');
         break;
       case 2:
-        //username min > max
         tempusers.sort(function (a, b) {
           var x = a.username.toLowerCase();
           var y = b.username.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 2 complete');
         break;
       case 3:
-        //username max < min
         tempusers.sort(function (a, b) {
           var x = a.username.toLowerCase();
           var y = b.username.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 3 complete');
         break;
       case 4:
-        //E-mail min > max
         tempusers.sort(function (a, b) {
           var x = a.email.toLowerCase();
           var y = b.email.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 4 complete');
         break;
       case 5:
-        //E-mail max < min
         tempusers.sort(function (a, b) {
           var x = a.email.toLowerCase();
           var y = b.email.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 5 complete');
         break;
       case 6:
-        //Name min > max
         tempusers.sort(function (a, b) {
           var x = a.fname.toLowerCase();
           var y = b.fname.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 6 complete');
         break;
       case 7:
-        //Name max < min
         tempusers.sort(function (a, b) {
           var x = a.fname.toLowerCase();
           var y = b.fname.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
-        console.log('mode 7 complete');
+        break;
+      case 8:
+        tempusers.sort(function (a, b) {
+          var x = a.lname.toLowerCase();
+          var y = b.lname.toLowerCase();
+          if (x < y) { return -1; }
+          if (x > y) { return 1; }
+          return a.userid - b.userid;
+        });
+        break;
+      case 9:
+        tempusers.sort(function (a, b) {
+          var x = a.lname.toLowerCase();
+          var y = b.lname.toLowerCase();
+          if (x < y) { return 1; }
+          if (x > y) { return -1; }
+          return a.userid - b.userid;
+        });
         break;
       default:
-        //Do nothing
-        break;
+        this
     }
-    this.setState({ userInfo: tempusers, sortmode: sortmode, pager: 0 });
-    console.log('sort data');
-    console.log(tempusers);
-    console.log('sort finish')
+    console.log("SORT finish");
+    this.setState({ userInfo: tempusers, sortmode: sortMode, pager: 0 });
   }
 
   sortUser(sortmode) {
@@ -304,9 +305,10 @@ export class AdminManageUsers extends React.Component {
         );
         break;
     }
-    console.log('search data');
+
+    this.sortUserData(sortMode, tempusers);
     console.log(tempusers);
-    this.sortUser(sortMode, tempusers);
+    console.log("SEARCH");
   }
 
   toggleSplit() {
@@ -375,22 +377,26 @@ export class AdminManageUsers extends React.Component {
 
   togglehideUnavailable = () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
-    var temp = Object.assign([], allusers);
-    if (!this.state.ishideUnavailable) {
-      for (var i = temp.length - 1; i >= 0; --i) {
-        if (temp[i].isconfirm == 0) {
-          temp.splice(i, 1);
-        }
+    var temp = Object.assign([], this.state.userInfo);
+    for (var i = temp.length - 1; i >= 0; --i) {
+      if (temp[i].isconfirm == 0) {
+        temp.splice(i, 1);
       }
     }
-    console.log(temp);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, userInfo: temp, pager: 0 });
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, userhideinfo: temp, pager: 0 });
   }
 
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
-      var courseTableBody = this.state.userInfo.map((item, i) =>
+      var info = this.state.userInfo
+      console.log(this.state.userInfo);
+      console.log("ishide", this.state.ishideUnavailable);
+      if (this.state.ishideUnavailable) {
+        console.log("IN");
+        info = this.state.userhideinfo
+      }
+      var courseTableBody = info.map((item, i) =>
         <tr style={{ color: (item.isbanned == '1') ? '#F55' : (item.isconfirm == '0') ? '#888' : rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
@@ -411,6 +417,7 @@ export class AdminManageUsers extends React.Component {
           </td>
         </tr>
       );
+
 
       var paginationitems = [];
       for (var i = 0; i < Math.ceil(this.state.userInfo.length / rowperpage); i++) {
@@ -453,6 +460,8 @@ export class AdminManageUsers extends React.Component {
                           <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
                           <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
                           <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(8)}>{sortName[8]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(9)}>{sortName[9]}</DropdownItem>
 
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
@@ -492,7 +501,7 @@ export class AdminManageUsers extends React.Component {
           </Card>
           <br />
 
-          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}
@@ -503,13 +512,42 @@ export class AdminManageUsers extends React.Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>User ID</th>
-                  <th>UserName</th>
-                  <th>Email-Address</th>
-                  <th>FirstName</th>
-                  <th>LastName</th>
-                  <th>Action</th>
-                  <th>type</th>
+                  <th>
+                    <span onClick={() => { this.state.sortmode == 0 ? this.sortUser(1) : this.sortUser(0); }}>User ID </span>
+                    <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 0 || this.state.sortmode == -1 ? this.sortUser(1) : this.sortUser(0); }}>
+                      <i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                        style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} />
+                    </Badge>
+                  </th>
+                  <th>
+                    <span onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}>UserName </span>
+                    <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} />
+                    </Badge>
+                  </th>
+                  <th>
+                    <span onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}>Email </span>
+                    <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} />
+                    </Badge>
+                  </th>
+                  <th>
+                    <span onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }}>FirstName </span>
+                    <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} />
+                    </Badge>
+                  </th>
+                  <th>
+                    <span onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }}>LastName  </span>
+                    <Badge color={this.state.sortmode == 8 || this.state.sortmode == 9 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }} ><i class={this.state.sortmode == 8 ? "fa fa-sort-amount-asc " : this.state.sortmode == 9 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      style={{ color: this.state.sortmode == 8 || this.state.sortmode == 9 ? '' : '#AAA' }} />
+                    </Badge>
+                  </th>
+                  <th>
+                  </th>
+                  <th>
+                    {'type'}
+                  </th>
                 </tr>
               </thead>
               <tbody>

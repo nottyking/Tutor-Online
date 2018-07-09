@@ -65,7 +65,7 @@ export class AdminManageCourses extends React.Component {
       splitButtonOpen: false,
       splitSortButtonOpen: false,
       searchType: 'All',
-      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 
+      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass,
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: -1,
       sortmodeIcon: -1,
@@ -170,13 +170,11 @@ export class AdminManageCourses extends React.Component {
       case 0:
         //Course ID sort min > max
         tempcourses.sort(function (a, b) { return a.courseid - b.courseid });
-        console.log('mode 0 complete');
         break;
       case 1:
         //Course ID sort max > min
         console.log('mode 1 sssss');
         tempcourses.sort(function (a, b) { return b.courseid - a.courseid });
-        console.log('mode 1 complete');
         break;
       case 2:
         //Course name min > max
@@ -185,9 +183,8 @@ export class AdminManageCourses extends React.Component {
           var y = b.coursename.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
-        console.log('mode 2 complete');
         break;
       case 3:
         //Course name max < min
@@ -196,9 +193,8 @@ export class AdminManageCourses extends React.Component {
           var y = b.coursename.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
-        console.log('mode 3 complete');
         break;
       case 4:
         //Instructor min > max
@@ -207,7 +203,7 @@ export class AdminManageCourses extends React.Component {
           var y = b.instructor.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 5:
@@ -217,16 +213,24 @@ export class AdminManageCourses extends React.Component {
           var y = b.instructor.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 6:
         //Price cheap > expansive
-        tempcourses.sort(function (a, b) { return a.price - b.price });
+        tempcourses.sort(function (a, b) {
+          if(a.price != b.price)
+            return a.price - b.price
+          return a.courseid - b.courseid;
+        });
         break;
       case 7:
         //Price expansive > cheap
-        tempcourses.sort(function (a, b) { return b.price - a.price });
+        tempcourses.sort(function (a, b) {
+          if(a.price != b.price)
+            return b.price - a.price
+          return a.courseid - b.courseid;
+        });
         break;
       case 8:
         //Create Date new > old
@@ -234,8 +238,8 @@ export class AdminManageCourses extends React.Component {
           var x = a.createdate;
           var y = b.createdate;
           if (x > y) { return -1; }
-          else if (x < y) { return 1; }
-          else return 0;
+          if (x < y) { return 1; }
+          return a.courseid - b.courseid;
         });
         break;
       case 9:
@@ -244,8 +248,8 @@ export class AdminManageCourses extends React.Component {
           var x = a.createdate;
           var y = b.createdate;
           if (x > y) { return 1; }
-          else if (x < y) { return -1; }
-          else return 0;
+          if (x < y) { return -1; }
+          return a.courseid - b.courseid;
         });
         break;
       case 10:
@@ -400,7 +404,7 @@ export class AdminManageCourses extends React.Component {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
       var courseTableBody = this.state.courseInfo.map((item, i) =>
-        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none'}}>
           <td style={{ width: 50, maxWidth: 50 }}><b>{i + 1}</b></td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.courseid}</td>
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.coursename}</td>
@@ -501,16 +505,23 @@ export class AdminManageCourses extends React.Component {
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>{"    Course id  "}&nbsp;
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>{"    Course id  "}&nbsp;</span>
                         <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { (this.state.sortmode == 0 || this.state.sortmode == -1) ? this.sortCourse(1) : this.sortCourse(0); }}><i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                           style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} /></Badge></th>
-                      <th>{"  Course Name  "}&nbsp;<Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}>{"  Course Name  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} /></Badge>
                       </th>
-                      <th>{"  Instructor  "}&nbsp;<Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>{"  Instructor  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} /></Badge>
                       </th>
-                      <th>{"  Price  "}&nbsp;<Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>{"  Price  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} /></Badge>
                       </th>
                       <th><i class="fa fa-cogs" aria-hidden="true" /></th>

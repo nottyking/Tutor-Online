@@ -212,7 +212,6 @@ export class AdminManageCourses extends React.Component {
         tempcourses.sort(function (a, b) { return b.price - a.price });
         break;
       default:
-        this
     }
     this.setState({ courseInfo: tempcourses, sortmode: mode, pager: 0 });
   }

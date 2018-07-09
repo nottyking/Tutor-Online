@@ -137,6 +137,7 @@ export class SubCourseProgressBar extends React.Component {
                     open={this.state.sidebarOpen}
                     onSetOpen={this.onSetSidebarOpen}
                     pullRight={true}
+                    docked={true}
                 >
                     <Button color='info' onClick={this.onSetSidebarOpen}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
 

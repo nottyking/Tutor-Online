@@ -132,12 +132,9 @@ export class AdminManageCourses extends React.Component {
     switch (parseInt(mode)) {
       case 0:
         tempcourses.sort(function (a, b) { return a.courseid - b.courseid });
-        console.log('mode 0 complete');
         break;
       case 1:
-        console.log('mode 1 sssss');
         tempcourses.sort(function (a, b) { return b.courseid - a.courseid });
-        console.log('mode 1 complete');
         break;
       case 2:
         tempcourses.sort(function (a, b) {
@@ -147,7 +144,6 @@ export class AdminManageCourses extends React.Component {
           if (x > y) { return 1; }
           return 0;
         });
-        console.log('mode 2 complete');
         break;
       case 3:
         tempcourses.sort(function (a, b) {
@@ -157,7 +153,6 @@ export class AdminManageCourses extends React.Component {
           if (x > y) { return -1; }
           return 0;
         });
-        console.log('mode 3 complete');
         break;
       case 4:
         tempcourses.sort(function (a, b) {
@@ -208,6 +203,7 @@ export class AdminManageCourses extends React.Component {
         tempcourses.sort(function (a, b) { return b.price - a.price });
         break;
       default:
+        this
     }
     this.setState({ courseInfo: tempcourses, sortmode: mode, pager: 0 });
   }

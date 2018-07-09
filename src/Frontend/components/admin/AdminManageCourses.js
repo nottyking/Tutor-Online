@@ -92,7 +92,10 @@ export class AdminManageCourses extends React.Component {
   }
 
   setPage(x) {
-    if (x >= 0 && x <= Math.ceil(this.state.courseInfo.length / rowperpage) - 1) {
+    var courseinfo = this.state.courseInfo;
+    if(this.state.ishideUnavailable)
+      courseinfo = this.state.courseHideInfo;
+    if (x >= 0 && x <= Math.ceil(courseinfo.length / rowperpage) - 1) {
       this.setState({ pager: x });
     }
   }
@@ -120,6 +123,7 @@ export class AdminManageCourses extends React.Component {
       courseInfo: temp1,
       pager: 0
     });
+    this.togglehideUnavailable()
     console.log("Course info:", this.state.courseInfo);
     return true;
   }
@@ -265,12 +269,15 @@ export class AdminManageCourses extends React.Component {
         //Do nothing
         break;
     }
-    this.setState({ courseInfo: tempcourses, sortmode: sortmode, pager: 0 });
+    this.setState({ courseInfo: tempcourses, courseHideInfo: tempcourses, sortmode: sortmode, pager: 0 });
+    this.togglehideUnavailable()
     console.log('sort finish')
   }
 
   sortCourse(sortmode) {
     var tempcourses = this.state.courseInfo;
+    if(this.state.ishideUnavailable)
+      tempcourses = this.state.courseHideInfo;
     this.sortCourseData(sortmode, tempcourses)
     console.log('sort (by icon) finish')
   }
@@ -322,19 +329,17 @@ export class AdminManageCourses extends React.Component {
     console.log('search finish')
   }
 
+  handleHideToggle = () => {
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager: 0 });
+  }
   togglehideUnavailable = () => {
-    // var temp2 = Object.assign([], allcourses);
-    // console.log(allcourses)
     var temp2 = Object.assign([], this.state.courseInfo);
     for (var i = temp2.length - 1; i >= 0; --i) {
       if (temp2[i].isavailable == 0) {
         temp2.splice(i, 1);
       }
     }
-    // console.log('hide : ' + !this.state.ishideUnavailable);
-    // console.log(allcourses);
-    // console.log(temp2);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, courseHideInfo: temp2, pager: 0 });
+    this.setState({courseHideInfo: temp2});
   }
 
   toggleSplit() {
@@ -355,7 +360,10 @@ export class AdminManageCourses extends React.Component {
       modalHeader: 'Edit Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={this.state.courseInfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    var courseinfo = this.state.courseInfo;
+    if(this.state.ishideUnavailable)
+      courseinfo = this.state.courseHideInfo;
+    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleCreate() {
@@ -373,7 +381,10 @@ export class AdminManageCourses extends React.Component {
       modalHeader: 'Edit Sub Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    var courseinfo = this.state.courseInfo;
+    if(this.state.ishideUnavailable)
+      courseinfo = this.state.courseHideInfo;
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleDelete(x) {
@@ -382,7 +393,10 @@ export class AdminManageCourses extends React.Component {
       modalHeader: 'Delete Course',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.courseInfo[x].courseid} coursename={this.state.courseInfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    var courseinfo = this.state.courseInfo;
+    if(this.state.ishideUnavailable)
+      courseinfo = this.state.courseHideInfo;
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   closeModalAndReload = () => {
@@ -419,7 +433,7 @@ export class AdminManageCourses extends React.Component {
       );
 
       var paginationitems = [];
-      for (var i = 0; i < Math.ceil(this.state.courseInfo.length / rowperpage); i++) {
+      for (var i = 0; i < Math.ceil(courseinfo.length / rowperpage); i++) {
         ((i) => {
           paginationitems.push(
             <PaginationItem active={i == this.state.pager}>
@@ -444,7 +458,7 @@ export class AdminManageCourses extends React.Component {
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <InputGroup >
-                      <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+                      <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.handleHideToggle} style={{ width: 50 }} /></Input>
 
                       <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
                         <Button disabled color="light" outline
@@ -550,7 +564,7 @@ export class AdminManageCourses extends React.Component {
                 </PaginationLink>
               </PaginationItem>
               {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.courseInfo.length / rowperpage) - 1 || this.state.courseInfo.length === 0}>
+              <PaginationItem disabled={this.state.pager == Math.ceil(courseinfo.length / rowperpage) - 1 || courseinfo.length === 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
                   <i class="fa fa-angle-right" />
                 </PaginationLink>

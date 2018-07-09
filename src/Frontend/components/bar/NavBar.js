@@ -128,7 +128,7 @@ export default class NavBar extends React.Component {
 
         return (
             <div ref={(c) => (this._element = c)} >
-                <Navbar color="dark" dark expand="md" style={{height: '60px'}}>
+                <Navbar color="dark" dark expand="md" style={{minHeight: '60px'}}>
                     <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>

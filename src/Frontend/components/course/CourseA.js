@@ -12,6 +12,7 @@ import { Payment } from '../payment/Payment'
 import { Loading } from '../loading/Loading';
 import Cookies from 'universal-cookie';
 import AuthToken from './../router/AuthToken';
+import Login from '../loginPanel/Login';
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 const ipList = require('../../../Config/ipConfig')
@@ -254,7 +255,7 @@ export class CourseA extends React.Component {
                       {this.state.courseInfo.course.description}
                     </CardText>
                     {!this.state.alreadyLogin ?
-                      <Button>Please login before enroll</Button>
+                      <Button disabled color='danger'>Please login before enroll</Button>
                       :
                       !this.state.alreadyEnroll ?
                           this.state.courseInfo.course.price==0? <Button color='primary'>Enroll this course for free</Button> :<Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />

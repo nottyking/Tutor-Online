@@ -304,7 +304,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload}/>);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   closeModal = () => {
@@ -314,7 +314,7 @@ export class AdminManageUsers extends React.Component {
     });
   }
 
-  closeModalAndReload = () =>{
+  closeModalAndReload = () => {
     console.log('closemodal by fx')
     this.getData();
     this.setState({
@@ -408,6 +408,8 @@ export class AdminManageUsers extends React.Component {
                           <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
+                    </InputGroup >&nbsp;
+                    <InputGroup style={{ width: 340 }} >
                       <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
                         onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
                         style={{ width: 300 }} />
@@ -424,7 +426,7 @@ export class AdminManageUsers extends React.Component {
           </Card>
           <br />
 
-          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
             <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
 
             {modalComponent}
@@ -437,32 +439,32 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>
                     <span onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>User ID </span>
-                    <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>
+                    <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>
                       <i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                       style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} />
                     </Badge>
                   </th>
                   <th>
                     <span onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}>UserName </span>
-                    <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                    <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                       style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} />
                     </Badge>
                   </th>
                   <th>
                     <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>Email </span>
-                    <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                    <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                       style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} />
                     </Badge>
                   </th>
                   <th>
                     <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>FirstName </span>
-                    <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                    <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                       style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} />
                     </Badge>
                   </th>
                   <th>
                     <span onClick={() => { this.state.sortmode == 8 ? this.sortCourse(9) : this.sortCourse(8); }}>LastName  </span>
-                    <Badge color={this.state.sortmode == 8 || this.state.sortmode == 9 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 8 ? this.sortCourse(9) : this.sortCourse(8); }} ><i class={this.state.sortmode == 8 ? "fa fa-sort-amount-asc " : this.state.sortmode == 9 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                    <Badge color={this.state.sortmode == 8 || this.state.sortmode == 9 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 8 ? this.sortCourse(9) : this.sortCourse(8); }} ><i class={this.state.sortmode == 8 ? "fa fa-sort-amount-asc " : this.state.sortmode == 9 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                       style={{ color: this.state.sortmode == 8 || this.state.sortmode == 9 ? '' : '#AAA' }} />
                     </Badge>
                   </th>
@@ -511,6 +513,7 @@ export class AdminManageUsers extends React.Component {
                   <th>#</th>
                   <th>User ID</th>
                   <th>UserName</th>
+                  <th>Email-Address</th>
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>Action</th>
@@ -522,11 +525,11 @@ export class AdminManageUsers extends React.Component {
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
-                  <td colspan="10">
-                    {MyLoaderRow()}</td></tr>
+                  <td colspan="10">{MyLoaderRow()}</td>
+                </tr>
                 <tr>
                   <td colspan="10">{MyLoaderRow()}</td>
                 </tr>

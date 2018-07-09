@@ -41,8 +41,6 @@ async function editCourse(course, req, res){
   var coursename = course.coursename;
   var instructor = course.instructor;
   var price = course.price;
-  // var banner = course.banner;
-  // var thumbnail = course.thumbnail;
   var description = course.description;
   var isavailable = course.isavailable;
   var limitduration = course.limitduration;

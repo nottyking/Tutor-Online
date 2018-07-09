@@ -20,6 +20,7 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 var allcourses;
 const rowperpage = 15;
+const sortName = ['Course ID (+)', 'Course ID (-)', 'Course Name (A-Z)', 'Course Name (Z-A)', 'Instructor (A-Z)', 'Instructor (Z-A)', 'Price (+)', 'Price (-)', 'New Course', 'Old Course']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -62,10 +63,13 @@ export class AdminManageCourses extends React.Component {
       pager: 0,
       ishideUnavailable: false,
       splitButtonOpen: false,
+      splitSortButtonOpen: false,
       searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass,
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
-      sortmode: 0,
+      sortmode: -1,
+      sortmodeIcon: -1,
+      sortmodeName: 'None'
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -74,7 +78,12 @@ export class AdminManageCourses extends React.Component {
     this.toggleDelete = this.toggleDelete.bind(this);
     this.changeSearchType = this.changeSearchType.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
+    this.toggleSortSplit = this.toggleSortSplit.bind(this);
+    this.setSortMode = this.setSortModeIcon.bind(this);
+    this.sortCourseData = this.sortCourseData.bind(this);
+    this.setSortModeName = this.setSortModeName.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
+    this.handleSearchIconPress = this.handleSearchIconPress.bind(this);
   }
 
   async componentWillMount() {
@@ -100,7 +109,9 @@ export class AdminManageCourses extends React.Component {
       try {
         temp1[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
         temp1[i].banner = require('../../Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
-      } catch (err) {}
+      } catch (err) {
+
+      }
     }
     console.log(temp1);
     this.setState({
@@ -112,11 +123,37 @@ export class AdminManageCourses extends React.Component {
     return true;
   }
 
-  handleSearchKeyPress(event, mode) {
+  setSortModeIcon(sortMode) {
+    if (this.state.sortmodeIcon !== sortMode) {
+      this.setState({
+        sortmodeIcon: sortMode
+      });
+      this.setSortModeName(sortMode)
+    }
+  }
+
+  setSortModeName(sortMode) {
+    if (sortMode < 0) {
+      this.setState({
+        sortmodeName: 'None'
+      });
+    }
+    else {
+      this.setState({
+        sortmodeName: sortName[sortMode]
+      });
+    }
+  }
+
+  handleSearchKeyPress(event, searchMode, sortMode) {
     if (event.charCode == 13) {
       event.preventDefault();
-      this.searchCourse(event.target.value, mode);
+      this.searchCourse(event.target.value, searchMode, sortMode);
     }
+  }
+
+  handleSearchIconPress(searchKeyword, searchMode, sortMode) {
+    this.searchCourse(searchKeyword, searchMode, sortMode);
   }
 
   changeSearchType(type) {
@@ -126,17 +163,21 @@ export class AdminManageCourses extends React.Component {
       )
   }
 
-  sortCourse(mode) {
-    console.log('mode : ' + mode);
-    var tempcourses = this.state.courseInfo;
-    switch (parseInt(mode)) {
+  sortCourseData(sortmode, coursedata) {
+    var tempcourses = coursedata;
+    this.setSortModeName(sortmode);
+    switch (parseInt(sortmode)) {
       case 0:
+        //Course ID sort min > max
         tempcourses.sort(function (a, b) { return a.courseid - b.courseid });
         break;
       case 1:
+        //Course ID sort max > min
+        console.log('mode 1 sssss');
         tempcourses.sort(function (a, b) { return b.courseid - a.courseid });
         break;
       case 2:
+        //Course name min > max
         tempcourses.sort(function (a, b) {
           var x = a.coursename.toLowerCase();
           var y = b.coursename.toLowerCase();
@@ -146,6 +187,7 @@ export class AdminManageCourses extends React.Component {
         });
         break;
       case 3:
+        //Course name max < min
         tempcourses.sort(function (a, b) {
           var x = a.coursename.toLowerCase();
           var y = b.coursename.toLowerCase();
@@ -155,6 +197,7 @@ export class AdminManageCourses extends React.Component {
         });
         break;
       case 4:
+        //Instructor min > max
         tempcourses.sort(function (a, b) {
           var x = a.instructor.toLowerCase();
           var y = b.instructor.toLowerCase();
@@ -164,6 +207,7 @@ export class AdminManageCourses extends React.Component {
         });
         break;
       case 5:
+        //Instructor max > min
         tempcourses.sort(function (a, b) {
           var x = a.instructor.toLowerCase();
           var y = b.instructor.toLowerCase();
@@ -173,42 +217,56 @@ export class AdminManageCourses extends React.Component {
         });
         break;
       case 6:
+        //Price cheap > expansive
         tempcourses.sort(function (a, b) { return a.price - b.price });
         break;
       case 7:
+        //Price expansive > cheap
         tempcourses.sort(function (a, b) { return b.price - a.price });
         break;
       case 8:
+        //Create Date new > old
         tempcourses.sort(function (a, b) {
           var x = a.createdate;
           var y = b.createdate;
-          if (x < y) { return -1; }
-          if (x > y) { return 1; }
-          return 0;
+          if (x > y) { return -1; }
+          else if (x < y) { return 1; }
+          else return 0;
         });
         break;
       case 9:
+        //Create Date new > old
         tempcourses.sort(function (a, b) {
           var x = a.createdate;
           var y = b.createdate;
-          if (x < y) { return 1; }
-          if (x > y) { return -1; }
-          return 0;
+          if (x > y) { return 1; }
+          else if (x < y) { return -1; }
+          else return 0;
         });
         break;
       case 10:
-        tempcourses.sort(function (a, b) { return b.price - a.price });
+        //Waiting for change
+        //tempcourses.sort(function (a, b) { return b.price - a.price });
         break;
       case 11:
-        tempcourses.sort(function (a, b) { return b.price - a.price });
+        //Waiting for change
+        //tempcourses.sort(function (a, b) { return b.price - a.price });
         break;
       default:
-        this
+        //Do nothing
+        break;
     }
-    this.setState({ courseInfo: tempcourses, sortmode: mode, pager: 0 });
+    this.setState({ courseInfo: tempcourses, sortmode: sortmode, pager: 0 });
+    console.log('sort finish')
   }
 
-  searchCourse(searchword, mode) {
+  sortCourse(sortmode) {
+    var tempcourses = this.state.courseInfo;
+    this.sortCourseData(sortmode, tempcourses)
+    console.log('sort (by icon) finish')
+  }
+
+  searchCourse(searchword, searchMode, sortMode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('coursesearchbox').classList.remove('is-valid');
       document.getElementById('coursesearchbox').classList.add('is-invalid');
@@ -219,7 +277,7 @@ export class AdminManageCourses extends React.Component {
     var expr = RegExp(searchword.toLowerCase());
     var tempcourses = [];
 
-    switch (mode) {
+    switch (searchMode) {
       case 'Course Name':
         allcourses.map((item) =>
           (expr.test(item.coursename.toLowerCase())) ? tempcourses.push(item) : ''
@@ -231,6 +289,7 @@ export class AdminManageCourses extends React.Component {
         );
         break;
       case 'Price >':
+        if (searchword == "") searchword = "0";
         allcourses.map((item) =>
           (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
         );
@@ -249,8 +308,10 @@ export class AdminManageCourses extends React.Component {
         break;
 
     }
-    console.log(tempcourses);
+
+    this.sortCourseData(sortMode, tempcourses);
     this.setState({ courseInfo: tempcourses, pager: 0 });
+    console.log('search finish')
   }
 
   togglehideUnavailable = () => {
@@ -273,6 +334,12 @@ export class AdminManageCourses extends React.Component {
   toggleSplit() {
     this.setState({
       splitButtonOpen: !this.state.splitButtonOpen
+    });
+  }
+
+  toggleSortSplit() {
+    this.setState({
+      splitSortButtonOpen: !this.state.splitSortButtonOpen
     });
   }
 
@@ -330,7 +397,7 @@ export class AdminManageCourses extends React.Component {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
       var courseTableBody = this.state.courseInfo.map((item, i) =>
-        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none'}}>
           <td style={{ width: 50, maxWidth: 50 }}><b>{i + 1}</b></td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.courseid}</td>
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.coursename}</td>
@@ -369,8 +436,27 @@ export class AdminManageCourses extends React.Component {
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <InputGroup >
                       <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+
+                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
+                        <Button disabled color="light" outline
+                          style={{ width: 160 }} >{this.state.sortmodeName}</Button>
+                        <DropdownToggle split outline color='light' />
+                        <DropdownMenu>
+                          <DropdownItem onClick={() => this.setSortModeIcon(-1)}>None</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(0)}>{sortName[0]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(1)}>{sortName[1]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(2)}>{sortName[2]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(3)}>{sortName[3]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(4)}>{sortName[4]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(8)}>{sortName[8]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(9)}>{sortName[9]}</DropdownItem>
+                        </DropdownMenu>
+                      </InputGroupButtonDropdown>
+
                       <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
-                        <Input disabled hidden value={this.state.searchType}></Input>
                         <Button disabled color="light" outline
                           style={{ width: 130 }} >{this.state.searchType}</Button>
                         <DropdownToggle split outline color='light' />
@@ -382,11 +468,13 @@ export class AdminManageCourses extends React.Component {
                           <DropdownItem onClick={() => this.changeSearchType('Price <')}>{'Price <'}</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
+                    </InputGroup >&nbsp;
+                    <InputGroup style={{ width: 340 }} >
                       <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" placeholder="Search Course"
-                        onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
+                        onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={() => { this.searchCourse(document.getElementById('coursesearchbox').value, this.state.searchType) }}>
+                        <Button color="primary" onClick={() => { this.handleSearchIconPress(document.getElementById('coursesearchbox').value, this.state.searchType, this.state.sortmodeIcon) }}>
                           <i class="fa fa-search" />
                         </Button>
                       </InputGroupAddon>
@@ -410,16 +498,23 @@ export class AdminManageCourses extends React.Component {
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>{"    Course id  "}
-                        <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}><i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>{"    Course id  "}&nbsp;</span>
+                        <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { (this.state.sortmode == 0 || this.state.sortmode == -1) ? this.sortCourse(1) : this.sortCourse(0); }}><i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                           style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} /></Badge></th>
-                      <th>{"  Course Name  "}<Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}>{"  Course Name  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} /></Badge>
                       </th>
-                      <th>{"  Instructor  "}<Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>{"  Instructor  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} /></Badge>
                       </th>
-                      <th>{"  Price  "}<Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'light' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                      <th>
+                      <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>{"  Price  "}&nbsp;</span>
+                      <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} /></Badge>
                       </th>
                       <th><i class="fa fa-cogs" aria-hidden="true" /></th>

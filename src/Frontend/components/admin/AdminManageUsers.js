@@ -67,8 +67,9 @@ export class AdminManageUsers extends React.Component {
       ishideUnavailable: false,
       splitButtonOpen: false,
       searchType: 'All',
+      searchWord: '',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,
-      sortmode: 0
+      sortmode: -1
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -267,7 +268,7 @@ export class AdminManageUsers extends React.Component {
     }
     console.log(tempusers);
     console.log("SEARCH");
-    this.setState({ userinfo: tempusers, pager: 0 });
+    this.setState({ userinfo: tempusers, pager: 0, searchWord:searchword});
     this.togglehideUnavailable();
   }
 
@@ -329,9 +330,13 @@ export class AdminManageUsers extends React.Component {
     });
   }
 
-  closeModalAndReload = () => {
+  closeModalAndReload = async() => {
     console.log('closemodal by fx')
-    this.getData();
+    await this.getData();
+    console.log("!@#",this.state.searchWord,this.state.searchType);
+    this.searchUser(this.state.searchWord, this.state.searchType)
+    console.log(this.state.sortmode);
+    this.sortUser(this.state.sortmode);
     this.setState({
       modalOpen: false
     });
@@ -429,7 +434,7 @@ export class AdminManageUsers extends React.Component {
                       </InputGroupButtonDropdown>
                     </InputGroup >&nbsp;
                     <InputGroup style={{ width: 340 }} >
-                      <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
+                      <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User" defaultValue={this.state.searchWord==''? '':this.state.searchWord}
                         onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">

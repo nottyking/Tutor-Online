@@ -59,6 +59,7 @@ export class AdminManageCourses extends React.Component {
       isloaded: false,
       modalOpen: false,
       courseInfo: {},
+      courseHideInfo: {},
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
@@ -323,20 +324,18 @@ export class AdminManageCourses extends React.Component {
   }
 
   togglehideUnavailable = () => {
-    var temp2 = Object.assign([], allcourses);
-    console.log(allcourses)
-    if (!this.state.ishideUnavailable) {
-      temp2 = Object.assign([], this.state.courseInfo);
-      for (var i = temp2.length - 1; i >= 0; --i) {
-        if (temp2[i].isavailable == 0) {
-          temp2.splice(i, 1);
-        }
+    // var temp2 = Object.assign([], allcourses);
+    // console.log(allcourses)
+    var temp2 = Object.assign([], this.state.courseInfo);
+    for (var i = temp2.length - 1; i >= 0; --i) {
+      if (temp2[i].isavailable == 0) {
+        temp2.splice(i, 1);
       }
     }
-    console.log('hide : ' + !this.state.ishideUnavailable);
-    console.log(allcourses);
-    console.log(temp2);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, courseInfo: temp2, pager: 0 });
+    // console.log('hide : ' + !this.state.ishideUnavailable);
+    // console.log(allcourses);
+    // console.log(temp2);
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, courseHideInfo: temp2, pager: 0 });
   }
 
   toggleSplit() {
@@ -404,7 +403,10 @@ export class AdminManageCourses extends React.Component {
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
-      var courseTableBody = this.state.courseInfo.map((item, i) =>
+      var courseinfo = this.state.courseInfo;
+      if(this.state.ishideUnavailable)
+        courseinfo = this.state.courseHideInfo;
+      var courseTableBody = courseinfo.map((item, i) =>
         <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none'}}>
           <td style={{ width: 50, maxWidth: 50 }}><b>{i + 1}</b></td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.courseid}</td>

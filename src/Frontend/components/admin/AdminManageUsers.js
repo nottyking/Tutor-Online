@@ -222,6 +222,8 @@ export class AdminManageUsers extends React.Component {
       document.getElementById('usersearchbox').classList.add('is-invalid');
       return;
     }
+    document.getElementById('usersearchbox').classList.add('is-valid');
+      document.getElementById('usersearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempusers = [];
     switch (mode) {

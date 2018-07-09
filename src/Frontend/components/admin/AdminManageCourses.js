@@ -63,7 +63,7 @@ export class AdminManageCourses extends React.Component {
       ishideUnavailable: false,
       splitButtonOpen: false,
       searchType: 'All',
-      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 
+      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass,
       // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: 0,
     }
@@ -97,14 +97,10 @@ export class AdminManageCourses extends React.Component {
     }))).data;
     allcourses = temp1;
     for (var i = 0; i < temp1.length; i++) {
-      // console.log(courseInfo[i].thumbnail);
       try {
         temp1[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + temp1[i].courseid + '.jpg')
         temp1[i].banner = require('../../Image/Course/Banner/Banner' + temp1[i].courseid + '.jpg')
-      } catch (err) {
-
-      }
-      // console.log(courseInfo[i].thumbnail);
+      } catch (err) {}
     }
     console.log(temp1);
     this.setState({
@@ -462,7 +458,7 @@ export class AdminManageCourses extends React.Component {
               </PaginationItem>
             </Pagination>
           </Row>
-          
+
         </Container >
       );
 

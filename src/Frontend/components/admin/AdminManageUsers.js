@@ -21,6 +21,8 @@ const rowperpage = 15;
 var allusers;
 const rolecolor = ['#FFF', '#007bff'];
 const type = ['', 'fab fa-facebook-f', 'fab fa-google']
+const sortName = ['User ID (+)', 'User ID (-)', 'Username (A-Z)', 'Username (Z-A)', 'E-mail (A-Z)', 'E-mail (Z-A)', 'Name (A-Z)', 'Name (Z-A)']
+
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -60,14 +62,17 @@ export class AdminManageUsers extends React.Component {
     this.state = {
       isloaded: false,
       modalOpen: false,
-      userinfo: {},
+      userInfo: {},
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
       splitButtonOpen: false,
+      splitSortButtonOpen: false,
       searchType: 'All',
       //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass, 3 cn decre,
-      sortmode: 0
+      sortmode: -1,
+      sortmodeIcon: -1,
+      sortmodeName: 'None'
     }
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -75,7 +80,13 @@ export class AdminManageUsers extends React.Component {
     this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
+    this.toggleSortSplit = this.toggleSortSplit.bind(this);
+    this.setSortModeIcon = this.setSortModeIcon.bind(this);
+    this.setSortModeName = this.setSortModeName.bind(this);
+    this.sortUser = this.sortUser.bind(this);
+    this.sortUserData = this.sortUserData.bind(this);
     this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
+    this.handleSearchIconPress = this.handleSearchIconPress.bind(this);
   }
 
   async componentWillMount() {
@@ -83,7 +94,7 @@ export class AdminManageUsers extends React.Component {
   }
 
   setPage(x) {
-    if (x >= 0 && x <= Math.ceil(this.state.userinfo.length / rowperpage) - 1) {
+    if (x >= 0 && x <= Math.ceil(this.state.userInfo.length / rowperpage) - 1) {
       this.setState({ pager: x });
     }
   }
@@ -99,18 +110,22 @@ export class AdminManageUsers extends React.Component {
     allusers = temp1;
     this.setState({
       isloaded: true,
-      userinfo: temp1,
+      userInfo: temp1,
       pager: 0
     });
-    console.log("Course info:", this.state.userinfo);
+    console.log("Course info:", this.state.userInfo);
     return true;
   }
 
-  handleSearchKeyPress(event, mode) {
+  handleSearchKeyPress(event, searchMode, sortMode) {
     if (event.charCode == 13) {
       event.preventDefault();
-      this.searchUser(event.target.value, mode);
+      this.searchUser(event.target.value, searchMode, sortMode);
     }
+  }
+
+  handleSearchIconPress(searchKeyword, searchMode, sortMode) {
+    this.searchUser(searchKeyword, searchMode, sortMode);
   }
 
   changeSearchType(type) {
@@ -120,15 +135,135 @@ export class AdminManageUsers extends React.Component {
       )
   }
 
-  searchUser(searchword, mode) {
+  setSortModeIcon(sortMode) {
+    if (this.state.sortmodeIcon !== sortMode) {
+      this.setState({
+        sortmodeIcon: sortMode
+      });
+      this.setSortModeName(sortMode)
+    }
+  }
+
+  setSortModeName(sortMode) {
+    if (sortMode < 0) {
+      this.setState({
+        sortmodeName: 'None'
+      });
+    }
+    else {
+      this.setState({
+        sortmodeName: sortName[sortMode]
+      });
+    }
+  }
+
+  sortUserData(sortmode, userdata) {
+    var tempusers = userdata;
+    this.setSortModeName(sortmode);
+    switch (parseInt(sortmode)) {
+      case 0:
+        //User ID sort min > max
+        tempusers.sort(function (a, b) { return a.userid - b.userid });
+        console.log('mode 0 complete');
+        break;
+      case 1:
+        //User ID sort max > min
+        tempusers.sort(function (a, b) { return b.userid - a.userid });
+        console.log('mode 1 complete');
+        break;
+      case 2:
+        //username min > max
+        tempusers.sort(function (a, b) {
+          var x = a.username.toLowerCase();
+          var y = b.username.toLowerCase();
+          if (x < y) { return -1; }
+          if (x > y) { return 1; }
+          return 0;
+        });
+        console.log('mode 2 complete');
+        break;
+      case 3:
+        //username max < min
+        tempusers.sort(function (a, b) {
+          var x = a.username.toLowerCase();
+          var y = b.username.toLowerCase();
+          if (x < y) { return 1; }
+          if (x > y) { return -1; }
+          return 0;
+        });
+        console.log('mode 3 complete');
+        break;
+      case 4:
+        //E-mail min > max
+        tempusers.sort(function (a, b) {
+          var x = a.email.toLowerCase();
+          var y = b.email.toLowerCase();
+          if (x < y) { return -1; }
+          if (x > y) { return 1; }
+          return 0;
+        });
+        console.log('mode 4 complete');
+        break;
+      case 5:
+        //E-mail max < min
+        tempusers.sort(function (a, b) {
+          var x = a.email.toLowerCase();
+          var y = b.email.toLowerCase();
+          if (x < y) { return 1; }
+          if (x > y) { return -1; }
+          return 0;
+        });
+        console.log('mode 5 complete');
+        break;
+      case 6:
+        //Name min > max
+        tempusers.sort(function (a, b) {
+          var x = a.fname.toLowerCase();
+          var y = b.fname.toLowerCase();
+          if (x < y) { return -1; }
+          if (x > y) { return 1; }
+          return 0;
+        });
+        console.log('mode 6 complete');
+        break;
+      case 7:
+        //Name max < min
+        tempusers.sort(function (a, b) {
+          var x = a.fname.toLowerCase();
+          var y = b.fname.toLowerCase();
+          if (x < y) { return 1; }
+          if (x > y) { return -1; }
+          return 0;
+        });
+        console.log('mode 7 complete');
+        break;
+      default:
+        //Do nothing
+        break;
+    }
+    this.setState({ userInfo: tempusers, sortmode: sortmode, pager: 0 });
+    console.log('sort data');
+    console.log(tempusers);
+    console.log('sort finish')
+  }
+
+  sortUser(sortmode) {
+    var tempusers = this.state.userInfo;
+    this.sortUserData(sortmode, tempusers)
+    console.log('sort user (by icon) finish')
+  }
+
+  searchUser(searchword, searchMode, sortMode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('usersearchbox').classList.remove('is-valid');
       document.getElementById('usersearchbox').classList.add('is-invalid');
       return;
     }
+    document.getElementById('usersearchbox').classList.add('is-valid');
+    document.getElementById('usersearchbox').classList.remove('is-invalid');
     var expr = RegExp(searchword.toLowerCase());
     var tempusers = [];
-    switch (mode) {
+    switch (searchMode) {
       case 'Name':
         allusers.map((item) =>
           ((expr.test(item.fname.toLowerCase())) || (expr.test(item.lname.toLowerCase()))) ? tempusers.push(item) : ''
@@ -169,13 +304,20 @@ export class AdminManageUsers extends React.Component {
         );
         break;
     }
+    console.log('search data');
     console.log(tempusers);
-    this.setState({ userinfo: tempusers, pager: 0 });
+    this.sortUser(sortMode, tempusers);
   }
 
   toggleSplit() {
     this.setState({
       splitButtonOpen: !this.state.splitButtonOpen
+    });
+  }
+
+  toggleSortSplit() {
+    this.setState({
+      splitSortButtonOpen: !this.state.splitSortButtonOpen
     });
   }
 
@@ -185,7 +327,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={this.state.userInfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleCreate() {
@@ -203,7 +345,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Edit User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={this.state.userInfo[x].courseid} coursename={this.state.userInfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleDelete(x) {
@@ -212,7 +354,7 @@ export class AdminManageUsers extends React.Component {
       modalHeader: 'Delete User',
       modalOpen: !this.state.modalOpen
     });
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userinfo[x].courseid} coursename={this.state.userinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={this.state.userInfo[x].courseid} coursename={this.state.userInfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   closeModal = () => {
@@ -242,18 +384,18 @@ export class AdminManageUsers extends React.Component {
       }
     }
     console.log(temp);
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, userinfo: temp, pager: 0 });
+    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, userInfo: temp, pager: 0 });
   }
 
   render() {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
-      var courseTableBody = this.state.userinfo.map((item, i) =>
+      var courseTableBody = this.state.userInfo.map((item, i) =>
         <tr style={{ color: (item.isbanned == '1') ? '#F55' : (item.isconfirm == '0') ? '#888' : rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td><b>{i + 1}</b></td>
           <td>{item.userid}</td>
           <td>{item.username}</td>
-          <th>{item.email}</th>
+          <td>{item.email}</td>
           <td>{item.fname}</td>
           <td>{(item.lname)}</td>
           <td style={{ width: 60 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
@@ -271,7 +413,7 @@ export class AdminManageUsers extends React.Component {
       );
 
       var paginationitems = [];
-      for (var i = 0; i < Math.ceil(this.state.userinfo.length / rowperpage); i++) {
+      for (var i = 0; i < Math.ceil(this.state.userInfo.length / rowperpage); i++) {
         ((i) => {
           paginationitems.push(
             <PaginationItem active={i == this.state.pager}>
@@ -296,6 +438,25 @@ export class AdminManageUsers extends React.Component {
                   <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <InputGroup >
                       <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.togglehideUnavailable} style={{ width: 50 }} /></Input>
+
+                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
+                        <Button disabled color="light" outline
+                          style={{ width: 160 }} >{this.state.sortmodeName}</Button>
+                        <DropdownToggle split outline color='light' />
+                        <DropdownMenu>
+                          <DropdownItem onClick={() => this.setSortModeIcon(-1)}>None</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(0)}>{sortName[0]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(1)}>{sortName[1]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(2)}>{sortName[2]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(3)}>{sortName[3]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(4)}>{sortName[4]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
+                          <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
+
+                        </DropdownMenu>
+                      </InputGroupButtonDropdown>
+
                       <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
                         <Input disabled hidden value={this.state.searchType}></Input>
                         <Button disabled color="light" outline
@@ -311,13 +472,15 @@ export class AdminManageUsers extends React.Component {
                           <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
+
+
                     </InputGroup >&nbsp;
                     <InputGroup style={{ width: 340 }} >
                       <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User"
-                        onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
+                        onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
                         style={{ width: 300 }} />
                       <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, this.state.searchType) }}>
+                        <Button color="primary" onClick={() => { this.handleSearchIconPress(document.getElementById('usersearchbox').value, this.state.searchType, this.state.sortmodeIcon) }}>
                           <i class="fa fa-search" />
                         </Button>
                       </InputGroupAddon>
@@ -364,7 +527,7 @@ export class AdminManageUsers extends React.Component {
                 </PaginationLink>
               </PaginationItem>
               {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.userinfo.length / rowperpage) - 1 || this.state.userinfo.length === 0}>
+              <PaginationItem disabled={this.state.pager == Math.ceil(this.state.userInfo.length / rowperpage) - 1 || this.state.userInfo.length === 0}>
                 <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
                   <i class="fa fa-angle-right" />
                 </PaginationLink>

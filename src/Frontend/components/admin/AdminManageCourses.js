@@ -123,6 +123,24 @@ export class AdminManageCourses extends React.Component {
     return true;
   }
 
+  handleSearchKeyPress(event, searchMode, sortMode) {
+    if (event.charCode == 13) {
+      event.preventDefault();
+      this.searchCourse(event.target.value, searchMode, sortMode);
+    }
+  }
+
+  handleSearchIconPress(searchKeyword, searchMode, sortMode) {
+    this.searchCourse(searchKeyword, searchMode, sortMode);
+  }
+
+  changeSearchType(type) {
+    if (this.state.searchType !== type)
+      this.setState(
+        { searchType: type }
+      )
+  }
+
   setSortModeIcon(sortMode) {
     if (this.state.sortmodeIcon !== sortMode) {
       this.setState({
@@ -143,24 +161,6 @@ export class AdminManageCourses extends React.Component {
         sortmodeName: sortName[sortMode]
       });
     }
-  }
-
-  handleSearchKeyPress(event, searchMode, sortMode) {
-    if (event.charCode == 13) {
-      event.preventDefault();
-      this.searchCourse(event.target.value, searchMode, sortMode);
-    }
-  }
-
-  handleSearchIconPress(searchKeyword, searchMode, sortMode) {
-    this.searchCourse(searchKeyword, searchMode, sortMode);
-  }
-
-  changeSearchType(type) {
-    if (this.state.searchType !== type)
-      this.setState(
-        { searchType: type }
-      )
   }
 
   sortCourseData(sortmode, coursedata) {
@@ -314,7 +314,6 @@ export class AdminManageCourses extends React.Component {
     }
 
     this.sortCourseData(sortMode, tempcourses);
-    this.setState({ courseInfo: tempcourses, pager: 0 });
     console.log('search finish')
   }
 

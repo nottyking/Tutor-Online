@@ -38,7 +38,7 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/course" component={CoursePageList} />
                     
                     <Route exact path="/student" component={(userType === "user" || userType === "admin") ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
-                    <Route exact path="/learning" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
+                    {/* <Route exact path="/learning" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} /> */}
                     <Route exact path="/learning/:courseID/:subcourseID" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} />
                     <Route exact path="/register" component={!(userType === "user" || userType === "admin") ? RegisterPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path='/loginPage' component={!(userType === "user" || userType === "admin") ? LoginPage : () => { return (<Redirect to={'/'} />) }} />

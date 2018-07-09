@@ -124,7 +124,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.username.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 3:
@@ -133,7 +133,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.username.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 4:
@@ -142,7 +142,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.email.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 5:
@@ -151,7 +151,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.email.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 6:
@@ -160,7 +160,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.fname.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 7:
@@ -169,7 +169,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.fname.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 8:
@@ -178,7 +178,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.lname.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       case 9:
@@ -187,7 +187,7 @@ export class AdminManageUsers extends React.Component {
           var y = b.lname.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.userid - b.userid;
         });
         break;
       default:

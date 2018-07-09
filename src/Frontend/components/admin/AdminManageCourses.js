@@ -183,7 +183,7 @@ export class AdminManageCourses extends React.Component {
           var y = b.coursename.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 3:
@@ -193,7 +193,7 @@ export class AdminManageCourses extends React.Component {
           var y = b.coursename.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 4:
@@ -203,7 +203,7 @@ export class AdminManageCourses extends React.Component {
           var y = b.instructor.toLowerCase();
           if (x < y) { return -1; }
           if (x > y) { return 1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 5:
@@ -213,16 +213,24 @@ export class AdminManageCourses extends React.Component {
           var y = b.instructor.toLowerCase();
           if (x < y) { return 1; }
           if (x > y) { return -1; }
-          return 0;
+          return a.courseid - b.courseid;
         });
         break;
       case 6:
         //Price cheap > expansive
-        tempcourses.sort(function (a, b) { return a.price - b.price });
+        tempcourses.sort(function (a, b) {
+          if(a.price != b.price)
+            return a.price - b.price
+          return a.courseid - b.courseid;
+        });
         break;
       case 7:
         //Price expansive > cheap
-        tempcourses.sort(function (a, b) { return b.price - a.price });
+        tempcourses.sort(function (a, b) {
+          if(a.price != b.price)
+            return b.price - a.price
+          return a.courseid - b.courseid;
+        });
         break;
       case 8:
         //Create Date new > old
@@ -230,8 +238,8 @@ export class AdminManageCourses extends React.Component {
           var x = a.createdate;
           var y = b.createdate;
           if (x > y) { return -1; }
-          else if (x < y) { return 1; }
-          else return 0;
+          if (x < y) { return 1; }
+          return a.courseid - b.courseid;
         });
         break;
       case 9:
@@ -240,8 +248,8 @@ export class AdminManageCourses extends React.Component {
           var x = a.createdate;
           var y = b.createdate;
           if (x > y) { return 1; }
-          else if (x < y) { return -1; }
-          else return 0;
+          if (x < y) { return -1; }
+          return a.courseid - b.courseid;
         });
         break;
       case 10:

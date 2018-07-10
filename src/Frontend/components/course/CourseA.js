@@ -255,10 +255,17 @@ export class CourseA extends React.Component {
                       {this.state.courseInfo.course.description}
                     </CardText>
                     {!this.state.alreadyLogin ?
-                      <Button disabled color='danger'>Please login before enroll</Button>
+                      <div textAlign="center" style={{ textAlign: 'center', paddingTop: '15px' }}>
+                        <Button block color='secondary'>
+                          "Please login before enroll"
+                          <div style={{ paddingTop: '10px' }}>
+                            <Login />
+                          </div>
+                        </Button>
+                      </div>
                       :
                       !this.state.alreadyEnroll ?
-                          this.state.courseInfo.course.price==0? <Button color='primary'>Enroll this course for free</Button> :<Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
+                        this.state.courseInfo.course.price == 0 ? <Button color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
                         :
                         <div>
                           <Button>You've finished enroll, Let's learn!</Button>

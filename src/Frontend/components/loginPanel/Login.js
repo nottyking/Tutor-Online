@@ -119,9 +119,8 @@ class Login extends React.Component {
         }
 
         return (
-            <div align='right'>
+            <div align='center'>
                 <Button onClick={this.toggleModal} color='success'>Log in</Button>
-
 
                 <Modal isOpen={this.state.isModal} autoFocus={false} toggle={this.toggleModal} >
                     <ModalHeader className='Login_Header'>

@@ -48,19 +48,19 @@ export class SubCourseProgressBar extends React.Component {
                 var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
                 if (i == this.props.now) {
                     resolve(
-                        <Button className='sidebarHover' href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr>
-                            <td style={{padding:'0px 0px 0px 0px'}}><img src={video} style={{top:0,left:0}} /></td>
-                            <td className='sidevarHoverEl'><i class="fa">&#xf097;</i> <p>{item.subcoursename.toUpperCase()}</p></td>
+                            <td style={{padding:'0px 0px 0px 0px',left:0}}><img src={video} /></td>
+                            <td className='sidevarHoverEl'><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
                         </tr>
                         </Button>
                     )
                 }
                 else {
                     resolve(
-                        <Button className='sidebarHover' href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr className='sidevarHoverEl'>
-                            <td style={{padding:'0px 0px 0px 0px'}} className='sidevarHoverEl'><img src={video} /></td>
+                            <td style={{padding:'0px 0px 0px 0px',left:0}} className='sidevarHoverEl'><img src={video} /></td>
                             <td className='sidevarHoverEl'><p>{item.subcoursename.toUpperCase() }</p></td>
                         </tr>
                         </Button>
@@ -132,28 +132,19 @@ export class SubCourseProgressBar extends React.Component {
         if (this.state.isLoaded) {
             console.log('render loaded')
             return (
-                <Sidebar
-                    sidebar={sidebarContent}
-                    open={this.state.sidebarOpen}
-                    onSetOpen={this.onSetSidebarOpen}
-                    pullRight={true}
-                    docked={true}
-                >
-                    <Button color='info' onClick={this.onSetSidebarOpen}><i class="fa fa-outdent" style={{ color: 'white' }} /></Button>
-
-                </Sidebar>
+                <Container fluid style={{ background: '#555',padding:'0px 0px 0px 0px'}}>
+                    <Table borderless>
+                    <tbody>
+                    {Medias}
+                      </tbody>
+                    </Table>
+                    </Container>
 
             );
         } else {
             return (
-                <Sidebar sidebar={sidebarLoadingContent}
-                    open={this.state.sidebarOpen}
-                    onSetOpen={this.onSetSidebarOpen}
-                    pullRight={true}
-                >
-                    <i class="fa fa-outdent" onClick={this.onSetSidebarOpen} style={{ color: 'white' }} />
-
-                </Sidebar>);
+                <Container fluid style={{ background: '#555',padding:'0px 0px 0px 0px'}}>
+                    </Container>);
 
         }
     }

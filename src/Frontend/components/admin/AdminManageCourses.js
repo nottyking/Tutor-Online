@@ -92,17 +92,17 @@ export class AdminManageCourses extends React.Component {
     return this.getData();
   }
 
-  setPage(x) {
+  async setPage(x) {
     var courseinfo = this.state.courseInfo;
     if(this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     if (x >= 0 && x <= Math.ceil(courseinfo.length / rowperpage) - 1) {
-      this.setState({ pager: x });
+      await this.setState({ pager: x });
     }
   }
 
   async getData() {
-    this.setState({
+    await this.setState({
       isloaded: false
     });
     console.log("GetIt");
@@ -119,7 +119,7 @@ export class AdminManageCourses extends React.Component {
       }
     }
     console.log(temp1);
-    this.setState({
+    await this.setState({
       isloaded: true,
       courseInfo: temp1,
       pager: 0
@@ -140,30 +140,30 @@ export class AdminManageCourses extends React.Component {
     this.searchCourse(searchKeyword, searchMode, sortMode);
   }
 
-  changeSearchType(type) {
+  async changeSearchType(type) {
     if (this.state.searchType !== type)
-      this.setState(
+      await this.setState(
         { searchType: type }
       )
   }
 
-  setSortModeIcon(sortMode) {
+  async setSortModeIcon(sortMode) {
     if (this.state.sortmodeIcon !== sortMode) {
-      this.setState({
+      await this.setState({
         sortmodeIcon: sortMode
       });
       this.setSortModeName(sortMode)
     }
   }
 
-  setSortModeName(sortMode) {
+  async setSortModeName(sortMode) {
     if (sortMode < 0) {
-      this.setState({
+      await this.setState({
         sortmodeName: 'None'
       });
     }
     else {
-      this.setState({
+      await this.setState({
         sortmodeName: sortName[sortMode]
       });
     }
@@ -281,7 +281,7 @@ export class AdminManageCourses extends React.Component {
     console.log('sort (by icon) finish')
   }
 
-  searchCourse(searchword, searchMode, sortMode) {
+  async searchCourse(searchword, searchMode, sortMode) {
     if (searchword.indexOf('[') > -1 || searchword.indexOf('(') > -1 || searchword.indexOf('*') > -1 || searchword.indexOf('+') > -1) {
       document.getElementById('coursesearchbox').classList.remove('is-valid');
       document.getElementById('coursesearchbox').classList.add('is-invalid');
@@ -323,14 +323,14 @@ export class AdminManageCourses extends React.Component {
         break;
     }
     this.sortCourseData(sortMode, tempcourses);
-    this.setState({
+    await this.setState({
       searchWord:searchword
     })
     console.log('search finish')
   }
 
-  handleHideToggle = () => {
-    this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager: 0 });
+  handleHideToggle = async () => {
+    await this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager: 0 });
   }
   togglehideUnavailable = () => {
     var temp2 = Object.assign([], this.state.courseInfo);
@@ -403,13 +403,13 @@ export class AdminManageCourses extends React.Component {
     console.log('closemodal by fx')
     await this.getData();
     this.searchCourse(this.state.searchWord, this.state.searchType,this.state.sortmode)
-    this.setState({
+    await this.setState({
       modalOpen: false
     });
   }
 
-  closeModal = () => {
-    this.setState({
+  closeModal = async () => {
+    await this.setState({
       modalOpen: false
     });
   }

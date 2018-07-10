@@ -162,7 +162,7 @@ export class AdminManageUsers extends React.Component {
     }
   }
 
-  sortUserData(sortMode, userdata) {
+  async sortUserData(sortMode, userdata) {
     var tempusers = userdata;
     this.setSortModeName(sortMode);
     switch (parseInt(sortMode)) {
@@ -248,7 +248,7 @@ export class AdminManageUsers extends React.Component {
         this
     }
     console.log("SORT");
-    this.setState({ userInfo: tempusers, sortmode: sortMode, pager: 0 });
+    await this.setState({ userInfo: tempusers, sortmode: sortMode, pager: 0 });
     this.togglehideUnavailable();
   }
 

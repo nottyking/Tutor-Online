@@ -21,10 +21,10 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          isModal: false,
-          msg: '',
-          loginValid: false,
-          defaultLoginState: true
+            isModal: false,
+            msg: '',
+            loginValid: false,
+            defaultLoginState: true
         }
         this.toggleModal = this.toggleModal.bind(this);
         this.toDefaultLoginState = this.toDefaultLoginState.bind(this);
@@ -55,7 +55,7 @@ class Login extends React.Component {
 
     async loginHandle() {
         var check = await this.props.login(document.getElementById('login-username').value, document.getElementById('login-password').value)
-        console.log('check::',check)
+        console.log('check::', check)
         if (check.type === "USER_LOGIN_SUCCESS") {
             this.toggleModal();
             history.go(0)
@@ -74,17 +74,17 @@ class Login extends React.Component {
             username: username, email: email, profileimage: profileimage, typeid: typeid
         }))).data
         console.log(loginData);
-        if(loginData.result){
-          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-          localStorage.setItem('user', JSON.stringify(loginData));
-          history.push('/');
+        if (loginData.result) {
+            cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+            localStorage.setItem('user', JSON.stringify(loginData));
+            history.push('/');
         }
-        else{
-          this.setState({
-            msg: loginData.msg,
-            loginValid: false,
-            defaultLoginState: false
-          })
+        else {
+            this.setState({
+                msg: loginData.msg,
+                loginValid: false,
+                defaultLoginState: false
+            })
         }
     }
 
@@ -98,17 +98,17 @@ class Login extends React.Component {
             username: username, email: email, profileimage: profileimage, typeid: typeid
         }))).data
         console.log(loginData);
-        if(loginData.result){
-          cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-          localStorage.setItem('user', JSON.stringify(loginData));
-          history.push('/');
+        if (loginData.result) {
+            cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
+            localStorage.setItem('user', JSON.stringify(loginData));
+            history.push('/');
         }
-        else{
-          this.setState({
-            msg: loginData.msg,
-            loginValid: false,
-            defaultLoginState: false
-          })
+        else {
+            this.setState({
+                msg: loginData.msg,
+                loginValid: false,
+                defaultLoginState: false
+            })
         }
     }
 
@@ -138,7 +138,7 @@ class Login extends React.Component {
                                     onKeyPress={this.handleKeyPress}
                                     defaultValue={''} placeholder='Enter your Username or E-mail'
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
-                                    />
+                                />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -148,7 +148,7 @@ class Login extends React.Component {
                                     defaultValue={''} placeholder='Enter your password'
                                     onKeyPress={this.handleKeyPress}
                                     invalid={!this.state.loginValid && !this.state.defaultLoginState}
-                                    />
+                                />
                                 <FormFeedback>{this.state.msg}</FormFeedback>
                             </Col>
                         </FormGroup>

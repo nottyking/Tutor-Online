@@ -425,11 +425,11 @@ export class AdminManageUsers extends React.Component {
       }
       var courseTableBody = info.map((item, i) =>
         <tr style={{ color: (item.isbanned == '1') ? '#F55' : (item.isconfirm == '0') ? '#888' : rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
-          <td style={{ width: '5%' }}><b>{i + 1}</b></td>
-          <td style={{ width: '8%' }}>{item.userid}</td>
-          <td style={{ width: '18%' }}>{item.username}</td>
-          <td style={{ width: '25%' }}>{item.email}</td>
-          <td style={{ width: '15%' }}>{item.fname}</td>
+          <td style={{ width: '5%'}}><b>{i + 1}</b></td>
+          <td style={{ width: '8%', maxWidth: '40px', overflow: 'hidden', textOverflow: 'ellipsis'  }}>{item.userid}</td>
+          <td style={{ width: '18%', maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis'  }}>{item.username}</td>
+          <td style={{ width: '25%', maxWidth: '125px', overflow: 'hidden', textOverflow: 'ellipsis'  }}>{item.email}</td>
+          <td style={{ width: '15%', maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.fname}</td>
           <td style={{ width: '15%' }}>{(item.lname)}</td>
           <td style={{ width: '5%' }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
           <td style={{ width: '9%' }}>
@@ -535,7 +535,7 @@ export class AdminManageUsers extends React.Component {
               <ModalFooter></ModalFooter>
             </Modal>
 
-            <Card style={{ background: '#444', paddingTop: 5, paddingRight: 20, paddingLeft: 20 }}>
+            <Card style={{ background: '#444', wordWrap:'normal'}}>
               <Row>
                 <Table responsive bordered inverse striped>
                   <thead>

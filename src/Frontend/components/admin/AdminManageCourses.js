@@ -94,7 +94,7 @@ export class AdminManageCourses extends React.Component {
 
   async setPage(x) {
     var courseinfo = this.state.courseInfo;
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     if (x >= 0 && x <= Math.ceil(courseinfo.length / rowperpage) - 1) {
       await this.setState({ pager: x });
@@ -225,7 +225,7 @@ export class AdminManageCourses extends React.Component {
       case 6:
         //Price cheap > expansive
         tempcourses.sort(function (a, b) {
-          if(a.price != b.price)
+          if (a.price != b.price)
             return a.price - b.price
           return a.courseid - b.courseid;
         });
@@ -233,7 +233,7 @@ export class AdminManageCourses extends React.Component {
       case 7:
         //Price expansive > cheap
         tempcourses.sort(function (a, b) {
-          if(a.price != b.price)
+          if (a.price != b.price)
             return b.price - a.price
           return a.courseid - b.courseid;
         });
@@ -324,7 +324,7 @@ export class AdminManageCourses extends React.Component {
     }
     this.sortCourseData(sortMode, tempcourses);
     await this.setState({
-      searchWord:searchword
+      searchWord: searchword
     })
     console.log('search finish')
   }
@@ -339,7 +339,7 @@ export class AdminManageCourses extends React.Component {
         temp2.splice(i, 1);
       }
     }
-    this.setState({courseHideInfo: temp2});
+    this.setState({ courseHideInfo: temp2 });
   }
 
   toggleSplit() {
@@ -361,7 +361,7 @@ export class AdminManageCourses extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var courseinfo = this.state.courseInfo;
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
@@ -382,7 +382,7 @@ export class AdminManageCourses extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var courseinfo = this.state.courseInfo;
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
@@ -394,15 +394,15 @@ export class AdminManageCourses extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var courseinfo = this.state.courseInfo;
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
-  closeModalAndReload = async() => {
+  closeModalAndReload = async () => {
     console.log('closemodal by fx')
     await this.getData();
-    this.searchCourse(this.state.searchWord, this.state.searchType,this.state.sortmode)
+    this.searchCourse(this.state.searchWord, this.state.searchType, this.state.sortmode)
     await this.setState({
       modalOpen: false
     });
@@ -418,10 +418,10 @@ export class AdminManageCourses extends React.Component {
     console.log('renderrrrrr');
     if (this.state.isloaded) {
       var courseinfo = this.state.courseInfo;
-      if(this.state.ishideUnavailable)
+      if (this.state.ishideUnavailable)
         courseinfo = this.state.courseHideInfo;
       var courseTableBody = courseinfo.map((item, i) =>
-        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none'}}>
+        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td style={{ width: 50, maxWidth: 50 }}><b>{i + 1}</b></td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.courseid}</td>
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.coursename}</td>
@@ -493,10 +493,10 @@ export class AdminManageCourses extends React.Component {
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
                     </InputGroup >&nbsp;
-                    <InputGroup style={{ width: 340 }} >
-                      <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" defaultValue={this.state.searchWord==''? '':this.state.searchWord}
+                    <InputGroup style={{ minWidth: 290, maxWidth: 340 }} responsive >
+                      <Input type="text" name="coursesearchbox" id="coursesearchbox" placeholder="Search Course" defaultValue={this.state.searchWord == '' ? '' : this.state.searchWord}
                         onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
-                        style={{ width: 300 }} />
+                        style={{ minWidth: 250, maxWidth: 300 }} />
                       <InputGroupAddon addonType="append">
                         <Button color="primary" onClick={() => { this.handleSearchIconPress(document.getElementById('coursesearchbox').value, this.state.searchType, this.state.sortmodeIcon) }}>
                           <i class="fa fa-search" />
@@ -510,69 +510,67 @@ export class AdminManageCourses extends React.Component {
           </Card>
           <br />
 
-          <Row>
-            <Col sm="12">
-              <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
-                <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
-                {modalComponent}
-                <ModalFooter></ModalFooter>
-              </Modal>
-              <Col>
-                <Table bordered inverse striped style={{ textAlign: 'center' }}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>
+          <Modal size="lg" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+            <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
+            {modalComponent}
+            <ModalFooter></ModalFooter>
+          </Modal>
+
+          <Card style={{ background: '#444', paddingTop: 5, paddingRight: 20, paddingLeft: 20 }}>
+            <Row>
+              <Table responsive bordered inverse striped style={{ textAlign: 'center' }}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>
                       <span onClick={() => { this.state.sortmode == 0 ? this.sortCourse(1) : this.sortCourse(0); }}>{"    Course id  "}&nbsp;</span>
-                        <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { (this.state.sortmode == 0 || this.state.sortmode == -1) ? this.sortCourse(1) : this.sortCourse(0); }}><i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                          style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} /></Badge></th>
-                      <th>
+                      <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { (this.state.sortmode == 0 || this.state.sortmode == -1) ? this.sortCourse(1) : this.sortCourse(0); }}><i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                        style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} /></Badge></th>
+                    <th>
                       <span onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}>{"  Course Name  "}&nbsp;</span>
                       <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortCourse(3) : this.sortCourse(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} /></Badge>
-                      </th>
-                      <th>
+                    </th>
+                    <th>
                       <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>{"  Instructor  "}&nbsp;</span>
                       <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} /></Badge>
-                      </th>
-                      <th>
+                    </th>
+                    <th>
                       <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>{"  Price  "}&nbsp;</span>
                       <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} /></Badge>
-                      </th>
-                      <th><i class="fa fa-cogs" aria-hidden="true" /></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="10">
-                        <Button color='info' outline style={{ width: '100%', height: '100%' }} onClick={this.toggleCreate}><i class="fa fa-plus" /></Button>
-                      </td>
-                    </tr>
-                    {courseTableBody}
-                  </tbody>
-                </Table>
-              </Col>
-            </Col>
-          </Row>
+                    </th>
+                    <th><i class="fa fa-cogs" aria-hidden="true" /></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="10">
+                      <Button color='info' outline style={{ width: '100%', height: '100%' }} onClick={this.toggleCreate}><i class="fa fa-plus" /></Button>
+                    </td>
+                  </tr>
+                  {courseTableBody}
+                </tbody>
+              </Table>
+            </Row>
 
-          <Row className='justify-content-around'>
-            <Pagination aria-label="Page navigation example">
-              <PaginationItem disabled={this.state.pager == 0}>
-                <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
-                  <i class="fa fa-angle-left" />
-                </PaginationLink>
-              </PaginationItem>
-              {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(courseinfo.length / rowperpage) - 1 || courseinfo.length === 0}>
-                <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
-                  <i class="fa fa-angle-right" />
-                </PaginationLink>
-              </PaginationItem>
-            </Pagination>
-          </Row>
-
+            <Row className='justify-content-around'>
+              <Pagination aria-label="Page navigation example">
+                <PaginationItem disabled={this.state.pager == 0}>
+                  <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
+                    <i class="fa fa-angle-left" />
+                  </PaginationLink>
+                </PaginationItem>
+                {paginationitems}
+                <PaginationItem disabled={this.state.pager == Math.ceil(courseinfo.length / rowperpage) - 1 || courseinfo.length === 0}>
+                  <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
+                    <i class="fa fa-angle-right" />
+                  </PaginationLink>
+                </PaginationItem>
+              </Pagination>
+            </Row>
+          </Card>
         </Container >
       );
 

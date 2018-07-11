@@ -62,7 +62,7 @@ export class AdminManageUsers extends React.Component {
       isloaded: false,
       modalOpen: false,
       userInfo: {},
-      userhideinfo:{},
+      userhideinfo: {},
       modalHeader: '',
       pager: 0,
       ishideUnavailable: false,
@@ -95,7 +95,7 @@ export class AdminManageUsers extends React.Component {
 
   async setPage(x) {
     var info = this.state.userInfo
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       info = this.state.userhideinfo
     if (x >= 0 && x <= Math.ceil(info.length / rowperpage) - 1) {
       await this.setState({ pager: x });
@@ -111,7 +111,7 @@ export class AdminManageUsers extends React.Component {
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
     allusers = temp1;
-    console.log("GETDATA",temp1);
+    console.log("GETDATA", temp1);
     await this.setState({
       isloaded: true,
       userInfo: temp1,
@@ -124,12 +124,14 @@ export class AdminManageUsers extends React.Component {
 
   handleSearchKeyPress(event, searchMode, sortMode) {
     if (event.charCode == 13) {
+      //IF THIS LOSS = CONFILC
       event.preventDefault();
       this.searchUser(event.target.value, searchMode, sortMode);
     }
   }
 
   handleSearchIconPress(searchKeyword, searchMode, sortMode) {
+    //IF THIS LOSS = CONFILC
     this.searchUser(searchKeyword, searchMode, sortMode);
   }
 
@@ -258,13 +260,6 @@ export class AdminManageUsers extends React.Component {
     console.log('sort user (by icon) finish')
   }
 
-  handleSearchKeyPress(event, mode) {
-    if (event.charCode == 13) {
-      event.preventDefault();
-      this.searchUser(event.target.value, mode);
-    }
-  }
-
   async changeSearchType(type) {
     if (this.state.searchType !== type)
       await this.setState(
@@ -345,7 +340,7 @@ export class AdminManageUsers extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var info = this.state.userInfo
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminEditUserModal src={info[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
@@ -366,7 +361,7 @@ export class AdminManageUsers extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var info = this.state.userInfo
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={info[x].courseid} coursename={info[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
@@ -378,22 +373,22 @@ export class AdminManageUsers extends React.Component {
       modalOpen: !this.state.modalOpen
     });
     var info = this.state.userInfo
-    if(this.state.ishideUnavailable)
+    if (this.state.ishideUnavailable)
       info = this.state.userhideinfo
     modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={info[x].courseid} coursename={info[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
-  closeModal = async() => {
+  closeModal = async () => {
     console.log('closemodal by fx')
     await this.setState({
       modalOpen: false
     });
   }
 
-  closeModalAndReload = async() => {
+  closeModalAndReload = async () => {
     console.log('closemodal by fx')
     await this.getData();
-    console.log("!@#",this.state.searchWord,this.state.searchType);
+    console.log("!@#", this.state.searchWord, this.state.searchType);
     this.searchUser(this.state.searchWord, this.state.searchType)
     console.log(this.state.sortmode);
     this.sortUser(this.state.sortmode);
@@ -403,11 +398,11 @@ export class AdminManageUsers extends React.Component {
 
   }
 
-  handleHideToggle = async() => {
-    await this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager:0 });
+  handleHideToggle = async () => {
+    await this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager: 0 });
   }
 
-  togglehideUnavailable = async() => {
+  togglehideUnavailable = async () => {
     console.log('hide : ' + !this.state.ishideUnavailable);
     var temp = Object.assign([], this.state.userInfo);
     for (var i = temp.length - 1; i >= 0; --i) {
@@ -415,7 +410,7 @@ export class AdminManageUsers extends React.Component {
         temp.splice(i, 1);
       }
     }
-    await this.setState({userhideinfo:temp});
+    await this.setState({ userhideinfo: temp });
   }
 
   render() {
@@ -423,8 +418,8 @@ export class AdminManageUsers extends React.Component {
     if (this.state.isloaded) {
       var info = this.state.userInfo
       console.log(this.state.userInfo);
-      console.log("ishide",this.state.ishideUnavailable);
-      if(this.state.ishideUnavailable){
+      console.log("ishide", this.state.ishideUnavailable);
+      if (this.state.ishideUnavailable) {
         console.log("IN");
         info = this.state.userhideinfo
       }
@@ -465,143 +460,149 @@ export class AdminManageUsers extends React.Component {
       }
 
       return (
-        <Container fluid style={{ paddingBottom: '10px' }}>
-          <br />
-          <Card style={{ background: '#444', padding: 20 }}>
-            <Row className="justify-content-between" style={{ color: 'white' }}>
-              <Col xs='auto'>
-                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>User Management</Input>
-              </Col>
-              <Col xs='auto'>
-                <Form inline style={{ display: 'block', zIndex: 100 }}>
-                  <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    <InputGroup >
-                      <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.handleHideToggle} style={{ width: 50 }} /></Input>
+        <div>
+          <Container fluid style={{ paddingBottom: '10px' }}>
+            <br />
+            <Card style={{ background: '#444', padding: 20 }}>
+              <Row className="justify-content-between" style={{ color: 'white' }}>
+                <Col xs='auto'>
+                  <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>User Management</Input>
+                </Col>
 
-                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
-                      <Button disabled color="light" outline
-                        style={{ width: 160 }} >{this.state.sortmodeName}</Button>
-                      <DropdownToggle split outline color='light' />
-                      <DropdownMenu>
-                        <DropdownItem onClick={() => this.setSortModeIcon(-1)}>None</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(0)}>{sortName[0]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(1)}>{sortName[1]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(2)}>{sortName[2]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(3)}>{sortName[3]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(4)}>{sortName[4]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(8)}>{sortName[8]}</DropdownItem>
-                        <DropdownItem onClick={() => this.setSortModeIcon(9)}>{sortName[9]}</DropdownItem>
-                      </DropdownMenu>
-                      </InputGroupButtonDropdown>
+                <Col xs='auto'>
+                  <Form inline style={{ display: 'block', zIndex: 100 }}>
+                    <FormGroup row style={{ paddingLeft: 10, paddingRight: 10 }}>
+                      <InputGroup responsive>
+                        <Input plaintext style={{ color: 'white', width: 100 }}>HIDE&nbsp;&nbsp;<Switch checked={this.state.ishideUnavailable} onChange={this.handleHideToggle} style={{ width: 50 }} /></Input>
 
-                      <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
-                        <Input disabled hidden value={this.state.searchType}></Input>
-                        <Button disabled color="light" outline
-                          style={{ width: 130 }} >{this.state.searchType}</Button>
-                        <DropdownToggle split outline color='light' />
-                        <DropdownMenu>
-                          <DropdownItem onClick={() => this.changeSearchType('All')}>All</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('User ID')}>User ID</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Username')}>Username</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Email-Address')}>Email-Address</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Name')}>Name</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('First Name')}>First Name</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
-                        </DropdownMenu>
-                      </InputGroupButtonDropdown>
-                    </InputGroup >&nbsp;
-                    <InputGroup style={{ width: 340 }} >
-                      <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User" defaultValue={this.state.searchWord==''? '':this.state.searchWord}
-                        onKeyPress={(e, mode = this.state.searchType) => this.handleSearchKeyPress(e, mode)}
-                        style={{ width: 300 }} />
-                      <InputGroupAddon addonType="append">
-                        <Button color="primary" onClick={() => { this.searchUser(document.getElementById('usersearchbox').value, this.state.searchType) }}>
-                          <i class="fa fa-search" />
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </FormGroup>
-                </Form>
-              </Col>
-            </Row>
-          </Card>
-          <br />
+                        <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitSortButtonOpen} toggle={this.toggleSortSplit}>
+                          <Button disabled color="light" outline
+                            style={{ minWidth: 160 }} >{this.state.sortmodeName}</Button>
+                          <DropdownToggle split outline color='light' />
+                          <DropdownMenu>
+                            <DropdownItem onClick={() => this.setSortModeIcon(-1)}>None</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(0)}>{sortName[0]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(1)}>{sortName[1]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(2)}>{sortName[2]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(3)}>{sortName[3]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(4)}>{sortName[4]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(5)}>{sortName[5]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(6)}>{sortName[6]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(7)}>{sortName[7]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(8)}>{sortName[8]}</DropdownItem>
+                            <DropdownItem onClick={() => this.setSortModeIcon(9)}>{sortName[9]}</DropdownItem>
+                          </DropdownMenu>
+                        </InputGroupButtonDropdown>
 
-          <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
-            <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
+                        <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
+                          <Input disabled hidden value={this.state.searchType}></Input>
+                          <Button disabled color="light" outline
+                            style={{ minWidth: 130 }} >{this.state.searchType}
+                          </Button>
+                          <DropdownToggle split outline color='light' />
+                          <DropdownMenu>
+                            <DropdownItem onClick={() => this.changeSearchType('All')}>All</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('User ID')}>User ID</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('Username')}>Username</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('Email-Address')}>Email-Address</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('Name')}>Name</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('First Name')}>First Name</DropdownItem>
+                            <DropdownItem onClick={() => this.changeSearchType('Last Name')}>Last Name</DropdownItem>
+                          </DropdownMenu>
+                        </InputGroupButtonDropdown>
+                      </InputGroup >&nbsp;
 
-            {modalComponent}
-            <ModalFooter></ModalFooter>
-          </Modal>
-          <Col>
-            <Table bordered inverse striped>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>
-                    <span onClick={() => { this.state.sortmode == 0 ? this.sortUser(1) : this.sortUser(0); }}>User ID </span>
-                    <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 0 ? this.sortUser(1) : this.sortUser(0); }}>
-                      <i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                      style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} />
-                    </Badge>
-                  </th>
-                  <th>
-                    <span onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}>UserName </span>
-                    <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                      style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} />
-                    </Badge>
-                  </th>
-                  <th>
-                    <span onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}>Email </span>
-                    <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                      style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} />
-                    </Badge>
-                  </th>
-                  <th>
-                    <span onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }}>FirstName </span>
-                    <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                      style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} />
-                    </Badge>
-                  </th>
-                  <th>
-                    <span onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }}>LastName  </span>
-                    <Badge color={this.state.sortmode == 8 || this.state.sortmode == 9 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }} ><i class={this.state.sortmode == 8 ? "fa fa-sort-amount-asc " : this.state.sortmode == 9 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
-                      style={{ color: this.state.sortmode == 8 || this.state.sortmode == 9 ? '' : '#AAA' }} />
-                    </Badge>
-                  </th>
-                  <th>
-                  </th>
-                  <th>
-                    {'type'}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {courseTableBody}
-              </tbody>
-            </Table>
+                      <InputGroup style={{ minWidth: 290, maxWidth: 340 }} responsive >
+                        <Input type="text" name="searchbox" id="usersearchbox" placeholder="Search User" defaultValue={this.state.searchWord == '' ? '' : this.state.searchWord}
+                          onKeyPress={(e, searchMode = this.state.searchType, sortMode = this.state.sortmodeIcon) => this.handleSearchKeyPress(e, searchMode, sortMode)}
+                          style={{ minWidth: 250, maxWidth: 300 }} />
+                        <InputGroupAddon addonType="append">
+                          <Button color="primary" onClick={() => { this.handleSearchIconPress(document.getElementById('usersearchbox').value, this.state.searchType, this.state.sortmodeIcon) }}>
+                            <i class="fa fa-search" />
+                          </Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
+            </Card>
+            <br />
 
-          </Col>
+            <Modal size="md" isOpen={this.state.modalOpen} toggle={this.closeModal}>
+              <ModalHeader toggle={this.closeModal}>{this.state.modalHeader}</ModalHeader>
+              {modalComponent}
+              <ModalFooter></ModalFooter>
+            </Modal>
 
-          <Row className='justify-content-around'>
-            <Pagination aria-label="Page navigation example">
-              <PaginationItem disabled={this.state.pager == 0}>
-                <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
-                  <i class="fa fa-angle-left" />
-                </PaginationLink>
-              </PaginationItem>
-              {paginationitems}
-              <PaginationItem disabled={this.state.pager == Math.ceil(info.length / rowperpage) - 1 || info.length === 0}>
-                <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
-                  <i class="fa fa-angle-right" />
-                </PaginationLink>
-              </PaginationItem>
-            </Pagination>
-          </Row>
-        </Container>
+            <Card style={{ background: '#444', paddingTop: 5, paddingRight: 20, paddingLeft: 20 }}>
+              <Row>
+                <Table responsive bordered inverse striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>
+                        <span onClick={() => { this.state.sortmode == 0 ? this.sortUser(1) : this.sortUser(0); }}>User ID </span>
+                        <Badge color={this.state.sortmode == 0 || this.state.sortmode == 1 ? 'success' : 'secondary'} onClick={() => { (this.state.sortmode == 0 || this.state.sortmode == -1) ? this.sortUser(1) : this.sortUser(0); }}>
+                          <i class={this.state.sortmode == 0 ? "fa fa-sort-amount-asc " : this.state.sortmode == 1 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                            style={{ color: this.state.sortmode == 0 || this.state.sortmode == 1 ? '' : '#AAA' }} />
+                        </Badge>
+                      </th>
+                      <th>
+                        <span onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}>Username </span>
+                        <Badge color={this.state.sortmode == 2 || this.state.sortmode == 3 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 2 ? this.sortUser(3) : this.sortUser(2); }}><i class={this.state.sortmode == 2 ? "fa fa-sort-amount-asc " : this.state.sortmode == 3 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                          style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} />
+                        </Badge>
+                      </th>
+                      <th>
+                        <span onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}>Email-Address </span>
+                        <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortUser(5) : this.sortUser(4); }}><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                          style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} />
+                        </Badge>
+                      </th>
+                      <th>
+                        <span onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }}>First Name </span>
+                        <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortUser(7) : this.sortUser(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                          style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} />
+                        </Badge>
+                      </th>
+                      <th>
+                        <span onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }}>Surname  </span>
+                        <Badge color={this.state.sortmode == 8 || this.state.sortmode == 9 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 8 ? this.sortUser(9) : this.sortUser(8); }} ><i class={this.state.sortmode == 8 ? "fa fa-sort-amount-asc " : this.state.sortmode == 9 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
+                          style={{ color: this.state.sortmode == 8 || this.state.sortmode == 9 ? '' : '#AAA' }} />
+                        </Badge>
+                      </th>
+                      <th>
+                      </th>
+                      <th>
+                        {'User Type'}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courseTableBody}
+                  </tbody>
+                </Table>
+              </Row>
+
+              <Row className='justify-content-around'>
+                <Pagination aria-label="Page navigation example">
+                  <PaginationItem disabled={this.state.pager == 0}>
+                    <PaginationLink onClick={() => { this.setPage(this.state.pager - 1) }} >
+                      <i class="fa fa-angle-left" />
+                    </PaginationLink>
+                  </PaginationItem>
+                  {paginationitems}
+                  <PaginationItem disabled={this.state.pager == Math.ceil(info.length / rowperpage) - 1 || info.length === 0}>
+                    <PaginationLink onClick={() => { this.setPage(this.state.pager + 1) }} >
+                      <i class="fa fa-angle-right" />
+                    </PaginationLink>
+                  </PaginationItem>
+                </Pagination>
+              </Row>
+            </Card>
+          </Container>
+        </div>
       );
 
     }
@@ -616,12 +617,12 @@ export class AdminManageUsers extends React.Component {
                 <tr>
                   <th>#</th>
                   <th>User ID</th>
-                  <th>UserName</th>
+                  <th>Username</th>
                   <th>Email-Address</th>
-                  <th>FirstName</th>
-                  <th>LastName</th>
+                  <th>First Name</th>
+                  <th>Surname</th>
                   <th>Action</th>
-                  <th>type</th>
+                  <th>User Type</th>
                 </tr>
               </thead>
               <tbody>

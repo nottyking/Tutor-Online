@@ -3,7 +3,7 @@ import './NavBar.css';
 import { Route, Link } from 'react-router-dom';
 import Logout from '../loginPanel/Logout';
 import Login from '../loginPanel/Login';
-
+import { securityControl } from '../../redux/helpers';
 import AuthToken from './../router/AuthToken';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Label, Popover, PopoverBody } from 'reactstrap';
 
@@ -110,25 +110,27 @@ export default class NavBar extends React.Component {
             //userType = "Guest"
             pageList = this.createPage(pages);
             actionButton = <Login />
-        } else if (JSON.parse(user).role == 0) {
-            console.log('user');
-            //userType = "user"
-            pageList = this.createPage(userPages);
-            actionButton = <Logout />
-        } else if (JSON.parse(user).role == 1) {
-            console.log('admin');
-            //userType = "admin"
-            pageList = this.createPage(adminPages);
-            actionButton = <Logout />
         } else {
-            console.log('Nav error');
+            var decryptedUser = securityControl.decryptWithSecretkey(user);
+            
+            if (decryptedUser.role == 0) {
+                //userType = "user"
+                pageList = this.createPage(userPages);
+                actionButton = <Logout />
+            } else if (decryptedUser.role == 1) {
+                //userType = "admin"
+                pageList = this.createPage(adminPages);
+                actionButton = <Logout />
+            } else {
+                console.log('Nav error');
+            }
         }
 
         document.addEventListener('click', this.handleDocumentClick, true)
 
         return (
             <div ref={(c) => (this._element = c)} >
-                <Navbar color="dark" dark expand="md" style={{minHeight: '60px'}}>
+                <Navbar color="dark" dark expand="md" style={{ minHeight: '60px' }}>
                     <NavbarBrand tag={Link} to="/" exact>Tutor-Online</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>

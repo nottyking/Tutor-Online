@@ -1,6 +1,9 @@
 import {userConstants} from '../constants/UserConstants';
 
-let user = JSON.parse(localStorage.getItem('user'));
+let user = localStorage.getItem('user');
+if (user) {
+	user = securityControl.decryptWithSecretkey(user);
+}
 
 const initialState = user ? 
 	{userType: user.userType, user} : {userType: 'guest'};

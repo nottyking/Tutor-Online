@@ -1,8 +1,9 @@
-import { history } from '../helpers';
+import { history, securityControl } from '../helpers';
 import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
 import { userConstants } from '../constants/UserConstants';
 import Cookies from 'universal-cookie';
+import { watchFile } from 'fs';
 
 const cookies = new Cookies();
 const maxAge = 1 * 31 * 60 * 60;
@@ -39,16 +40,16 @@ async function register(username, email, password, user_type) {
 }
 
 async function login(usernameEmail, password) {
-
+    console.log('ENTER LOGIN GUSET ACTION')
     if (localStorage.getItem('user')) {
         return failure(user);
     }
-
+    
     const data = {
         usernameEmail,
         password
     }
-
+    
     var isLoginSuccess = await axios.post(ipList.backend + '/login/normal', {
         usernameOrEmail: data.usernameEmail,
         password: data.password
@@ -56,16 +57,17 @@ async function login(usernameEmail, password) {
         console.log(msg);
         return failure(msg);
     });
-
+    
     const user = isLoginSuccess.data;
     if (user.result) {
         cookies.set("loginToken", user.loginToken, { maxAge: maxAge , path: '/' });
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', securityControl.encryptWithSecretkey(JSON.stringify(user)));
+        
         return success(user);
     } else {
         return failure(user);
     }
-
+    
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }

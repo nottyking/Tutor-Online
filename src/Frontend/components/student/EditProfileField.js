@@ -345,7 +345,7 @@ export class EditProfileField extends React.Component {
 
                 {/* HANDLE WARNING */}
                 <Modal isOpen={this.state.Modal} toggle={this.modalToggle}>
-                    <ModalHeader>WARNING</ModalHeader>s
+                    <ModalHeader>WARNING</ModalHeader>
                     <ModalBody>
                         {this.state.ModalMessage}
                     </ModalBody>

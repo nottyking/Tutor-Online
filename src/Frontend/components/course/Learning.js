@@ -76,7 +76,7 @@ export class Learning extends React.Component {
           <Row>
             <Col xs='8'>
               <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
-              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink}/>
+              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId CourseId SubCourseID/>
               <p></p>
               <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
                 <CardTitle>

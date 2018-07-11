@@ -107,6 +107,40 @@ export class AdminEditCourseModal extends React.Component {
       }.bind(this);
       console.log(url)
   }
+  courseNameCheck() {
+    if (document.getElementById('coursename').value.length > 3 && document.getElementById('coursename').value.length < 46) {
+      document.getElementById("coursename").classList.remove('is-invalid');
+      document.getElementById("coursename").classList.add('is-valid');
+      return true;
+    }
+    document.getElementById("coursename").classList.remove('is-valid');
+    document.getElementById("coursename").classList.add('is-invalid');
+    return false;
+  }
+
+  instructorCheck() {
+    if (document.getElementById('instructor').value.length > 0 && document.getElementById('instructor').value.length < 46) {
+      document.getElementById("instructor").classList.remove('is-invalid');
+      document.getElementById("instructor").classList.add('is-valid');
+      return true;
+    }
+    document.getElementById("instructor").classList.remove('is-valid');
+    document.getElementById("instructor").classList.add('is-invalid');
+    return false;
+  }
+
+
+  priceCheck() {
+    if (!isNaN(document.getElementById('price').value) && (document.getElementById('price').value > 20 && document.getElementById('price').value < 10000) || document.getElementById('price').value === '0') {
+      document.getElementById("price").classList.remove('is-invalid');
+      document.getElementById("price").classList.add('is-valid');
+      console.log('price true');
+      return true;
+    }
+    document.getElementById("price").classList.remove('is-valid');
+    document.getElementById("price").classList.add('is-invalid');
+    return false;
+  }
 
   limitdurationCheck() {
     if (document.getElementById('limitdurationtype').value === '1') {
@@ -146,6 +180,14 @@ export class AdminEditCourseModal extends React.Component {
 
   }
 
+  checkAll = () => {
+    var check1 = this.courseNameCheck()
+    var check2 = this.instructorCheck();
+    var check3 = this.priceCheck()
+    var check4 = this.limitdurationCheck()
+    return (this.expireDateCheck() && check1 && check2 && check3 && check4);
+  }
+
   toggletype = event => {
     console.log(document.getElementById('limitdurationtype').value);
     this.setState({
@@ -175,7 +217,9 @@ export class AdminEditCourseModal extends React.Component {
                 type='text'
                 id='coursename'
                 defaultValue={this.props.src.coursename}
+                onChange={this.courseNameCheck}
                 placeholder='Enter Course Name' />
+                <FormFeedback>Course Name must have length between 4-45</FormFeedback>
             </FormGroup>
             <FormGroup row>
               <Label>
@@ -185,7 +229,9 @@ export class AdminEditCourseModal extends React.Component {
                 type='instructor'
                 id='instructor'
                 defaultValue={this.props.src.instructor}
+                onChange={this.instructorCheck}
                 placeholder='Enter Instructor' />
+                <FormFeedback>Instructor name must contain at least 1 character(put '-' when not have any)</FormFeedback>
             </FormGroup>
             <FormGroup row>
               <Label>
@@ -195,7 +241,9 @@ export class AdminEditCourseModal extends React.Component {
                 type='price'
                 id='price'
                 defaultValue={this.props.src.price/100}
+                onChange={this.priceCheck}
                 placeholder='Enter Course price in Thai Baht' />
+                <FormFeedback>Price must be a number ,between 20-10,000 or 0 and not have all of symbol ex. ',' , '฿'</FormFeedback>
             </FormGroup>
 
             <FormGroup row>
@@ -297,7 +345,7 @@ export class AdminEditCourseModal extends React.Component {
         </FormGroup>
           </Form>
           <hr/>
-          <Button color='primary' onClick={this.saveToDatabase} style={{float:'right'}}>
+          <Button color='primary' onClick={()=>{if(this.checkAll()){this.saveToDatabase()}}} style={{float:'right'}}>
             Save
           </Button><p style={{float:'right'}}> </p><Button color='secondary' onClick={this.props.closeModal} style={{float:'right'}}>Cancel</Button>
         </Container>

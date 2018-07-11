@@ -34,10 +34,11 @@ export class VideoPlayer extends React.Component{
           cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
      }
 
-    // onPause = () => {
-    //     console.log('onPause');
-    //     cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
-    // }
+     onPause = () => {
+        console.log('onPause');
+        cookies.set(this.props.UserId + this.props.CourseId + this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        console.log(cookies.get(this.props.UserId + this.props.CourseId + this.props.SubCourseId));
+    }
 
     /* Used for Debug
     onClick = () =>{

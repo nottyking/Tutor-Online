@@ -51,7 +51,7 @@ export class SubCourseProgressBar extends React.Component {
                         <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px',left:0}}><img src={video} /></td>
-                            <td className='sidevarHoverEl'><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
+                            <td><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
                         </tr>
                         </Button>
                     )
@@ -61,7 +61,7 @@ export class SubCourseProgressBar extends React.Component {
                         <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
                         <tr className='sidevarHoverEl'>
                             <td style={{padding:'0px 0px 0px 0px',left:0}} className='sidevarHoverEl'><img src={video} /></td>
-                            <td className='sidevarHoverEl'><p>{item.subcoursename.toUpperCase() }</p></td>
+                            <td><p>{item.subcoursename.toUpperCase() }</p></td>
                         </tr>
                         </Button>
                     )

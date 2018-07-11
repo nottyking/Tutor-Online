@@ -61,7 +61,7 @@ async function login(usernameEmail, password) {
     const user = isLoginSuccess.data;
     if (user.result) {
         cookies.set("loginToken", user.loginToken, { maxAge: maxAge , path: '/' });
-        localStorage.setItem('user', securityControl.encryptWithSecretkey(JSON.stringify(user)));
+        localStorage.setItem('user', securityControl.encryptWithSecretkey(JSON.stringify(user),"userKey"));
         
         return success(user);
     } else {

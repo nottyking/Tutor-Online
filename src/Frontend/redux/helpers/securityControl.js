@@ -1,15 +1,33 @@
+const Key = require('../constants/SecretKeyConstants')
 const CryptoJS = require("crypto-js");
-const SecretKey = 'SJag3SRNY:LWNg24er47s6hgGRyMLJnoaisbesbltwai3458r6toiETiaTo6532eihTtoewathO363e26ltWLTlwTiohTE72A4/LYeryHPEyHWETY45'
 
-function encryptWithSecretkey(toEncrypt) {
-    var encrypted = CryptoJS.AES.encrypt(toEncrypt, SecretKey);
-    return encrypted;
+function getKeyConstant(keyType) {
+    switch (keyType) {
+        case "userKey":
+            return Key.secretKeyConstant.USER_SECRETKEY;
+        case "tokenKey":
+            return Key.secretKeyConstant.TOKEN_SECRETKEY;
+        default:
+            return Key.secretKeyConstant.DEFAULT_SECRETKEY;
+    }
 }
 
-function decryptWithSecretkey(toDecrypt) {
-    var decrypted = CryptoJS.AES.decrypt(toDecrypt, SecretKey);
-    var decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-    return decryptedData;
+function encryptWithSecretkey(toEncrypt, keyType) {
+    var encrypted = CryptoJS.AES.encrypt(toEncrypt, getKeyConstant(keyType));
+    try {
+        return encrypted;
+    } catch (error) {
+        return { result: false }
+    }
+}
+
+function decryptWithSecretkey(toDecrypt, keyType) {
+    var decrypted = CryptoJS.AES.decrypt(toDecrypt, getKeyConstant(keyType));
+    try {
+        return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+        return { result: false }
+    }
 }
 
 module.exports = {

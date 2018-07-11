@@ -35,11 +35,6 @@ class AuthToken extends React.Component {
     }
 
     render() {
-        var test = localStorage.getItem('encrypt');
-        if (test) {
-            var detest = securityControl.decryptWithSecretkey(test)
-        }
-
         this.checkToken();
         if (!this.state.isRedirect) {
             return (<div></div>);

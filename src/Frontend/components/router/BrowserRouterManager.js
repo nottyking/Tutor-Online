@@ -24,7 +24,7 @@ class BrowserRouterManager extends React.Component {
         if (!user) {
             userType = "guest";
         } else {
-            var decryptedUser = securityControl.decryptWithSecretkey(user);
+            var decryptedUser = securityControl.decryptWithSecretkey(user, "userKey");
             if (decryptedUser.role == 0) {
                 userType = "user";
             } else if (decryptedUser.role == 1) {

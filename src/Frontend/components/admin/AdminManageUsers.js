@@ -425,14 +425,14 @@ export class AdminManageUsers extends React.Component {
       }
       var courseTableBody = info.map((item, i) =>
         <tr style={{ color: (item.isbanned == '1') ? '#F55' : (item.isconfirm == '0') ? '#888' : rolecolor[parseInt(item.role)], display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
-          <td><b>{i + 1}</b></td>
-          <td>{item.userid}</td>
-          <td>{item.username}</td>
-          <td>{item.email}</td>
-          <td>{item.fname}</td>
-          <td>{(item.lname)}</td>
-          <td style={{ width: 60 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
-          <td style={{ width: 120 }}>
+          <td style={{ width: '5%' }}><b>{i + 1}</b></td>
+          <td style={{ width: '8%' }}>{item.userid}</td>
+          <td style={{ width: '18%' }}>{item.username}</td>
+          <td style={{ width: '25%' }}>{item.email}</td>
+          <td style={{ width: '15%' }}>{item.fname}</td>
+          <td style={{ width: '15%' }}>{(item.lname)}</td>
+          <td style={{ width: '5%' }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-reorder" /></Button></td>
+          <td style={{ width: '9%' }}>
             <Button disabled color={item.isconfirm == 0 ? "dark" : item.isbanned == 1 ? "danger" : item.role == 1 ? "primary" : "success"}
               style={{ width: 45, height: 40 }}>
               <i class={item.isconfirm == 0 ? "fa fa-envelope-o" : item.isbanned == 1 ? "fa fa-warning" : item.role == 1 ? "fa fa-graduation-cap" : "fa fa-check"} />

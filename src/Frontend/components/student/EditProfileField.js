@@ -17,6 +17,7 @@ export class EditProfileField extends React.Component {
             isDefaultPassword: true,
             validPassword: false,
             isDefaultRePassword: true,
+            isClickOKButton : false,
             validRePassword: false,
             Modal: false,
             selectedFile: [],
@@ -30,6 +31,9 @@ export class EditProfileField extends React.Component {
         this.checkCurrentPassword = this.checkCurrentPassword.bind(this);
         this.saveToDatabase = this.saveToDatabase.bind(this);
         this.modalToggle = this.modalToggle.bind(this);
+        this.openConfirmModal = this.openConfirmModal.bind(this);
+        this.closeConfirmModal = this.closeConfirmModal.bind(this);
+        this.checkForm = this.checkForm.bind(this)
     }
 
     fileChangedHandler = (event) => {
@@ -101,19 +105,34 @@ export class EditProfileField extends React.Component {
             return isPasswordCorrect
     }
 
+    async checkForm(){
+      if (this.props.defaultValue.type==0 && !await this.checkCurrentPassword()) {
+          this.setState({
+            ModalMessage : 'your password is incorrect'
+          })
+          return this.modalToggle();
+      }
+
+      var today = new Date();
+      var birthdate = new Date(document.getElementById('birthDate').value);
+      console.log(today,birthdate);
+      if(birthdate > today){
+        this.setState({
+          ModalMessage : 'your Birth Date is incorrect'
+        })
+        return this.modalToggle();
+      }
+
+        this.openConfirmModal();
+    }
+
     async saveAndContinue(event) {
         event.preventDefault(event);
-        if (this.props.defaultValue.type==0 && !await this.checkCurrentPassword()) {
-            this.setState({ ModalMessage: 'your password is incorrect' });
+        if (await this.saveToDatabase()) {
+            this.props.toNextStep();
+        } else {
+            this.setState({ ModalMessage: 'Error: Can\'t sent data to server' });
             this.modalToggle();
-        }
-        else {//Pass Every Condition
-            if (this.saveToDatabase()) {
-                this.props.toNextStep();
-            } else {
-                this.setState({ ModalMessage: 'Error: Can\'t sent data to server' });
-                this.modalToggle();
-            }
         }
     }
 
@@ -151,6 +170,21 @@ export class EditProfileField extends React.Component {
             this.setState({ validRePassword: true });
             return true;
         }
+    }
+
+    openConfirmModal(){
+        this.setState({
+          isClickOKButton : true ,
+          ModalMessage : 'Are you sure to edit your profile ?'
+        })
+        this.modalToggle();
+    }
+
+    closeConfirmModal(){
+        this.setState({
+          isClickOKButton: false
+        })
+        this.modalToggle()
     }
 
     modalToggle() {
@@ -303,7 +337,7 @@ export class EditProfileField extends React.Component {
                         </CardText>
 
                         <Button color='danger' onClick={this.props.toPreviousStep}>Back</Button>&nbsp;&nbsp;
-                        <Button color='success' onClick={this.saveAndContinue}>OK</Button>
+                        <Button color='success' onClick={this.checkForm}>OK</Button>
 
                     </CardBody>
                 </Card>
@@ -311,12 +345,19 @@ export class EditProfileField extends React.Component {
 
                 {/* HANDLE WARNING */}
                 <Modal isOpen={this.state.Modal} toggle={this.modalToggle}>
-                    <ModalHeader>WARNING</ModalHeader>
+                    <ModalHeader>WARNING</ModalHeader>s
                     <ModalBody>
                         {this.state.ModalMessage}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color='danger' onClick={this.modalToggle}>OK</Button>
+                        { this.state.isClickOKButton == false ?
+                            <Button color='danger' onClick={this.modalToggle}>OK</Button>
+                            :
+                            <div>
+                              <Button color='danger' onClick={this.closeConfirmModal}>Cancel</Button>&nbsp;&nbsp;
+                              <Button color='success' onClick={this.saveAndContinue}>OK</Button>
+                            </div>
+                        }
                     </ModalFooter>
                 </Modal>
             </div>

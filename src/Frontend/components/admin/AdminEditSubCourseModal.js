@@ -1,6 +1,6 @@
 import React from 'react';
 import { Loading } from '../loading/Loading'
-import { Button, FormGroup,FormText, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, Container, Table } from 'reactstrap';
+import { Button, FormGroup,FormFeedback, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, Container, Table } from 'reactstrap';
 
 
 const ipList = require('../../../Config/ipConfig');
@@ -134,6 +134,49 @@ export class AdminEditSubCourseModal extends React.Component {
     }
   }
 
+  subcourseNameCheck() {
+    if ((document.getElementById('subcoursename').value > 4 && document.getElementById('subcoursename').value.length < 45)) {
+      document.getElementById("subcoursename").classList.remove('is-invalid');
+      document.getElementById("subcoursename").classList.add('is-valid');
+      console.log('price true');
+      return true;
+    }
+    document.getElementById("subcoursename").classList.remove('is-valid');
+    document.getElementById("subcoursename").classList.add('is-invalid');
+    return false;
+  }
+
+  checkLink(){
+    var link = document.getElementById('videolink').value;
+    if((link.match(/vimeo/i)!==null || !isNaN(link))&&link.length>0){
+      if(link.indexOf('video/')!=-1 && !isNaN(link.substring(link.indexOf('video/') + 'video/'.length))){
+        document.getElementById("videolink").classList.remove('is-invalid');
+        document.getElementById("videolink").classList.add('is-valid');
+        document.getElementById('validlinkfeedback').innerHTML = ''; 
+        return link;
+      }
+      else if(link.indexOf('com/')!=-1 && !isNaN(link.substring(link.indexOf('com/') + 'com/'.length))){
+        document.getElementById("videolink").classList.remove('is-invalid');
+        document.getElementById("videolink").classList.add('is-valid');
+        document.getElementById('validlinkfeedback').innerHTML = ''; 
+        return    "https://player.vimeo.com/video/"+ link.substring(link.indexOf('com/') + 'com/'.length);
+      }
+      else if(!isNaN(link)){
+        document.getElementById("videolink").classList.remove('is-invalid');
+        document.getElementById("videolink").classList.add('is-valid');
+        console.log('you mean https://player.vimeo.com/video/'+link +'  ?');
+        document.getElementById('validlinkfeedback').innerHTML = 'you mean https://player.vimeo.com/video/'+link +'  ?'; 
+        return    "https://player.vimeo.com/video/"+ link;
+      }
+      document.getElementById("videolink").classList.remove('is-valid');
+      document.getElementById("videolink").classList.add('is-invalid');
+      return false;
+    }
+    document.getElementById("videolink").classList.remove('is-valid');
+    document.getElementById("videolink").classList.add('is-invalid');
+    return false;
+  }
+
 
   render() {
 
@@ -229,10 +272,14 @@ export class AdminEditSubCourseModal extends React.Component {
                   <Input
                     type='text'
                     id='videolink'
-                    placeholder='Enter Link of Video' />
-                    <FormText color="muted">
-              Link must in the form of https://player.vimeo.com/video/[video_id]
-            </FormText>
+                    placeholder='Enter Link of Video' 
+                    onChange={this.checkLink}/>
+                    <FormFeedback>
+              Link must in the form of https://player.vimeo.com/video/[video_id] or https://vimeo.com/[video_id] or only video_id is acceptable
+              </FormFeedback>
+              <FormFeedback valid id='validlinkfeedback'>
+             
+              </FormFeedback>
 
                 </FormGroup>
               </Container>

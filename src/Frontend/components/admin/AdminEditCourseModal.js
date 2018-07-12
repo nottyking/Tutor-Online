@@ -2,6 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {  Button, Form, FormGroup,  ModalBody,  Label, Input, Container,Collapse,Card,CardBody,FormFeedback } from 'reactstrap'
 import Cookies from 'universal-cookie'
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const cookies = new Cookies()
 const ipList = require('../../../Config/ipConfig')
@@ -9,15 +14,26 @@ const axios = require('axios')
 const capsulation = require('../../capsulation/SendData');
 var id; var exitfx;var exitandreloadfx;
 
-
 export class AdminEditCourseModal extends React.Component {
   constructor (props) {
     super(props)
+    const html = this.props.src.description;
+    console.log(html);
+    const contentBlock = htmlToDraft(html);
+    console.log(contentBlock);
+    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+    console.log(contentState);
+    const editorState = EditorState.createWithContent(contentState);
+    console.log(editorState);
     this.state = {
         expireType:this.props.src.limitdurationtype,
         showThumbnail: this.props.src.thumbnail,
         showBanner:this.props.src.banner,
-        redirect:''
+        redirect:'',
+        editorState: editorState ,
+        contentState : contentState,
+        contentBlock : contentBlock,
+        html : html
     }
     this.toggletype=this.toggletype.bind(this);
     this.showBanner=this.bannerChange.bind(this);
@@ -53,7 +69,7 @@ export class AdminEditCourseModal extends React.Component {
         coursename: document.getElementById('coursename').value,
         instructor: document.getElementById('instructor').value,
         price: document.getElementById('price').value*100,
-        description: document.getElementById('description').value,
+        description: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
         isavailable: (document.getElementById('isavailable').checked)? '1':'0',
         limitdurationtype: document.getElementById('limitdurationtype').value,
         limitduration: temp
@@ -195,6 +211,13 @@ export class AdminEditCourseModal extends React.Component {
     });
   }
 
+  onEditorStateChange: Function = (editorState) => {
+    console.log("CHANGE:",editorState);
+    this.setState({
+      editorState: editorState,
+    })
+  }
+
   render () {
     var date;
     if(this.props.src.limitdurationtype==2){
@@ -249,7 +272,12 @@ export class AdminEditCourseModal extends React.Component {
             <FormGroup row>
             <Input plaintext> Description
             </Input>
-            <Input type='textarea' id='description' defaultValue={this.props.src.description} />
+            <Editor
+              editorState={this.state.editorState}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              onEditorStateChange={this.onEditorStateChange}
+            />
             </FormGroup>
             <hr></hr>
             <FormGroup row>

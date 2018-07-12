@@ -17,6 +17,8 @@ const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 const ipList = require('../../../Config/ipConfig')
 const cookies = new Cookies();
+const HtmlToReactParser = require('html-to-react').Parser;
+const htmlToReactParser = new HtmlToReactParser();
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
@@ -82,6 +84,8 @@ export class CourseA extends React.Component {
           rating: 0
         })
       }
+      temp.course.description = htmlToReactParser.parse(temp.course.description);
+      console.log(temp.course);
       this.setState({
         courseInfo: temp,
         alreadyEnroll: temp.enrolledcourse.length > 0 ? true : false,

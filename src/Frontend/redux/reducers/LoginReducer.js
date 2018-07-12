@@ -3,7 +3,7 @@ import { securityControl } from '../helpers';
 
 let user = localStorage.getItem('user');
 if (user) {
-	user = securityControl.decryptWithSecretkey(user);
+	user = securityControl.decryptWithSecretkey(user, "userKey");
 }
 
 const initialState = user ?

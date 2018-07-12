@@ -1,15 +1,15 @@
-import {userConstants} from '../constants/UserConstants';
+import { userConstants } from '../constants/UserConstants';
 
 let user = localStorage.getItem('user');
 if (user) {
-	user = securityControl.decryptWithSecretkey(user);
+	user = securityControl.decryptWithSecretkey(user, "userKey");
 }
 
-const initialState = user ? 
-	{userType: user.userType, user} : {userType: 'guest'};
+const initialState = user ?
+	{ userType: user.userType, user } : { userType: 'guest' };
 
-export function editProfile(state=initialState,action){
-	switch(action.type){
+export function editProfile(state = initialState, action) {
+	switch (action.type) {
 		case userConstants.EDIT_PROFILE_REQUEST:
 			return {
 				isEditProfile: true

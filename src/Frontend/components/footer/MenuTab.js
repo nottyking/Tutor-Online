@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Container, Nav, Navbar, NavItem, NavLink, Label } from 'reactstrap'
+import { Input, Container, Nav, Navbar, NavItem, NavLink, Label, Form, Row, Col } from 'reactstrap'
 
 
 export class MenuTab extends React.Component {
@@ -40,6 +40,15 @@ export class MenuTab extends React.Component {
             colorHover2 = { color: '#FFF' };
             colorHover3 = { color: '#FFF' };
         }
+
+        var lineStyle
+        if (this.props.isMobile) {
+            lineStyle = { fontWeight: "bold", minWidth: 250 }
+        }
+        else {
+            lineStyle = { fontWeight: "bold" }
+        }
+
         return (
             <div>
                 <Container fluid style={{ paddingTop: 10 }}>
@@ -48,19 +57,23 @@ export class MenuTab extends React.Component {
                         height: '3px',
                         margin: '0em'
                     }}></hr>
-                    <Navbar dark expand="md">
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink style={colorHover1} onMouseEnter={this.toggleHover1} onMouseLeave={this.toggleHover1} href={"/"}>HOME</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink style={colorHover2} onMouseEnter={this.toggleHover2} onMouseLeave={this.toggleHover2} href={"/course"}>COURSE</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink style={colorHover3} onMouseEnter={this.toggleHover3} onMouseLeave={this.toggleHover3} href={"/about_us"}>ABOUT&nbsp;US</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Navbar>
+                    <Form style={lineStyle}>
+                        <Navbar dark expand="md">
+                            <Nav navbar inline>
+                                <Row inline className="justify-content-around">
+                                    <Col>
+                                        <NavLink style={colorHover1} onMouseEnter={this.toggleHover1} onMouseLeave={this.toggleHover1} href={"/"}>HOME</NavLink>
+                                    </Col>
+                                    <Col>
+                                        <NavLink style={colorHover2} onMouseEnter={this.toggleHover2} onMouseLeave={this.toggleHover2} href={"/course"}>COURSE</NavLink>
+                                    </Col>
+                                    <Col>
+                                        <NavLink style={colorHover3} onMouseEnter={this.toggleHover3} onMouseLeave={this.toggleHover3} href={"/about_us"}>ABOUT&nbsp;US</NavLink>
+                                    </Col>
+                                </Row>
+                            </Nav>
+                        </Navbar>
+                    </Form>
                     <hr color='#FFF' style={{
                         border: '1px',
                         display: 'block',
@@ -68,7 +81,6 @@ export class MenuTab extends React.Component {
                         margin: '0em'
                     }}></hr>
                 </Container>
-
             </div >
         );
     }

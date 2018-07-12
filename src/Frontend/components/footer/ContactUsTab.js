@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Nav, NavItem, NavLink, TabContent, TabPane, Label} from 'reactstrap'
+import { Container, Nav, NavItem, NavLink, TabContent, TabPane, Label } from 'reactstrap'
 import classnames from 'classnames';
 
 export class ContactUsTab extends React.Component {
@@ -18,14 +18,23 @@ export class ContactUsTab extends React.Component {
         }
     }
     render() {
+        // var headerTap;
+        // if (this.props.isMobile) {
+        //     headerTap
+        // } else {
+        //     headerTap
+        // }
+
         return (
             <div>
                 <Container fluid style={{ paddingTop: 10, justifyContent: 'right' }}>
-                    <Label style={{ fontWeight: "bold" }}>CONTACT US</Label>
-                    <hr color='#FFF' style={{
-                        height: '3px',
-                        margin: '0em'
-                    }}></hr>
+                    <div>
+                        <Label style={{ fontWeight: "bold" }}>CONTACT US</Label>
+                        <hr color='#FFF' style={{
+                            height: '3px',
+                            margin: '0em'
+                        }}></hr>
+                    </div>
                     <Nav tabs style={{ paddingTop: 10 }}>
                         <NavItem>
                             <NavLink className={classnames({ active: this.state.contactTab === '1' })} onClick={() => { this.toggleContact('1') }}>Tel</NavLink>
@@ -37,7 +46,7 @@ export class ContactUsTab extends React.Component {
                             <NavLink className={classnames({ active: this.state.contactTab === '3' })} onClick={() => { this.toggleContact('3') }}>Opening Times</NavLink>
                         </NavItem>
                     </Nav>
-                    <TabContent activeTab={this.state.contactTab} style={{textAlign: 'center' }}>
+                    <TabContent activeTab={this.state.contactTab} style={{ textAlign: 'center' }}>
                         <TabPane tabId='1'>
                             <Label>+66(0)2-821-7877</Label>
                         </TabPane>

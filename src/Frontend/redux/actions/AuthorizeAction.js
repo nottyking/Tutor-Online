@@ -21,19 +21,24 @@ async function checkValidToken() {
         return await tokenLoss('...');
       }
 
-      const decryptUser = securityControl.decryptWithSecretkey(user);
-      const token = decryptUser.loginToken;
-      const role = decryptUser.role;
-      var authInfo = (await axios.post(ipList.backend + '/auth', { loginToken: token, role: role })).data;
+      const decryptUser = securityControl.decryptWithSecretkey(user, "userKey");
+      if (decryptUser.result == false) {
+        return await tokenLoss('...');
+      } else {
 
-      if (authInfo.result == "TOKEN NOT MATCH") {
-        return await tokenNotMatchRole('...');
-      }
-      else if (authInfo.result == "ROLE NOT MATCH") {
-        return await tokenNotMatchRole('...');
-      }
-      else {
-        return await tokenValid('...');
+        const token = decryptUser.loginToken;
+        const role = decryptUser.role;
+        var authInfo = (await axios.post(ipList.backend + '/auth', { loginToken: token, role: role })).data;
+
+        if (authInfo.result == "TOKEN NOT MATCH") {
+          return await tokenNotMatchRole('...');
+        }
+        else if (authInfo.result == "ROLE NOT MATCH") {
+          return await tokenNotMatchRole('...');
+        }
+        else {
+          return await tokenValid('...');
+        }
       }
     } else {
       if (cookies.get("loginToken")) {

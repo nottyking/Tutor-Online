@@ -5,7 +5,7 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 import { GuestActions } from '../../redux/actions';
 import { connect } from 'react-redux';
-import { history } from '../../redux/helpers';
+import { history, securityControl } from '../../redux/helpers';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
 import axios from 'axios'
@@ -76,7 +76,7 @@ class Login extends React.Component {
         console.log(loginData);
         if (loginData.result) {
             cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-            localStorage.setItem('user', JSON.stringify(loginData));
+            localStorage.setItem('user', securityControl.encryptWithSecretkey(JSON.stringify(loginData),"userKey"));
             history.push('/');
         }
         else {
@@ -100,7 +100,7 @@ class Login extends React.Component {
         console.log(loginData);
         if (loginData.result) {
             cookies.set("loginToken", loginData.loginToken, { maxAge: maxAge, path: '/' });
-            localStorage.setItem('user', JSON.stringify(loginData));
+            localStorage.setItem('user', securityControl.encryptWithSecretkey(JSON.stringify(loginData),"userKey"));
             history.push('/');
         }
         else {

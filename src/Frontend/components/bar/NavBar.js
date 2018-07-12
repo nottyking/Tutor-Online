@@ -111,8 +111,9 @@ export default class NavBar extends React.Component {
             pageList = this.createPage(pages);
             actionButton = <Login />
         } else {
-            var decryptedUser = securityControl.decryptWithSecretkey(user);
-            
+            var decryptedUser = securityControl.decryptWithSecretkey(user, "userKey");
+            console.log(decryptedUser);
+
             if (decryptedUser.role == 0) {
                 //userType = "user"
                 pageList = this.createPage(userPages);
@@ -122,7 +123,9 @@ export default class NavBar extends React.Component {
                 pageList = this.createPage(adminPages);
                 actionButton = <Logout />
             } else {
-                console.log('Nav error');
+                //userType = "unauthorize", Keep render non-user bar insted
+                pageList = this.createPage(pages);
+                actionButton = <Login />
             }
         }
 

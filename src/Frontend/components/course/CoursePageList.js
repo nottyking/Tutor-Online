@@ -17,8 +17,22 @@ export class CoursePageList extends React.Component {
     super(props);
     this.state = {
       isloaded: false,
+      isMobile: false,
       redirect: ""
     }
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", this.switchMobile.bind(this));
+    this.switchMobile();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.switchMobile.bind(this));
+  }
+
+  switchMobile() {
+    this.setState({ isMobile: window.innerWidth < 640 });
   }
 
   async componentWillMount() {
@@ -32,7 +46,7 @@ export class CoursePageList extends React.Component {
     console.log('courseInfo');
     if (courseInfo.redirect) {
       localStorage.removeItem('user')
-      cookies.remove("loginToken",{ path: '/' });
+      cookies.remove("loginToken", { path: '/' });
       this.setState({
         redirect: courseInfo.redirect
       })
@@ -63,18 +77,33 @@ export class CoursePageList extends React.Component {
     }
 
     if (this.state.isloaded)
-      return (
-        <div className='App'>
-          <AuthToken msgFrom="content" />
-          <Container fluid style={{ paddingBottom: 20 }}>
-            <div style={{ width: '80%', position: 'relative', marginTop: '50px', left:'10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100' }}>
-              <h1><Badge color='info'>Our Courses</Badge></h1>
-              <br/>
-              <CoursePresent src={this.state.courseInfo} />
-            </div>
-          </Container>
-        </div>
-      );
+      if (this.state.isMobile || window.innerWidth < 750) {
+        return (
+          <div className='App'>
+            <AuthToken msgFrom="content" />
+            <Container fluid style={{ paddingBottom: 20 }}>
+              <div style={{ width: '100%', position: 'relative', marginTop: '50px', left: '0%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
+                <h1><Badge color='info'>Our Courses</Badge></h1>
+                <br />
+                <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />
+              </div>
+            </Container>
+          </div>
+        );
+      } else {
+        return (
+          <div className='App'>
+            <AuthToken msgFrom="content" />
+            <Container fluid style={{ paddingBottom: 20 }}>
+              <div style={{ width: '80%', position: 'relative', marginTop: '50px', left: '10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
+                <h1><Badge color='info'>Our Courses</Badge></h1>
+                <br />
+                <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />
+              </div>
+            </Container>
+          </div>
+        );
+      }
     else {
       return (
         <div>

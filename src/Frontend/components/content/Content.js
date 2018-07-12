@@ -103,11 +103,11 @@ export class Content extends React.Component {
 
               </Parallax>
 
-              <div style={{ width: '100%', position: 'relative', marginTop: '-170px', left: '0%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40}}>
+              <div style={{ width: '100%', position: 'relative', marginTop: '-170px', left: '0%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
                 <h1><Badge color='info'>Top Courses</Badge></h1>
                 <br />
 
-                <CoursePresent src={this.state.courseInfo} />
+                <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />
               </div>
             </Container>
           </div>
@@ -125,10 +125,10 @@ export class Content extends React.Component {
                 </div>
 
               </Parallax>
-              <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left: '10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100' }}>
+              <div style={{ width: '80%', position: 'relative', marginTop: '-170px', left: '10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
                 <h1><Badge color='info'>Top Courses</Badge></h1>
                 <br />
-                <CoursePresent src={this.state.courseInfo} />
+                <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />
               </div>
             </Container>
           </div>

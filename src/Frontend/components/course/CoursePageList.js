@@ -77,7 +77,7 @@ export class CoursePageList extends React.Component {
     }
 
     if (this.state.isloaded)
-      if (this.state.isMobile || window.innerWidth < 750) {
+      if (this.state.isMobile || window.innerWidth < 780) {
         return (
           <div className='App'>
             <AuthToken msgFrom="content" />

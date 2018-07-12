@@ -38,11 +38,9 @@ export class CoursePresent extends React.Component {
         );
 
         return (
-            <Container style={{ paddingBottom: 40 }}>
-                <Row className="justify-content-around">
-                    {ListItems}
-                </Row>
-            </Container>
+            <Row className="justify-content-around">
+                {ListItems}
+            </Row>
         );
     }
 }

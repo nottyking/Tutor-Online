@@ -55,10 +55,6 @@ export class VideoPlayer extends React.Component{
 
         console.log('unmount');
         window.removeEventListener("beforeunload", this.onUnload)
-        if(this.videoRef.getCurrentTime()!==null){
-          this.sendProgress((this.videoRef.getCurrentTime()).toString() );
-        //   cookies.set(this.props.UserId + '-'+ this.props.CourseId +'-'+ this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
-        }
      }
 
     //  onPause = () => {

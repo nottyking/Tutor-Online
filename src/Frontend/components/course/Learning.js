@@ -48,11 +48,11 @@ export class Learning extends React.Component {
 
   async getData() {
     // var subcourseInfo = (await axios.post())
+    await this.boardcastToSameUser()
     console.log(this.props.match.params.courseID);
     var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    await this.boardcastToSameUser()
     console.log(this.props.match.params.courseID,this.props.match.params.subcourseID);
     var tempprogress =(await axios.post(ipList.backend + "/learning/progress/query", capsulation.sendData({
       courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID

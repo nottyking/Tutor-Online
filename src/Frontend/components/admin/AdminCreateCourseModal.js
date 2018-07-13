@@ -283,7 +283,7 @@ export class AdminCreateCourseModal extends React.Component {
                   link: { inDropdown: true },
                   history: { inDropdown: true },
                   image: {
-                    icon: image,
+                    //icon: image,
                     className: undefined,
                     component: undefined,
                     popupClassName: undefined,

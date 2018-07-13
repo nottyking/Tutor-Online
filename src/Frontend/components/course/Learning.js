@@ -33,7 +33,8 @@ export class Learning extends React.Component {
       isloaded: false,
       subcoursesInfo : [],
       now:0,
-      userid : 0
+      userid : 0,
+      progress: '1'
     };
   }
 
@@ -47,14 +48,27 @@ export class Learning extends React.Component {
     var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    console.log(tempInfo);
+    var tempprogress =(await axios.post(ipList.backend + "/learning/progress/query", capsulation.sendData({
+      courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID
+    }))).data;
+    console.log(tempprogress);
+    tempprogress = tempprogress.length <1 ? '0':tempprogress;
     console.log(this.props.match.params.subcourseID);
     var temp = tempInfo.learningInformation;
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
-    this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid});
+    this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid,progress:tempprogress.progress});
     console.log(this.state);
+    
+  }
+
+  async sendProgress(progress){
+    alert()
+    var tempInfo = (await axios.post(ipList.backend + "/learning/progress/store", capsulation.sendData({
+      courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID, progress:progress
+    }))).data;
+    console.log(tempInfo);
   }
 
   render() {
@@ -74,7 +88,7 @@ export class Learning extends React.Component {
           <Row>
             <Col xs='8'>
               <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
-              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} />
+              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} Progress={this.state.progress} sendProgres={this.sendProgress}/>
               <p></p>
               <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
                 <CardTitle>
@@ -89,7 +103,7 @@ export class Learning extends React.Component {
               <br /><br />
               
               <Col xs='4'>
-              <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID}/>
+              <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
               </Col>
           </Row>
         </Container>

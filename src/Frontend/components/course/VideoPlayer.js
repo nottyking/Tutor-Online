@@ -3,6 +3,10 @@ import ReactPlayer from 'react-player';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
+const axios = require('axios')
+const capsulation = require('../../capsulation/SendData')
+const ipList = require('../../../Config/ipConfig')
+
 /*
     use for play video and control (cookie of video progress)
     Prop -> Link to video, UserId , CourseId , SubCourseId
@@ -11,6 +15,7 @@ import Cookies from 'universal-cookie';
 */
 
 //todo is to make cookies accross devices
+
 
 const cookies = new Cookies();
 
@@ -23,23 +28,37 @@ export class VideoPlayer extends React.Component{
         // this.onPause = this.onPause.bind(this);
     }
 
+    async sendProgress(progress){
+        alert()
+        var tempInfo = (await axios.post(ipList.backend + "/learning/progress/store", capsulation.sendData({
+          courseid: this.props.CourseId, subcourseid:this.props.SubCourseId, progress:progress
+        }))).data;
+        console.log(tempInfo);
+      }
+
     onUnload(event) { // the method that will be used for both add and remove event
-        if(this.videoRef.getCurrentTime()!==null)
-        cookies.set(this.props.UserId + '-'+ this.props.CourseId +'-'+ this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        if(this.videoRef.getCurrentTime()!==null){
+            this.sendProgress((this.videoRef.getCurrentTime()).toString() );
+        }
     }
 
     componentDidMount() {
         window.addEventListener("beforeunload", this.onUnload)
-        console.log(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId);
-        console.log(cookies.get(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId));
-        this.videoRef.seekTo(cookies.get(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId));
+        // console.log(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId);
+        // console.log(cookies.get(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId));
+        console.log(this.props.Progress);
+        this.videoRef.seekTo(this.props.Progress);
      }
 
      componentWillUnmount() {
+         alert()
+
         console.log('unmount');
         window.removeEventListener("beforeunload", this.onUnload)
-        if(this.videoRef.getCurrentTime()!==null)
-          cookies.set(this.props.UserId + '-'+ this.props.CourseId +'-'+ this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        if(this.videoRef.getCurrentTime()!==null){
+          this.sendProgress((this.videoRef.getCurrentTime()).toString() );
+        //   cookies.set(this.props.UserId + '-'+ this.props.CourseId +'-'+ this.props.SubCourseId,(this.videoRef.getCurrentTime()).toString() );
+        }
      }
 
     //  onPause = () => {
@@ -52,10 +71,10 @@ export class VideoPlayer extends React.Component{
     //     this.videoRef.seekTo(cookies.get(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId));
     // }
 
-    onClick1 = () =>{
-        console.log('check');
-        console.log(cookies.getAll());
-
+    onClick2 = () =>{
+        if(this.videoRef.getCurrentTime()!==null){
+            this.sendProgress((this.videoRef.getCurrentTime()).toString() );
+        }
     }
 
 
@@ -64,7 +83,6 @@ export class VideoPlayer extends React.Component{
     }
 
     render(){
-        this.onClick1();
         return (
         <div>
         <ReactPlayer ref={this.ref} width='100%'
@@ -78,6 +96,8 @@ VideoPlayer.propTypes = {
     Vlink : PropTypes.string.isRequired,
     UserId : PropTypes.string.isRequired,
     CourseId: PropTypes.string.isRequired,
-    SubCourseId : PropTypes.string.isRequired
+    SubCourseId : PropTypes.string.isRequired,
+    Progress : PropTypes.string.isRequired,
+    sendProgress: PropTypes.func
 }
 

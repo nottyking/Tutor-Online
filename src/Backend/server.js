@@ -34,8 +34,6 @@ for(var i = 0 ; i < routerList.path.length ; i++){
   app.use(nowPath, nowRouteTo);
 }
 
-const server = http.createServer(app);
-
 app.listen(8888, () => {
   console.log('Start server at port 8888.');
 })

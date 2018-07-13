@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import { SubCourseProgressBar } from './SubCourseProgressBar';
 import { Row, Col, Container, Card, CardTitle, CardText } from 'reactstrap';
@@ -6,6 +7,8 @@ import { VideoPlayer } from './VideoPlayer';
 import AuthToken from './../router/AuthToken';
 import { Loading } from '../loading/Loading'
 
+const io = require('socket.io-client');
+const socket = io('http://localhost:4000');
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 const ipList = require('../../../Config/ipConfig')
@@ -34,8 +37,9 @@ export class Learning extends React.Component {
       subcoursesInfo : [],
       now:0,
       userid : 0,
-      progress: '1'
+      progress: '1',
     };
+    this.boardcastToSameUser = this.boardcastToSameUser.bind(this)
   }
 
   async componentWillMount(){
@@ -48,9 +52,12 @@ export class Learning extends React.Component {
     var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
+    await this.boardcastToSameUser()
+    console.log(this.props.match.params.courseID,this.props.match.params.subcourseID);
     var tempprogress =(await axios.post(ipList.backend + "/learning/progress/query", capsulation.sendData({
       courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID
     }))).data;
+    console.log("Finish Query Progress");
     console.log(tempprogress);
     tempprogress = tempprogress.length <1 ? '0':tempprogress;
     console.log(this.props.match.params.subcourseID);
@@ -58,9 +65,28 @@ export class Learning extends React.Component {
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
-    this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid,progress:tempprogress.progress});
+    await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid,progress:tempprogress.progress});
     console.log(this.state);
-    
+
+  }
+
+  async boardcastToSameUser(){
+    console.log("ENTER BOARDCAST");
+    // const loginToken = localStorage.getItem('user');
+    // socket.on('event', (courseid,subcourseid) => {
+    //   console.log("ENTER ON",courseid,subcourseid);
+    //   if(courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID){
+    //     console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
+    //     alert('/learning/' + courseid + '/' + subcourseid)
+        // this.setState({
+        //   redirect: '/learning/' + courseid + '/' + subcourseid
+        // })
+      // }
+    // });
+    await this.setState({
+      redirect: '/learning/1/2'
+    })
+    console.log("Finish socket on");
   }
 
   async sendProgress(progress){
@@ -80,7 +106,11 @@ export class Learning extends React.Component {
     console.log(this.state.subcoursesInfo[this.state.now]);
     //console.log(this.state.subcoursesInfo[this.state.now].subcourseinfo);
 
-   if (this.state.isloaded){
+    if(this.state.redirect){
+      return <Redirect to={this.state.redirect} />;
+    }
+    console.log(this.state.isloaded);
+    if (this.state.isloaded){
     return (
       <div className='App'>
         <AuthToken msgFrom="Learning" />
@@ -99,9 +129,9 @@ export class Learning extends React.Component {
               </CardText>
               </Card>
             </Col>
-            
+
               <br /><br />
-              
+
               <Col xs='4'>
               <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
               </Col>

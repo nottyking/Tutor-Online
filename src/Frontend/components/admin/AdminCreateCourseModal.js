@@ -282,7 +282,7 @@ export class AdminCreateCourseModal extends React.Component {
                   textAlign: { inDropdown: true },
                   link: { inDropdown: true },
                   history: { inDropdown: true },
-                  
+
                 }}
               />
             </FormGroup>

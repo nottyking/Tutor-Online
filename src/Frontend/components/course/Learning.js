@@ -38,22 +38,25 @@ export class Learning extends React.Component {
       now:0,
       userid : 0,
       progress: '1',
+      redirect:'aaa'
     };
     this.boardcastToSameUser = this.boardcastToSameUser.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
   async componentWillMount(){
+    await this.boardcastToSameUser()
     return this.getData();
   }
 
   async getData() {
     // var subcourseInfo = (await axios.post())
-    await this.boardcastToSameUser()
     console.log(this.props.match.params.courseID);
     var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
     console.log(this.props.match.params.courseID,this.props.match.params.subcourseID);
+    alert("SEND")
     var tempprogress =(await axios.post(ipList.backend + "/learning/progress/query", capsulation.sendData({
       courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID
     }))).data;
@@ -65,19 +68,22 @@ export class Learning extends React.Component {
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
+    console.log("SETSTATE");
     await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid,progress:tempprogress.progress});
     console.log(this.state);
 
   }
 
-  async boardcastToSameUser(){
+  boardcastToSameUser(){
     console.log("ENTER BOARDCAST");
+    alert("ENTER BOARDCAST");
     const loginToken = localStorage.getItem('user');
-    socket.on('event', (courseid,subcourseid) => {
+    socket.on('event', async(courseid,subcourseid) => {
       console.log("ENTER ON",courseid,subcourseid);
-      if(courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID){
+      if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
         console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
         alert('/learning/' + courseid + '/' + subcourseid)
+        // this.state.redirect = '/learning/' + courseid + '/' + subcourseid
         this.setState({
           redirect: '/learning/' + courseid + '/' + subcourseid
         })
@@ -105,43 +111,53 @@ export class Learning extends React.Component {
     console.log(this.state.subcoursesInfo[this.state.now]);
     //console.log(this.state.subcoursesInfo[this.state.now].subcourseinfo);
 
-    if(this.state.redirect){
-      return <Redirect to={this.state.redirect} />;
-    }
     console.log(this.state.isloaded);
     if (this.state.isloaded){
-    return (
-      <div className='App'>
-        <AuthToken msgFrom="Learning" />
-        <Container fluid>
-          <Row>
-            <Col xs='8'>
-              <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
-              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} Progress={this.state.progress} sendProgres={this.sendProgress}/>
-              <p></p>
-              <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
-                <CardTitle>
-                  Course Description
-              </CardTitle>
-                <CardText>
-                  {this.state.subcoursesInfo[this.state.now].subcourseinfo}
-              </CardText>
-              </Card>
-            </Col>
+      if(this.state.redirect!='aaa'){
+        alert(1111111);
+        alert(this.state.redirect);
+        return <Redirect to={this.state.redirect} />;
+        // return <div/>
+      }
+      else{
+        alert(2222222);
+        alert(this.state.redirect);
+        return (
+          <div className='App'>
+            <AuthToken msgFrom="Learning" />
+            <Container fluid>
+              <Row>
+                <Col xs='8'>
+                  <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
+                  <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} Progress={this.state.progress} sendProgres={this.sendProgress}/>
+                  <p></p>
+                  <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
+                    <CardTitle>
+                      Course Description
+                  </CardTitle>
+                    <CardText>
+                      {this.state.subcoursesInfo[this.state.now].subcourseinfo}
+                  </CardText>
+                  </Card>
+                </Col>
 
-              <br /><br />
+                  <br /><br />
 
-              <Col xs='4'>
-              <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
-              </Col>
-          </Row>
-        </Container>
-      </div>
-    );
-  }else{
-    return <Loading/>;
-  }
-  }
+                  <Col xs='4'>
+                  <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
+                  </Col>
+              </Row>
+            </Container>
+          </div>
+        );
+      }
+    }
+    else{
+      alert(333333);
+      alert(this.state.redirect);
+      return <Loading/>;
+    }
+}
 }
 
 Learning.propTypes = {

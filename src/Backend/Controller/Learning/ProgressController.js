@@ -11,20 +11,21 @@ async function queryProgress(req, res){
                                                       ['userid','courseid','subcourseid'],[userid,courseid,subcourseid])).result;
 
   console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",userid,courseid,subcourseid);
-  broadcastToSameUserToRedirectThisSubcourse(userid,courseid,subcourseid,req.body.loginToken);
+  // broadcastToSameUserToRedirectThisSubcourse(userid,courseid,subcourseid,req.body.loginToken);
 
   return queryInformation[0];
 
 }
 
-function broadcastToSameUserToRedirectThisSubcourse(userid,courseid,subcourseid,loginToken){
-  console.log("\n\n\nBROADCAST\n\n\n");
-  var io = require('../../Config/socket');
-  io.on('connection', (socket) => {
-    console.log("Socket Connection");
-    socket.emit('event', courseid, subcourseid)
-  });
-}
+// function broadcastToSameUserToRedirectThisSubcourse(userid,courseid,subcourseid,loginToken){
+//   console.log("\n\n\nBROADCAST\n\n\n");
+//   var io = require('../../Config/socket');
+//   io.on('connection', (socket) => {
+//     console.log("\n\n\n------------------------------------------------------------Socket Connection",userid,courseid,subcourseid);
+//     socket.emit('event', courseid, subcourseid)
+//     socket.disconnect(true)
+//   });
+// }
 
 async function storeProgress(req, res){
   console.log("Enter queryProgress in Learningcontroller");

@@ -26,6 +26,8 @@ app.use(async (req,res,next) => {
   await Auth.checkAuthen(req,res,next)
 })
 
+const io = require('./Config/socket');
+
 // All route is in routerList file
 const routerList = require('./routerList');
 for(var i = 0 ; i < routerList.path.length ; i++){

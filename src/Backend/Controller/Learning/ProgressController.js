@@ -3,7 +3,7 @@ const insertFunc = require('../utilityfunction/InsertData')
 
 async function queryProgress(req, res){
   console.log("Enter queryProgress in Learningcontroller");
-  const userid = req.body.userid
+  const userid = req.session.userid
   const courseid = req.body.courseid
   const subcourseid = req.body.subcourseid
   var queryInformation = (await getFunc.getFunction('progress','subcourseprogress',
@@ -13,7 +13,7 @@ async function queryProgress(req, res){
 
 async function storeProgress(req, res){
   console.log("Enter queryProgress in Learningcontroller");
-  const userid = req.body.userid
+  const userid = req.session.userid
   const courseid = req.body.courseid
   const subcourseid = req.body.subcourseid
   const progress = req.body.progress

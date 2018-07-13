@@ -270,11 +270,36 @@ export class AdminCreateCourseModal extends React.Component {
 
             <FormGroup row>
               <Input plaintext> Description </Input>
+
               <Editor
                 editorState={this.state.editorState}
                 wrapperClassName="demo-wrapper"
                 editorClassName="demo-editor"
                 onEditorStateChange={this.onEditorStateChange}
+                toolbar={{
+                  inline: { inDropdown: true },
+                  list: { inDropdown: true },
+                  textAlign: { inDropdown: true },
+                  link: { inDropdown: true },
+                  history: { inDropdown: true },
+                  image: {
+                    icon: image,
+                    className: undefined,
+                    component: undefined,
+                    popupClassName: undefined,
+                    urlEnabled: true,
+                    uploadEnabled: true,
+                    alignmentEnabled: true,
+                    uploadCallback: undefined,
+                    previewImage: false,
+                    inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                    alt: { present: false, mandatory: false },
+                    defaultSize: {
+                      height: 'auto',
+                      width: 'auto',
+                    },
+                  }
+                }}
               />
             </FormGroup>
             <hr></hr>

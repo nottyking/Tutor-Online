@@ -1,5 +1,6 @@
 const getFunc = require('../utilityfunction/GetDataSpecial')
 const insertFunc = require('../utilityfunction/InsertData')
+const updateFunc = require('../utilityfunction/UpdateData')
 
 async function queryProgress(req, res){
   console.log("Enter queryProgress in Learningcontroller");
@@ -17,8 +18,15 @@ async function storeProgress(req, res){
   const courseid = req.body.courseid
   const subcourseid = req.body.subcourseid
   const progress = req.body.progress
-  var insertInformation = (await insertFunc.insertSubCourseProgress(userid,courseid,subcourseid,progress)).result;
-  return insertInformation;
+  var isThisProgressInDB = (await getFunc.getFunction('*','subcourseprogress',
+                                                      ['userid','courseid','subcourseid'],[userid,courseid,subcourseid])).result;
+  if(isThisProgressInDB.length==0){
+    var storeInformation = (await insertFunc.insertSubCourseProgress(userid,courseid,subcourseid,progress)).result;
+  }
+  else{
+    var storeInformation = (await updateFunc.updateSubCourseProgress(['progress'],[progress],['userid','courseid','subcourseid'],[userid,courseid,subcourseid])).result;
+  }
+  return storeInformation;
 }
 
 module.exports = {

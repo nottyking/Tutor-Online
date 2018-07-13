@@ -22,6 +22,14 @@ const updateSubCourseWithCourseID = async(setKey,setValue,whereKey,whereValue) =
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inList:', preparedSQLQuery.inList);
   return await doQuerySQL('subcourse',preparedSQLQuery.sql,preparedSQLQuery.inList)
+} 
+
+const updateSubCourseProgress = async(setKey,setValue,whereKey,whereValue) => {
+  console.log('Enter updateSubCourseProgress in updateData');
+  var preparedSQLQuery = await prepareSQLQuery("subcourseprogress",setKey,setValue,whereKey,whereValue);
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL('subcourse',preparedSQLQuery.sql,preparedSQLQuery.inList)
 }
 
 function prepareSQLQuery(table, setKey, setValue, whereKey, whereValue){
@@ -67,6 +75,7 @@ const updateFunction = {
   updateUserWithUserID : updateUserWithUserID ,
   updateCourseWithCourseID : updateCourseWithCourseID ,
   updateSubCourseWithCourseID : updateSubCourseWithCourseID ,
+  updateSubCourseProgress : updateSubCourseProgress ,
 }
 
 module.exports = updateFunction ;

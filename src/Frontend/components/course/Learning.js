@@ -64,7 +64,6 @@ export class Learning extends React.Component {
   }
 
   async sendProgress(progress){
-    alert()
     var tempInfo = (await axios.post(ipList.backend + "/learning/progress/store", capsulation.sendData({
       courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID, progress:progress
     }))).data;

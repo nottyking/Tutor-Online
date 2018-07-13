@@ -32,7 +32,8 @@ export class Learning extends React.Component {
       freeUser: true,
       isloaded: false,
       subcoursesInfo : [],
-      now:0
+      now:0,
+      userid : 0
     };
   }
 
@@ -43,20 +44,17 @@ export class Learning extends React.Component {
   async getData() {
     // var subcourseInfo = (await axios.post())
     console.log(this.props.match.params.courseID);
-    var temp = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
+    var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
-    console.log(temp);
+    console.log(tempInfo);
     console.log(this.props.match.params.subcourseID);
+    var temp = tempInfo.learningInformation;
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
-    this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow});
+    this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid});
     console.log(this.state);
-  }
-
-  joox(clickvideo){
-    this.setState();
   }
 
   render() {
@@ -76,7 +74,7 @@ export class Learning extends React.Component {
           <Row>
             <Col xs='8'>
               <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
-              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId CourseId SubCourseID/>
+              <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} />
               <p></p>
               <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
                 <CardTitle>

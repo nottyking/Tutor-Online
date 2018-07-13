@@ -5,7 +5,11 @@ async function queryInformation(req, res){
   var courseid = req.body.courseid
   var learningInformation = (await getFunc.getFunction('subcourseid,subcoursename,subcourseinfo,videolink','course natural join subcourse',
                                                       ['courseid','isavailable'],[courseid,1])).result;
-  return learningInformation;
+  learningInformation.userid = req.session.userid
+  return {
+    learningInformation: learningInformation,
+    userid : req.session.userid
+  };
 }
 
 module.exports = {

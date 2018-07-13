@@ -72,20 +72,20 @@ export class Learning extends React.Component {
 
   async boardcastToSameUser(){
     console.log("ENTER BOARDCAST");
-    // const loginToken = localStorage.getItem('user');
-    // socket.on('event', (courseid,subcourseid) => {
-    //   console.log("ENTER ON",courseid,subcourseid);
-    //   if(courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID){
-    //     console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
-    //     alert('/learning/' + courseid + '/' + subcourseid)
-        // this.setState({
-        //   redirect: '/learning/' + courseid + '/' + subcourseid
-        // })
-      // }
-    // });
-    await this.setState({
-      redirect: '/learning/1/2'
-    })
+    const loginToken = localStorage.getItem('user');
+    socket.on('event', (courseid,subcourseid) => {
+      console.log("ENTER ON",courseid,subcourseid);
+      if(courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID){
+        console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
+        alert('/learning/' + courseid + '/' + subcourseid)
+        this.setState({
+          redirect: '/learning/' + courseid + '/' + subcourseid
+        })
+      }
+    });
+    // await this.setState({
+    //   redirect: '/learning/1/2'
+    // })
     console.log("Finish socket on");
   }
 

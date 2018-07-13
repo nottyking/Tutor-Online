@@ -282,23 +282,7 @@ export class AdminCreateCourseModal extends React.Component {
                   textAlign: { inDropdown: true },
                   link: { inDropdown: true },
                   history: { inDropdown: true },
-                  image: {
-                    icon: image,
-                    className: undefined,
-                    component: undefined,
-                    popupClassName: undefined,
-                    urlEnabled: true,
-                    uploadEnabled: true,
-                    alignmentEnabled: true,
-                    uploadCallback: undefined,
-                    previewImage: false,
-                    inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                    alt: { present: false, mandatory: false },
-                    defaultSize: {
-                      height: 'auto',
-                      width: 'auto',
-                    },
-                  }
+                  
                 }}
               />
             </FormGroup>

@@ -78,7 +78,7 @@ export class Learning extends React.Component {
     console.log(tempnow);
     console.log(temp.length);
     console.log("SETSTATE");
-    await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid});
+    await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,progress:tempprogress.progress,userid:tempInfo.userid});
     console.log(this.state);
   }
 

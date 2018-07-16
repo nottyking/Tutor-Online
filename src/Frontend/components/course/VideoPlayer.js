@@ -47,10 +47,12 @@ export class VideoPlayer extends React.Component{
         // console.log(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId);
         // console.log(cookies.get(this.props.UserId +'-'+ this.props.CourseId +'-'+ this.props.SubCourseId));
         console.log(this.props.Progress);
-        this.videoRef.seekTo(this.props.Progress);
+       // this.videoRef.seekTo(this.props.Progress);
      }
 
      componentDidUpdate(){
+         console.log('updated');
+         console.log(this.props.Progress);
         this.videoRef.seekTo(this.props.Progress);
      }
 
@@ -59,6 +61,11 @@ export class VideoPlayer extends React.Component{
 
         console.log('unmount');
         window.removeEventListener("beforeunload", this.onUnload)
+     }
+
+     seek(){
+         console.log('seek to '+this.props.Progress)
+        this.videoRef.seekTo(this.props.Progress);
      }
 
     //  onPause = () => {
@@ -86,7 +93,8 @@ export class VideoPlayer extends React.Component{
         return (
         <div>
         <ReactPlayer ref={this.ref} width='100%'
-        className='react-player' url={this.props.Vlink} className='react-player' playing onPause={this.onPause} onUnload={this.onUnload}/>
+        className='react-player' url={this.props.Vlink} className='react-player' playing onPause={this.onPause} onUnload={this.onUnload}
+        onStart={()=>{this.seek();}}/>
         </div>
         );
     }

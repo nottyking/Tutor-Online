@@ -9,8 +9,9 @@ const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
 const Cookies = require('universal-cookie');
-
 const cookies = new Cookies();
+const HtmlToReactParser = require('html-to-react').Parser;
+const htmlToReactParser = new HtmlToReactParser();
 
 export class CoursePageList extends React.Component {
   constructor(props) {
@@ -56,6 +57,7 @@ export class CoursePageList extends React.Component {
       // courseInfo[17].thumbnail = require('./Image/Course/Thumbnail/Thumbnail21.jpg')
       for (var i = 0; i < courseInfo.length; i++) {
         // console.log(courseInfo[i].thumbnail);
+        courseInfo[i].description = htmlToReactParser.parse(courseInfo[i].description);
         try {
           courseInfo[i].thumbnail = require('../../Image/Course/Thumbnail/Thumbnail' + courseInfo[i].courseid + '.jpg')
         } catch (err) {

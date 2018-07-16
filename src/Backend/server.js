@@ -26,6 +26,8 @@ app.use(async (req,res,next) => {
   await Auth.checkAuthen(req,res,next)
 })
 
+const io = require('./Config/socket');
+
 // All route is in routerList file
 const routerList = require('./routerList');
 for(var i = 0 ; i < routerList.path.length ; i++){
@@ -33,8 +35,6 @@ for(var i = 0 ; i < routerList.path.length ; i++){
   var nowRouteTo = routerList.routeTo[i];
   app.use(nowPath, nowRouteTo);
 }
-
-const server = http.createServer(app);
 
 app.listen(8888, () => {
   console.log('Start server at port 8888.');

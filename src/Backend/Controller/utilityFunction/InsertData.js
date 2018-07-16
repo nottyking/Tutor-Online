@@ -71,6 +71,20 @@ const insertCourseReview = async(courseid,reviewid,userid,description,rating,rev
   return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
 }
 
+const insertSubCourseProgress = async(userid,courseid,subcourseid,progress) => {
+  console.log('Enter insertSubCourseProgress in insertData');
+
+  var preparedSQLQuery = prepareSQLQuery(
+    "subcourseprogress (userid,courseid,subcourseid,progress)",
+    "(?,?,?,?)",
+    [userid,courseid,subcourseid,progress]
+  );
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('valueList:', preparedSQLQuery.valueList);
+  return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
+}
+
 function prepareSQLQuery(insert, valueText, valueList){
   var sql = "INSERT INTO " + insert + " VALUES " + valueText
   return {
@@ -104,6 +118,7 @@ const insertFunction = {
   insertCourse : insertCourse,
   insertSubCourse : insertSubCourse,
   insertCourseReview : insertCourseReview,
+  insertSubCourseProgress: insertSubCourseProgress ,
 }
 
 module.exports = insertFunction ;

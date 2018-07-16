@@ -9,12 +9,14 @@ import AuthToken from './../router/AuthToken';
 const insideStyles1 = { background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)' };
 const insideStyles2 = { background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)' };
 const Cookies = require('universal-cookie');
-
 const cookies = new Cookies();
 
 const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsule = require('../../capsulation/SendData')
+
+
+
 export class Content extends React.Component {
   constructor(props) {
     super(props);

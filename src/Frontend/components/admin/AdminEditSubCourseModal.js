@@ -138,7 +138,6 @@ export class AdminEditSubCourseModal extends React.Component {
     if ((document.getElementById('subcoursename').value > 4 && document.getElementById('subcoursename').value.length < 45)) {
       document.getElementById("subcoursename").classList.remove('is-invalid');
       document.getElementById("subcoursename").classList.add('is-valid');
-      console.log('price true');
       return true;
     }
     document.getElementById("subcoursename").classList.remove('is-valid');
@@ -175,6 +174,12 @@ export class AdminEditSubCourseModal extends React.Component {
     document.getElementById("videolink").classList.remove('is-valid');
     document.getElementById("videolink").classList.add('is-invalid');
     return false;
+  }
+
+  checkAll(){
+    var check1 = this.checkLink();
+    var check2 = this.subcourseNameCheck() ;
+    return (check1 && check2);
   }
 
 
@@ -255,6 +260,9 @@ export class AdminEditSubCourseModal extends React.Component {
                     type='text'
                     id='subcoursename'
                     placeholder='Enter SubCourse Name' />
+                    <FormFeedback>
+              must contain more than 4 characters and not exceed 44
+              </FormFeedback>
                 </FormGroup>
                 <FormGroup row>
                   <Label>
@@ -277,15 +285,12 @@ export class AdminEditSubCourseModal extends React.Component {
                     <FormFeedback>
               Link must in the form of https://player.vimeo.com/video/[video_id] or https://vimeo.com/[video_id] or only video_id is acceptable
               </FormFeedback>
-              <FormFeedback valid id='validlinkfeedback'>
-             
-              </FormFeedback>
-
+              <FormFeedback valid id='validlinkfeedback'/>
                 </FormGroup>
               </Container>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={() => { this.toggleNested(); this.create() }}>Done</Button>{' '}
+              <Button color="primary" onClick={() => { if(this.checkAll()){this.toggleNested(); this.create();} }}>Done</Button>{' '}
               <Button color="secondary" onClick={this.toggleNested}>Cancel</Button>
             </ModalFooter>
           </Modal>

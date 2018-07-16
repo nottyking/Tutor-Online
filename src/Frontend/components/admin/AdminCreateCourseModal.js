@@ -2,6 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Collapse, Button, Form, FormGroup, FormFeedback, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input, FormText, Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Table, Badge } from 'reactstrap'
 import Cookies from 'universal-cookie'
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const cookies = new Cookies()
 const ipList = require('../../../Config/ipConfig')
@@ -17,7 +22,8 @@ export class AdminCreateCourseModal extends React.Component {
     this.state = {
       expireType: 0,
       showThumbnail: '',
-      showBanner: ''
+      showBanner: '',
+      editorState: EditorState.createEmpty()
     }
     this.toggletype = this.toggletype.bind(this);
     this.showBanner = this.bannerChange.bind(this);
@@ -25,6 +31,7 @@ export class AdminCreateCourseModal extends React.Component {
     this.checkInp = this.checkInp.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.saveToDatabase = this.saveToDatabase.bind(this);
+    this.onEditorStateChange = this.onEditorStateChange.bind(this)
     exitfx = this.props.closeModal;
     exitandreloadfx = this.props.closeModalAndReload;
   }
@@ -145,7 +152,7 @@ export class AdminCreateCourseModal extends React.Component {
       coursename: document.getElementById('coursename').value,
       instructor: document.getElementById('instructor').value,
       price: document.getElementById('price').value * 100,
-      description: document.getElementById('description').value,
+      description: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
       limitdurationtype: document.getElementById('limitdurationtype').value,
       limitduration: temp
     }
@@ -193,6 +200,7 @@ export class AdminCreateCourseModal extends React.Component {
     }.bind(this);
     console.log(url)
   }
+
   thumbnailChange = event => {
     var file = document.getElementById('thumbnail').files[0];
     var fileType = file["type"];
@@ -205,6 +213,13 @@ export class AdminCreateCourseModal extends React.Component {
       })
     }.bind(this);
     console.log(url)
+  }
+
+  onEditorStateChange: Function = (editorState) => {
+    console.log("CHANGE:",editorState);
+    this.setState({
+      editorState: editorState,
+    })
   }
 
   render() {
@@ -254,9 +269,22 @@ export class AdminCreateCourseModal extends React.Component {
             </FormGroup>
 
             <FormGroup row>
-              <Input plaintext> Description
-                </Input>
-              <Input type='textarea' id='description' placeholder='Describe the Course' />
+              <Input plaintext> Description </Input>
+
+              <Editor
+                editorState={this.state.editorState}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                onEditorStateChange={this.onEditorStateChange}
+                toolbar={{
+                  inline: { inDropdown: true },
+                  list: { inDropdown: true },
+                  textAlign: { inDropdown: true },
+                  link: { inDropdown: true },
+                  history: { inDropdown: true },
+
+                }}
+              />
             </FormGroup>
             <hr></hr>
             <FormGroup row>

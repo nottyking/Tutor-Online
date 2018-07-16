@@ -6,7 +6,10 @@ import { Row, Col, Container, Card, CardTitle, CardText } from 'reactstrap';
 import { VideoPlayer } from './VideoPlayer';
 import AuthToken from './../router/AuthToken';
 import { Loading } from '../loading/Loading'
+import { history } from '../../redux/helpers'
 
+const universalCookie = require('universal-cookie');
+const cookies = new universalCookie();
 const io = require('socket.io-client');
 const socket = io('http://localhost:4000');
 const axios = require('axios')
@@ -45,53 +48,52 @@ export class Learning extends React.Component {
   }
 
   async componentWillMount(){
-    await this.boardcastToSameUser()
     return this.getData();
   }
 
+  async componentWillReceiveProps(){
+    return this.getData();
+  }
+
+  async componentDidUpdate(){
+    this.boardcastToSameUser()
+  }
+
+  async componentWillUnmount(){
+    socket.close()
+  }
+
   async getData() {
-    // var subcourseInfo = (await axios.post())
-    console.log(this.props.match.params.courseID);
+    console.log(this.props.match.params.courseID,this.props.match.params.subcourseID);
     var tempInfo = (await axios.post(ipList.backend + "/learning/queryInformation", capsulation.sendData({
       courseid: this.props.match.params.courseID
     }))).data;
     console.log(this.props.match.params.courseID,this.props.match.params.subcourseID);
-    alert("SEND")
     var tempprogress =(await axios.post(ipList.backend + "/learning/progress/query", capsulation.sendData({
       courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID
     }))).data;
+    console.log("SENT FINISHED");
     console.log("Finish Query Progress");
-    console.log(tempprogress);
-    tempprogress = tempprogress.length <1 ? '0':tempprogress;
     console.log(this.props.match.params.subcourseID);
     var temp = tempInfo.learningInformation;
     var tempnow = temp.findIndex(i => i.subcourseid == this.props.match.params.subcourseID);
     console.log(tempnow);
     console.log(temp.length);
     console.log("SETSTATE");
-    await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid,progress:tempprogress.progress});
+    await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,userid:tempInfo.userid});
     console.log(this.state);
-
   }
 
   boardcastToSameUser(){
     console.log("ENTER BOARDCAST");
-    alert("ENTER BOARDCAST");
-    const loginToken = localStorage.getItem('user');
-    socket.on('event', async(courseid,subcourseid) => {
+    socket.on(this.state.userid, (courseid,subcourseid) => {
       console.log("ENTER ON",courseid,subcourseid);
       if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
         console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
-        alert('/learning/' + courseid + '/' + subcourseid)
-        // this.state.redirect = '/learning/' + courseid + '/' + subcourseid
-        this.setState({
-          redirect: '/learning/' + courseid + '/' + subcourseid
-        })
+        alert("Going to courseid: "+courseid+", subcourseid: "+subcourseid+'.')
+        history.push('/learning/' + courseid + '/' + subcourseid)
       }
     });
-    // await this.setState({
-    //   redirect: '/learning/1/2'
-    // })
     console.log("Finish socket on");
   }
 
@@ -113,15 +115,7 @@ export class Learning extends React.Component {
 
     console.log(this.state.isloaded);
     if (this.state.isloaded){
-      if(this.state.redirect!='aaa'){
-        alert(1111111);
-        alert(this.state.redirect);
-        return <Redirect to={this.state.redirect} />;
-        // return <div/>
-      }
-      else{
-        alert(2222222);
-        alert(this.state.redirect);
+
         return (
           <div className='App'>
             <AuthToken msgFrom="Learning" />
@@ -151,10 +145,7 @@ export class Learning extends React.Component {
           </div>
         );
       }
-    }
     else{
-      alert(333333);
-      alert(this.state.redirect);
       return <Loading/>;
     }
 }

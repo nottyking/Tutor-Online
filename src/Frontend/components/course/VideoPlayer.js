@@ -50,6 +50,10 @@ export class VideoPlayer extends React.Component{
         this.videoRef.seekTo(this.props.Progress);
      }
 
+     componentDidUpdate(){
+        this.videoRef.seekTo(this.props.Progress);
+     }
+
      componentWillUnmount() {
          alert()
 

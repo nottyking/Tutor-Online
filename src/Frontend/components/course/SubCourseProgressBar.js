@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
+import { history } from '../../redux/helpers'
 import { ButtonGroup, Button, Container,Media,Table } from 'reactstrap';
 import Sidebar from 'react-sidebar';
 import $ from 'jquery';
 import './sidebar.css';
 import { history } from '../../redux/helpers'
 const ipList = require('../../../Config/ipConfig');
+
 
 /* SubCourseProgressBar used in learning window like a sidebar to show where this clip is in the All of clips in the Course
 Get prop Now(subcourseId of this video),Src:[{subcourseId(Sub Course Id), subcourseName, videolink*May Be Not*)}]
@@ -37,6 +39,44 @@ export class SubCourseProgressBar extends React.Component {
         (async () => {
             console.log(await this.vimeoLoadingThumb('id'));
         })()
+        const src = this.props.src;
+        var allSubCourseComponent = []
+        src.map((item, i) => {
+            if(item.videolink.substring(item.videolink.indexOf('o/') + 2)!==-1){
+            allSubCourseComponent.push(new Promise(async (resolve, reject) => {
+                var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
+                if (i == this.props.now) {
+                    resolve(
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid);}} >
+                        <tr>
+                            <td style={{padding:'0px 0px 0px 0px',left:0}}><img src={video} /></td>
+                            <td><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
+                        </tr>
+                        </Button>
+                    )
+                }
+                else {
+                    resolve(
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid);}} >
+                        <tr className='sidevarHoverEl'>
+                            <td style={{padding:'0px 0px 0px 0px',left:0}} className='sidevarHoverEl'><img src={video} /></td>
+                            <td><p>{item.subcoursename.toUpperCase() }</p></td>
+                        </tr>
+                        </Button>
+                    )
+                }
+            }))
+        }else{
+            console.log('error from link :'+item.videolink);
+        }
+        });
+
+        Promise.all(allSubCourseComponent).then((res) => {
+            Medias = res
+            this.setState({ isLoaded: true });
+        }).catch((err) => {
+            console.log("ERROR IN SUBCOURSEPROGRESSBAR");
+        })
 
     }
 
@@ -49,7 +89,11 @@ export class SubCourseProgressBar extends React.Component {
                 var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
                 if (i == this.props.now) {
                     resolve(
+<<<<<<< HEAD
                         <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid)}} >
+=======
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid);}} >
+>>>>>>> 27e996a716d09027135f49977fb7f06e19328e57
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px',left:0}}><img src={video} /></td>
                             <td><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
@@ -59,7 +103,11 @@ export class SubCourseProgressBar extends React.Component {
                 }
                 else {
                     resolve(
+<<<<<<< HEAD
                         <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid)}} >
+=======
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid);}} >
+>>>>>>> 27e996a716d09027135f49977fb7f06e19328e57
                         <tr className='sidevarHoverEl'>
                             <td style={{padding:'0px 0px 0px 0px',left:0}} className='sidevarHoverEl'><img src={video} /></td>
                             <td><p>{item.subcoursename.toUpperCase() }</p></td>

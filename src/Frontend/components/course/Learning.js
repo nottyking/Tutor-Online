@@ -80,6 +80,7 @@ export class Learning extends React.Component {
     console.log("SETSTATE");
     await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,progress:tempprogress.progress,userid:tempInfo.userid});
     console.log(this.state);
+    
   }
 
   async boardcastToSameUser() {

@@ -4,6 +4,7 @@ import { ButtonGroup, Button, Container,Media,Table } from 'reactstrap';
 import Sidebar from 'react-sidebar';
 import $ from 'jquery';
 import './sidebar.css';
+import { history } from '../../redux/helpers'
 const ipList = require('../../../Config/ipConfig');
 
 /* SubCourseProgressBar used in learning window like a sidebar to show where this clip is in the All of clips in the Course
@@ -48,7 +49,7 @@ export class SubCourseProgressBar extends React.Component {
                 var video = await this.vimeoLoadingThumb(item.videolink.substring(item.videolink.indexOf('o/') + 2), i == src.length - 1);
                 if (i == this.props.now) {
                     resolve(
-                        <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid)}} >
                         <tr>
                             <td style={{padding:'0px 0px 0px 0px',left:0}}><img src={video} /></td>
                             <td><p><i class="fa fa-bookmark"></i> {item.subcoursename.toUpperCase()}</p></td>
@@ -58,7 +59,7 @@ export class SubCourseProgressBar extends React.Component {
                 }
                 else {
                     resolve(
-                        <Button className='sidebarHover' style={{width:'100%'}} href={ipList.frontend+'/learning/'+this.props.courseid+'/'+item.subcourseid} >
+                        <Button className='sidebarHover' style={{width:'100%'}} onClick={()=>{history.push('/learning/'+this.props.courseid+'/'+item.subcourseid)}} >
                         <tr className='sidevarHoverEl'>
                             <td style={{padding:'0px 0px 0px 0px',left:0}} className='sidevarHoverEl'><img src={video} /></td>
                             <td><p>{item.subcoursename.toUpperCase() }</p></td>

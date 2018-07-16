@@ -19,7 +19,7 @@ export class CoursePresent extends React.Component {
         const src = this.props.src;
         console.log("Render in Coursepresent src:", src);
         var ListItems;
-        if (this.props.isMobile) {
+        if (this.props.isMobile || window.innerWidth < 780) {
             ListItems = src.map(
                 (item, i) =>
                     <Col xs="auto">

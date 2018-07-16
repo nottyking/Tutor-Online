@@ -37,14 +37,12 @@ export class Learning extends React.Component {
     this.state = {
       freeUser: true,
       isloaded: false,
-      subcoursesInfo : [],
-      now:0,
-      userid : 0,
+      subcoursesInfo: [],
+      now: 0,
+      userid: 0,
       progress: '1',
-      redirect:'aaa'
     };
     this.boardcastToSameUser = this.boardcastToSameUser.bind(this)
-    this.getData = this.getData.bind(this)
   }
 
   async componentWillMount(){
@@ -84,7 +82,7 @@ export class Learning extends React.Component {
     console.log(this.state);
   }
 
-  boardcastToSameUser(){
+  async boardcastToSameUser() {
     console.log("ENTER BOARDCAST");
     socket.on(this.state.userid, (courseid,subcourseid) => {
       console.log("ENTER ON",courseid,subcourseid);
@@ -97,9 +95,9 @@ export class Learning extends React.Component {
     console.log("Finish socket on");
   }
 
-  async sendProgress(progress){
+  async sendProgress(progress) {
     var tempInfo = (await axios.post(ipList.backend + "/learning/progress/store", capsulation.sendData({
-      courseid: this.props.match.params.courseID, subcourseid:this.props.match.params.subcourseID, progress:progress
+      courseid: this.props.match.params.courseID, subcourseid: this.props.match.params.subcourseID, progress: progress
     }))).data;
     console.log(tempInfo);
   }
@@ -113,42 +111,43 @@ export class Learning extends React.Component {
     console.log(this.state.subcoursesInfo[this.state.now]);
     //console.log(this.state.subcoursesInfo[this.state.now].subcourseinfo);
 
-    console.log(this.state.isloaded);
-    if (this.state.isloaded){
-
-        return (
-          <div className='App'>
-            <AuthToken msgFrom="Learning" />
-            <Container fluid>
-              <Row>
-                <Col xs='8'>
-                  <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
-                  <VideoPlayer Vlink={ this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId ={this.props.match.params.subcourseID} Progress={this.state.progress} sendProgres={this.sendProgress}/>
-                  <p></p>
-                  <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
-                    <CardTitle>
-                      Course Description
-                  </CardTitle>
-                    <CardText>
-                      {this.state.subcoursesInfo[this.state.now].subcourseinfo}
-                  </CardText>
-                  </Card>
-                </Col>
-
-                  <br /><br />
-
-                  <Col xs='4'>
-                  <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
-                  </Col>
-              </Row>
-            </Container>
-          </div>
-        );
-      }
-    else{
-      return <Loading/>;
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
     }
-}
+    console.log(this.state.isloaded);
+    if (this.state.isloaded) {
+      return (
+        <div className='App'>
+          <AuthToken msgFrom="Learning" />
+          <Container fluid>
+            <Row>
+              <Col xs='8'>
+                <h3 style={{ textAlign: 'left', padding: 10, textDecoration: 'underline', color: '#FFF' }}>{this.state.subcoursesInfo[this.state.now].subcoursename}</h3>
+                <VideoPlayer Vlink={this.state.subcoursesInfo[this.state.now].videolink} UserId={this.state.userid} CourseId={this.props.match.params.courseID} SubCourseId={this.props.match.params.subcourseID} Progress={this.state.progress} sendProgres={this.sendProgress} />
+                <p></p>
+                <Card body style={{ backgroundColor: '#EEE', padding: 10, marginTop: 10, marginBottom: 20 }}>
+                  <CardTitle>
+                    Course Description
+              </CardTitle>
+                  <CardText>
+                    {this.state.subcoursesInfo[this.state.now].subcourseinfo}
+                  </CardText>
+                </Card>
+              </Col>
+
+              <br /><br />
+
+              <Col xs='4'>
+                <SubCourseProgressBar now={this.state.now} src={this.state.subcoursesInfo} courseid={this.props.match.params.courseID} />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      );
+    } else {
+      return <Loading />;
+    }
+  }
 }
 
 Learning.propTypes = {

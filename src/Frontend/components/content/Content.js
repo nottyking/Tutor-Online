@@ -57,6 +57,7 @@ export class Content extends React.Component {
         } catch (err) {
           courseInfo[i].thumbnail = 'https://dummyimage.com/318x180/ffffff/000000&text=' + courseInfo[i].coursename
         }
+        courseInfo[i].description = htmlToReactParser.parse(courseInfo[i].description);
         // console.log(courseInfo[i].thumbnail);
       }
       this.setState({

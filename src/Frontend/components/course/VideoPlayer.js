@@ -57,14 +57,17 @@ export class VideoPlayer extends React.Component{
     }
 
      componentDidUpdate(){
-         console.log('updated');
-         console.log(this.props.Progress);
         this.videoRef.seekTo(this.props.Progress);
      }
 
-     componentWillUnmount() {
-         alert()
+     componentWillUpdate(){
+        if(this.videoRef.getCurrentTime()!==null){
+            this.sendProgress((this.videoRef.getCurrentTime()).toString() );
+        }
 
+     }
+
+     componentWillUnmount() {
         console.log('unmount');
         window.removeEventListener("beforeunload", this.onUnload)
      }
@@ -114,4 +117,3 @@ VideoPlayer.propTypes = {
     Progress : PropTypes.string.isRequired,
     sendProgress: PropTypes.func
 }
-

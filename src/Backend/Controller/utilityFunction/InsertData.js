@@ -85,6 +85,20 @@ const insertSubCourseProgress = async(userid,courseid,subcourseid,progress) => {
   return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
 }
 
+const insertPackage = async(packagename,description,price,discountprice,isavailable) => {
+  console.log('Enter insertPackage in insertData');
+
+  var preparedSQLQuery = prepareSQLQuery(
+    "package (packagename,description,price,discountprice,isavailable)",
+    "(?,?,?,?,?)",
+    [packagename,description,price,discountprice,isavailable]
+  );
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('valueList:', preparedSQLQuery.valueList);
+  return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
+}
+
 function prepareSQLQuery(insert, valueText, valueList){
   var sql = "INSERT INTO " + insert + " VALUES " + valueText
   return {

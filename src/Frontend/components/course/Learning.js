@@ -10,8 +10,8 @@ import { history } from '../../redux/helpers'
 
 const universalCookie = require('universal-cookie');
 const cookies = new universalCookie();
-const io = require('socket.io-client');
-const socket = io('http://localhost:4000');
+var io;
+var socket;
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 const ipList = require('../../../Config/ipConfig')
@@ -46,6 +46,8 @@ export class Learning extends React.Component {
   }
 
   async componentWillMount(){
+    io = require('socket.io-client');
+    socket = io('http://localhost:4000');
     return this.getData();
   }
 
@@ -54,11 +56,11 @@ export class Learning extends React.Component {
   }
 
   async componentDidUpdate(){
-    this.boardcastToSameUser()
+    // this.boardcastToSameUser()
   }
 
   async componentWillUnmount(){
-    socket.close()
+    // socket.close()
   }
 
   async getData() {
@@ -80,20 +82,20 @@ export class Learning extends React.Component {
     console.log("SETSTATE");
     await this.setState({subcoursesInfo:temp,isloaded:true,now:tempnow,progress:tempprogress.progress,userid:tempInfo.userid});
     console.log(this.state);
-    
+
   }
 
   async boardcastToSameUser() {
-    console.log("ENTER BOARDCAST");
-    socket.on(this.state.userid, (courseid,subcourseid) => {
-      console.log("ENTER ON",courseid,subcourseid);
-      if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
-        console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
-        alert("Going to courseid: "+courseid+", subcourseid: "+subcourseid+'.')
-        history.push('/learning/' + courseid + '/' + subcourseid)
-      }
-    });
-    console.log("Finish socket on");
+    // console.log("ENTER BOARDCAST");
+    // socket.on(this.state.userid, (courseid,subcourseid) => {
+    //   console.log("ENTER ON",courseid,subcourseid);
+    //   if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
+    //     console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
+    //     alert("Going to courseid: "+courseid+", subcourseid: "+subcourseid+'.')
+    //     history.push('/learning/' + courseid + '/' + subcourseid)
+    //   }
+    // });
+    // console.log("Finish socket on");
   }
 
   async sendProgress(progress) {

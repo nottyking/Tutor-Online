@@ -6,6 +6,10 @@ import { Parallax } from 'react-parallax';
 import { CoursePresent } from '../course/CoursePresent'
 import { Loading } from '../loading/Loading'
 import AuthToken from './../router/AuthToken';
+
+const HtmlToReactParser = require('html-to-react').Parser;
+const htmlToReactParser = new HtmlToReactParser();
+
 const insideStyles1 = { background: 'white', padding: 20, position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)' };
 const insideStyles2 = { background: 'white', padding: 20, position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)' };
 const Cookies = require('universal-cookie');

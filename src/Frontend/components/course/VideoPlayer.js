@@ -51,13 +51,6 @@ export class VideoPlayer extends React.Component{
      }
 
      componentDidUpdate(){
-<<<<<<< HEAD
-       alert("DIDUPDATE")
-       alert(this.props.Progress)
-=======
-         console.log('updated');
-         console.log(this.props.Progress);
->>>>>>> 27e996a716d09027135f49977fb7f06e19328e57
         this.videoRef.seekTo(this.props.Progress);
      }
 

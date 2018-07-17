@@ -9,6 +9,7 @@ const createSubCourseController = require('./Course/CreateSubCourseController')
 const editCourseController = require('./Course/EditCourseController');
 const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
+const manageMainPackageController = require('./Package/ManageMainPackageController')
 const manageMainPaymentController = require('./Payment/ManageMainPaymentController')
 // Home
 router.post('/queryinformation', async(req, res) => {
@@ -44,6 +45,11 @@ router.post('/uploadthumbnail',async(req, res) => {
 })
 router.post('/deletecourse', async(req, res) => {
   res.send(await deleteCourseController.deleteCourse(req, res));
+})
+
+// Package
+router.post('/mainpackage', async(req, res) => {
+  res.send(await manageMainPackageController.queryInformation(req, res));
 })
 
 // Payment

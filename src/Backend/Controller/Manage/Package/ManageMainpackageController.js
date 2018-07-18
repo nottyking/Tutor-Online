@@ -3,6 +3,14 @@ const getFunc = require('../../utilityfunction/GetDataSpecial')
 async function queryInformation(req, res){
   console.log("Enter queryInformation in ManageMainPackagecontroller");
   var packageInformation = (await getFunc.getFunction('*','package',[],[])).result;
+  for(var i = 0 ; i < packageInformation.length ; i++){
+    const packageid = packageInformation[i].packageid;
+    packageInformation[i].price = (await getFunc.getFunction('sum(price)',
+                                                'course where courseid IN (SELECT courseid FROM packagecourse WHERE packageid = ' + packageid + ')',
+                                                [],
+                                                [])
+                                              ).result[0]['sum(price)'];
+  }
   return packageInformation;
 }
 

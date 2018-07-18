@@ -99,6 +99,20 @@ const insertPackage = async(packagename,description,price,discountprice,isavaila
   return await doQuerySQL("courseReview",preparedSQLQuery.sql,preparedSQLQuery.valueList);
 }
 
+const insertPackageCourse = async(packageid,courseid) => {
+  console.log('Enter insertPackageCourse in insertData');
+
+  var preparedSQLQuery = prepareSQLQuery(
+    "packagecourse (packageid,courseid)",
+    "(?,?)",
+    [packageid,courseid]
+  );
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('valueList:', preparedSQLQuery.valueList);
+  return await doQuerySQL("insertPackageCourse",preparedSQLQuery.sql,preparedSQLQuery.valueList);
+}
+
 function prepareSQLQuery(insert, valueText, valueList){
   var sql = "INSERT INTO " + insert + " VALUES " + valueText
   return {
@@ -134,6 +148,7 @@ const insertFunction = {
   insertCourseReview : insertCourseReview,
   insertSubCourseProgress: insertSubCourseProgress ,
   insertPackage : insertPackage,
+  insertPackageCourse : insertPackageCourse,
 }
 
 module.exports = insertFunction ;

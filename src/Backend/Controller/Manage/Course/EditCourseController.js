@@ -53,36 +53,6 @@ async function editCourse(course, req, res){
                                                      [courseid])
 }
 
-async function uploadPicture(type, req, res){
-  console.log("Enter uploadPicture");
-  if (req.files){
-    var courseid = req.body.courseid;
-    var fileName = type + courseid + '.jpg';
-    var profileImage = req.files.myFile;
-    var destinationPath = '../Frontend/Image/ProfileImage/' + fileName;
-    return await new Promise(async(resolve, reject) => {
-      resolve(
-        await profileImage.mv(destinationPath, function(err) {
-          if (err){
-            console.log("Move imageprofile ERROR:",err);
-            return{
-              result: false,
-              err: err
-            }
-          }
-          console.log("Move imageprofile SUCCESS");
-          return{
-            result: true,
-            err: null
-          }
-        })
-      )
-    })
-  }
-  else
-    return true;
-}
-
 async function editSubCourse(subCourseList, req, res){
   console.log("Enter editSubCourse in EditCourseController",subCourseList);
   var courseid = req.body.courseid;

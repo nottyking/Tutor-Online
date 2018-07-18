@@ -10,7 +10,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, La
 const pages = ['home', 'course', 'about us', 'Register'];
 const userPages = ['home', 'student', 'course', 'about us'];
 const adminPages = ['home', 'student', 'course', 'about us', 'admin'];
-const adminFunctionPage = ['manage user', 'manage course','manage package'];
+const adminFunctionPage = ['manage user', 'manage course', 'manage package', 'manage sale'];
 
 export default class NavBar extends React.Component {
     constructor(props) {

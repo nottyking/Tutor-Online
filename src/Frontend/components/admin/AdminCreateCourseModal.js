@@ -215,7 +215,7 @@ export class AdminCreateCourseModal extends React.Component {
     console.log(url)
   }
 
-  onEditorStateChange: Function = (editorState) => {
+  onEditorStateChange = (editorState) => {
     console.log("CHANGE:",editorState);
     this.setState({
       editorState: editorState,

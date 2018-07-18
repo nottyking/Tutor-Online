@@ -14,7 +14,7 @@ const axios = require('axios')
 const capsulation = require('../../capsulation/SendData');
 var id; var exitfx; var exitandreloadfx;
 
-export class AdminEditCourseModal extends React.Component {
+export class AdminEditSaleModal extends React.Component {
   constructor(props) {
     super(props)
     const html = this.props.src.description;
@@ -36,8 +36,6 @@ export class AdminEditCourseModal extends React.Component {
       html: html
     }
     this.toggletype = this.toggletype.bind(this);
-    this.showBanner = this.bannerChange.bind(this);
-    this.showThumbnail = this.thumbnailChange.bind(this);
     this.saveToDatabase = this.saveToDatabase.bind(this);
     id = this.props.src.courseid;
     exitfx = this.props.closeModal;
@@ -45,54 +43,7 @@ export class AdminEditCourseModal extends React.Component {
   }
 
   async saveToDatabase() {
-    const bannerFormData = new FormData()
-    const thumbnailFormData = new FormData()
-    bannerFormData.append('myFile', document.getElementById('banner').files[0], cookies.get('loginToken'));
-    bannerFormData.append('courseid', document.getElementById('banner').files[0], id);
-    thumbnailFormData.append('myFile', document.getElementById('thumbnail').files[0], cookies.get('loginToken'));
-    thumbnailFormData.append('courseid', document.getElementById('thumbnail').files[0], id);
-
-    var temp;
-    if (document.getElementById('limitdurationtype').value === '0') {
-      temp = 0;
-    }
-    else if (document.getElementById('limitdurationtype').value === '1') {
-      temp = document.getElementById('limitduration').value;
-    }
-    else {
-      var createdate = new Date(this.props.src.createdate);
-      temp = Math.ceil(((new Date(document.getElementById('expiredate').value)) - createdate) / (24 * 3600 * 1000));
-    }
-
-    var data = {
-      courseid: id,
-      coursename: document.getElementById('coursename').value,
-      instructor: document.getElementById('instructor').value,
-      price: document.getElementById('price').value * 100,
-      description: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
-      isavailable: (document.getElementById('isavailable').checked) ? '1' : '0',
-      limitdurationtype: document.getElementById('limitdurationtype').value,
-      limitduration: temp
-
-    }
-    //console.log(data);
-    //console.log((document.getElementById('isavailable').checked));
-    var temp = (await axios.post(ipList.backend + "/manage/editcourse", capsulation.sendData({
-      course: {
-        courseid: data.courseid,
-        coursename: data.coursename,
-        instructor: data.instructor,
-        price: data.price,
-        description: data.description,
-        isavailable: data.isavailable,
-        limitdurationtype: data.limitdurationtype,
-        limitduration: data.limitduration
-      }
-    }))).data
-    var temp2 = (await axios.post(ipList.backend + "/manage/uploadbanner", bannerFormData)).data
-    var temp3 = (await axios.post(ipList.backend + "/manage/uploadthumbnail", thumbnailFormData)).data
-    exitandreloadfx();
-    return true;
+    //Waiting for send props to database
   }
 
   toggletype = event => {
@@ -102,61 +53,19 @@ export class AdminEditCourseModal extends React.Component {
     });
   }
 
-  bannerChange = event => {
-    var file = document.getElementById('banner').files[0];
-    var reader = new FileReader();
-    var url = reader.readAsDataURL(file);
-    reader.onloadend = function (e) {
-      this.setState({
-        showBanner: [reader.result]
-      })
-    }.bind(this);
-    //console.log(url)
-  }
-  thumbnailChange = event => {
-    var file = document.getElementById('thumbnail').files[0];
-    var reader = new FileReader();
-    var url = reader.readAsDataURL(file);
-    reader.onloadend = function (e) {
-      this.setState({
-        showThumbnail: [reader.result]
-      })
-    }.bind(this);
-    //console.log(url)
-  }
-  courseNameCheck() {
-    if (document.getElementById('coursename').value.length > 3 && document.getElementById('coursename').value.length < 46) {
-      document.getElementById("coursename").classList.remove('is-invalid');
-      document.getElementById("coursename").classList.add('is-valid');
-      return true;
-    }
-    document.getElementById("coursename").classList.remove('is-valid');
-    document.getElementById("coursename").classList.add('is-invalid');
-    return false;
+  salesPriceCheck() {
+    //Check this price is lessthan full price
   }
 
-  instructorCheck() {
-    if (document.getElementById('instructor').value.length > 0 && document.getElementById('instructor').value.length < 46) {
-      document.getElementById("instructor").classList.remove('is-invalid');
-      document.getElementById("instructor").classList.add('is-valid');
-      return true;
-    }
-    document.getElementById("instructor").classList.remove('is-valid');
-    document.getElementById("instructor").classList.add('is-invalid');
-    return false;
+  managePercentSale(){
+    this.salesPriceCheck(); //Check valid price
+    //Change percent of sale show
+    //Also, change the price to input Percent
   }
 
-
-  priceCheck() {
-    if (!isNaN(document.getElementById('price').value) && (document.getElementById('price').value > 20 && document.getElementById('price').value < 10000) || document.getElementById('price').value === '0') {
-      document.getElementById("price").classList.remove('is-invalid');
-      document.getElementById("price").classList.add('is-valid');
-      //console.log('price true');
-      return true;
-    }
-    document.getElementById("price").classList.remove('is-valid');
-    document.getElementById("price").classList.add('is-invalid');
-    return false;
+  managePriceSale(){
+    //Change sale price
+    //Also, calculate percent of sale and show
   }
 
   limitdurationCheck() {
@@ -194,7 +103,6 @@ export class AdminEditCourseModal extends React.Component {
 
     }
     return true
-
   }
 
   checkAll = () => {
@@ -212,7 +120,7 @@ export class AdminEditCourseModal extends React.Component {
     });
   }
 
-  onEditorStateChange = (editorState) => {
+  onEditorStateChange(editorState) {
     //console.log("CHANGE:", editorState);
     this.setState({
       editorState: editorState,
@@ -233,37 +141,14 @@ export class AdminEditCourseModal extends React.Component {
           {' '}
           <Form>
             <hr></hr>
+            
             <FormGroup row>
               <Label>
-                Course Name
+                Sale Price (Thai Baht)
               </Label>
               <Input
-                type='text'
-                id='coursename'
-                defaultValue={this.props.src.coursename}
-                onChange={this.courseNameCheck}
-                placeholder='Enter Course Name' />
-              <FormFeedback>Course Name must have length between 4-45</FormFeedback>
-            </FormGroup>
-            <FormGroup row>
-              <Label>
-                Instructor
-              </Label>
-              <Input
-                type='instructor'
-                id='instructor'
-                defaultValue={this.props.src.instructor}
-                onChange={this.instructorCheck}
-                placeholder='Enter Instructor' />
-              <FormFeedback>Instructor name must contain at least 1 character(put '-' when not have any)</FormFeedback>
-            </FormGroup>
-            <FormGroup row>
-              <Label>
-                Price (Thai Baht)
-              </Label>
-              <Input
-                type='price'
-                id='price'
+                type='salePrice'
+                id='salePrice'
                 defaultValue={this.props.src.price / 100}
                 onChange={this.priceCheck}
                 placeholder='Enter Course price in Thai Baht' />
@@ -384,7 +269,7 @@ export class AdminEditCourseModal extends React.Component {
   }
 }
 
-AdminEditCourseModal.propTypes = {
+AdminEditSaleModal.propTypes = {
   src: PropTypes.shape({
     courseid: PropTypes.string.isRequired,
     coursename: PropTypes.string.isRequired,

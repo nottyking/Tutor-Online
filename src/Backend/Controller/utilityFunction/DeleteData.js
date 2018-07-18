@@ -30,6 +30,36 @@ const deleteOneSubCourse = async(courseid, subcourseid) => {
   return await doQuerySQL("deleteOneSubCourse",preparedSQLQuery.sql,preparedSQLQuery.inList);
 }
 
+const deleteOnePackageCourse = async(packageid, courseid) => {
+  console.log('Enter deleteOnePackageCourse in deleteData');
+
+  var preparedSQLQuery = prepareSQLQuery('packagecourse',['packageid','courseid'],[packageid,courseid]);
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL("deleteOnePackageCourse",preparedSQLQuery.sql,preparedSQLQuery.inList);
+}
+
+const deletePackage = async(packageid) => {
+  console.log('Enter deletePackage in deleteData');
+
+  var preparedSQLQuery = prepareSQLQuery('package',['packageid'],[packageid]);
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL("deletePackage",preparedSQLQuery.sql,preparedSQLQuery.inList);
+}
+
+const deletePackageCourse = async(packageid) => {
+  console.log('Enter deletePackageCourse in deleteData');
+
+  var preparedSQLQuery = prepareSQLQuery('packagecourse',['packageid'],[packageid]);
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL("deletePackageCourse",preparedSQLQuery.sql,preparedSQLQuery.inList);
+}
+
 function prepareSQLQuery(deletedTable, whereKeyList, whereValueList){
   var sql = "DELETE FROM " + deletedTable + " WHERE " + whereKeyList[0] + " = ?"
   var inList = [whereValueList[0]]
@@ -64,7 +94,10 @@ function doQuerySQL(table, sql, inList){
 const deleteFunction = {
   deleteCourse : deleteCourse ,
   deleteSubCourse : deleteSubCourse ,
-  deleteOneSubCourse : deleteOneSubCourse , 
+  deleteOneSubCourse : deleteOneSubCourse ,
+  deletePackage : deletePackage ,
+  deletePackageCourse : deletePackageCourse ,
+  deleteOnePackageCourse : deleteOnePackageCourse,
 }
 
 module.exports = deleteFunction ;

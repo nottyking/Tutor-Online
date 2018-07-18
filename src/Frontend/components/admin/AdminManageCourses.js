@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames';
 import { AdminEditCourseModal } from './AdminEditCourseModal';
+import { AdminEditSaleModal } from './AdminEditSaleModal';
 import { AdminCreateCourseModal } from './AdminCreateCourseModal';
 import { AdminEditSubCourseModal } from './AdminEditSubCourseModal';
 import { AdminDeleteCourseModal } from './AdminDeleteCourseModal';
@@ -366,6 +367,18 @@ export class AdminManageCourses extends React.Component {
     modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
+  toggleSale(x) {
+    this.setState({
+      modalHeader: 'Sale Course',
+      modalOpen: !this.state.modalOpen
+    });
+    var courseinfo = this.state.courseInfo;
+    if (this.state.ishideUnavailable)
+      courseinfo = this.state.courseHideInfo;
+    modalComponent = (x < 0) ? '' : (<AdminEditSaleModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+
+  }
+
   toggleCreate() {
     console.log(this.state.modalOpen);
     this.setState({
@@ -429,6 +442,7 @@ export class AdminManageCourses extends React.Component {
           <td style={{ width: 150, maxWidth: 150 }}>{(item.price / 100).toLocaleString('en')} ฿</td>
           <td style={{ width: 180 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
             <Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleSubcourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
+            <Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleSale(i) }}><i class="fa fa-dollar" /></Button>{' '}
             <Button color='danger' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>
         </tr>
       );

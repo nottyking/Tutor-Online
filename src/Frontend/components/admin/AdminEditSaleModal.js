@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, FormGroup, ModalBody, Label, Input, Container, Collapse, Card, CardBody, FormFeedback, InputGroup, InputGroupAddon, InputGroupButtonDropdown } from 'reactstrap'
+import { Button, Form, FormGroup, ModalBody, Label, Input, Container, Collapse, Card, CardBody, FormFeedback, InputGroup,InputGroupText, InputGroupAddon, InputGroupButtonDropdown } from 'reactstrap'
 import Cookies from 'universal-cookie'
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
@@ -13,6 +13,7 @@ const ipList = require('../../../Config/ipConfig')
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData');
 var id; var exitfx; var exitandreloadfx;
+const DefaultDiscountField = { discount: 0, salePrice: 0, percent: 0, startDate: '2000-01-01', endDate: '2000-01-01' };
 
 export class AdminEditSaleModal extends React.Component {
     constructor(props) {
@@ -33,17 +34,55 @@ export class AdminEditSaleModal extends React.Component {
             editorState: editorState,
             contentState: contentState,
             contentBlock: contentBlock,
-            html: html
+            html: html,
+            discountField: DefaultDiscountField
         }
         this.toggletype = this.toggletype.bind(this);
         this.saveToDatabase = this.saveToDatabase.bind(this);
+        this.manageDiscountPrice = this.manageDiscountPrice.bind(this);
+        this.managePercentSale = this.managePercentSale.bind(this);
+        this.managePriceSale = this.managePriceSale.bind(this);
         id = this.props.src.courseid;
         exitfx = this.props.closeModal;
         exitandreloadfx = this.props.closeModalAndReload;
     }
 
+    componentWillMount() {
+        this.getDiscountField();
+    }
+
+    componentWillUpdate() {
+        console.log(this.state.discountField)
+    }
+
     async saveToDatabase() {
         //Waiting for send props to database
+    }
+
+    getDiscountField() {
+        //Get salePrice & date from discount database
+        if (false /*have salePrice value*/) {
+            this.setState({
+                discountField: {
+                    salePrice: 'sale Price from database',
+                    discount: (this.props.src.price * 0.01) - ('sale Price from database'),
+                    percent: 1 - (('sale Price from database') * 100 / (this.props.src.price * 0.01)),
+                    startDate: 'Start Date from database',
+                    endDate: 'End Date from database'
+                }
+            })
+        } else {
+            this.setState({
+                discountField: {
+                    salePrice: (this.props.src.price * 0.01),
+                    discount: 0,
+                    percent: 0,
+                    startDate: new Date(),
+                    endDate: new Date()
+                }
+            })
+        }
+
     }
 
     toggletype = event => {
@@ -53,24 +92,36 @@ export class AdminEditSaleModal extends React.Component {
         });
     }
 
-    salesPriceCheck() {
-        //Check this price is lessthan full price, not < 0
-    }
-
     managePercentSale() {
-        this.salesPriceCheck(); //Check valid price
-        //Change percent of sale show
-        //Also, change the price to input Percent & discount
+
     }
 
     managePriceSale() {
-        //Change sale price
-        //Also, calculate percent of sale & discount and show
+        const fullPrice = this.props.src.price * 0.01;
+        const salePrice = document.getElementById('salePrice').value;
+
+        if (fullPrice >= salePrice && (salePrice > 20 || salePrice == 0)) {
+            var discount = fullPrice - salePrice;
+            var percent = discount * 100 / fullPrice;
+            document.getElementById('discount').value = discount;
+            document.getElementById('salePercent').value = percent.toFixed(2);
+
+            document.getElementById("salePrice").classList.remove('is-invalid');
+            document.getElementById("salePrice").classList.add('is-valid');
+            return true;
+
+        } else {
+            document.getElementById('discount').value = 'Exceed Original Price or Not valid';
+            document.getElementById('salePercent').value = 'Exceed 100% or Not valid';
+
+            document.getElementById("salePrice").classList.remove('is-valid');
+            document.getElementById("salePrice").classList.add('is-invalid');
+            return false;
+        }
     }
 
     manageDiscountPrice() {
-        //Change discount price
-        //Also, calculate percent of sale & priceSale
+        
     }
 
     limitdurationCheck() {
@@ -111,9 +162,9 @@ export class AdminEditSaleModal extends React.Component {
     }
 
     checkAll = () => {
-        var check1 = this.courseNameCheck()
-        var check2 = this.instructorCheck();
-        var check3 = this.priceCheck()
+        var check1 = true
+        var check2 = true
+        var check3 = true
         var check4 = this.limitdurationCheck()
         return (this.expireDateCheck() && check1 && check2 && check3 && check4);
     }
@@ -149,54 +200,46 @@ export class AdminEditSaleModal extends React.Component {
                         <FormGroup row>
                             <Label>Manage Price (Thai Baht)</Label>
                             <InputGroup>
-                                <InputGroupAddon addonType="prepend">
-                                    <Button color='success' disabled style={{minWidth: 110}}>Full Price</Button>
+                                    <Button color='success' disabled style={{ minWidth: 110 }}>Full Price</Button>
                                     <Input disabled
                                         defaultValue={this.props.src.price / 100}
                                     />
-                                </InputGroupAddon>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup row>
                             <InputGroup>
-                                <InputGroupAddon addonType="prepend">
-                                    <Button color='primary' disabled style={{minWidth: 110}}>Discount</Button>
+                                    <Button color='primary' disabled style={{ minWidth: 110 }}>Discount</Button>
                                     <Input
                                         type='discount'
                                         id='discount'
-                                        defaultValue={0} //Waiting for change
-                                        onChange={this.managePercentSale}
+                                        defaultValue={this.state.discountField.discount} //Waiting for change
+                                        onChange={this.manageDiscountPrice}
                                         placeholder='Enter Discount price in Thai Baht' />
                                     <FormFeedback>Discount must be a number ,between 20 and Full price, or 0 and not have all of symbol ex. ',' , '฿'</FormFeedback>
-                                </InputGroupAddon>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup row>
                             <InputGroup>
-                                <InputGroupAddon addonType="prepend">
-                                    <Button color='primary' disabled style={{minWidth: 110}}>Sale Price</Button>
+                                    <Button color='primary' disabled style={{ minWidth: 110 }}>Sale Price</Button>
                                     <Input
                                         type='salePrice'
                                         id='salePrice'
-                                        defaultValue={this.props.src.price / 100} //Waiting for change
+                                        defaultValue={this.state.discountField.salePrice} //Waiting for change
                                         onChange={this.managePriceSale}
                                         placeholder='Enter Sale price in Thai Baht' />
                                     <FormFeedback>Sale price must be a number ,between 20 and Full price, or 0 and not have all of symbol ex. ',' , '฿'</FormFeedback>
-                                </InputGroupAddon>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup row>
                             <InputGroup>
-                                <InputGroupAddon addonType="prepend">
-                                    <Button color='primary' disabled style={{minWidth: 110}}>Sale %</Button>
+                                    <Button color='primary' disabled style={{ minWidth: 110 }}>Sale %</Button>
                                     <Input
                                         type='salePercent'
                                         id='salePercent'
-                                        defaultValue={0} //Waiting for change
+                                        defaultValue={this.state.discountField.percent} //Waiting for change
                                         onChange={this.managePercentSale}
                                         placeholder='Enter % discount in Thai Baht' />
                                     <FormFeedback>% must be a number ,between 0-100 and not have all of symbol ex. ',' , '฿'</FormFeedback>
-                                </InputGroupAddon>
                             </InputGroup>
                         </FormGroup>
 

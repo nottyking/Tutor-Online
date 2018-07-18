@@ -7,7 +7,7 @@ async function createPackage(req, res){
   var description = req.body.description;
   var price = 0;
   var discountprice = 0;
-  var isavailable = req.body.isavailable;
+  var isavailable = 0;
   return await insertFunc.insertPackage(packagename,description,price,discountprice,isavailable);
 }
 module.exports = {

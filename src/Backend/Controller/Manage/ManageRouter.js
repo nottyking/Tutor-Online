@@ -11,7 +11,7 @@ const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
 const manageMainPackageController = require('./Package/ManageMainPackageController')
 const createPackageController = require('./Package/CreatePackageController');
-// const editPackageController = require('./Package/EditPackageController')
+const editPackageController = require('./Package/EditPackageController')
 const editPackageCourseController = require('./Package/EditPackageCourseController')
 const uploadImagePackageController = require('./Package/UploadImageController')
 const deletePackageController = require('./Package/DeletePackageController')
@@ -55,6 +55,9 @@ router.post('/deletecourse', async(req, res) => {
 // Package
 router.post('/package/main', async(req, res) => {
   res.send(await manageMainPackageController.queryInformation(req, res));
+})
+router.post('/package/querypackagecourse', async(req, res) => {
+  res.send(await manageMainPackageController.queryPackageCourse(req, res));
 })
 router.post('/package/create', async(req, res) => {
   res.send(await createPackageController.createPackage(req, res));

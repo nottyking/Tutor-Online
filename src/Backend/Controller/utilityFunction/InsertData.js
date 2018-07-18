@@ -133,6 +133,7 @@ const insertFunction = {
   insertSubCourse : insertSubCourse,
   insertCourseReview : insertCourseReview,
   insertSubCourseProgress: insertSubCourseProgress ,
+  insertPackage : insertPackage,
 }
 
 module.exports = insertFunction ;

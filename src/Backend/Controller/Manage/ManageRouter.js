@@ -11,6 +11,8 @@ const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
 const manageMainPackageController = require('./Package/ManageMainPackageController')
 const createPackageController = require('./Package/CreatePackageController');
+// const editPackageController = require('./Package/EditPackageController')
+const editPackageCourseController = require('./Package/EditPackageCourseController')
 const uploadImagePackageController = require('./Package/UploadImageController')
 const manageMainPaymentController = require('./Payment/ManageMainPaymentController')
 // Home
@@ -54,13 +56,19 @@ router.post('/package/main', async(req, res) => {
   res.send(await manageMainPackageController.queryInformation(req, res));
 })
 router.post('/package/create', async(req, res) => {
-  res.send(await createCourseController.createPackage(req, res));
+  res.send(await createPackageController.createPackage(req, res));
 })
 router.post('/package/uploadbanner',async(req, res) => {
   res.send(await uploadImageController.uploadImage('Banner',req, res));
 })
 router.post('/package/uploadthumbnail',async(req, res) => {
   res.send(await uploadImageController.uploadImage('Thumbnail',req, res));
+})
+router.post('/package/editinfo',async(req, res) => {
+  res.send(await editPackageController.editPackage(req, res));
+})
+router.post('/package/editcourseinfo',async(req, res) => {
+  res.send(await editPackageCourseController.editPackageCourse(req, res));
 })
 
 // Payment

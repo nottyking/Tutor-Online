@@ -56,9 +56,15 @@ export class AdminEditSaleModal extends React.Component {
             coursediscountcreatedate: document.getElementById('startdate').value,
             coursediscountexpireddate: document.getElementById('enddate').value,
         }
+
+        //SEND ABOVE DATA TO DATABASE///////////////////////
+
+
+
+        ////////////////////////////////////////////////////
         console.log(data)
         alert("[Course Discount Saved]\nCourse id: " + data.courseid + "\nSale price: " + ((data.coursediscountprice * 0.01).toFixed(2)) + " ฿\nStart Date: " + data.coursediscountcreatedate + "\nEnd Date: " + data.coursediscountexpireddate);
-        //exitandreloadfx();
+        exitandreloadfx();
         return true;
     }
 

@@ -58,7 +58,9 @@ export class AdminEditSaleModal extends React.Component {
         }
 
         //SEND ABOVE DATA TO DATABASE///////////////////////
-
+        // var temp = (await axios.post(ipList.backend + "/manage/discountcourse/editdiscount", capsulation.sendData({
+        //   data
+        // }))).data
 
 
         ////////////////////////////////////////////////////

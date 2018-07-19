@@ -16,7 +16,7 @@ import { CoursePageList } from './../course/CoursePageList';
 import { AdminManageUsers } from './../admin/AdminManageUsers';
 import { AdminManageCourses } from './../admin/AdminManageCourses';
 import { AdminManagePackages } from './../admin/AdminManagePackages';
-import { AdminManageSales } from '../admin/AdminManageSales';
+import { AdminManageDiscounts } from '../admin/AdminManageDiscount';
 
 class BrowserRouterManager extends React.Component {
 
@@ -53,7 +53,7 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/admin_manage_user" component={(userType === "admin") ? AdminManageUsers : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path="/admin_manage_course" component={(userType === "admin") ? AdminManageCourses : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path="/admin_manage_package" component={(userType === "admin") ? AdminManagePackages : () => { return (<Redirect to={'/'} />) }} />
-                    <Route exact path="/admin_manage_sale" component={(userType === "admin") ? AdminManageSales : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/admin_manage_discount" component={(userType === "admin") ? AdminManageDiscounts : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />
                 </Switch>
             </div >

@@ -55,7 +55,7 @@ const MyLoader2 = props => (
   </ContentLoader>
 );
 
-export class AdminManageSales extends React.Component {
+export class AdminManageDiscounts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -471,7 +471,7 @@ export class AdminManageSales extends React.Component {
           <Card style={{ background: '#444', padding: 20 }}>
             <Row className="justify-content-between" style={{ color: 'white' }}>
               <Col xs='auto'>
-                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>Sale Management</Input>
+                <Input plaintext style={{ color: 'white', fontSize: 'large', fontWeight: 'bold' }}>Discount Management</Input>
               </Col>
               <Col xs='auto'>
                 <Form inline style={{ display: 'block', zIndex: 100 }}>
@@ -550,12 +550,12 @@ export class AdminManageSales extends React.Component {
                         style={{ color: this.state.sortmode == 2 || this.state.sortmode == 3 ? '' : '#AAA' }} /></Badge>
                     </th>
                     <th>
-                      <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>{"  Instructor  "}&nbsp;</span>
+                      <span onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }}>{"  Sale Price  "}&nbsp;</span>
                       <Badge color={this.state.sortmode == 4 || this.state.sortmode == 5 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 4 ? this.sortCourse(5) : this.sortCourse(4); }} ><i class={this.state.sortmode == 4 ? "fa fa-sort-amount-asc " : this.state.sortmode == 5 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 4 || this.state.sortmode == 5 ? '' : '#AAA' }} /></Badge>
                     </th>
                     <th>
-                      <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>{"  Price  "}&nbsp;</span>
+                      <span onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }}>{"  Original Price  "}&nbsp;</span>
                       <Badge color={this.state.sortmode == 6 || this.state.sortmode == 7 ? 'success' : 'secondary'} onClick={() => { this.state.sortmode == 6 ? this.sortCourse(7) : this.sortCourse(6); }} ><i class={this.state.sortmode == 6 ? "fa fa-sort-amount-asc " : this.state.sortmode == 7 ? "fa fa-sort-amount-desc" : "fa fa-align-center"}
                         style={{ color: this.state.sortmode == 6 || this.state.sortmode == 7 ? '' : '#AAA' }} /></Badge>
                     </th>

@@ -9,6 +9,7 @@ import './CourseImg.css';
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
 get src [ List of {coursename(Coursename),thumbnail(Link To CourseThumbnailImage),courselink(Link to Course),description(Course Description)}]
+present all courses that available
 */
 
 //Todo add Link to Course

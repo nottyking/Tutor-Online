@@ -2,19 +2,24 @@ const app = require('express')
 const router = app.Router();
 const manageMainController = require('./ManageMainController');
 const manageMainUserController = require('./User/ManageMainUsercontroller')
-const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
+
 const editUserController = require('./User/EditUserController')
+
+const userEnrolledCourseController = require('./User/UserEnrolledCourseController')
 const createCourseController = require('./Course/CreateCourseController');
 const createSubCourseController = require('./Course/CreateSubCourseController')
 const editCourseController = require('./Course/EditCourseController');
 const deleteCourseController = require('./Course/DeleteCourseController');
 const uploadImageController = require('./Course/UploadImageController')
+const couseDiscountController = require('./Course/CourseDiscountController')
+
 const manageMainPackageController = require('./Package/ManageMainPackageController')
 const createPackageController = require('./Package/CreatePackageController');
 const editPackageController = require('./Package/EditPackageController')
 const editPackageCourseController = require('./Package/EditPackageCourseController')
 const uploadImagePackageController = require('./Package/UploadImageController')
 const deletePackageController = require('./Package/DeletePackageController')
+
 const manageMainPaymentController = require('./Payment/ManageMainPaymentController')
 // Home
 router.post('/queryinformation', async(req, res) => {
@@ -51,6 +56,9 @@ router.post('/uploadthumbnail',async(req, res) => {
 router.post('/deletecourse', async(req, res) => {
   res.send(await deleteCourseController.deleteCourse(req, res));
 })
+router.post('/coursediscount/queryinformation', async(req, res) => {
+  res.send(await couseDiscountController.queryInformation(req, res));
+})
 
 // Package
 router.post('/package/main', async(req, res) => {
@@ -63,10 +71,10 @@ router.post('/package/create', async(req, res) => {
   res.send(await createPackageController.createPackage(req, res));
 })
 router.post('/package/uploadbanner',async(req, res) => {
-  res.send(await uploadImageController.uploadImage('Banner',req, res));
+  res.send(await uploadImagePackageController.uploadImage('Banner',req, res));
 })
 router.post('/package/uploadthumbnail',async(req, res) => {
-  res.send(await uploadImageController.uploadImage('Thumbnail',req, res));
+  res.send(await uploadImagePackageController.uploadImage('Thumbnail',req, res));
 })
 router.post('/package/edit',async(req, res) => {
   res.send(await editPackageController.editPackage(req, res));

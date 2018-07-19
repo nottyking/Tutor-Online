@@ -109,7 +109,7 @@ export class AdminManageDiscounts extends React.Component {
       isloaded: false
     });
     console.log("GetIt");
-    var temp1 = (await axios.post(ipList.backend + "/manage/queryInformation", capsule.sendData({
+    var temp1 = (await axios.post(ipList.backend + "/manage/coursediscount/queryinformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
     allcourses = temp1;

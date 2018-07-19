@@ -2,7 +2,7 @@ import axios from 'axios'
 import ipList from '../../../Config/ipConfig'
 import Cookies from 'universal-cookie';
 import { securityControl } from '../helpers';
-import { authorizeConstants } from './../constants/AuthorizeConstants';
+import { authorizeConstants } from '../constants/AuthorizeConstants';
 
 const cookies = new Cookies();
 const maxAge = 1 * 31 * 60 * 60;

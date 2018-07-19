@@ -52,17 +52,20 @@ export class AdminEditSaleModal extends React.Component {
         //Waiting for send props to database
         const data = {
             courseid: this.props.src.courseid,
+            coursediscountid: this.props.src.coursediscountid,
             coursediscountprice: isNaN(parseInt((document.getElementById('salePrice').value * 100).toFixed(0))) ? 0 : parseInt((document.getElementById('salePrice').value * 100).toFixed(0)),
             coursediscountcreatedate: document.getElementById('startdate').value,
             coursediscountexpireddate: document.getElementById('enddate').value,
         }
-
+        console.log(data);
         //SEND ABOVE DATA TO DATABASE///////////////////////
-        // var temp = (await axios.post(ipList.backend + "/manage/discountcourse/editdiscount", capsulation.sendData({
-        //   data
-        // }))).data
-
-
+        var temp = (await axios.post(ipList.backend + "/manage/coursediscount/edit", capsulation.sendData({
+          courseid: this.props.src.courseid,
+          coursediscountid: this.props.src.coursediscountid,
+          coursediscountprice: isNaN(parseInt((document.getElementById('salePrice').value * 100).toFixed(0))) ? 0 : parseInt((document.getElementById('salePrice').value * 100).toFixed(0)),
+          coursediscountcreatedate: document.getElementById('startdate').value,
+          coursediscountexpireddate: document.getElementById('enddate').value,
+        }))).data
         ////////////////////////////////////////////////////
         console.log(data)
         alert("[Course Discount Saved]\nCourse id: " + data.courseid + "\nSale price: " + ((data.coursediscountprice * 0.01).toFixed(2)) + " ฿\nStart Date: " + data.coursediscountcreatedate + "\nEnd Date: " + data.coursediscountexpireddate);

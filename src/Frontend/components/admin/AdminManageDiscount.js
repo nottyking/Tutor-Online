@@ -70,16 +70,11 @@ export class AdminManageDiscounts extends React.Component {
       splitSortButtonOpen: false,
       searchType: 'All',
       searchWord: '',
-      //Sort 0 : by courseid assending, 1 : by courseid decreasing ,2: by coursename ass,
-      // See "https://docs.google.com/spreadsheets/d/1lYKSrloHOo-Sj_Xzs-GpRVDH6igA5GcvTtXoHaZdom8/edit?usp=sharing" for more info
       sortmode: -1,
       sortmodeIcon: -1,
       sortmodeName: 'None'
-    }
+    };
     //this.getDatabaseValue = this.getDatabaseValue.bind(this);
-    this.toggleEdit = this.toggleEdit.bind(this);
-    this.toggleCreate = this.toggleCreate.bind(this);
-    this.toggleSubcourse = this.toggleSubcourse.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.changeSearchType = this.changeSearchType.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
@@ -335,6 +330,7 @@ export class AdminManageDiscounts extends React.Component {
   handleHideToggle = async () => {
     await this.setState({ ishideUnavailable: !this.state.ishideUnavailable, pager: 0 });
   }
+
   togglehideUnavailable = () => {
     var temp2 = Object.assign([], this.state.courseInfo);
     for (var i = temp2.length - 1; i >= 0; --i) {
@@ -357,18 +353,6 @@ export class AdminManageDiscounts extends React.Component {
     });
   }
 
-  toggleEdit(x) {
-    //console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Edit Course',
-      modalOpen: !this.state.modalOpen
-    });
-    var courseinfo = this.state.courseInfo;
-    if (this.state.ishideUnavailable)
-      courseinfo = this.state.courseHideInfo;
-    modalComponent = (x < 0) ? '' : (<AdminEditCourseModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
-  }
-
   toggleSale(x) {
     ///////////////////////////////
     this.setState({
@@ -382,27 +366,6 @@ export class AdminManageDiscounts extends React.Component {
 
 
     ///////////////////////////////
-  }
-
-  toggleCreate() {
-    console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Create Course',
-      modalOpen: !this.state.modalOpen
-    });
-    modalComponent = <AdminCreateCourseModal closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />;
-  }
-
-  toggleSubcourse(x) {
-    console.log(this.state.modalOpen);
-    this.setState({
-      modalHeader: 'Edit Sub Course',
-      modalOpen: !this.state.modalOpen
-    });
-    var courseinfo = this.state.courseInfo;
-    if (this.state.ishideUnavailable)
-      courseinfo = this.state.courseHideInfo;
-    modalComponent = (x < 0) ? '' : (<AdminEditSubCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   toggleDelete(x) {

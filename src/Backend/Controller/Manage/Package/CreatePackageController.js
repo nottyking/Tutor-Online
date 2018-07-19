@@ -19,7 +19,7 @@ function getPackageeID(){
     var from = 'package'
     var atti = []
     var value = []
-    var courseid = (await getFuncSpecial.getFunction(select,from,atti,value)).result[0][select] + 1;
+    var packageid = (await getFuncSpecial.getFunction(select,from,atti,value)).result[0][select] + 1;
     console.log("packageID:",packageid);
     resolve(packageid)
   })

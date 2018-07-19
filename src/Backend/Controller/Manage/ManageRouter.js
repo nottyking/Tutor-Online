@@ -71,10 +71,10 @@ router.post('/package/create', async(req, res) => {
   res.send(await createPackageController.createPackage(req, res));
 })
 router.post('/package/uploadbanner',async(req, res) => {
-  res.send(await uploadImageController.uploadImage('Banner',req, res));
+  res.send(await uploadImagePackageController.uploadImage('Banner',req, res));
 })
 router.post('/package/uploadthumbnail',async(req, res) => {
-  res.send(await uploadImageController.uploadImage('Thumbnail',req, res));
+  res.send(await uploadImagePackageController.uploadImage('Thumbnail',req, res));
 })
 router.post('/package/edit',async(req, res) => {
   res.send(await editPackageController.editPackage(req, res));

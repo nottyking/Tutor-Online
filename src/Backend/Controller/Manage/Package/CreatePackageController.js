@@ -7,8 +7,8 @@ async function createPackage(req, res){
   var packagename = req.body.packagename;
   var description = req.body.description;
   var discountprice = 0;
-  var banner = './Image/Package/Banner/Banner' + packageid + '.jpg';
-  var thumbnail = './Image/Package/Thumbnail/Thumbnail' + packageid + '.jpg';
+  var banner = '../../Image/Package/Banner/Banner' + packageid + '.jpg';
+  var thumbnail = '../../Image/Package/Thumbnail/Thumbnail' + packageid + '.jpg';
   var isavailable = 0;
   return await insertFunc.insertPackage(packagename,description,discountprice,banner,thumbnail,isavailable);
 }

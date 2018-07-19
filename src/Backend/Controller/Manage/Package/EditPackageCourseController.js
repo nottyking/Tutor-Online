@@ -25,27 +25,38 @@ async function editPackageCourse(req, res){
 }
 
 async function editCourse(packageid, courseList){
-  console.log("Enter editCourse in EditPackageController");
-  var allCourse = (await getFuncGeneral.getFunction('courseid','packagecourse',['packageid'],[packageid])).result
+  console.log("Enter editCourse in EditPackageController",courseList);
+  var allCourse = (await getFuncGeneral.getFunction('*','packagecourse',['packageid'],[packageid])).result
   var promises = []
   for(var i = 0 ; i < allCourse.length ; i++){
     var courseidExist = allCourse[i].courseid;
     var isPackageCourseExistInDatabase = false;
     for(var j = 0 ; j < courseList.length ; j++){
       var courseid = courseList[j].courseid;
+      var packagecourseid = courseList[j].packagecourseid;
       if(courseid == courseidExist){
         isPackageCourseExistInDatabase = true ;
         break;
       }
     }
     console.log(courseid);
-    if(!isPackageCourseExistInDatabase){
+    if(isPackageCourseExistInDatabase){
+      promises.push(new Promise(async(resolve, reject) => {
+        console.log("----------------------------------->",packagecourseid,packageid,courseid);
+        resolve(await updateFunc.updatePackageCourse(['packagecourseid'] ,
+                                                           [packagecourseid] ,
+                                                           ['packageid', 'courseid'] ,
+                                                           [packageid, courseid]))
+                                                         }))
+    }
+    else{
       promises.push(new Promise(async(resolve, reject) => {
         resolve(await deleteFunc.deleteOnePackageCourse(packageid, courseidExist))
       }))
     }
   }
   for(var i = 0 ; i < courseList.length ; i++){
+    var packagecourseid = courseList[i].packagecourseid;
     var courseid = courseList[i].courseid;
     var isPackageCourseExistInDatabase = false;
     for(var j = 0 ; j < allCourse.length ; j++){
@@ -57,7 +68,7 @@ async function editCourse(packageid, courseList){
     }
     if(!isPackageCourseExistInDatabase){
       promises.push(new Promise(async(resolve, reject) => {
-        resolve(await insertFunc.insertPackageCourse(packageid,courseid))
+        resolve(await insertFunc.insertPackageCourse(packagecourseid,packageid,courseid))
       }))
     }
   }

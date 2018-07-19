@@ -29,7 +29,6 @@ export class VideoPlayer extends React.Component{
     }
 
     async sendProgress(progress){
-        alert()
         var tempInfo = (await axios.post(ipList.backend + "/learning/progress/store", capsulation.sendData({
           courseid: this.props.CourseId, subcourseid:this.props.SubCourseId, progress:progress
         }))).data;

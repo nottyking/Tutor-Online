@@ -41,9 +41,10 @@ export class CoursePageList extends React.Component {
     console.log(capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }));
-    var courseInfo = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
+    var info = (await axios.post(ipList.backend + "/home/queryInformation", capsule.sendData({
       // Don't need to add anything, just send only a loginToken with capsule
     }))).data;
+    var courseInfo = info.course;
     console.log('courseInfo');
     if (courseInfo.redirect) {
       localStorage.removeItem('user')

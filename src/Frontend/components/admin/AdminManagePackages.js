@@ -340,9 +340,9 @@ export class AdminManagePackages extends React.Component {
         break;
       default:
         allpackages.map((item) =>
-          (expr.test(item.packagename.toLowerCase()) ||
-            expr.test(item.instructor.toLowerCase())) ? temppackages.push(item) : (parseInt(searchword) == NaN) ? '' :
-              (item.price >= (100 * parseInt(searchword))) ? temppackages.push(item) : ''
+          (expr.test(item.packagename.toLowerCase())) ||
+          (item.price >= (100 * parseInt(searchword))) ? temppackages.push(item) : (parseInt(searchword) == NaN) ? '' :
+              (item.discountprice >= (100 * parseInt(searchword))) ? temppackages.push(item) : ''
         );
         break;
     }
@@ -450,7 +450,7 @@ export class AdminManagePackages extends React.Component {
           <td style={{ width: 110, maxWidth: 110 }}>{item.packageid}</td>
           <td style={{ width: 300, maxWidth: 300, overflowX: 'hide' }}>{item.packagename}</td>
           <td style={{ width: 150, maxWidth: 150 }}>{(item.price / 100).toLocaleString('en')} ฿</td>
-          <td style={{ width: 150, maxWidth: 150 }}>{(item.discountprice / 100).toLocaleString('en')} ฿ as {(item.discountprice / (item.price) * 100).toFixed(2)} % of full price</td>
+          <td style={{ width: 150, maxWidth: 150 }}>{(item.discountprice / 100).toLocaleString('en')} ฿ as {(item.price / 100!==0)?(item.discountprice / (item.price) * 100).toFixed(2):'0'} % of full price</td>
           <td style={{ width: 180 }}><Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleEdit(i) }}><i class="fa fa-edit" /></Button>{' '}
             <Button color='primary' style={{ width: 45, height: 40 }} outline onClick={() => { this.togglePackageCourse(i) }}><i class="fa fa-reorder" /></Button>{' '}
             <Button color='danger' style={{ width: 45, height: 40 }} outline onClick={() => { this.toggleDelete(i) }}><i class="fa fa-trash-o" /></Button></td>

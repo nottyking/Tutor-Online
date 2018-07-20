@@ -60,6 +60,16 @@ const deletePackageCourse = async(packageid) => {
   return await doQuerySQL("deletePackageCourse",preparedSQLQuery.sql,preparedSQLQuery.inList);
 }
 
+const deleteCourseDiscount = async(courseid,coursediscountid) => {
+  console.log('Enter deleteCourseDiscount in deleteData');
+
+  var preparedSQLQuery = prepareSQLQuery('coursediscount',['courseid','coursediscountid'],[courseid,coursediscountid]);
+
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL("deleteCourseDiscount",preparedSQLQuery.sql,preparedSQLQuery.inList);
+}
+
 function prepareSQLQuery(deletedTable, whereKeyList, whereValueList){
   var sql = "DELETE FROM " + deletedTable + " WHERE " + whereKeyList[0] + " = ?"
   var inList = [whereValueList[0]]
@@ -98,6 +108,7 @@ const deleteFunction = {
   deletePackage : deletePackage ,
   deletePackageCourse : deletePackageCourse ,
   deleteOnePackageCourse : deleteOnePackageCourse,
+  deleteCourseDiscount : deleteCourseDiscount ,
 }
 
 module.exports = deleteFunction ;

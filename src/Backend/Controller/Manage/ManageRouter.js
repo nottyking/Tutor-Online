@@ -62,6 +62,9 @@ router.post('/coursediscount/queryinformation', async(req, res) => {
 router.post('/coursediscount/edit', async(req, res) => {
   res.send(await couseDiscountController.editCourseDiscount(req, res));
 })
+router.post('/coursediscount/delete', async(req, res) => {
+  res.send(await couseDiscountController.deleteCourseDiscount(req, res));
+})
 
 // Package
 router.post('/package/main', async(req, res) => {

@@ -21,7 +21,16 @@ async function editCourseDiscount(req, res){
   return editInfo
 }
 
+async function deleteCourseDiscount(req, res){
+  console.log("Enter deleteCourse in Managecontroller");
+  const courseid = req.body.courseid
+  const coursediscountid = req.body.coursediscountid
+
+  return await deleteFunc.deleteCourseDiscount(courseid,coursediscountid)
+}
+
 module.exports = {
   queryInformation : queryInformation ,
   editCourseDiscount : editCourseDiscount,
+  deleteCourseDiscount : deleteCourseDiscount,
 }

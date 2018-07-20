@@ -18,9 +18,9 @@ export class AdminDeleteSaleModal extends React.Component{
       }
 
     async sendRequestToDatabase() {
-        // var temp =  (await axios.post(ipList.backend + "/manage/deletecourse", capsulation.sendData({
-        //   courseid: id
-        // }))).data
+        var temp =  (await axios.post(ipList.backend + "/manage/coursediscount/delete", capsulation.sendData({
+          courseid: this.props.deleteInfo.courseid, coursediscountid: this.props.deleteInfo.coursediscountid
+        }))).data
         exitandreloadfx();
         return true;
     }

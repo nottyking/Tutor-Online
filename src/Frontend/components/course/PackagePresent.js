@@ -18,14 +18,13 @@ export class PackagePresent extends React.Component {
     //This is the course component in the first page
     render() {
         const src = this.props.src;
-        console.log("Render in Coursepresent src:", src);
+        console.log("Render in Packagepresent src:", src);
         var ListItems;
         if (this.props.isMobile || window.innerWidth < 780) {
             ListItems = src.map(
                 (item, i) =>
                     <Col xs="auto">
                         <Card key={i} style={{ width: 140, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>
-                            <Link to={item.courselink} style={{ color: 'black', textDecoration: 'none' }}>
                                 <div className='change-ratio-mobile'>
                                     <CardImg className='cc' src={item.thumbnail} alt="Card image cap" />
                                 </div>
@@ -35,7 +34,6 @@ export class PackagePresent extends React.Component {
                                         <CardText>{item.description}</CardText>
                                     </CardBody>
                                 </div>
-                            </Link>
                         </Card>
                     </Col>
             );
@@ -44,7 +42,6 @@ export class PackagePresent extends React.Component {
                 (item, i) =>
                     <Col xs="auto">
                         <Card key={i} style={{ width: 270, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>
-                            <Link to={item.courselink} style={{ color: 'black', textDecoration: 'none' }}>
                                 <div className='change-ratio'>
                                     <CardImg className='cc' src={item.thumbnail} alt="Card image cap" />
                                 </div>
@@ -54,7 +51,6 @@ export class PackagePresent extends React.Component {
                                         <CardText>{item.description}</CardText>
                                     </CardBody>
                                 </div>
-                            </Link>
                         </Card>
                     </Col>
             );
@@ -68,12 +64,12 @@ export class PackagePresent extends React.Component {
     }
 }
 
-PackagePresent.propType = {
+/*PackagePresent.propType = {
     src: PropTypes.arrayOf(PropTypes.shape({
         packagename: PropTypes.string.isRequired,
         thumbnail: PropTypes.string.isRequired,
-        packagelink: PropTypes.string.isRequired,
+        //packagelink: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired
     })).isRequired
-}
+}*/
 

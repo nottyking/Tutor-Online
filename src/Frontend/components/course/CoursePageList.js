@@ -14,13 +14,17 @@ const cookies = new Cookies();
 const HtmlToReactParser = require('html-to-react').Parser;
 const htmlToReactParser = new HtmlToReactParser();
 
+
 export class CoursePageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isloaded: false,
       isMobile: false,
-      redirect: ""
+      redirect: "",
+      courseInfo:[],
+      packageInfo:[]
+
     }
   }
 
@@ -69,10 +73,25 @@ export class CoursePageList extends React.Component {
         }
         // console.log(courseInfo[i].thumbnail);
       }
+
+      for (var i = 0; i < packageInfo.length; i++) {
+        // console.log(courseInfo[i].thumbnail);
+        packageInfo[i].description = htmlToReactParser.parse(packageInfo[i].description);
+        try {
+          packageInfo[i].thumbnail = require('../../Image/Package/Thumbnail/Thumbnail' + packageInfo[i].packageid + '.jpg')
+        } catch (err) {
+          packageInfo[i].thumbnail = 'https://dummyimage.com/318x180/ffffff/000000&text=' + packageInfo[i].packagename
+        }
+        // console.log(courseInfo[i].thumbnail);
+      }
+      console.log(packageInfo);
+      console.log(courseInfo);
+      //this.state.packageInfoo = packageInfo;
       this.setState({
         isloaded: true,
-        courseInfo: courseInfo
-      })
+        courseInfo: courseInfo,
+        packageInfo:packageInfo
+      });
     }
   }
 
@@ -89,7 +108,7 @@ export class CoursePageList extends React.Component {
             <AuthToken msgFrom="content" />
             <Container fluid style={{ paddingBottom: 20 }}>
               <div style={{ width: '100%', position: 'relative', marginTop: '50px', left: '0%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
-              <h1><Badge color='info'>Our Package</Badge></h1>
+              <h1><Badge color='info'>Our Packages</Badge></h1>
                 <br />
                 <PackagePresent isMobile={this.state.isMobile} src={this.state.packageInfo} />
                 <h1><Badge color='info'>Our Courses</Badge></h1>
@@ -105,7 +124,7 @@ export class CoursePageList extends React.Component {
             <AuthToken msgFrom="content" />
             <Container fluid style={{ paddingBottom: 20 }}>
               <div style={{ width: '80%', position: 'relative', marginTop: '50px', left: '10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
-              <h1><Badge color='info'>Our Package</Badge></h1>
+              <h1><Badge color='info'>Our Packages</Badge></h1>
               <br />
               <PackagePresent isMobile={this.state.isMobile} src={this.state.packageInfo} />
                 <h1><Badge color='info'>Our Courses</Badge></h1>

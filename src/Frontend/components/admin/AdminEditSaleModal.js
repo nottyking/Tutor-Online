@@ -197,8 +197,10 @@ export class AdminEditSaleModal extends React.Component {
         var isPast = parseInt(today - startDateData) / (24 * 3600 * 1000);
         const startDateDataString = startDateData.getFullYear() + "-" + startDateData.getMonth() + "-" + startDateData.getDate();
         const startFieldString = startField.getFullYear() + "-" + startField.getMonth() + "-" + startField.getDate();
+        const todayString = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+        console.log(todayString)
 
-        if ((validStartDuration >= 1) || (this.props.src.coursediscountcreatedate != null && ((isPast >= 0 && startDateDataString == startFieldString) || isPast < -1))) {
+        if ((validStartDuration >= 1) || (this.props.src.coursediscountcreatedate != null && (((isPast >= 0 || todayString == startDateDataString) && startDateDataString == startFieldString)))) {
             document.getElementById("startdate").classList.remove('is-invalid');
             document.getElementById("startdate").classList.add('is-valid');
             return true;
@@ -293,7 +295,7 @@ export class AdminEditSaleModal extends React.Component {
                                         onChange={this.startDateCheck}
                                         defaultValue={(this.state.discountField.startDate != null) ? this.state.discountField.startDate : moment().add(1, 'day').format('YYYY-MM-DD')}
                                     />
-                                    <FormFeedback>must more than 1 days form now</FormFeedback>
+                                    <FormFeedback>Must more than 1 days form now{<br />}Can't change start date after this course discount is apply</FormFeedback>
                                 </CardBody>
                             </Card>
                             <Card>
@@ -306,7 +308,7 @@ export class AdminEditSaleModal extends React.Component {
                                         onChange={this.endDateCheck}
                                         defaultValue={(this.state.discountField.endDate != null) ? this.state.discountField.endDate : moment().add(2, 'day').format('YYYY-MM-DD')}
                                     />
-                                    <FormFeedback>must more than 1 days form start Discount Date</FormFeedback>
+                                    <FormFeedback>Must more than 1 days form start Discount Date</FormFeedback>
                                 </CardBody>
                             </Card>
                         </FormGroup>

@@ -60,11 +60,11 @@ export class AdminEditSaleModal extends React.Component {
         console.log(data);
         //SEND ABOVE DATA TO DATABASE///////////////////////
         var temp = (await axios.post(ipList.backend + "/manage/coursediscount/edit", capsulation.sendData({
-          courseid: this.props.src.courseid,
-          coursediscountid: this.props.src.coursediscountid,
-          coursediscountprice: isNaN(parseInt((document.getElementById('salePrice').value * 100).toFixed(0))) ? 0 : parseInt((document.getElementById('salePrice').value * 100).toFixed(0)),
-          coursediscountcreatedate: document.getElementById('startdate').value,
-          coursediscountexpireddate: document.getElementById('enddate').value,
+            courseid: this.props.src.courseid,
+            coursediscountid: this.props.src.coursediscountid,
+            coursediscountprice: isNaN(parseInt((document.getElementById('salePrice').value * 100).toFixed(0))) ? 0 : parseInt((document.getElementById('salePrice').value * 100).toFixed(0)),
+            coursediscountcreatedate: document.getElementById('startdate').value,
+            coursediscountexpireddate: document.getElementById('enddate').value,
         }))).data
         ////////////////////////////////////////////////////
         console.log(data)
@@ -180,10 +180,18 @@ export class AdminEditSaleModal extends React.Component {
     }
 
     startDateCheck() {
+        //FOR CHECK NEW ADD...
         var today = new Date();
         today.setHours(0, 0, 0, 0);
-        var validStartDuration = parseInt((new Date(document.getElementById('startdate').value)) - today) / (24 * 3600 * 1000);
-        if (validStartDuration >= 1) {
+        var startField = new Date(document.getElementById('startdate').value);
+        var validStartDuration = parseInt((startField - today) / (24 * 3600 * 1000));
+
+        const startDateData = this.props.src.coursediscountcreatedate != null ? new Date(this.props.src.coursediscountcreatedate.substring(0, 10)) : new Date()
+        var isPast = parseInt(today - startDateData) / (24 * 3600 * 1000);
+        const startDateDataString = startDateData.getFullYear() + "-" + startDateData.getMonth() + "-" + startDateData.getDate();
+        const startFieldString = startField.getFullYear() + "-" + startField.getMonth() + "-" + startField.getDate();
+
+        if ((validStartDuration >= 1) || (this.props.src.coursediscountcreatedate != null && ((isPast >= 0 && startDateDataString == startFieldString) || isPast < -1))) {
             document.getElementById("startdate").classList.remove('is-invalid');
             document.getElementById("startdate").classList.add('is-valid');
             return true;
@@ -192,7 +200,6 @@ export class AdminEditSaleModal extends React.Component {
             document.getElementById("startdate").classList.add('is-invalid');
             return false;
         }
-        return true;
     }
 
     endDateCheck() {

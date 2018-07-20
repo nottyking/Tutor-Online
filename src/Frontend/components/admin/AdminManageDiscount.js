@@ -23,7 +23,7 @@ const capsule = require('../../capsulation/SendData')
 var modalComponent;
 var allcourses;
 const rowperpage = 15;
-const sortName = ['Course ID (+)', 'Course ID (-)', 'Course Name (A-Z)', 'Course Name (Z-A)', 'Price (+)', 'Price (-)', 'Sale Price (+)', 'Sale Price (-)', 'Start Date (OLD)', 'Start Date (NEW)', 'End Date (OLD)', 'End Date (NEW)']
+const sortName = ['Course ID (+)', 'Course ID (-)', 'Course Name (A-Z)', 'Course Name (Z-A)', 'Price (+)', 'Price (-)', 'Sale Price (+)', 'Sale Price (-)', 'Start Date (NEW)', 'Start Date (OLD)', 'End Date (NEW)', 'End Date (OLD)']
 
 /*
     Props: UserID Username FirstName LastName Birthday('yyyy-mm-dd') Address Gender
@@ -297,33 +297,75 @@ export class AdminManageDiscounts extends React.Component {
     var expr = RegExp(searchword.toLowerCase());
     var tempcourses = [];
 
+    //                       <DropdownItem onClick={() => this.changeSearchType('Start Date')}>{'Start Date'}</DropdownItem>
+    //                       <DropdownItem onClick={() => this.changeSearchType('End Date')}>{'End Date'}</DropdownItem>
+
     switch (searchMode) {
       case 'Course Name':
         allcourses.map((item) =>
           (expr.test(item.coursename.toLowerCase())) ? tempcourses.push(item) : ''
         );
         break;
-      case 'Instructor':
-        allcourses.map((item) =>
-          (expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : ''
-        );
-        break;
-      case 'Price >':
+      case 'Original Price >':
         if (searchword == "") searchword = "0";
         allcourses.map((item) =>
           (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
         );
         break;
-      case 'Price <':
+      case 'Original Price <':
         allcourses.map((item) =>
           (item.price <= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Sale Price >':
+        if (searchword == "") searchword = "0";
+        allcourses.map((item) =>
+          (item.coursediscountprice >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Sale Price <':
+        allcourses.map((item) =>
+          (item.coursediscountprice <= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Sale Price >':
+        if (searchword == "") searchword = "0";
+        allcourses.map((item) =>
+          (item.coursediscountprice >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Sale Price <':
+        allcourses.map((item) =>
+          (item.coursediscountprice <= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Start Year':
+        allcourses.map((item) =>
+          (expr.test(item.coursediscountcreatedate.substring(0, 4))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'End Year':
+        allcourses.map((item) =>
+          (expr.test(item.coursediscountexpireddate.substring(0, 4))) ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'Start Month':
+        if (searchword.length == 1) searchword = "0" + searchword;
+        allcourses.map((item) =>
+          (item.coursediscountcreatedate.substring(5, 7) == searchword || searchword == '') ? tempcourses.push(item) : ''
+        );
+        break;
+      case 'End Month':
+        if (searchword.length == 1) searchword = "0" + searchword;
+        allcourses.map((item) =>
+          (item.coursediscountexpireddate.substring(5, 7) == searchword || searchword == '') ? tempcourses.push(item) : ''
         );
         break;
       default:
         allcourses.map((item) =>
           (expr.test(item.coursename.toLowerCase()) ||
-            expr.test(item.instructor.toLowerCase())) ? tempcourses.push(item) : (parseInt(searchword) == NaN) ? '' :
-              (item.price >= (100 * parseInt(searchword))) ? tempcourses.push(item) : ''
+            expr.test(item.coursediscountcreatedate.substring(0, 4)) ||
+            expr.test(item.coursediscountexpireddate.substring(0, 4))) ? tempcourses.push(item) : ''
         );
         break;
     }
@@ -480,9 +522,14 @@ export class AdminManageDiscounts extends React.Component {
                         <DropdownMenu>
                           <DropdownItem onClick={() => this.changeSearchType('All')}>All</DropdownItem>
                           <DropdownItem onClick={() => this.changeSearchType('Course Name')}>Course Name</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Instructor')}>Instructor</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Price >')}>{'Price >'}</DropdownItem>
-                          <DropdownItem onClick={() => this.changeSearchType('Price <')}>{'Price <'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Original Price >')}>{'Original Price >'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Original Price >')}>{'Original Price <'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Sale Price >')}>{'Sale Price >'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Sale Price <')}>{'Sale Price <'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Start Year')}>{'Start Year'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('End Year')}>{'End Year'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('Start Month')}>{'Start Month'}</DropdownItem>
+                          <DropdownItem onClick={() => this.changeSearchType('End Month')}>{'End Month'}</DropdownItem>
                         </DropdownMenu>
                       </InputGroupButtonDropdown>
                     </InputGroup >&nbsp;

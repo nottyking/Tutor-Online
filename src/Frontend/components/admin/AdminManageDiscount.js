@@ -15,7 +15,7 @@ import {
 } from 'reactstrap'
 import { Switch } from 'antd';
 import 'antd/dist/antd.css';
-import { AdminManageUsers } from './AdminManageUsers';
+import { AdminDeleteSaleModal } from './AdminDeleteSaleModal';
 
 const ipList = require('../../../Config/ipConfig');
 const axios = require('axios')
@@ -403,7 +403,6 @@ export class AdminManageDiscounts extends React.Component {
   }
 
   toggleSale(x) {
-    ///////////////////////////////
     this.setState({
       modalHeader: 'Sale Course',
       modalOpen: !this.state.modalOpen
@@ -412,21 +411,25 @@ export class AdminManageDiscounts extends React.Component {
     if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
     modalComponent = (x < 0) ? '' : (<AdminEditSaleModal src={courseinfo[x]} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
-
-
-    ///////////////////////////////
   }
 
   toggleDelete(x) {
-    console.log(this.state.modalOpen);
     this.setState({
-      modalHeader: 'Delete Course',
+      modalHeader: 'Delete Sale Course',
       modalOpen: !this.state.modalOpen
     });
     var courseinfo = this.state.courseInfo;
     if (this.state.ishideUnavailable)
       courseinfo = this.state.courseHideInfo;
-    modalComponent = (x < 0) ? '' : (<AdminDeleteCourseModal courseid={courseinfo[x].courseid} coursename={courseinfo[x].coursename} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
+    const deleteInfo = {
+      courseid: courseinfo[x].courseid,
+      coursename: courseinfo[x].coursename,
+      price : courseinfo[x].price,
+      coursediscountprice : courseinfo[x].coursediscountprice,
+      coursediscountcreatedate : courseinfo[x].coursediscountcreatedate,
+      coursediscountexpireddate : courseinfo[x].coursediscountexpireddate,
+    }
+    modalComponent = (x < 0) ? '' : (<AdminDeleteSaleModal deleteInfo={deleteInfo} closeModal={this.closeModal} closeModalAndReload={this.closeModalAndReload} />);
   }
 
   closeModalAndReload = async () => {

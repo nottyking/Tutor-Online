@@ -15,6 +15,7 @@ export class AdminDeleteSaleModal extends React.Component{
         id = this.props.courseid;
         exitfx=this.props.closeModal;
         exitandreloadfx=this.props.closeModalAndReload;
+        this.sendRequestToDatabase = this.sendRequestToDatabase.bind(this)
       }
 
     async sendRequestToDatabase() {

@@ -423,7 +423,7 @@ export class AdminManageDiscounts extends React.Component {
       courseinfo = this.state.courseHideInfo;
     const deleteInfo = {
       courseid: courseinfo[x].courseid,
-      coursediscountid : courseinfo[x].courseduscountid,
+      coursediscountid : courseinfo[x].coursediscountid,
       coursename: courseinfo[x].coursename,
       price : courseinfo[x].price,
       coursediscountprice : courseinfo[x].coursediscountprice,

@@ -8,6 +8,7 @@ const routerList = {
     '/home' ,
     '/manage',
     '/learning',
+    '/package',
     '/auth'
   ] ,
   routeTo : [
@@ -19,6 +20,7 @@ const routerList = {
     require('./Controller/Home/HomeRouter'),
     require('./Controller/Manage/ManageRouter'),
     require('./Controller/Learning/LearningRouter'),
+    require('./Controller/Package/PackageRouter'),
     require('./CheckAuth')
   ]
 }

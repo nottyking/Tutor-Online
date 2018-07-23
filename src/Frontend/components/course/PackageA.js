@@ -55,18 +55,18 @@ export class PackageA extends React.Component {
       reviewModal: false,
       paymentModal: false,
       isLoaded: false,
-      courseInfo: defaultCourseInfo,
-      rating: 0,
+      packageInfo: [],
+      packageCourseInfo: [],
       redirect: ""
     };
-    this.toggleReview = this.toggleReview.bind(this);
   }
   // /package/queryinformation
 
   async componentWillMount() {
-    var temp = (await axios.post(ipList.backend + "/course/queryInformation", capsulation.sendData({
-      courseid: this.props.match.params.courseID
+    var temp = (await axios.post(ipList.backend + "/package/queryInformation", capsulation.sendData({
+      packageid: this.props.match.params.packageID
     }))).data;
+    console.log(temp.package);
     if (temp.redirect) {
       this.setState({
         redirect: temp.redirect
@@ -74,22 +74,16 @@ export class PackageA extends React.Component {
     }
     else {
       try {
-        temp.course.banner = require('../../Image/Course/Banner/Banner' + this.props.match.params.courseID + '.jpg')
+        temp.package.banner = require('../../Image/Package/Banner/Banner' + this.props.match.params.packageID + '.jpg')
       } catch (err) {
-        temp.course.banner = 'https://dummyimage.com/600x400/ffffff/000000&text=' + temp.course.coursename
+        temp.package.banner = 'https://dummyimage.com/600x400/ffffff/000000&text=' + temp.package.packagename
       }
-
-      if (temp.reviewcourse.length == 0) {
-        temp.reviewcourse.push({
-          rating: 0
-        })
-      }
-      temp.course.description = htmlToReactParser.parse(temp.course.description);
+      temp.package.description = htmlToReactParser.parse(temp.course.description);
       console.log(temp.course);
+      console.log(temp.package);
       this.setState({
-        courseInfo: temp,
-        alreadyEnroll: temp.enrolledcourse.length > 0 ? true : false,
-        alreadyReview: temp.reviewcourse[0].rating > 0 ? true : false,
+        packageInfo: temp.package,
+        packageCourseInfo: temp.course,
         alreadyLogin: cookies.get("loginToken") ? true : false,
         isLoaded: true
       });
@@ -97,7 +91,7 @@ export class PackageA extends React.Component {
   }
 
   createSyllabus() {
-    var syllabus = this.state.courseInfo.subCourse.map((item, i) => {
+    var syllabus = this.state.packageCourseInfo.map((item, i) => {
       return (
         <tr>
           <th scope='row'>
@@ -110,7 +104,7 @@ export class PackageA extends React.Component {
             {item.subcoursename}
           </td>
           <td>
-            <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
+            <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/course/" + item.courseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
               {this.state.alreadyEnroll ? 'Let\'s Learn!' : 'Please Enroll first'}
             </Badge>
           </td>
@@ -120,81 +114,6 @@ export class PackageA extends React.Component {
     return syllabus;
   }
 
-  generateStar(rating) {
-    console.log('rating: ' + rating);
-    if (rating > 4.9) {
-      return (
-        <h1 style={{ color: '#ffc107' }}><i className='fa fa-star' style={{ fontSize: '2rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '2rem' }} /></h1>
-      );
-    } else if (rating > 3.9) {
-      return (
-        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-      );
-    } else if (rating > 2.9) {
-      return (
-        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '5rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-      );
-    } else if (rating > 1.9) {
-      return (
-        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /> <i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-      );
-    } else if (rating > 0.9) {
-      return (
-        <h1 style={{ color: '#007bff' }}><i className='fa fa-star' style={{ fontSize: '3rem' }} /></h1>
-      );
-    } else {
-      return (
-        <h4>This Course Doesn't have Review Yet</h4>
-      );
-    }
-  }
-
-  createReviewComponent() {
-    var CourseReviewPresent;
-    if (!this.state.alreadyEnroll || this.state.alreadyReview) {
-      CourseReviewPresent = this.generateStar(this.state.courseInfo.reviewcourse[0].rating);
-    } else {
-      CourseReviewPresent = (
-        <div>
-          <FormGroup>
-            <Label for="exampleText">Please Comment This Course</Label>
-            <Input type="textarea" name="text" id="exampleText" />
-          </FormGroup>
-          <FormGroup tag="fieldset">
-            <FormGroup>
-              <Label for="formControlRange">Rate this Course</Label>
-              <br />
-              <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
-                emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
-                  'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
-                fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
-                  'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
-            </FormGroup>
-          </FormGroup>
-          <Button color='primary' onClick={this.onClickReview}>Submit</Button>
-        </div>
-      );
-    }
-    return CourseReviewPresent;
-  }
-
-  onClickReview = async () => {
-    var courseid = this.props.match.params.courseID
-    var description = document.getElementById('exampleText').value;
-    var rating = this.state.rating
-    var isSubmitReviewSuccess = (await axios.post(ipList.backend + '/course/submitreview'), capsulation.sendData({
-      courseid: courseid, description: description, rating: rating
-    }))
-    this.setState({ alreadyReview: true });
-    this.toggleReview();
-    // send review data to database
-  }
-
-  toggleReview() {
-    this.setState({
-      reviewModal: !this.state.reviewModal
-    });
-  }
 
   onClick = () => {
     if (!this.state.alreadyEnroll) {
@@ -206,27 +125,6 @@ export class PackageA extends React.Component {
     }
   }
 
-  onClick2 = () => {
-    if (!this.state.alreadyReview) {
-      this.setState({ alreadyReview: true });
-      console.log('Reviewwww');
-    } else {
-      this.setState({ alreadyReview: false });
-      console.log('De Reviewww');
-    }
-  }
-
-  onClick3 = () => {
-    console.log('change Login state from ' + this.state.alreadyLogin + ' to ' + !this.state.alreadyLogin)
-    this.setState({ alreadyLogin: !this.state.alreadyLogin })
-  }
-
-  handleRatingChange = async (value) => {
-    await this.setState({
-      rating: value
-    })
-  }
-
   render() {
     if (this.state.redirect !== "") {
       return <Redirect to={this.state.redirect} />;
@@ -234,7 +132,6 @@ export class PackageA extends React.Component {
     if (this.state.isLoaded) {
       //Get UI Component for render
       var Syllabus = this.createSyllabus();
-      var CourseReviewPresent = this.createReviewComponent();
 
       return (
         <div className='App'>
@@ -245,10 +142,10 @@ export class PackageA extends React.Component {
               <Col>
                 <br />
                 <Card style={{ width: 800 }}>
-                  <CardImg src={this.state.courseInfo.course.banner} style={{ left: 0, align: 'left' }} alt='error' />
+                  <CardImg src={this.state.packageInfo.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>
-                      {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename}
+                      {this.props.match.params.packageID} : {this.state.packageInfo[0].packagename}
                     </CardTitle>
                     <CardSubtitle>
                       Instructor :
@@ -276,16 +173,6 @@ export class PackageA extends React.Component {
                         </div>
                     }
                     <br />
-                  </CardBody>
-                </Card>
-                <br />
-
-                <Card style={{ width: 800 }}>
-                  <CardBody>
-                    <CardTitle>
-                      Student Review
-                </CardTitle>
-                    {CourseReviewPresent}
                   </CardBody>
                 </Card>
                 <br />

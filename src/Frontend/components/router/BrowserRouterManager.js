@@ -5,6 +5,7 @@ import { Redirect, Switch } from 'react-router';
 import { AboutUs } from './../content/About_us';
 import { Content } from './../content/Content';
 import { CourseA } from './../course/CourseA';
+import { PackageA } from './../course/PackageA';
 import { Student } from './../student/StudentPage';
 import { Learning } from './../course/Learning';
 import LoginPage from './../loginPanel/LoginPage';
@@ -17,6 +18,7 @@ import { AdminManageUsers } from './../admin/AdminManageUsers';
 import { AdminManageCourses } from './../admin/AdminManageCourses';
 import { AdminManagePackages } from './../admin/AdminManagePackages';
 import { AdminManageDiscounts } from '../admin/AdminManageDiscount';
+import { AdminManageFirstPage } from '../admin/AdminManageFirstPage';
 
 class BrowserRouterManager extends React.Component {
 
@@ -42,6 +44,7 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/about_us" component={AboutUs} />
                     <Route exact path="/course/:courseID" component={CourseA} />
                     <Route exact path="/course" component={CoursePageList} />
+                    <Route exact path="/package/:packageID" component={PackageA} />
 
                     <Route exact path="/student" component={(userType === "user" || userType === "admin") ? Student : () => { return (<Redirect to={'/loginPage'} />) }} />
                     {/* <Route exact path="/learning" component={(userType === "user" || userType === "admin") ? Learning : () => { return (<Redirect to={'/loginPage'} />) }} /> */}
@@ -54,6 +57,7 @@ class BrowserRouterManager extends React.Component {
                     <Route exact path="/admin_manage_course" component={(userType === "admin") ? AdminManageCourses : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path="/admin_manage_package" component={(userType === "admin") ? AdminManagePackages : () => { return (<Redirect to={'/'} />) }} />
                     <Route exact path="/admin_manage_discount" component={(userType === "admin") ? AdminManageDiscounts : () => { return (<Redirect to={'/'} />) }} />
+                    <Route exact path="/admin_manage_firstpage" component={(userType === "admin") ? AdminManageFirstPage : () => { return (<Redirect to={'/'} />) }} />
                     <Route component={Content} />
                 </Switch>
             </div >

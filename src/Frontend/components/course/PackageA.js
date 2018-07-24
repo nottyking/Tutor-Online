@@ -92,20 +92,21 @@ export class PackageA extends React.Component {
 
   createSyllabus() {
     var syllabus = this.state.packageCourseInfo.map((item, i) => {
+        var today = new Date();
       return (
         <tr>
           <th scope='row'>
             {i + 1}
           </th>
           <td>
-            {item.subcourseid}
+            {item.courseid}
           </td>
           <td>
-            {item.subcoursename}
+            {item.coursename}
           </td>
           <td>
-            <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/course/" + item.courseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
-              {this.state.alreadyEnroll ? 'Let\'s Learn!' : 'Please Enroll first'}
+            <Badge href={(parseInt(((new Date(item.expireddate)) - today)) > 0) ? ipList.frontend + "/course/" + item.courseid : ''} color={(parseInt(((new Date(item.expireddate)) - today)) > 0) ? 'primary' : 'danger'}>
+              {(parseInt(((new Date(item.expireddate)) - today)) > 0) ? 'You have enrolled this course' : 'You haven\'t enrolled this course yet'}
             </Badge>
           </td>
         </tr>
@@ -145,15 +146,14 @@ export class PackageA extends React.Component {
                   <CardImg src={this.state.packageInfo.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>
-                      {this.props.match.params.packageID} : {this.state.packageInfo[0].packagename}
+                      {this.props.match.params.packageID} : {this.state.packageInfo.packagename}
                     </CardTitle>
                     <CardSubtitle>
                       Instructor :
-                    {this.state.courseInfo.course.instructor}
                     </CardSubtitle>
                     <CardText>
                       <br />
-                      {this.state.courseInfo.course.description}
+                      {this.state.packageInfo.description}
                     </CardText>
                     {!this.state.alreadyLogin ?
                       <div textAlign="center" style={{ textAlign: 'center', paddingTop: '15px' }}>
@@ -166,7 +166,7 @@ export class PackageA extends React.Component {
                       </div>
                       :
                       !this.state.alreadyEnroll ?
-                        this.state.courseInfo.course.price == 0 ? <Button block color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
+                        this.state.packageInfo.price == 0 ? <Button block color='primary'>Enroll this package for free</Button> : <Payment coursePrice={this.state.packageInfo.price} packageID={this.state.packageInfo.packageid} />
                         :
                         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
                           <Button block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>
@@ -183,8 +183,8 @@ export class PackageA extends React.Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>SUB-COURSE ID</th>
-                        <th>SUB-COURSE NAME</th>
+                        <th>COURSE ID</th>
+                        <th>COURSE NAME</th>
                         <th><Badge color="light">STATUS</Badge></th>
                       </tr>
                     </thead>

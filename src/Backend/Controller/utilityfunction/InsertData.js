@@ -1,7 +1,7 @@
 const con = require('../../Config/database')
 
 const insertUser = async(username,password,email,fname,lname,address,profileimage,type,typeid,birthday,gender,isconfirm) => {
-  console.log('Enter InsertEnrolledCourse in insertData');
+  console.log('Enter InsertEnrolledCourse in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "user (username,password,email,fname,lname,address,profileimage,type,typeid,birthday,gender,isconfirm)",
@@ -15,7 +15,7 @@ const insertUser = async(username,password,email,fname,lname,address,profileimag
 }
 
 const insertEnrolledCourse = async(userid, courseid, expireddate) => {
-  console.log('Enter InsertEnrolledCourse in insertData');
+  console.log('Enter InsertEnrolledCourse in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "enrolledcourse (userid, courseid, expireddate)",
@@ -30,7 +30,7 @@ const insertEnrolledCourse = async(userid, courseid, expireddate) => {
 
 const insertCourse = async(coursename, instructor, price, banner, thumbnail, description,
                            limitduration, createdate, limitdurationtype) => {
-  console.log('Enter InsertCourse in insertData');
+  console.log('Enter InsertCourse in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "course (coursename, instructor, price, banner, thumbnail, description,limitduration, createdate, limitdurationtype)",
@@ -44,7 +44,7 @@ const insertCourse = async(coursename, instructor, price, banner, thumbnail, des
 }
 
 const insertSubCourse = async(courseid, subcourseid, subcoursename, subcourseinfo, videolink, isavailable) => {
-  console.log('Enter insertSubCourse in insertData');
+  console.log('Enter insertSubCourse in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "subcourse (courseid, subcourseid, subcoursename, subcourseinfo, videolink, isavailable)",
@@ -58,7 +58,7 @@ const insertSubCourse = async(courseid, subcourseid, subcoursename, subcourseinf
 }
 
 const insertCourseReview = async(courseid,reviewid,userid,description,rating,reviewedtime) => {
-  console.log('Enter insertCourseReview in insertData');
+  console.log('Enter insertCourseReview in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "coursereview (courseid,reviewid,userid,description,rating,reviewedtime)",
@@ -72,7 +72,7 @@ const insertCourseReview = async(courseid,reviewid,userid,description,rating,rev
 }
 
 const insertSubCourseProgress = async(userid,courseid,subcourseid,progress) => {
-  console.log('Enter insertSubCourseProgress in insertData');
+  console.log('Enter insertSubCourseProgress in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "subcourseprogress (userid,courseid,subcourseid,progress)",
@@ -86,7 +86,7 @@ const insertSubCourseProgress = async(userid,courseid,subcourseid,progress) => {
 }
 
 const insertPackage = async(packagename,description,discountprice,banner,thumbnail,isavailable) => {
-  console.log('Enter insertPackage in insertData');
+  console.log('Enter insertPackage in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "package (packagename,description,discountprice,banner,thumbnail,isavailable)",
@@ -100,7 +100,7 @@ const insertPackage = async(packagename,description,discountprice,banner,thumbna
 }
 
 const insertPackageCourse = async(packagecourseid,packageid,courseid) => {
-  console.log('Enter insertPackageCourse in insertData');
+  console.log('Enter insertPackageCourse in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "packagecourse (packagecourseid,packageid,courseid)",
@@ -114,7 +114,7 @@ const insertPackageCourse = async(packagecourseid,packageid,courseid) => {
 }
 
 const insertCourseDiscount = async(courseid, coursediscountid, coursediscountprice,coursediscountcreatedate, coursediscountexpireddate) => {
-  console.log('Enter insertCourseDiscount in insertData');
+  console.log('Enter insertCourseDiscount in InsertData');
 
   var preparedSQLQuery = prepareSQLQuery(
     "coursediscount (courseid, coursediscountid, coursediscountprice,coursediscountcreatedate, coursediscountexpireddate)",

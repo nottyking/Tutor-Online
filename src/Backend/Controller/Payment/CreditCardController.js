@@ -1,6 +1,6 @@
 const omise = require('../../Config/Omise');
 const ipList = require('../../../Config/ipConfig');
-const insertFunc = require('../utilityfunction/insertData')
+const insertFunc = require('../utilityfunction/InsertData')
 
 function payByCreditCard(req, res){
   console.log("Enter Payment CreditCard");

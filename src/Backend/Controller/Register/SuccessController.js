@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const ipList = require('../../../Config/ipConfig')
 const transporter = require('../../Config/NodeMailer').transporter
 const EMAIL_SECRET = require('../../Config/NodeMailer').EMAIL_SECRET
-const insertFunc = require('../utilityfunction/insertData')
+const insertFunc = require('../utilityfunction/InsertData')
 const download = require('image-downloader')
 
 // insert data for registering from role received

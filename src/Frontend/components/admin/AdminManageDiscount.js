@@ -383,7 +383,7 @@ export class AdminManageDiscounts extends React.Component {
   togglehideUnavailable = () => {
     var temp2 = Object.assign([], this.state.courseInfo);
     for (var i = temp2.length - 1; i >= 0; --i) {
-      if (temp2[i].isavailable == 0) {
+      if (new Date(temp2[i].coursediscountexpireddate) < new Date()) {
         temp2.splice(i, 1);
       }
     }
@@ -455,7 +455,7 @@ export class AdminManageDiscounts extends React.Component {
       if (this.state.ishideUnavailable)
         courseinfo = this.state.courseHideInfo;
       var courseTableBody = courseinfo.map((item, i) =>
-        <tr style={{ color: (item.isavailable == '1') ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
+        <tr style={{ color: (new Date(item.coursediscountexpireddate) >= new Date()) ? '#FFF' : '#555', display: (i >= rowperpage * this.state.pager && i < rowperpage * (this.state.pager + 1)) ? '' : 'none' }}>
           <td style={{ width: 50, maxWidth: 50 }}><b>{i + 1}</b></td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.courseid}</td>
           <td style={{ width: 110, maxWidth: 110 }}>{item.coursediscountid}</td>

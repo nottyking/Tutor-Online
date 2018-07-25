@@ -1,8 +1,8 @@
 const con = require('../../Config/database')
 const auth = require('../../Config/Auth')
 const jwt = require('jsonwebtoken')
-const insertFunc = require('../utilityFunction/InsertData')
-const getFunc = require('../utilityFunction/GetDataSpecial')
+const insertFunc = require('../utilityfunction/InsertData')
+const getFunc = require('../utilityfunction/GetDataSpecial')
 const download = require('image-downloader')
 
 async function LoginByFacebook(req, res){

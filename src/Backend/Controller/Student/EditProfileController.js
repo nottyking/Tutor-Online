@@ -1,6 +1,6 @@
 const con = require('../../Config/database')
-const updateFunc = require('../utilityFunction/UpdateData')
-const getFunc = require('../utilityFunction/GetData')
+const updateFunc = require('../utilityfunction/UpdateData')
+const getFunc = require('../utilityfunction/GetData')
 const fileUpload = require('express-fileupload');
 const pathFromFrontend = "../Image/ProfileImage/";
 

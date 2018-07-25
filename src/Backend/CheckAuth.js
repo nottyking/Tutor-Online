@@ -1,6 +1,6 @@
 const app = require('express')
 const router = app.Router();
-const getDataGeneral = require('./Controller/utilityFunction/GetDataSpecial')
+const getDataGeneral = require('./Controller/utilityfunction/GetDataSpecial')
 
 const ROLE_NOTMATCH = "ROLE_NOTMATCH"
 const TOKEN_NOTMATCH = "TOKEN_NOTMATCH"

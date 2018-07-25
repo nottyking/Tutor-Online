@@ -1,5 +1,5 @@
 const insertFunc = require('../../utilityfunction/InsertData')
-const getFuncSpecial = require('../../utilityfunction/getDataSpecial')
+const getFuncSpecial = require('../../utilityfunction/GetDataSpecial')
 
 async function createCourse(req, res){
   console.log("Enter createCourse in Managecontroller");

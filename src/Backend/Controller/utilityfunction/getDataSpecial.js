@@ -1,7 +1,7 @@
 const con = require('../../Config/database')
 
 const getFunction = async(select, from, atti, value) => {
-  console.log('Enter getGeneralFunction in getDataSpecial');
+  console.log('Enter getGeneralFunction in GetDataSpecial');
   var preparedSQLQuery = await prepareSQLQuery(select, from, atti, value, ' WHERE ');
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);
@@ -17,7 +17,7 @@ const getFunction = async(select, from, atti, value) => {
 }
 
 const getFunctionWithOn = async(select, from, atti, value) => {
-  console.log('Enter getGeneralFunctionWithOn in getDataSpecial');
+  console.log('Enter getGeneralFunctionWithOn in GetDataSpecial');
   var preparedSQLQuery = await prepareSQLQuery(select, from, atti, value, ' ON ');
   console.log('sql:', preparedSQLQuery.sql);
   console.log('inWhere:', preparedSQLQuery.inWhere);

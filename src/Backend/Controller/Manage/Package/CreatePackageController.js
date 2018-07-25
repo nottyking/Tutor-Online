@@ -1,5 +1,5 @@
 const insertFunc = require('../../utilityfunction/InsertData')
-const getFuncSpecial = require('../../utilityfunction/getDataSpecial')
+const getFuncSpecial = require('../../utilityfunction/GetDataSpecial')
 
 async function createPackage(req, res){
   console.log("Enter createPackage in Managecontroller");

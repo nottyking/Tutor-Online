@@ -1,0 +1,9 @@
+env: flex
+runtime: nodejs
+
+skip_files:
+  - package-lock.json
+  - ^node_modules/(?!node\.js$).*
+  
+beta_settings:
+  cloud_sql_instances: 'tutor-online-211308:asia-southeast1:tutoronline'

@@ -35,13 +35,18 @@ export class PaymentForPackage extends React.Component {
     }
 
     render() {
+        var courseIDs =[];
+        for(var i = 0;i < this.props.courseID.length;i++){
+            courseIDs.push(this.props.courseID[i].courseid);
+        }
+        console.log(courseIDs);
         return (
             <div style={{ textAlign: 'center', paddingTop: '15px' }}>
                 <Form action="http://localhost:8888/payment/package/creditcard" method="POST">
                     <Input type="submit" value={"Pay To Enroll for " + (this.props.packagePrice / 100).toLocaleString('en') + " ฿"} id="checkout-button" className="btn btn-primary" onChange={this.handleChange} style={{ paddingTop: '10px', paddingBottom: '10px' }} />
                     <Input name='amount' id='amount' value={this.props.packagePrice} style={{ display: 'none' }} />
                     <Input name='packageid' id='packageid' value={this.props.packageID} style={{ display: 'none' }} />
-                    <Input name='courseid' id='courseid' value={this.props.courseID} style={{ display: 'none' }} />
+                    <Input name='courseid' id='courseid' value={courseIDs} style={{ display: 'none' }} />
                     <Input name='loginToken' id='loginToken' value={cookies.get("loginToken")} style={{ display: 'none' }} />
                 </Form>
             </div>

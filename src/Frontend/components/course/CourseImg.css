@@ -26,11 +26,48 @@
     height: 50px;
     border-radius: 25px;
     transform: rotate(20deg);
-    -webkit-transition: transform 1s ease-in-out; /* Safari */
-    transition: transform 1s ease-in-out;
+    -webkit-transition: transform 0.5s ease-in-out; /* Safari */
+    transition: transform 0.5s ease-in-out;
     z-index: 100;
 }
 
 .sale_sticker:hover{
     transform: rotate(30deg);
+}
+
+.folder_sticker{
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 50px;
+    height: 50px;
+    transform: rotate(0deg);
+    -webkit-transition: transform 0.5s ease-in-out; /* Safari */
+    transition: transform 0.5s ease-in-out;
+    z-index: 100;
+}
+
+.folder_sticker:hover{
+    
+    transform: rotate(10deg);
+}
+
+.package{
+    position: absolute;
+    transform:translate(5px, 5px);
+    transition: transform 0.8s;
+}
+
+.package:hover{
+    transform:translate(7px, 7px);
+}
+
+.package_1{
+    position: absolute;
+    transform:translate(3px, 3px);
+    transition: transform 0.8s;
+}
+
+.package_1:hover{
+    transform:translate(5px, 5px);
 }

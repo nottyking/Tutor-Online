@@ -6,6 +6,7 @@ import {
     CardTitle, Button, Row, Col, Container, Badge
 } from 'reactstrap';
 import './CourseImg.css';
+import folder_sticker from './../../Image/gift.png';
 /*
 CoursePresent Used For Present Courses in Main Window (or others page) by
 get src [ List of {coursename(Coursename),thumbnail(Link To CourseThumbnailImage),courselink(Link to Course),description(Course Description)}]
@@ -31,7 +32,7 @@ export class PackagePresent extends React.Component {
                                 </div>
                                 <div className='description-course-mobile'>
                                     <CardBody className='description-course'>
-                                        <CardText style={{ alignSelf: 'left' }}><Badge color='warning'>{item.packagename}</Badge></CardText>
+                                        <CardText style={{ alignSelf: 'left' }}><Badge color='warning'>{item.packagename}</Badge><Badge color='info'>Package</Badge></CardText>
                                         <CardText>{item.description}</CardText>
                                     </CardBody>
                                 </div>
@@ -47,6 +48,7 @@ export class PackagePresent extends React.Component {
                         <Link to={'/package/'+item.packageid} style={{ color: 'black', textDecoration: 'none' }}>
                             <div className='change-ratio'>
                                 <CardImg className='cc' src={item.thumbnail} alt="Card image cap" />
+                                <img className = 'folder_sticker' src ={folder_sticker}/>
                             </div>
                             <div className='description-course'>
                                 <CardBody className='description-course'>

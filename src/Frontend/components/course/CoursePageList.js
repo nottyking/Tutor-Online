@@ -111,6 +111,7 @@ export class CoursePageList extends React.Component {
               <h1><Badge color='info'>Our Packages</Badge></h1>
                 <br />
                 <PackagePresent isMobile={this.state.isMobile} src={this.state.packageInfo} />
+                <br />
                 <h1><Badge color='info'>Our Courses</Badge></h1>
                 <br />
                 <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />
@@ -124,9 +125,11 @@ export class CoursePageList extends React.Component {
             <AuthToken msgFrom="content" />
             <Container fluid style={{ paddingBottom: 20 }}>
               <div style={{ width: '80%', position: 'relative', marginTop: '50px', left: '10%', backgroundColor: '#EEE', paddingTop: 40, zIndex: '100', paddingBottom: 40 }}>
+              <br />
               <h1><Badge color='info'>Our Packages</Badge></h1>
               <br />
               <PackagePresent isMobile={this.state.isMobile} src={this.state.packageInfo} />
+              <br />
                 <h1><Badge color='info'>Our Courses</Badge></h1>
                 <br />
                 <CoursePresent isMobile={this.state.isMobile} src={this.state.courseInfo} />

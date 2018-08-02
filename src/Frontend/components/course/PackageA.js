@@ -8,7 +8,7 @@ import {
   Label, FormGroup, Input, CardImgOverlay
 } from 'reactstrap'
 import Rating from 'react-rating';
-import { Payment } from '../payment/Payment'
+import { PaymentForPackage } from '../payment/PaymentForPackage'
 import { Loading } from '../loading/Loading';
 import Cookies from 'universal-cookie';
 import AuthToken from './../router/AuthToken';
@@ -24,26 +24,6 @@ Used For Present each courses's information (price, instructor's name, syllabus,
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
 
 */
-
-var defaultCourseInfo = {
-  course: {
-    coursename: 'Loading',
-    banner: 'https://dummyimage.com/600x400/ffffff/000000&text=Default IMG',
-    description: 'Very Good Course for Everybody taught by Smartest person in the smartest factory of the best city of the best country',
-    instructor: 'John Doe',
-    price: 20000
-  },
-  subCourse: [
-    { subcourseid: 1, courseid: 1, subcoursename: 'Math101', videolink: '/learning' },
-    { subcourseid: 2, courseid: 1, subcoursename: 'Math102', videolink: '/learning' },
-    { subcourseid: 3, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-    { subcourseid: 4, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-    { subcourseid: 5, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-    { subcourseid: 6, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-    { subcourseid: 7, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-    { subcourseid: 8, courseid: 1, subcoursename: 'Math103', videolink: '/learning' },
-  ]
-};
 
 export class PackageA extends React.Component {
   constructor(props) {
@@ -136,7 +116,7 @@ export class PackageA extends React.Component {
 
       return (
         <div className='App'>
-          <AuthToken msgFrom="CourseA" />
+          <AuthToken msgFrom="PackageA" />
           <Container fluid>
             <Row>
               <Col></Col>
@@ -148,9 +128,6 @@ export class PackageA extends React.Component {
                     <CardTitle>
                       {this.props.match.params.packageID} : {this.state.packageInfo.packagename}
                     </CardTitle>
-                    <CardSubtitle>
-                      Instructor :
-                    </CardSubtitle>
                     <CardText>
                       <br />
                       {this.state.packageInfo.description}
@@ -166,7 +143,7 @@ export class PackageA extends React.Component {
                       </div>
                       :
                       !this.state.alreadyEnroll ?
-                        this.state.packageInfo.price == 0 ? <Button block color='primary'>Enroll this package for free</Button> : <Payment coursePrice={this.state.packageInfo.price} packageID={this.state.packageInfo.packageid} />
+                        this.state.packageInfo.discountprice == 0 ? <Button block color='primary'>Enroll this package for free</Button> : <PaymentForPackage packagePrice={this.state.packageInfo.discountprice} packageID={this.state.packageInfo.packageid} courseID = {this.state.packageCourseInfo} />
                         :
                         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
                           <Button block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>
@@ -178,7 +155,7 @@ export class PackageA extends React.Component {
                 <br />
 
                 <Card style={{ width: 800, color: 'white', background: 'black' }}>
-                  <h3>Course Syllabus</h3>
+                  <h3>Course in this package</h3>
                   <Table dark bordered>
                     <thead>
                       <tr>

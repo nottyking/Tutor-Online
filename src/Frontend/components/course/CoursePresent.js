@@ -67,7 +67,7 @@ export class CoursePresent extends React.Component {
         } else {
             ListItems = src.map(
                 (item, i) => {
-                    if(true){
+                    if(item.isdiscount==1){
                         return (
                             <Col xs="auto">
                                 <Card key={i} style={{ width: 270, marginTop: 20, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', border: 'none' }}>

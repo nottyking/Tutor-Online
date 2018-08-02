@@ -53,6 +53,7 @@ export class CourseA extends React.Component {
       alreadyEnroll: false,
       alreadyReview: false,
       alreadyLogin: true,
+      alreadyExpired: true,
       reviewModal: false,
       paymentModal: false,
       isLoaded: false,
@@ -78,7 +79,7 @@ export class CourseA extends React.Component {
       } catch (err) {
         temp.course.banner = 'https://dummyimage.com/600x400/ffffff/000000&text=' + temp.course.coursename
       }
-
+      console.log(temp);
       if (temp.reviewcourse.length == 0) {
         temp.reviewcourse.push({
           rating: 0
@@ -90,9 +91,11 @@ export class CourseA extends React.Component {
         courseInfo: temp,
         alreadyEnroll: temp.enrolledcourse.length > 0 ? true : false,
         alreadyReview: temp.reviewcourse[0].rating > 0 ? true : false,
+        alreadyExpired: temp.enrolledcourse.length > 0 ? (new Date(temp.enrolledcourse[temp.enrolledcourse.length-1].expireddate) > new Date()  ? false : true): false,
         alreadyLogin: cookies.get("loginToken") ? true : false,
         isLoaded: true
       });
+      console.log(this.state.alreadyExpired);
     }
   }
 
@@ -110,8 +113,8 @@ export class CourseA extends React.Component {
             {item.subcoursename}
           </td>
           <td>
-            <Badge href={this.state.alreadyEnroll ? ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid : ''} color={this.state.alreadyEnroll ? 'primary' : 'danger'}>
-              {this.state.alreadyEnroll ? 'Let\'s Learn!' : 'Please Enroll first'}
+            <Badge href={this.state.alreadyEnroll ? (this.state.alreadyExpired? '':ipList.frontend + "/learning/" + this.props.match.params.courseID + '/' + item.subcourseid) : ''} color={this.state.alreadyEnroll ? (this.state.alreadyExpired? 'warning':'primary' ) : 'danger'}>
+              {this.state.alreadyEnroll ? (this.state.alreadyExpired? 'Please Re-Enroll first':'Let\'s Learn!' ): 'Please Enroll first'}
             </Badge>
           </td>
         </tr>
@@ -164,11 +167,11 @@ export class CourseA extends React.Component {
             <FormGroup>
               <Label for="formControlRange">Rate this Course</Label>
               <br />
-              <Rating onChange={this.handleRatingChange} initialRating={this.state.rating}
-                emptySymbol={['fa fa-star-o fa-1x', 'fa fa-star-o fa-2x',
-                  'fa fa-star-o fa-3x', 'fa fa-star-o fa-4x', 'fa fa-star-o fa-5x']}
-                fullSymbol={['fa fa-star fa-1x', 'fa fa-star fa-2x',
-                  'fa fa-star fa-3x', 'fa fa-star fa-4x', 'fa fa-star fa-5x']} />
+              <Rating onChange={this.handleRatingChange} initialRating={this.state.rating} style={{color:'#FFAA00'}}
+                emptySymbol={['fa fa-star-o fa-3x', 'fa fa-star-o fa-3x',
+                  'fa fa-star-o fa-3x', 'fa fa-star-o fa-3x', 'fa fa-star-o fa-3x']}
+                fullSymbol={['fa fa-star fa-3x', 'fa fa-star fa-3x',
+                  'fa fa-star fa-3x', 'fa fa-star fa-3x', 'fa fa-star fa-3x']} />
             </FormGroup>
           </FormGroup>
           <Button color='primary' onClick={this.onClickReview}>Submit</Button>
@@ -268,11 +271,11 @@ export class CourseA extends React.Component {
                         </Button>
                       </div>
                       :
-                      !this.state.alreadyEnroll ?
+                      !this.state.alreadyEnroll || this.state.alreadyExpired ?
                         this.state.courseInfo.course.price == 0 ? <Button block color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
                         :
                         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
-                          <Button block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>
+                          <Button disabled block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>
                         </div>
                     }
                     <br />

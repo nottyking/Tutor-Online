@@ -1,9 +1,8 @@
 const mysql = require('mysql')
 
 var con = mysql.createConnection({
-  host     : '35.240.135.236',
   user     : 'root',
-  password : 'playtorium',
+  password : '030011',
   database : 'tutoronline',
   port : '3306',
   charset : 'utf8mb4'

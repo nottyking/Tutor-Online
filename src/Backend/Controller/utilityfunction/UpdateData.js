@@ -56,6 +56,14 @@ const updateCourseDiscount = async(setKey,setValue,whereKey,whereValue) => {
   return await doQuerySQL('package',preparedSQLQuery.sql,preparedSQLQuery.inList)
 }
 
+const updateEnrolledCourse = async(setKey,setValue,whereKey,whereValue) => {
+  console.log('Enter updateEnrolledCourse in updateData');
+  var preparedSQLQuery = await prepareSQLQuery("enrolledcourse",setKey,setValue,whereKey,whereValue);
+  console.log('sql:', preparedSQLQuery.sql);
+  console.log('inList:', preparedSQLQuery.inList);
+  return await doQuerySQL('enrolledcourse',preparedSQLQuery.sql,preparedSQLQuery.inList)
+}
+
 function prepareSQLQuery(table, setKey, setValue, whereKey, whereValue){
   var sql = 'UPDATE ' + table + ' SET ' + setKey[0] + " = " + "?"
   var inList = [setValue[0]];
@@ -103,6 +111,7 @@ const updateFunction = {
   updatePackage : updatePackage,
   updatePackageCourse : updatePackageCourse,
   updateCourseDiscount : updateCourseDiscount ,
+  updateEnrolledCourse : updateEnrolledCourse,
 }
 
 module.exports = updateFunction ;

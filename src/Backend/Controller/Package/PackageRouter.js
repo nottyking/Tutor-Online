@@ -1,8 +1,8 @@
 const app = require('express')
 const router = app.Router();
 const packageMainController = require('./PackageMainController');
+const getFuncSpecial = require('../utilityfunction/GetDataSpecial')
 
-// check same username and email with database
 router.post('/queryinformation', async(req, res) => {
   res.send(await packageMainController.queryInformation(req, res));
 })

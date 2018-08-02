@@ -26,7 +26,8 @@ async function addCourseEnrolled(courseInfomation,req){
   var userid = -1
   if(req.session.userid)
     userid = req.session.userid
-  var enrolledCourse = (await getFunc.getFunction('courseid,expireddate','enrolledcourse',['userid'],[userid])).result;
+  var enrolledCourse = (await getFunc.getFunction('courseid,expireddate','enrolledcourse natural join \
+  (SELECT max(enrolledcourseid) as enrolledcourseid FROM enrolledcourse WHERE userid = ' + userid + ' GROUP BY userid,courseid) k',[],[])).result;
   for(var i = 0 ; i < courseInfomation.length ; i++){
     courseInfomation[i].expireddate =  null
     for(var j = 0 ; j < enrolledCourse.length ; j++){

@@ -2,7 +2,7 @@ const omise = require('../../Config/Omise');
 const ipList = require('../../../Config/ipConfig');
 const insertFunc = require('../utilityfunction/InsertData')
 
-function payByCreditCard(req, res){
+function payByCreditCard(req, res, courseid){
   console.log("Enter Payment CreditCard");
 
   var orderID = '1'
@@ -20,7 +20,7 @@ function payByCreditCard(req, res){
       //Success
       console.log("Payment Success");
 
-      var result = await storeEnrolledCourse(req.session.userid,req.body.courseid);
+      var result = await storeEnrolledCourse(req.session.userid,courseid);
 
       res.redirect(ipList.frontend)
       return result;

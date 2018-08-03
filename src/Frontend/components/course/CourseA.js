@@ -132,12 +132,12 @@ export class CourseA extends React.Component {
   }
 
   async freeEnroll(){
+    history.push('/');
     var temp = (await axios.post(ipList.backend + "/payment/free", capsulation.sendData({
       courseid:this.props.match.params.courseID,
       expireddate:''
     }))).data
     console.log('free enroll')
-    history.push('/');
   }
 
   generateStar(rating) {

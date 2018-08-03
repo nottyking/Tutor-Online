@@ -13,12 +13,15 @@ import { Loading } from '../loading/Loading';
 import Cookies from 'universal-cookie';
 import AuthToken from './../router/AuthToken';
 import Login from '../loginPanel/Login';
+import {history} from '../../redux/helpers/'
+
 const axios = require('axios')
 const capsulation = require('../../capsulation/SendData')
 const ipList = require('../../../Config/ipConfig')
 const cookies = new Cookies();
 const HtmlToReactParser = require('html-to-react').Parser;
 const htmlToReactParser = new HtmlToReactParser();
+
 /*
 Used For Present each courses's information (price, instructor's name, syllabus, etc.)
 prop : Cimg ( Course Banner) Cname Cid Cprice Cdescription Cs
@@ -134,7 +137,7 @@ export class CourseA extends React.Component {
       expireddate:''
     }))).data
     console.log('free enroll')
-
+    history.push('/');
   }
 
   generateStar(rating) {
@@ -265,7 +268,7 @@ export class CourseA extends React.Component {
                   <CardImg src={this.state.courseInfo.course.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>
-                      {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename} {this.state.discountprice===null? '':<Badge color='danger'> on Sale {(this.state.discountprice/this.state.courseInfo.course.price *100).toFixed(2)} % of full price</Badge>}
+                      {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename} {this.state.discountprice===null? '':<Badge color='danger'>{(100-(this.state.discountprice/this.state.courseInfo.course.price *100)).toFixed(2)} % off</Badge>}
                     </CardTitle>
                     <CardSubtitle>
                       Instructor :

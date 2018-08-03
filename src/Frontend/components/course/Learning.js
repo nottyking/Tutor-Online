@@ -56,11 +56,11 @@ export class Learning extends React.Component {
   }
 
   async componentDidUpdate(){
-    // this.boardcastToSameUser()
+    this.boardcastToSameUser()
   }
 
   async componentWillUnmount(){
-    // socket.close()
+    socket.close()
   }
 
   async getData() {
@@ -86,16 +86,16 @@ export class Learning extends React.Component {
   }
 
   async boardcastToSameUser() {
-    // console.log("ENTER BOARDCAST");
-    // socket.on(this.state.userid, (courseid,subcourseid) => {
-    //   console.log("ENTER ON",courseid,subcourseid);
-    //   if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
-    //     console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
-    //     alert("Going to courseid: "+courseid+", subcourseid: "+subcourseid+'.')
-    //     history.push('/learning/' + courseid + '/' + subcourseid)
-    //   }
-    // });
-    // console.log("Finish socket on");
+    console.log("ENTER BOARDCAST");
+    socket.on(this.state.userid, (courseid,subcourseid) => {
+      console.log("ENTER ON",courseid,subcourseid);
+      if(courseid && subcourseid && (courseid != this.props.match.params.courseID || subcourseid != this.props.match.params.subcourseID)){
+        console.log(courseid,subcourseid,this.props.match.params.courseID,this.props.match.params.subcourseID);
+        alert("Going to courseid: "+courseid+", subcourseid: "+subcourseid+'.')
+        history.push('/learning/' + courseid + '/' + subcourseid)
+      }
+    });
+    console.log("Finish socket on");
   }
 
   async sendProgress(progress) {

@@ -13,7 +13,7 @@ router.post('/package/creditcard', (req, res) => {
 })
 
 router.post('/free', async(req, res) => {
-  res.send(await FreeController.enrollFree(req, res))
+  FreeController.enrollFree(req, res)
 })
 
 module.exports = router ;

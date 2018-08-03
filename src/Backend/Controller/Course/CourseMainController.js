@@ -9,6 +9,8 @@ async function queryInformation(req, res){
   var subCourseInformation = (await getFunc.getSubCourseWithWhere(['courseid'],[courseid])).result;
   var enrolledCourseInformation = (await getFuncSpecial.getFunction('*','enrolledcourse natural join course',['userid','courseid'],[userid,courseid])).result
   var reviewCourseInformation = (await getFuncSpecial.getFunction('*','enrolledcourse natural join coursereview',['userid','courseid'],[userid,courseid])).result
+  var discountCourseInformation = (await getFuncSpecial.getFunction('*','coursediscount natural join\
+    (SELECT courseid,max(coursediscountid) as coursediscountid FROM coursediscount WHERE courseid = ' + courseid + ') k',[],[])).result
   console.log("courseInformation:",courseInformation[0]);
   console.log("subCourseInformation:",subCourseInformation);
   console.log("enrolledCourseInformation:",enrolledCourseInformation);
@@ -18,6 +20,7 @@ async function queryInformation(req, res){
     subCourse: subCourseInformation,
     enrolledcourse: enrolledCourseInformation,
     reviewcourse : reviewCourseInformation,
+    discountcourse : discountCourseInformation
   };
 }
 

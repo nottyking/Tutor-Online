@@ -59,7 +59,8 @@ export class CourseA extends React.Component {
       isLoaded: false,
       courseInfo: defaultCourseInfo,
       rating: 0,
-      redirect: ""
+      redirect: "",
+      discountprice: null
     };
     this.toggleReview = this.toggleReview.bind(this);
   }
@@ -87,13 +88,15 @@ export class CourseA extends React.Component {
       }
       temp.course.description = htmlToReactParser.parse(temp.course.description);
       console.log(temp.course);
+      console.log(temp.discountcourse);
       this.setState({
         courseInfo: temp,
         alreadyEnroll: temp.enrolledcourse.length > 0 ? true : false,
         alreadyReview: temp.reviewcourse[0].rating > 0 ? true : false,
         alreadyExpired: temp.enrolledcourse.length > 0 ? (new Date(temp.enrolledcourse[temp.enrolledcourse.length-1].expireddate) > new Date()  ? false : true): false,
         alreadyLogin: cookies.get("loginToken") ? true : false,
-        isLoaded: true
+        isLoaded: true,
+        discountprice: temp.discountcourse.length > 0? temp.discountcourse[temp.discountcourse.length-1].discountprice: null
       });
       console.log(this.state.alreadyExpired);
     }
@@ -272,7 +275,7 @@ export class CourseA extends React.Component {
                       </div>
                       :
                       !this.state.alreadyEnroll || this.state.alreadyExpired ?
-                        this.state.courseInfo.course.price == 0 ? <Button block color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.courseInfo.course.price} courseID={this.state.courseInfo.course.courseid} />
+                        this.state.courseInfo.course.price == 0 ? <Button block color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.discountprice===null? this.state.courseInfo.course.price : this.state.discountprice} courseID={this.state.courseInfo.course.courseid} />
                         :
                         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
                           <Button disabled block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>

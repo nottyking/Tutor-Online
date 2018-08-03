@@ -12,8 +12,8 @@ router.post('/package/creditcard', (req, res) => {
   PackageCreditCardController.payByCreditCard(req, res)
 })
 
-router.post('/free', (req, res) => {
-  FreeController.enrollFree(req, res)
+router.post('/free', async(req, res) => {
+  res.send(await FreeController.enrollFree(req, res))
 })
 
 module.exports = router ;

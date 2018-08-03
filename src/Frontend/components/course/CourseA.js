@@ -75,6 +75,7 @@ export class CourseA extends React.Component {
       })
     }
     else {
+      console.log(temp.discountcourse);
       try {
         temp.course.banner = require('../../Image/Course/Banner/Banner' + this.props.match.params.courseID + '.jpg')
       } catch (err) {

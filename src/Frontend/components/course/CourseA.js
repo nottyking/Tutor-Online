@@ -63,6 +63,7 @@ export class CourseA extends React.Component {
       discountprice: null
     };
     this.toggleReview = this.toggleReview.bind(this);
+    this.freeEnroll = this.freeEnroll.bind(this);
   }
 
   async componentWillMount() {
@@ -97,7 +98,7 @@ export class CourseA extends React.Component {
         alreadyExpired: temp.enrolledcourse.length > 0 ? (new Date(temp.enrolledcourse[temp.enrolledcourse.length-1].expireddate) > new Date()  ? false : true): false,
         alreadyLogin: cookies.get("loginToken") ? true : false,
         isLoaded: true,
-        discountprice: temp.discountcourse.length > 0? temp.discountcourse[temp.discountcourse.length-1].discountprice: null
+        discountprice: temp.discountcourse.length > 0? temp.discountcourse[temp.discountcourse.length-1].coursediscountprice: null
       });
       console.log(this.state.alreadyExpired);
     }
@@ -125,6 +126,15 @@ export class CourseA extends React.Component {
       );
     });
     return syllabus;
+  }
+
+  async freeEnroll(){
+    var temp = (await axios.post(ipList.backend + "/payment/free", capsulation.sendData({
+      courseid:this.props.match.params.courseID,
+      expireddate:''
+    }))).data
+    console.log('free enroll')
+
   }
 
   generateStar(rating) {
@@ -255,7 +265,7 @@ export class CourseA extends React.Component {
                   <CardImg src={this.state.courseInfo.course.banner} style={{ left: 0, align: 'left' }} alt='error' />
                   <CardBody>
                     <CardTitle>
-                      {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename}
+                      {this.props.match.params.courseID} : {this.state.courseInfo.course.coursename} {this.state.discountprice===null? '':<Badge color='danger'> on Sale {(this.state.discountprice/this.state.courseInfo.course.price *100).toFixed(2)} % of full price</Badge>}
                     </CardTitle>
                     <CardSubtitle>
                       Instructor :
@@ -276,7 +286,7 @@ export class CourseA extends React.Component {
                       </div>
                       :
                       !this.state.alreadyEnroll || this.state.alreadyExpired ?
-                        this.state.courseInfo.course.price == 0 ? <Button block color='primary'>Enroll this course for free</Button> : <Payment coursePrice={this.state.discountprice===null? this.state.courseInfo.course.price : this.state.discountprice} courseID={this.state.courseInfo.course.courseid} />
+                        this.state.courseInfo.course.price == 0 ? <Button block color='primary' onClick={this.freeEnroll}>Enroll this course for free</Button> : <Payment coursePrice={this.state.discountprice===null? this.state.courseInfo.course.price : this.state.discountprice} courseID={this.state.courseInfo.course.courseid} />
                         :
                         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
                           <Button disabled block color='primary' style={{ paddingTop: '10px',paddingBottom: '10px' }}>You've finished enroll, Let's learn!</Button>
